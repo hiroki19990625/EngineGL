@@ -1,0 +1,18 @@
+# IDEA
+.idea
+.idea/*
+
+# USER
+*.user
+
+# OBJECT
+obj
+obj/*
+
+# BIN
+bin
+bin/*
+
+# PACKAGE
+packages
+packages/*
