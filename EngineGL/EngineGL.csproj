@@ -60,19 +60,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\ICollision.cs" />
+    <Compile Include="Core\IComponent.cs" />
+    <Compile Include="Core\IComponentAttachable.cs" />
     <Compile Include="Core\IGame.cs" />
+    <Compile Include="Core\IGameObject.cs" />
     <Compile Include="Core\IObject.cs" />
     <Compile Include="Core\IScene.cs" />
+    <Compile Include="Core\ITransform.cs" />
+    <Compile Include="Core\LifeCycle\IDestroyable.cs" />
+    <Compile Include="Core\LifeCycle\Initialzeable.cs" />
+    <Compile Include="Core\LifeCycle\IUpdateable.cs" />
+    <Compile Include="Core\INameable.cs" />
     <Compile Include="Core\Utils\Result.cs" />
+    <Compile Include="Event\Component\ComponentEventArgs.cs" />
     <Compile Include="Event\Game\GameEventArgs.cs" />
+    <Compile Include="Event\Game\LoadSceneEventArgs.cs" />
+    <Compile Include="Event\Game\PreLoadSceneEventArgs.cs" />
+    <Compile Include="Event\Game\PreUnloadSceneEventArgs.cs" />
+    <Compile Include="Event\Game\UnloadSceneEventArgs.cs" />
+    <Compile Include="Event\CancelableEvent.cs" />
+    <Compile Include="Event\LifeCycle\DestroyEventArgs.cs" />
+    <Compile Include="Event\LifeCycle\InitialzeEventArgs.cs" />
+    <Compile Include="Event\LifeCycle\UpdateEventArgs.cs" />
+    <Compile Include="Event\Scene\AddObjectEventArgs.cs" />
+    <Compile Include="Event\Scene\RemoveObjectEventArgs.cs" />
+    <Compile Include="Event\Scene\SceneEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Event\Scene" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

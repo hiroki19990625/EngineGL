@@ -1,9 +1,9 @@
+using EngineGL.Core.LifeCycle;
+
 namespace EngineGL.Core
 {
-    public interface IObject
+    public interface IObject : Initialzeable, IDestroyable, IUpdateable, INameable
     {
-        void OnStart();
-        bool OnUpdate();
-        void OnDestroy();
+        string Tag { get; set; }
     }
 }

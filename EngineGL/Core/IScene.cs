@@ -1,15 +1,19 @@
 using System;
 using System.Collections.Concurrent;
 using EngineGL.Core.Utils;
+using EngineGL.Event.Scene;
 
 namespace EngineGL.Core
 {
-    public interface IScene
+    public interface IScene : INameable
     {
         ConcurrentDictionary<int, IObject> SceneObjects { get; }
 
-        void OnLoad();
-        void OnUnLoad();
+        event EventHandler<AddObjectEventArgs> AddObjectEvent;
+        event EventHandler<RemoveObjectEventArgs> RemoveObjectEvent;
+
+        Result<IObject> GetObject(int hash);
+        Result<T> GetObjectUnsafe<T>(int hash) where T : IScene;
 
         Result<IObject> AddObject(IObject obj);
         Result<T> AddObjectUnsafe<T>(T obj) where T : IObject;
