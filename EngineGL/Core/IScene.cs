@@ -7,9 +7,9 @@ namespace EngineGL.Core
     public interface IScene
     {
         ConcurrentDictionary<int, IObject> SceneObjects { get; }
+
         void OnLoad();
         void OnUnLoad();
-        void OnUpdate();
 
         Result<IObject> AddObject(IObject obj);
         Result<T> AddObjectUnsafe<T>(T obj) where T : IObject;
