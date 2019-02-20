@@ -1,6 +1,6 @@
 namespace EngineGL.Core
 {
-    public interface ICollision : ITransform
+    public interface ICollision
     {
         bool OnCollisionEnter();
         bool OnCollisionStay();
