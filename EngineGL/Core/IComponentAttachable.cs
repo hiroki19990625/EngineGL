@@ -1,12 +1,16 @@
 using System;
 using System.Collections.Concurrent;
 using EngineGL.Core.Utils;
+using EngineGL.Event.ComponentAttachable;
 
 namespace EngineGL.Core
 {
     public interface IComponentAttachable
     {
         ConcurrentDictionary<int, IComponent> AttachedComponents { get; }
+
+        event EventHandler<AddComponentEventArgs> AddComponentEvent;
+        event EventHandler<RemoveComponentEventArgs> RemoveComponentEvent;
 
         Result<IComponent> GetComponent(int hash);
         Result<T> GetComponentUnsafe<T>() where T : IComponent;

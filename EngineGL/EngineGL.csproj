@@ -73,7 +73,9 @@
     <Compile Include="Core\LifeCycle\IUpdateable.cs" />
     <Compile Include="Core\INameable.cs" />
     <Compile Include="Core\Utils\Result.cs" />
-    <Compile Include="Event\Component\ComponentEventArgs.cs" />
+    <Compile Include="Event\ComponentAttachable\AddComponentEventArgs.cs" />
+    <Compile Include="Event\ComponentAttachable\ComponentAttachableEventArgs.cs" />
+    <Compile Include="Event\ComponentAttachable\RemoveComponentEventArgs.cs" />
     <Compile Include="Event\Game\GameEventArgs.cs" />
     <Compile Include="Event\Game\LoadSceneEventArgs.cs" />
     <Compile Include="Event\Game\PreLoadSceneEventArgs.cs" />
@@ -83,6 +85,7 @@
     <Compile Include="Event\LifeCycle\DestroyEventArgs.cs" />
     <Compile Include="Event\LifeCycle\InitialzeEventArgs.cs" />
     <Compile Include="Event\LifeCycle\UpdateEventArgs.cs" />
+    <Compile Include="Event\Nameable\NameableEventArgs.cs" />
     <Compile Include="Event\Scene\AddObjectEventArgs.cs" />
     <Compile Include="Event\Scene\RemoveObjectEventArgs.cs" />
     <Compile Include="Event\Scene\SceneEventArgs.cs" />
