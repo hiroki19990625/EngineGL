@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Game.cs" />
     <Compile Include="Core\ICollision.cs" />
     <Compile Include="Core\IComponent.cs" />
     <Compile Include="Core\IComponentAttachable.cs" />
