@@ -88,12 +88,22 @@ namespace EngineGL.Core
 
         public Result<IScene> GetScene(int hash)
         {
-            throw new NotImplementedException();
+            if (LoadedScenes.TryGetValue(hash, out IScene scene))
+            {
+                return Result<IScene>.Success(scene);
+            }
+            
+            return Result<IScene>.Fail();
         }
 
         public Result<T> GetSceneUnsafe<T>(int hash) where T : IScene
         {
-            throw new NotImplementedException();
+            if (LoadedScenes.TryGetValue(hash, out IScene scene))
+            {
+                return Result<T>.Success((T) scene);
+            }
+            
+            return Result<T>.Fail();
         }
 
         public Result<IScene> LoadScene(int hash)
