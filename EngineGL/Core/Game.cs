@@ -76,10 +76,14 @@ namespace EngineGL.Core
 
         public bool PreUnloadScenes()
         {
+            int c = 0;
             foreach (int hash in PreLoadedScenes.Keys)
             {
-                PreUnloadScene(hash);
+                if (PreUnloadScene(hash))
+                    c++;
             }
+
+            return c > 0;
         }
 
         public Result<IScene> GetScene(int hash)
