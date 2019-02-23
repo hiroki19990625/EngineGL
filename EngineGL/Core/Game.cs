@@ -40,6 +40,7 @@ namespace EngineGL.Core
         {
             IScene scene = new Scene(file);
             int hash = scene.GetHashCode();
+            bool result = false;
             EventManager
                 .Call(PreLoadSceneEvent,
                     this,
@@ -47,8 +48,10 @@ namespace EngineGL.Core
                     ev => { PreLoadedScenes.TryAdd(hash, scene); },
                     ev => {}
                 );
-            
-            return Result<int>.Success(hash);
+            if (result)
+                return Result<int>.Success(hash);
+            else
+                return Result<int>.Fail();
         }
 
         public bool PreUnloadScene(int hash)
@@ -108,7 +111,24 @@ namespace EngineGL.Core
 
         public Result<IScene> LoadScene(int hash)
         {
-            throw new NotImplementedException();
+            if (PreLoadedScenes.TryGetValue(hash, out IScene scene))
+            {
+                if (LoadedScenes.TryAdd(scene.GetHashCode(), scene))
+                {
+                    EventManager.Call(
+                        LoadSceneEvent,
+                        this,
+                        new LoadSceneEventArgs(this, scene),
+                        ev => {},
+                        ev => {});
+                    
+                    return Result<IScene>.Success(scene);
+                }
+                
+                return Result<IScene>.Fail();
+            }
+            
+            return Result<IScene>.Fail();
         }
 
         public Result<IScene> LoadScene(IScene scene)
