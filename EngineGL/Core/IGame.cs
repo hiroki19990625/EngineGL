@@ -20,8 +20,8 @@ namespace EngineGL.Core
         Result<int> PreLoadScene(string file);
         Result<int> PreLoadScene(FileInfo file);
 
-        void PreUnloadScene(int hash);
-        void PreUnloadScenes();
+        bool PreUnloadScene(int hash);
+        bool PreUnloadScenes();
 
         Result<IScene> GetScene(int hash);
         Result<T> GetSceneUnsafe<T>(int hash) where T : IScene;

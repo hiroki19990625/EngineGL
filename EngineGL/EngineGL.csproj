@@ -73,6 +73,8 @@
     <Compile Include="Core\LifeCycle\Initialzeable.cs" />
     <Compile Include="Core\LifeCycle\IUpdateable.cs" />
     <Compile Include="Core\INameable.cs" />
+    <Compile Include="Core\Scene.cs" />
+    <Compile Include="Core\Utils\EventManager.cs" />
     <Compile Include="Core\Utils\Result.cs" />
     <Compile Include="Event\ComponentAttachable\AddComponentEventArgs.cs" />
     <Compile Include="Event\ComponentAttachable\ComponentAttachableEventArgs.cs" />

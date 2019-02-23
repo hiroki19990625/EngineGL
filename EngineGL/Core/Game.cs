@@ -32,22 +32,54 @@ namespace EngineGL.Core
 
         public Result<int> PreLoadScene(string file)
         {
-            throw new NotImplementedException();
+            FileInfo fileInfo = new FileInfo(file);
+            return PreLoadScene(fileInfo);
         }
 
         public Result<int> PreLoadScene(FileInfo file)
         {
-            throw new NotImplementedException();
+            IScene scene = new Scene(file);
+            int hash = scene.GetHashCode();
+            EventManager
+                .Call(PreLoadSceneEvent,
+                    this,
+                    new PreLoadSceneEventArgs(this, file, scene),
+                    ev => { PreLoadedScenes.TryAdd(hash, scene); },
+                    ev => {}
+                );
+            
+            return Result<int>.Success(hash);
         }
 
-        public void PreUnloadScene(int hash)
+        public bool PreUnloadScene(int hash)
         {
-            throw new NotImplementedException();
+            if (PreLoadedScenes.TryGetValue(hash, out IScene scene))
+            {
+                bool result = false;
+                EventManager
+                    .Call(PreUnloadSceneEvent,
+                        this,
+                        new PreUnloadSceneEventArgs(this, scene),
+                        ev =>
+                        {
+                            PreLoadedScenes.TryRemove(hash, out scene);
+                            result = true;
+                        },
+                        ev => {}
+                    );
+
+                return result;
+            }
+
+            return false;
         }
 
-        public void PreUnloadScenes()
+        public bool PreUnloadScenes()
         {
-            throw new NotImplementedException();
+            foreach (int hash in PreLoadedScenes.Keys)
+            {
+                PreUnloadScene(hash);
+            }
         }
 
         public Result<IScene> GetScene(int hash)
