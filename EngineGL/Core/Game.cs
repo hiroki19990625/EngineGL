@@ -41,13 +41,13 @@ namespace EngineGL.Core
             IScene scene = new Scene(file);
             int hash = scene.GetHashCode();
             bool result = false;
-            EventManager
-                .Call(PreLoadSceneEvent,
-                    this,
-                    new PreLoadSceneEventArgs(this, file, scene),
-                    ev => { PreLoadedScenes.TryAdd(hash, scene); },
-                    ev => {}
-                );
+
+            PreLoadSceneEventArgs args = new PreLoadSceneEventArgs(this, file, scene);
+            EventManager<PreLoadSceneEventArgs> manager
+                = new EventManager<PreLoadSceneEventArgs>(PreLoadSceneEvent, this, args);
+            manager.OnSuccess = ev => PreLoadedScenes.TryAdd(hash, scene);
+            result = manager.Call();
+
             if (result)
                 return Result<int>.Success(hash);
             else
@@ -58,20 +58,11 @@ namespace EngineGL.Core
         {
             if (PreLoadedScenes.TryGetValue(hash, out IScene scene))
             {
-                bool result = false;
-                EventManager
-                    .Call(PreUnloadSceneEvent,
-                        this,
-                        new PreUnloadSceneEventArgs(this, scene),
-                        ev =>
-                        {
-                            PreLoadedScenes.TryRemove(hash, out scene);
-                            result = true;
-                        },
-                        ev => {}
-                    );
-
-                return result;
+                PreUnloadSceneEvent args = new PreUnloadSceneEventArgs(this, scene);
+                EventManager<PreUnloadSceneEventArgs> manager
+                    = new EventManager<PreUnloadSceneEventArgs>(PreUnloadSceneEvent, this, args);
+                manager.OnSuccess = ev => PreLoadedScenes.TryRemove(hash, out scene);
+                return manager.Call();
             }
 
             return false;
@@ -95,7 +86,7 @@ namespace EngineGL.Core
             {
                 return Result<IScene>.Success(scene);
             }
-            
+
             return Result<IScene>.Fail();
         }
 
@@ -105,7 +96,7 @@ namespace EngineGL.Core
             {
                 return Result<T>.Success((T) scene);
             }
-            
+
             return Result<T>.Fail();
         }
 
@@ -113,21 +104,18 @@ namespace EngineGL.Core
         {
             if (PreLoadedScenes.TryGetValue(hash, out IScene scene))
             {
-                if (LoadedScenes.TryAdd(scene.GetHashCode(), scene))
-                {
-                    EventManager.Call(
-                        LoadSceneEvent,
-                        this,
-                        new LoadSceneEventArgs(this, scene),
-                        ev => {},
-                        ev => {});
-                    
-                    return Result<IScene>.Success(scene);
-                }
+                bool result = false;
+                LoadSceneEventArgs args = new LoadSceneEventArgs(this, scene);
+                EventManager<LoadSceneEventArgs> manager
+                    = new EventManager<LoadSceneEventArgs>(LoadSceneEvent, this, args);
+                result = manager.Call();
                 
-                return Result<IScene>.Fail();
+                if (result)
+                    return Result<IScene>.Success(scene);
+                else
+                    return Result<IScene>.Fail();
             }
-            
+
             return Result<IScene>.Fail();
         }
 
