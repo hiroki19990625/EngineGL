@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Concurrent;
 using System.IO;
+using EngineGL.Core;
 using EngineGL.Core.Utils;
 using EngineGL.Event.Game;
 using EngineGL.Event.LifeCycle;
 using OpenTK;
 
-namespace EngineGL.Core
+namespace EngineGL.Impl
 {
     public class Game : GameWindow, IGame
     {
@@ -40,15 +41,13 @@ namespace EngineGL.Core
         {
             IScene scene = new Scene(file);
             int hash = scene.GetHashCode();
-            bool result = false;
 
             PreLoadSceneEventArgs args = new PreLoadSceneEventArgs(this, file, scene);
             EventManager<PreLoadSceneEventArgs> manager
                 = new EventManager<PreLoadSceneEventArgs>(PreLoadSceneEvent, this, args);
             manager.OnSuccess = ev => PreLoadedScenes.TryAdd(hash, scene);
-            result = manager.Call();
 
-            if (result)
+            if (manager.Call())
                 return Result<int>.Success(hash);
             else
                 return Result<int>.Fail();
@@ -58,10 +57,10 @@ namespace EngineGL.Core
         {
             if (PreLoadedScenes.TryGetValue(hash, out IScene scene))
             {
-                PreUnloadSceneEvent args = new PreUnloadSceneEventArgs(this, scene);
+                PreUnloadSceneEventArgs args = new PreUnloadSceneEventArgs(this, scene);
                 EventManager<PreUnloadSceneEventArgs> manager
                     = new EventManager<PreUnloadSceneEventArgs>(PreUnloadSceneEvent, this, args);
-                manager.OnSuccess = ev => PreLoadedScenes.TryRemove(hash, out scene);
+                manager.OnSuccess = ev => PreLoadedScenes.TryRemove(args.PreUnloadScene.GetHashCode(), out scene);
                 return manager.Call();
             }
 
@@ -102,15 +101,15 @@ namespace EngineGL.Core
 
         public Result<IScene> LoadScene(int hash)
         {
-            if (PreLoadedScenes.TryGetValue(hash, out IScene scene))
+            if (PreLoadedScenes.TryGetValue(hash, out IScene scene)
+                || !LoadedScenes.ContainsKey(hash))
             {
-                bool result = false;
                 LoadSceneEventArgs args = new LoadSceneEventArgs(this, scene);
                 EventManager<LoadSceneEventArgs> manager
                     = new EventManager<LoadSceneEventArgs>(LoadSceneEvent, this, args);
-                result = manager.Call();
+                manager.OnSuccess = ev => LoadedScenes.TryAdd(ev.LoadScene.GetHashCode(), ev.LoadScene);
                 
-                if (result)
+                if (manager.Call())
                     return Result<IScene>.Success(scene);
                 else
                     return Result<IScene>.Fail();
@@ -121,7 +120,14 @@ namespace EngineGL.Core
 
         public Result<IScene> LoadScene(IScene scene)
         {
-            throw new NotImplementedException();
+            int hash = scene.GetHashCode();
+            if (!LoadedScenes.ContainsKey(hash))
+            {
+                LoadSceneEventArgs args = new LoadSceneEventArgs(this, scene);
+                EventManager<LoadSceneEventArgs> manager
+                    = new EventManager<LoadSceneEventArgs>(LoadSceneEvent, this, args);
+                manager.OnSuccess = ev => 
+            }
         }
 
         public Result<T> LoadSceneUnsafe<T>(int hash) where T : IScene

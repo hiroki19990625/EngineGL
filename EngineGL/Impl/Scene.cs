@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Concurrent;
 using System.IO;
+using EngineGL.Core;
 using EngineGL.Core.Utils;
 using EngineGL.Event.Scene;
 
-namespace EngineGL.Core
+namespace EngineGL.Impl
 {
     public class Scene : IScene
     {

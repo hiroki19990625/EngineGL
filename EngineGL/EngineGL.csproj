@@ -60,7 +60,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Game.cs" />
     <Compile Include="Core\ICollision.cs" />
     <Compile Include="Core\IComponent.cs" />
     <Compile Include="Core\IComponentAttachable.cs" />
@@ -73,7 +72,6 @@
     <Compile Include="Core\LifeCycle\Initialzeable.cs" />
     <Compile Include="Core\LifeCycle\IUpdateable.cs" />
     <Compile Include="Core\INameable.cs" />
-    <Compile Include="Core\Scene.cs" />
     <Compile Include="Core\Utils\EventManager.cs" />
     <Compile Include="Core\Utils\Result.cs" />
     <Compile Include="Event\ComponentAttachable\AddComponentEventArgs.cs" />
@@ -92,6 +90,8 @@
     <Compile Include="Event\Scene\AddObjectEventArgs.cs" />
     <Compile Include="Event\Scene\RemoveObjectEventArgs.cs" />
     <Compile Include="Event\Scene\SceneEventArgs.cs" />
+    <Compile Include="Impl\Game.cs" />
+    <Compile Include="Impl\Scene.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
