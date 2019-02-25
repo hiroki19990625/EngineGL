@@ -45,10 +45,10 @@ namespace EngineGL.Impl
             PreLoadSceneEventArgs args = new PreLoadSceneEventArgs(this, file, scene);
             EventManager<PreLoadSceneEventArgs> manager
                 = new EventManager<PreLoadSceneEventArgs>(PreLoadSceneEvent, this, args);
-            manager.OnSuccess = ev => PreLoadedScenes.TryAdd(hash, scene);
+            manager.OnSuccess = ev => PreLoadedScenes.TryAdd(ev.PreLoadScene.GetHashCode(), ev.PreLoadScene);
 
             if (manager.Call())
-                return Result<int>.Success(hash);
+                return Result<int>.Success(args.PreLoadScene.GetHashCode());
             else
                 return Result<int>.Fail();
         }
@@ -60,7 +60,7 @@ namespace EngineGL.Impl
                 PreUnloadSceneEventArgs args = new PreUnloadSceneEventArgs(this, scene);
                 EventManager<PreUnloadSceneEventArgs> manager
                     = new EventManager<PreUnloadSceneEventArgs>(PreUnloadSceneEvent, this, args);
-                manager.OnSuccess = ev => PreLoadedScenes.TryRemove(args.PreUnloadScene.GetHashCode(), out scene);
+                manager.OnSuccess = ev => PreLoadedScenes.TryRemove(ev.PreUnloadScene.GetHashCode(), out scene);
                 return manager.Call();
             }
 
@@ -108,9 +108,9 @@ namespace EngineGL.Impl
                 EventManager<LoadSceneEventArgs> manager
                     = new EventManager<LoadSceneEventArgs>(LoadSceneEvent, this, args);
                 manager.OnSuccess = ev => LoadedScenes.TryAdd(ev.LoadScene.GetHashCode(), ev.LoadScene);
-                
+
                 if (manager.Call())
-                    return Result<IScene>.Success(scene);
+                    return Result<IScene>.Success(args.LoadScene);
                 else
                     return Result<IScene>.Fail();
             }
@@ -126,58 +126,104 @@ namespace EngineGL.Impl
                 LoadSceneEventArgs args = new LoadSceneEventArgs(this, scene);
                 EventManager<LoadSceneEventArgs> manager
                     = new EventManager<LoadSceneEventArgs>(LoadSceneEvent, this, args);
-                manager.OnSuccess = ev => 
+                manager.OnSuccess = ev => LoadedScenes.TryAdd(ev.LoadScene.GetHashCode(), ev.LoadScene);
+
+                if (manager.Call())
+                    return Result<IScene>.Success(args.LoadScene);
+                else
+                    return Result<IScene>.Fail();
             }
+
+            return Result<IScene>.Fail();
         }
 
         public Result<T> LoadSceneUnsafe<T>(int hash) where T : IScene
         {
-            throw new NotImplementedException();
+            return Result<T>.Success((T) LoadScene(hash).Value);
         }
 
         public Result<T> LoadSceneUnsafe<T>(T scene) where T : IScene
         {
-            throw new NotImplementedException();
+            return Result<T>.Success((T) LoadScene(scene).Value);
         }
 
         public Result<IScene> UnloadScene(int hash)
         {
-            throw new NotImplementedException();
+            if (LoadedScenes.TryGetValue(hash, out IScene scene))
+            {
+                UnloadSceneEventArgs args = new UnloadSceneEventArgs(this, scene);
+                EventManager<UnloadSceneEventArgs> manager
+                    = new EventManager<UnloadSceneEventArgs>(UnloadSceneEvent, this, args);
+                manager.OnSuccess = ev => LoadedScenes.TryRemove(args.UnloadScene.GetHashCode(), out scene);
+
+                if (manager.Call())
+                    return Result<IScene>.Success(args.UnloadScene);
+                else
+                    return Result<IScene>.Fail();
+            }
+
+            return Result<IScene>.Fail();
         }
 
         public Result<IScene> UnloadScene(IScene scene)
         {
-            throw new NotImplementedException();
+            return UnloadScene(scene.GetHashCode());
         }
 
         public Result<T> UnloadSceneUnsafe<T>(int hash) where T : IScene
         {
-            throw new NotImplementedException();
+            return Result<T>.Success((T) UnloadScene(hash).Value);
         }
 
         public Result<T> UnloadSceneUnsafe<T>(T scene) where T : IScene
         {
-            throw new NotImplementedException();
+            return Result<T>.Success((T) UnloadScene(scene).Value);
+        }
+
+        public bool UnloadScenes()
+        {
+            int c = 0;
+            foreach (int hash in LoadedScenes.Keys)
+            {
+                if (UnloadScene(hash).IsSuccess)
+                    c++;
+            }
+
+            return c > 0;
         }
 
         public Result<IScene> LoadNextScene(int hash)
         {
-            throw new NotImplementedException();
+            UnloadScenes();
+            return LoadScene(hash);
         }
 
         public Result<IScene> LoadNextScene(IScene scene)
         {
-            throw new NotImplementedException();
+            UnloadScenes();
+            return LoadScene(scene);
         }
 
         public Result<T> LoadNextSceneUnsafe<T>(int hash) where T : IScene
         {
-            throw new NotImplementedException();
+            UnloadScenes();
+            return Result<T>.Success((T) LoadScene(hash).Value);
         }
 
         public Result<T> LoadNextSceneUnsafe<T>(T scene) where T : IScene
         {
-            throw new NotImplementedException();
+            UnloadScenes();
+            return Result<T>.Success((T) LoadScene(scene).Value);
+        }
+
+        protected override void OnUpdateFrame(FrameEventArgs e)
+        {
+            base.OnUpdateFrame(e);
+        }
+
+        protected override void OnRenderFrame(FrameEventArgs e)
+        {
+            base.OnRenderFrame(e);
         }
     }
 }

@@ -35,6 +35,7 @@ namespace EngineGL.Core
         Result<IScene> UnloadScene(IScene scene);
         Result<T> UnloadSceneUnsafe<T>(int hash) where T : IScene;
         Result<T> UnloadSceneUnsafe<T>(T scene) where T : IScene;
+        bool UnloadScenes();
 
         Result<IScene> LoadNextScene(int hash);
         Result<IScene> LoadNextScene(IScene scene);
