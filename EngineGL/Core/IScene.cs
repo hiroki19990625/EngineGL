@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Concurrent;
-using EngineGL.Core.Utils;
 using EngineGL.Event.Scene;
+using EngineGL.Utils;
 
 namespace EngineGL.Core
 {

@@ -1,7 +1,7 @@
 using System;
 using EngineGL.Event;
 
-namespace EngineGL.Core.Utils
+namespace EngineGL.Utils
 {
     public class EventManager<T> where T : CancelableEvent
     {

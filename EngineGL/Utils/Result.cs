@@ -1,6 +1,6 @@
 using System;
 
-namespace EngineGL.Core.Utils
+namespace EngineGL.Utils
 {
     public class Result<T>
     {

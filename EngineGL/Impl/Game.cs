@@ -2,9 +2,10 @@ using System;
 using System.Collections.Concurrent;
 using System.IO;
 using EngineGL.Core;
-using EngineGL.Core.Utils;
+using EngineGL.Core.LifeCycle;
 using EngineGL.Event.Game;
 using EngineGL.Event.LifeCycle;
+using EngineGL.Utils;
 using OpenTK;
 
 namespace EngineGL.Impl
@@ -139,12 +140,26 @@ namespace EngineGL.Impl
 
         public Result<T> LoadSceneUnsafe<T>(int hash) where T : IScene
         {
-            return Result<T>.Success((T) LoadScene(hash).Value);
+            try
+            {
+                return Result<T>.Success((T) LoadScene(hash).Value);
+            }
+            catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
+            {
+                return Result<T>.Fail(e.ToString());
+            }
         }
 
         public Result<T> LoadSceneUnsafe<T>(T scene) where T : IScene
         {
-            return Result<T>.Success((T) LoadScene(scene).Value);
+            try
+            {
+                return Result<T>.Success((T) LoadScene(scene).Value);
+            }
+            catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
+            {
+                return Result<T>.Fail(e.ToString());
+            }
         }
 
         public Result<IScene> UnloadScene(int hash)
@@ -172,12 +187,26 @@ namespace EngineGL.Impl
 
         public Result<T> UnloadSceneUnsafe<T>(int hash) where T : IScene
         {
-            return Result<T>.Success((T) UnloadScene(hash).Value);
+            try
+            {
+                return Result<T>.Success((T) UnloadScene(hash).Value);
+            }
+            catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
+            {
+                return Result<T>.Fail(e.ToString());
+            }
         }
 
         public Result<T> UnloadSceneUnsafe<T>(T scene) where T : IScene
         {
-            return Result<T>.Success((T) UnloadScene(scene).Value);
+            try
+            {
+                return Result<T>.Success((T) UnloadScene(scene).Value);
+            }
+            catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
+            {
+                return Result<T>.Fail(e.ToString());
+            }
         }
 
         public bool UnloadScenes()
@@ -207,23 +236,68 @@ namespace EngineGL.Impl
         public Result<T> LoadNextSceneUnsafe<T>(int hash) where T : IScene
         {
             UnloadScenes();
-            return Result<T>.Success((T) LoadScene(hash).Value);
+            try
+            {
+                return Result<T>.Success((T) LoadScene(hash).Value);
+            }
+            catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
+            {
+                return Result<T>.Fail(e.ToString());
+            }
         }
 
         public Result<T> LoadNextSceneUnsafe<T>(T scene) where T : IScene
         {
             UnloadScenes();
-            return Result<T>.Success((T) LoadScene(scene).Value);
+            try
+            {
+                return Result<T>.Success((T) LoadScene(scene).Value);
+            }
+            catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
+            {
+                return Result<T>.Fail(e.ToString());
+            }
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             base.OnUpdateFrame(e);
+
+            foreach (IScene scene in LoadedScenes.Values)
+            {
+                foreach (IObject obj in scene.SceneObjects.Values)
+                {
+                    obj.OnUpdate();
+                }
+            }
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             base.OnRenderFrame(e);
+
+            foreach (IScene scene in LoadedScenes.Values)
+            {
+                foreach (IObject obj in scene.SceneObjects.Values)
+                {
+                    if (obj is IDrawable)
+                        ((IDrawable) obj).OnDraw();
+                }
+            }
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            OnInitialze();
+
+            base.OnLoad(e);
+        }
+
+        public override void Exit()
+        {
+            OnDestroy();
+
+            base.Exit();
         }
     }
 }

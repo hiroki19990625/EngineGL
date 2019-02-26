@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -37,7 +37,7 @@
             <HintPath>..\packages\SharpZipLib.1.1.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
             <Private>True</Private>
         </Reference>
-        <Reference Include="Microsoft.CSharp"/>
+        <Reference Include="Microsoft.CSharp" />
         <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
             <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
             <Private>True</Private>
@@ -50,58 +50,62 @@
             <HintPath>..\packages\OpenTK.3.0.1\lib\net20\OpenTK.dll</HintPath>
             <Private>True</Private>
         </Reference>
-        <Reference Include="System"/>
-        <Reference Include="System.Configuration"/>
-        <Reference Include="System.Core"/>
-        <Reference Include="System.Data"/>
-        <Reference Include="System.IO.Compression"/>
-        <Reference Include="System.Runtime.Serialization"/>
-        <Reference Include="System.ServiceModel"/>
-        <Reference Include="System.Transactions"/>
-        <Reference Include="System.Xml"/>
+        <Reference Include="System" />
+        <Reference Include="System.Configuration" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.IO.Compression" />
+        <Reference Include="System.Runtime.Serialization" />
+        <Reference Include="System.ServiceModel" />
+        <Reference Include="System.Transactions" />
+        <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Core\ICollision.cs"/>
-        <Compile Include="Core\IComponent.cs"/>
-        <Compile Include="Core\IComponentAttachable.cs"/>
-        <Compile Include="Core\IGame.cs"/>
-        <Compile Include="Core\IGameObject.cs"/>
-        <Compile Include="Core\IObject.cs"/>
-        <Compile Include="Core\IScene.cs"/>
-        <Compile Include="Core\ITransform.cs"/>
-        <Compile Include="Core\LifeCycle\IDestroyable.cs"/>
-        <Compile Include="Core\LifeCycle\IDrawable.cs"/>
-        <Compile Include="Core\LifeCycle\Initialzeable.cs"/>
-        <Compile Include="Core\LifeCycle\IUpdateable.cs"/>
-        <Compile Include="Core\INameable.cs"/>
-        <Compile Include="Core\Utils\EventManager.cs"/>
-        <Compile Include="Core\Utils\Result.cs"/>
-        <Compile Include="Event\ComponentAttachable\AddComponentEventArgs.cs"/>
-        <Compile Include="Event\ComponentAttachable\ComponentAttachableEventArgs.cs"/>
-        <Compile Include="Event\ComponentAttachable\RemoveComponentEventArgs.cs"/>
-        <Compile Include="Event\Game\GameEventArgs.cs"/>
-        <Compile Include="Event\Game\LoadSceneEventArgs.cs"/>
-        <Compile Include="Event\Game\PreLoadSceneEventArgs.cs"/>
-        <Compile Include="Event\Game\PreUnloadSceneEventArgs.cs"/>
-        <Compile Include="Event\Game\UnloadSceneEventArgs.cs"/>
-        <Compile Include="Event\CancelableEvent.cs"/>
-        <Compile Include="Event\LifeCycle\DestroyEventArgs.cs"/>
-        <Compile Include="Event\LifeCycle\DrawEventArgs.cs"/>
-        <Compile Include="Event\LifeCycle\InitialzeEventArgs.cs"/>
-        <Compile Include="Event\LifeCycle\UpdateEventArgs.cs"/>
-        <Compile Include="Event\Nameable\NameableEventArgs.cs"/>
-        <Compile Include="Event\Scene\AddObjectEventArgs.cs"/>
-        <Compile Include="Event\Scene\RemoveObjectEventArgs.cs"/>
-        <Compile Include="Event\Scene\SceneEventArgs.cs"/>
-        <Compile Include="Impl\Game.cs"/>
-        <Compile Include="Impl\Scene.cs"/>
-        <Compile Include="Properties\AssemblyInfo.cs"/>
+        <Compile Include="Core\ICollision.cs" />
+        <Compile Include="Core\IComponent.cs" />
+        <Compile Include="Core\IComponentAttachable.cs" />
+        <Compile Include="Core\IGame.cs" />
+        <Compile Include="Core\IGameObject.cs" />
+        <Compile Include="Core\IObject.cs" />
+        <Compile Include="Core\IScene.cs" />
+        <Compile Include="Core\ITransform.cs" />
+        <Compile Include="Core\LifeCycle\IDestroyable.cs" />
+        <Compile Include="Core\LifeCycle\IDrawable.cs" />
+        <Compile Include="Core\LifeCycle\Initialzeable.cs" />
+        <Compile Include="Core\LifeCycle\IUpdateable.cs" />
+        <Compile Include="Core\INameable.cs" />
+        <Compile Include="Event\ComponentAttachable\AddComponentEventArgs.cs" />
+        <Compile Include="Event\ComponentAttachable\ComponentAttachableEventArgs.cs" />
+        <Compile Include="Event\ComponentAttachable\RemoveComponentEventArgs.cs" />
+        <Compile Include="Event\Game\GameEventArgs.cs" />
+        <Compile Include="Event\Game\LoadSceneEventArgs.cs" />
+        <Compile Include="Event\Game\PreLoadSceneEventArgs.cs" />
+        <Compile Include="Event\Game\PreUnloadSceneEventArgs.cs" />
+        <Compile Include="Event\Game\UnloadSceneEventArgs.cs" />
+        <Compile Include="Event\CancelableEvent.cs" />
+        <Compile Include="Event\LifeCycle\DestroyEventArgs.cs" />
+        <Compile Include="Event\LifeCycle\DrawEventArgs.cs" />
+        <Compile Include="Event\LifeCycle\InitialzeEventArgs.cs" />
+        <Compile Include="Event\LifeCycle\UpdateEventArgs.cs" />
+        <Compile Include="Event\Nameable\NameableEventArgs.cs" />
+        <Compile Include="Event\Scene\AddObjectEventArgs.cs" />
+        <Compile Include="Event\Scene\RemoveObjectEventArgs.cs" />
+        <Compile Include="Event\Scene\SceneEventArgs.cs" />
+        <Compile Include="Impl\Game.cs" />
+        <Compile Include="Impl\Object.cs" />
+        <Compile Include="Impl\Scene.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="Utils\EventManager.cs" />
+        <Compile Include="Utils\Result.cs" />
     </ItemGroup>
     <ItemGroup>
-        <None Include="OpenTK.dll.config"/>
-        <None Include="packages.config"/>
+        <None Include="OpenTK.dll.config" />
+        <None Include="packages.config" />
     </ItemGroup>
-    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+    <ItemGroup>
+      <Folder Include="Impl\Drawable" />
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
            Other similar extension points exist, see Microsoft.Common.targets.
       <Target Name="BeforeBuild">

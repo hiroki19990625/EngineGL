@@ -2,8 +2,8 @@ using System;
 using System.Collections.Concurrent;
 using System.IO;
 using EngineGL.Core.LifeCycle;
-using EngineGL.Core.Utils;
 using EngineGL.Event.Game;
+using EngineGL.Utils;
 
 namespace EngineGL.Core
 {

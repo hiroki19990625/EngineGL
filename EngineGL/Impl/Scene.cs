@@ -2,8 +2,8 @@ using System;
 using System.Collections.Concurrent;
 using System.IO;
 using EngineGL.Core;
-using EngineGL.Core.Utils;
 using EngineGL.Event.Scene;
+using EngineGL.Utils;
 
 namespace EngineGL.Impl
 {
@@ -20,22 +20,46 @@ namespace EngineGL.Impl
 
         public Scene(FileInfo file)
         {
-            
         }
-        
+
         public Result<IObject> GetObject(int hash)
         {
-            throw new NotImplementedException();
+            if (SceneObjects.TryGetValue(hash, out IObject obj))
+            {
+                return Result<IObject>.Success(obj);
+            }
+
+            return Result<IObject>.Fail();
         }
 
         public Result<T> GetObjectUnsafe<T>(int hash) where T : IScene
         {
-            throw new NotImplementedException();
+            try
+            {
+                return Result<T>.Success((T) GetObject(hash).Value);
+            }
+            catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
+            {
+                return Result<T>.Fail(e.ToString());
+            }
         }
 
         public Result<IObject> AddObject(IObject obj)
         {
-            throw new NotImplementedException();
+            if (!SceneObjects.ContainsKey(obj.GetHashCode()))
+            {
+                AddObjectEventArgs args = new AddObjectEventArgs(this, obj);
+                EventManager<AddObjectEventArgs> manager
+                    = new EventManager<AddObjectEventArgs>(AddObjectEvent, this, args);
+                manager.OnSuccess = ev => SceneObjects.TryAdd(ev.AddObject.GetHashCode(), ev.AddObject);
+
+                if (manager.Call())
+                    return Result<IObject>.Success(args.AddObject);
+                else
+                    return Result<IObject>.Fail();
+            }
+
+            return Result<IObject>.Fail();
         }
 
         public Result<T> AddObjectUnsafe<T>(T obj) where T : IObject
