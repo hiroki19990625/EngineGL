@@ -8,23 +8,26 @@ namespace EngineGL.Impl
     {
         public string Name { get; set; }
         public string Tag { get; set; }
-        
+
         public event EventHandler<InitialzeEventArgs> Initialze;
-        public void OnInitialze()
+
+        public virtual void OnInitialze()
         {
-            throw new NotImplementedException();
+            Initialze?.Invoke(this, new InitialzeEventArgs(this));
         }
 
         public event EventHandler<DestroyEventArgs> Destroy;
-        public void OnDestroy()
+
+        public virtual void OnDestroy()
         {
-            throw new NotImplementedException();
+            Destroy?.Invoke(this, new DestroyEventArgs(this));
         }
 
         public event EventHandler<UpdateEventArgs> Update;
-        public bool OnUpdate()
+
+        public virtual void OnUpdate()
         {
-            throw new NotImplementedException();
+            Update?.Invoke(this, new UpdateEventArgs(this));
         }
     }
 }

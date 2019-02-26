@@ -13,8 +13,8 @@ namespace EngineGL.Impl
     public class Game : GameWindow, IGame
     {
         public string Name { get; set; }
-        public ConcurrentDictionary<int, IScene> PreLoadedScenes { get; }
-        public ConcurrentDictionary<int, IScene> LoadedScenes { get; }
+        public ConcurrentDictionary<int, IScene> PreLoadedScenes { get; } = new ConcurrentDictionary<int, IScene>();
+        public ConcurrentDictionary<int, IScene> LoadedScenes { get; } = new ConcurrentDictionary<int, IScene>();
         public event EventHandler<InitialzeEventArgs> Initialze;
         public event EventHandler<DestroyEventArgs> Destroy;
         public event EventHandler<LoadSceneEventArgs> LoadSceneEvent;

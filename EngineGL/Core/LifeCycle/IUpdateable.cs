@@ -7,6 +7,6 @@ namespace EngineGL.Core.LifeCycle
     {
         event EventHandler<UpdateEventArgs> Update;
 
-        bool OnUpdate();
+        void OnUpdate();
     }
 }

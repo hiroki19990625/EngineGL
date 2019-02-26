@@ -20,8 +20,8 @@ namespace EngineGL.Core
         Result<T> AddObjectUnsafe<T>() where T : IObject;
         Result<IObject> AddObjectUnsafe(Type type);
 
-        Result<IObject[]> AddObjects(params IObject[] obj);
-        Result<T[]> AddObjectsUnsafe<T>(params T[] objs);
+        Result<IObject[]> AddObjects(params IObject[] objs);
+        Result<T[]> AddObjectsUnsafe<T>(params T[] objs) where T : IObject;
 
         Result<IObject> RemoveObject(int hash);
         Result<IObject> RemoveObject(IObject obj);
