@@ -54,6 +54,7 @@
         <Reference Include="System.Configuration" />
         <Reference Include="System.Core" />
         <Reference Include="System.Data" />
+        <Reference Include="System.Drawing" />
         <Reference Include="System.IO.Compression" />
         <Reference Include="System.Runtime.Serialization" />
         <Reference Include="System.ServiceModel" />
@@ -91,7 +92,10 @@
         <Compile Include="Event\Scene\AddObjectEventArgs.cs" />
         <Compile Include="Event\Scene\RemoveObjectEventArgs.cs" />
         <Compile Include="Event\Scene\SceneEventArgs.cs" />
+        <Compile Include="Impl\Drawable\LineObject.cs" />
+        <Compile Include="Impl\Drawable\StippleLineObject.cs" />
         <Compile Include="Impl\Game.cs" />
+        <Compile Include="Impl\GameObject.cs" />
         <Compile Include="Impl\Object.cs" />
         <Compile Include="Impl\Scene.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
@@ -101,9 +105,6 @@
     <ItemGroup>
         <None Include="OpenTK.dll.config" />
         <None Include="packages.config" />
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Impl\Drawable" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

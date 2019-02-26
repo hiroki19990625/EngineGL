@@ -22,12 +22,12 @@ namespace EngineGL.Impl
         public event EventHandler<PreLoadSceneEventArgs> PreLoadSceneEvent;
         public event EventHandler<PreUnloadSceneEventArgs> PreUnloadSceneEvent;
 
-        public void OnInitialze()
+        public virtual void OnInitialze()
         {
             Initialze?.Invoke(this, new InitialzeEventArgs(this));
         }
 
-        public void OnDestroy()
+        public virtual void OnDestroy()
         {
             Destroy?.Invoke(this, new DestroyEventArgs(this));
         }
@@ -284,6 +284,8 @@ namespace EngineGL.Impl
                         ((IDrawable) obj).OnDraw();
                 }
             }
+            
+            SwapBuffers();
         }
 
         protected override void OnLoad(EventArgs e)
