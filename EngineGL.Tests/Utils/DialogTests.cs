@@ -9,7 +9,7 @@ namespace EngineGL.Tests.Utils
         [Test]
         public void OpenDialog()
         {
-            Dialog.Open("Title", "Message", 5);
+            Dialog.Open("Title", "Message", Dialog.DialogType.ICON_ERROR);
         }
     }
 }
