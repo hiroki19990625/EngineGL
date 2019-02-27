@@ -12,9 +12,10 @@ namespace EngineGL.Impl.Drawable
             CallDrawEvent();
 
             GL.LineWidth(LineWidth);
-
-            GL.Begin(PrimitiveType.LineStrip);
             GL.LineStipple(Factor, Pattern);
+
+            GL.Enable(EnableCap.LineStipple);
+            GL.Begin(PrimitiveType.Lines);
             GL.Color4(LineColor);
             GL.Vertex3(Position);
             GL.Vertex3(Bounds);

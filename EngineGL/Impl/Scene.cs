@@ -60,7 +60,10 @@ namespace EngineGL.Impl
                 manager.OnSuccess = ev => SceneObjects.TryAdd(ev.AddObject.GetHashCode(), ev.AddObject);
 
                 if (manager.Call())
+                {
+                    args.AddObject.OnInitialze();
                     return Result<IObject>.Success(args.AddObject);
+                }
                 else
                     return Result<IObject>.Fail();
             }
@@ -132,7 +135,10 @@ namespace EngineGL.Impl
                 manager.OnSuccess = ev => SceneObjects.TryRemove(hash, out obj);
 
                 if (manager.Call())
+                {
+                    args.RemoveObject.OnDestroy();
                     return Result<IObject>.Success(args.RemoveObject);
+                }
                 else
                     return Result<IObject>.Fail();
             }

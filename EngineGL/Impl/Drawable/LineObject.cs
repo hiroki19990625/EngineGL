@@ -26,6 +26,12 @@ namespace EngineGL.Impl.Drawable
             GL.End();
         }
 
+        /*public override void OnUpdate()
+        {
+            Position += new Vector3(0.001f, 0.001f, 0);
+            Bounds -= new Vector3(0.001f, 0.001f, 0);
+        }*/
+
         protected void CallDrawEvent()
         {
             Draw?.Invoke(this, new DrawEventArgs(this));

@@ -27,17 +27,17 @@ namespace EngineGL.Impl
         public event EventHandler<DestroyEventArgs> Destroy;
         public event EventHandler<UpdateEventArgs> Update;
 
-        public void OnInitialze()
+        public virtual void OnInitialze()
         {
             Initialze?.Invoke(this, new InitialzeEventArgs(this));
         }
 
-        public void OnDestroy()
+        public virtual void OnDestroy()
         {
             Destroy?.Invoke(this, new DestroyEventArgs(this));
         }
 
-        public void OnUpdate()
+        public virtual void OnUpdate()
         {
             Update?.Invoke(this, new UpdateEventArgs(this));
         }

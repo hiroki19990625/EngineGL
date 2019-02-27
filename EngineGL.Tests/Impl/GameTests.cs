@@ -47,12 +47,21 @@ namespace EngineGL.Tests.Impl
             });
             scene.AddObject(new StippleLineObject
             {
-                LineColor = Color4.Red,
+                LineColor = Color4.Aqua,
                 Position = new Vector3(-0.1f, 0.1f, 2f),
                 Bounds = new Vector3(0.1f, -0.1f, 2f),
                 LineWidth = 10f,
-                Factor = 2,
-                Pattern = 0b1100001100001100
+                Factor = 1,
+                Pattern = 0xf00f
+            });
+            scene.AddObject(new StippleLineObject
+            {
+                LineColor = Color4.Green,
+                Position = new Vector3(0f, 0.1f, 2f),
+                Bounds = new Vector3(0f, -0.1f, 2f),
+                LineWidth = 10f,
+                Factor = 1,
+                Pattern = 0xf0af
             });
             game.LoadScene(scene);
 
@@ -64,7 +73,7 @@ namespace EngineGL.Tests.Impl
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             GL.MatrixMode(MatrixMode.Modelview);
-            Matrix4 modelview = Matrix4.LookAt(Vector3.Zero, Vector3.UnitZ, Vector3.UnitX);
+            Matrix4 modelview = Matrix4.LookAt(Vector3.Zero, Vector3.UnitZ, Vector3.UnitY);
             GL.LoadMatrix(ref modelview);
         }
 
