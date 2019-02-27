@@ -45,12 +45,14 @@ namespace EngineGL.Tests.Impl
                 Bounds = new Vector3(0.1f, 0.1f, 2f),
                 LineWidth = 5f
             });
-            scene.AddObject(new LineObject
+            scene.AddObject(new StippleLineObject
             {
                 LineColor = Color4.Red,
                 Position = new Vector3(-0.1f, 0.1f, 2f),
                 Bounds = new Vector3(0.1f, -0.1f, 2f),
-                LineWidth = 10f
+                LineWidth = 10f,
+                Factor = 2,
+                Pattern = 0b1100001100001100
             });
             game.LoadScene(scene);
 
