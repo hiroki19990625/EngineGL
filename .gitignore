@@ -5,6 +5,9 @@
 # USER
 *.user
 
+# Settings
+*.DotSettings
+
 # OBJECT
 obj
 obj/*
