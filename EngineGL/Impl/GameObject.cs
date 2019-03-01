@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using EngineGL.Core;
 using EngineGL.Event.ComponentAttachable;
 using EngineGL.Event.LifeCycle;
@@ -44,27 +45,62 @@ namespace EngineGL.Impl
 
         public Result<IComponent> GetComponent(int hash)
         {
-            throw new NotImplementedException();
+            if (AttachedComponents.TryGetValue(hash, out IComponent component))
+                return Result<IComponent>.Success(component);
+
+            return Result<IComponent>.Fail();
         }
 
         public Result<T> GetComponentUnsafe<T>() where T : IComponent
         {
-            throw new NotImplementedException();
+            foreach (KeyValuePair<int, IComponent> pair in AttachedComponents)
+            {
+                IComponent component = pair.Value;
+                if (component is T)
+                    return Result<T>.Success((T) component);
+            }
+
+            return Result<T>.Fail();
         }
 
         public Result<T> GetComponentUnsafe<T>(int hash) where T : IComponent
         {
-            throw new NotImplementedException();
+            try
+            {
+                return Result<T>.Success((T) GetComponent(hash).Value);
+            }
+            catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
+            {
+                return Result<T>.Fail(e.ToString());
+            }
         }
 
         public Result<IComponent> GetComponentUnsafe(Type type)
         {
-            throw new NotImplementedException();
+            foreach (KeyValuePair<int, IComponent> pair in AttachedComponents)
+            {
+                IComponent component = pair.Value;
+                if (component.GetType().FullName == type.FullName)
+                    return Result<IComponent>.Success(component);
+            }
+
+            return Result<IComponent>.Fail();
         }
 
         public Result<IComponent> GetComponentUnsafe(Type type, int hash)
         {
-            throw new NotImplementedException();
+            try
+            {
+                IComponent component = GetComponent(hash).Value;
+                if (component.GetType().FullName == type.FullName)
+                    return Result<IComponent>.Success(component);
+            }
+            catch (Exception e) when (e is InvalidOperationException)
+            {
+                return Result<IComponent>.Fail(e.ToString());
+            }
+
+            return Result<IComponent>.Fail();
         }
 
         public Result<IComponent> AddComponent(IComponent component)
