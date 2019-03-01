@@ -41,15 +41,15 @@ namespace EngineGL.Tests.Impl
             scene.AddObject(new LineObject
             {
                 LineColor = Color4.Red,
-                Position = new Vector3(-0.1f, -0.1f, 2f),
-                Bounds = new Vector3(0.1f, 0.1f, 2f),
+                Position = new Vector3(-0.1f, -0.1f, -2f),
+                Bounds = new Vector3(0.1f, 0.1f, -2f),
                 LineWidth = 5f
             });
             scene.AddObject(new StippleLineObject
             {
                 LineColor = Color4.Aqua,
-                Position = new Vector3(-0.1f, 0.1f, 2f),
-                Bounds = new Vector3(0.1f, -0.1f, 2f),
+                Position = new Vector3(-0.1f, 0.1f, -2f),
+                Bounds = new Vector3(0.1f, -0.1f, -2f),
                 LineWidth = 10f,
                 Factor = 1,
                 Pattern = 0xf00f
@@ -57,8 +57,8 @@ namespace EngineGL.Tests.Impl
             scene.AddObject(new StippleLineObject
             {
                 LineColor = Color4.Green,
-                Position = new Vector3(0f, 0.1f, 2f),
-                Bounds = new Vector3(0f, -0.1f, 2f),
+                Position = new Vector3(0f, 0.1f, -2f),
+                Bounds = new Vector3(0f, -0.1f, -2f),
                 LineWidth = 10f,
                 Factor = 1,
                 Pattern = 0xf0af
@@ -73,7 +73,7 @@ namespace EngineGL.Tests.Impl
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             GL.MatrixMode(MatrixMode.Modelview);
-            Matrix4 modelview = Matrix4.LookAt(Vector3.Zero, Vector3.UnitZ, Vector3.UnitY);
+            Matrix4 modelview = Matrix4.LookAt(Vector3.Zero, -Vector3.UnitZ, Vector3.UnitY);
             GL.LoadMatrix(ref modelview);
         }
 
