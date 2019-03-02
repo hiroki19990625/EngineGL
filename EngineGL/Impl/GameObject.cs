@@ -9,11 +9,8 @@ using OpenTK;
 
 namespace EngineGL.Impl
 {
-    public class GameObject : IGameObject
+    public class GameObject : Object, IGameObject
     {
-        public string Name { get; set; }
-        public string Tag { get; set; }
-
         public Vector3 Position { get; set; }
         public Vector3 Rotation { get; set; }
         public Vector3 Bounds { get; set; }
@@ -23,25 +20,6 @@ namespace EngineGL.Impl
 
         public event EventHandler<AddComponentEventArgs> AddComponentEvent;
         public event EventHandler<RemoveComponentEventArgs> RemoveComponentEvent;
-
-        public event EventHandler<InitialzeEventArgs> Initialze;
-        public event EventHandler<DestroyEventArgs> Destroy;
-        public event EventHandler<UpdateEventArgs> Update;
-
-        public virtual void OnInitialze()
-        {
-            Initialze?.Invoke(this, new InitialzeEventArgs(this));
-        }
-
-        public virtual void OnDestroy()
-        {
-            Destroy?.Invoke(this, new DestroyEventArgs(this));
-        }
-
-        public virtual void OnUpdate()
-        {
-            Update?.Invoke(this, new UpdateEventArgs(this));
-        }
 
         public Result<IComponent> GetComponent(int hash)
         {
@@ -105,7 +83,12 @@ namespace EngineGL.Impl
 
         public Result<IComponent> AddComponent(IComponent component)
         {
-            throw new NotImplementedException();
+            int hash = component.GetHashCode();
+            if (!AttachedComponents.ContainsKey(hash))
+            {
+            }
+
+            return Result<IComponent>.Fail();
         }
 
         public Result<T> AddComponentUnsafe<T>(T component) where T : IComponent

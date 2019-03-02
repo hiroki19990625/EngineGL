@@ -1,6 +1,9 @@
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using EngineGL.Impl;
 using EngineGL.Impl.Drawable;
+using EngineGL.Utils;
 using NUnit.Framework;
 using OpenTK;
 using OpenTK.Graphics;
@@ -11,76 +14,85 @@ namespace EngineGL.Tests.Impl
     [TestFixture]
     public class GameTests
     {
-        //[Test]
-        public void OpenWindow()
+        [Test]
+        public void SceneTest()
         {
             Game game = new Game();
-            game.Run(60.0d);
+            Scene loadCancel = new Scene();
+            Scene unloadCancel = new Scene();
+
+            game.LoadSceneEvent += (sender, args) =>
+            {
+                if (args.LoadScene.GetHashCode() == loadCancel.GetHashCode())
+                {
+                    args.IsCanceled = true;
+                }
+            };
+            game.UnloadSceneEvent += (sender, args) =>
+            {
+                if (args.UnloadScene.GetHashCode() == unloadCancel.GetHashCode())
+                {
+                    args.IsCanceled = true;
+                }
+            };
+            // キャンセル対象なので失敗
+            Assert.False(game.LoadScene(loadCancel).IsSuccess);
+            // キャンセルの対象なので取得に失敗
+            Assert.False(game.GetScene(loadCancel.GetHashCode()).IsSuccess);
+            // キャンセル対象のシーンではないのでロードには成功
+            Assert.True(game.LoadScene(unloadCancel).IsSuccess);
+            // ロードに成功しているので取得に成功
+            Assert.True(game.GetScene(unloadCancel.GetHashCode()).IsSuccess);
+            // キャンセルの対象なのでアンロードに失敗
+            Assert.False(game.UnloadScene(unloadCancel).IsSuccess);
+            // アンロードがキャンセルされているので取得に成功
+            Assert.True(game.GetScene(unloadCancel.GetHashCode()).IsSuccess);
+
+            Scene scene = new Scene();
+            Scene scene2 = new Scene();
+            Assert.True(game.LoadScene(scene).IsSuccess);
+            // 既に追加されているので失敗
+            Assert.False(game.LoadScene(scene).IsSuccess);
+            // ロードに成功しているので取得に成功
+            Assert.True(game.GetScene(scene.GetHashCode()).IsSuccess);
+            Assert.True(game.UnloadScene(scene).IsSuccess);
+            // 既にアンロードされているので失敗
+            Assert.False(game.UnloadScene(scene).IsSuccess);
+            // アンロードされているので取得に失敗
+            Assert.False(game.GetScene(scene.GetHashCode()).IsSuccess);
+            Assert.True(game.LoadScene(scene).IsSuccess);
+            Assert.True(game.GetScene(scene.GetHashCode()).IsSuccess);
+            Assert.True(game.LoadScene(scene2).IsSuccess);
+            Assert.True(game.GetScene(scene2.GetHashCode()).IsSuccess);
+            Assert.True(game.UnloadScenes());
+            // 全てアンロードしたので失敗
+            Assert.False(game.GetScene(scene.GetHashCode()).IsSuccess);
+            Assert.False(game.GetScene(scene2.GetHashCode()).IsSuccess);
+
+            game.LoadScene(scene);
+            game.LoadNextScene(scene2);
+            // 前にロードしたシーンの取得に失敗
+            Assert.False(game.GetScene(scene.GetHashCode()).IsSuccess);
+            // 新しくロードしたシーンの取得に成功
+            Assert.True(game.GetScene(scene2.GetHashCode()).IsSuccess);
         }
 
         [Test]
-        public void DrawLine()
+        public void SceneUnsafeTest()
         {
             Game game = new Game();
-            //game.WindowState = WindowState.Fullscreen;
-            game.Title = "Engine Test";
-            game.Load += Game_OnLoad;
-            game.Resize += (sender, args) =>
-            {
-                GL.Viewport(game.ClientRectangle);
-                GL.MatrixMode(MatrixMode.Projection);
-                Matrix4 projection =
-                    Matrix4.CreatePerspectiveFieldOfView((float) Math.PI / 4, (float) game.Width / (float) game.Height,
-                        1.0f,
-                        64.0f);
-                GL.LoadMatrix(ref projection);
-            };
-            game.RenderFrame += Game_OnRenderFrame;
-
             Scene scene = new Scene();
-            scene.AddObject(new LineObject
-            {
-                LineColor = Color4.Red,
-                Position = new Vector3(-0.1f, -0.1f, -2f),
-                Bounds = new Vector3(0.1f, 0.1f, -2f),
-                LineWidth = 5f
-            });
-            scene.AddObject(new StippleLineObject
-            {
-                LineColor = Color4.Aqua,
-                Position = new Vector3(-0.1f, 0.1f, -2f),
-                Bounds = new Vector3(0.1f, -0.1f, -2f),
-                LineWidth = 10f,
-                Factor = 1,
-                Pattern = 0xf00f
-            });
-            scene.AddObject(new StippleLineObject
-            {
-                LineColor = Color4.Green,
-                Position = new Vector3(0f, 0.1f, -2f),
-                Bounds = new Vector3(0f, -0.1f, -2f),
-                LineWidth = 10f,
-                Factor = 1,
-                Pattern = 0xf0af
-            });
-            game.LoadScene(scene);
 
-            game.Run(60.0d);
-        }
-
-        private void Game_OnRenderFrame(object sender, FrameEventArgs e)
-        {
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-
-            GL.MatrixMode(MatrixMode.Modelview);
-            Matrix4 modelview = Matrix4.LookAt(Vector3.Zero, -Vector3.UnitZ, Vector3.UnitY);
-            GL.LoadMatrix(ref modelview);
-        }
-
-        private void Game_OnLoad(object sender, EventArgs e)
-        {
-            GL.ClearColor(Color4.Black);
-            GL.Enable(EnableCap.DepthTest);
+            // ロードに成功
+            Assert.True(game.LoadSceneUnsafe(scene).IsSuccess);
+            // 既にロードしたシーンなので失敗
+            Assert.False(game.LoadSceneUnsafe(scene).IsSuccess);
+            // 取得に成功
+            Assert.True(game.GetSceneUnsafe<Scene>(scene.GetHashCode()).IsSuccess);
+            // アンロードに成功
+            Assert.True(game.UnloadSceneUnsafe(scene).IsSuccess);
+            // 既にアンロードされているので失敗
+            Assert.False(game.UnloadSceneUnsafe(scene).IsSuccess);
         }
     }
 }

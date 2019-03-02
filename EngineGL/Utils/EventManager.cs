@@ -24,7 +24,7 @@ namespace EngineGL.Utils
 
         public Func<T, bool> OnFail
         {
-            get => _success;
+            get => _fail;
             set
             {
                 if (value != null) _fail = value;
@@ -40,7 +40,9 @@ namespace EngineGL.Utils
 
         public bool Call()
         {
-            if (EventArgs.IsCanceled)
+            Handler?.Invoke(Sender, EventArgs);
+
+            if (!EventArgs.IsCanceled)
                 return OnSuccess.Invoke(EventArgs);
             else
                 return OnFail.Invoke(EventArgs);
