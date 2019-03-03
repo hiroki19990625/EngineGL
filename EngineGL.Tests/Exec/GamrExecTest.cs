@@ -56,6 +56,7 @@ namespace EngineGL.Tests.Exec
                 Factor = 1,
                 Pattern = 0xf0af
             });
+            scene.AddObject(new StaticCamera());
             game.LoadScene(scene);
 
             game.Run(60.0d);
@@ -64,10 +65,6 @@ namespace EngineGL.Tests.Exec
         private void Game_OnRenderFrame(object sender, FrameEventArgs e)
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-
-            GL.MatrixMode(MatrixMode.Modelview);
-            Matrix4 modelview = Matrix4.LookAt(Vector3.Zero, -Vector3.UnitZ, Vector3.UnitY);
-            GL.LoadMatrix(ref modelview);
         }
 
         private void Game_OnLoad(object sender, EventArgs e)

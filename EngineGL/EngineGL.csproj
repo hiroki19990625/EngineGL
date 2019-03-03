@@ -88,6 +88,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\ICamera.cs" />
     <Compile Include="Core\ICollision.cs" />
     <Compile Include="Core\IComponent.cs" />
     <Compile Include="Core\IComponentAttachable.cs" />
@@ -124,6 +125,8 @@
     <Compile Include="Impl\GameObject.cs" />
     <Compile Include="Impl\Object.cs" />
     <Compile Include="Impl\Scene.cs" />
+    <Compile Include="Impl\Camera.cs" />
+    <Compile Include="Impl\StaticCamera.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Dialog.cs" />
     <Compile Include="Utils\EventManager.cs" />

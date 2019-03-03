@@ -17,9 +17,20 @@ namespace EngineGL.Impl
         public Vector3 Position { get; set; }
         public Vector3 Rotation { get; set; }
         public Vector3 Bounds { get; set; }
+        public Vector3 Scale { get; set; } = Vector3.One;
 
         public event EventHandler<AddComponentEventArgs> AddComponentEvent;
         public event EventHandler<RemoveComponentEventArgs> RemoveComponentEvent;
+
+        public override void OnUpdate()
+        {
+            base.OnUpdate();
+
+            foreach (IComponent component in _attachedComponents.Values)
+            {
+                component.OnUpdate();
+            }
+        }
 
         public Result<IComponent> GetComponent(int hash)
         {
