@@ -7,8 +7,6 @@ namespace EngineGL.Core
 {
     public interface IComponentAttachable
     {
-        ConcurrentDictionary<int, IComponent> AttachedComponents { get; }
-
         event EventHandler<AddComponentEventArgs> AddComponentEvent;
         event EventHandler<RemoveComponentEventArgs> RemoveComponentEvent;
 

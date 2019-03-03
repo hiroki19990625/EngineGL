@@ -13,9 +13,13 @@ namespace EngineGL.Impl
 {
     public class Game : GameWindow, IGame
     {
+        private readonly ConcurrentDictionary<int, IScene> _preLoadedScenes =
+            new ConcurrentDictionary<int, IScene>();
+
+        private readonly ConcurrentDictionary<int, IScene> _loadedScenes =
+            new ConcurrentDictionary<int, IScene>();
+
         public string Name { get; set; }
-        public ConcurrentDictionary<int, IScene> PreLoadedScenes { get; } = new ConcurrentDictionary<int, IScene>();
-        public ConcurrentDictionary<int, IScene> LoadedScenes { get; } = new ConcurrentDictionary<int, IScene>();
         public event EventHandler<InitialzeEventArgs> Initialze;
         public event EventHandler<DestroyEventArgs> Destroy;
         public event EventHandler<LoadSceneEventArgs> LoadSceneEvent;
@@ -47,7 +51,7 @@ namespace EngineGL.Impl
             PreLoadSceneEventArgs args = new PreLoadSceneEventArgs(this, file, scene);
             EventManager<PreLoadSceneEventArgs> manager
                 = new EventManager<PreLoadSceneEventArgs>(PreLoadSceneEvent, this, args);
-            manager.OnSuccess = ev => PreLoadedScenes.TryAdd(ev.PreLoadScene.GetHashCode(), ev.PreLoadScene);
+            manager.OnSuccess = ev => _preLoadedScenes.TryAdd(ev.PreLoadScene.GetHashCode(), ev.PreLoadScene);
 
             if (manager.Call())
                 return Result<int>.Success(args.PreLoadScene.GetHashCode());
@@ -57,12 +61,12 @@ namespace EngineGL.Impl
 
         public bool PreUnloadScene(int hash)
         {
-            if (PreLoadedScenes.TryGetValue(hash, out IScene scene))
+            if (_preLoadedScenes.TryGetValue(hash, out IScene scene))
             {
                 PreUnloadSceneEventArgs args = new PreUnloadSceneEventArgs(this, scene);
                 EventManager<PreUnloadSceneEventArgs> manager
                     = new EventManager<PreUnloadSceneEventArgs>(PreUnloadSceneEvent, this, args);
-                manager.OnSuccess = ev => PreLoadedScenes.TryRemove(ev.PreUnloadScene.GetHashCode(), out scene);
+                manager.OnSuccess = ev => _preLoadedScenes.TryRemove(ev.PreUnloadScene.GetHashCode(), out scene);
                 return manager.Call();
             }
 
@@ -72,7 +76,7 @@ namespace EngineGL.Impl
         public bool PreUnloadScenes()
         {
             int c = 0;
-            foreach (int hash in PreLoadedScenes.Keys)
+            foreach (int hash in _preLoadedScenes.Keys)
             {
                 if (PreUnloadScene(hash))
                     c++;
@@ -83,7 +87,7 @@ namespace EngineGL.Impl
 
         public Result<IScene> GetScene(int hash)
         {
-            if (LoadedScenes.TryGetValue(hash, out IScene scene))
+            if (_loadedScenes.TryGetValue(hash, out IScene scene))
             {
                 return Result<IScene>.Success(scene);
             }
@@ -93,7 +97,7 @@ namespace EngineGL.Impl
 
         public Result<T> GetSceneUnsafe<T>(int hash) where T : IScene
         {
-            if (LoadedScenes.TryGetValue(hash, out IScene scene))
+            if (_loadedScenes.TryGetValue(hash, out IScene scene))
             {
                 return Result<T>.Success((T) scene);
             }
@@ -103,13 +107,13 @@ namespace EngineGL.Impl
 
         public Result<IScene> LoadScene(int hash)
         {
-            if (PreLoadedScenes.TryGetValue(hash, out IScene scene)
-                || !LoadedScenes.ContainsKey(hash))
+            if (_preLoadedScenes.TryGetValue(hash, out IScene scene)
+                || !_loadedScenes.ContainsKey(hash))
             {
                 LoadSceneEventArgs args = new LoadSceneEventArgs(this, scene);
                 EventManager<LoadSceneEventArgs> manager
                     = new EventManager<LoadSceneEventArgs>(LoadSceneEvent, this, args);
-                manager.OnSuccess = ev => LoadedScenes.TryAdd(ev.LoadScene.GetHashCode(), ev.LoadScene);
+                manager.OnSuccess = ev => _loadedScenes.TryAdd(ev.LoadScene.GetHashCode(), ev.LoadScene);
 
                 if (manager.Call())
                     return Result<IScene>.Success(args.LoadScene);
@@ -123,12 +127,12 @@ namespace EngineGL.Impl
         public Result<IScene> LoadScene(IScene scene)
         {
             int hash = scene.GetHashCode();
-            if (!LoadedScenes.ContainsKey(hash))
+            if (!_loadedScenes.ContainsKey(hash))
             {
                 LoadSceneEventArgs args = new LoadSceneEventArgs(this, scene);
                 EventManager<LoadSceneEventArgs> manager
                     = new EventManager<LoadSceneEventArgs>(LoadSceneEvent, this, args);
-                manager.OnSuccess = ev => LoadedScenes.TryAdd(ev.LoadScene.GetHashCode(), ev.LoadScene);
+                manager.OnSuccess = ev => _loadedScenes.TryAdd(ev.LoadScene.GetHashCode(), ev.LoadScene);
 
                 if (manager.Call())
                     return Result<IScene>.Success(args.LoadScene);
@@ -165,12 +169,12 @@ namespace EngineGL.Impl
 
         public Result<IScene> UnloadScene(int hash)
         {
-            if (LoadedScenes.TryGetValue(hash, out IScene scene))
+            if (_loadedScenes.TryGetValue(hash, out IScene scene))
             {
                 UnloadSceneEventArgs args = new UnloadSceneEventArgs(this, scene);
                 EventManager<UnloadSceneEventArgs> manager
                     = new EventManager<UnloadSceneEventArgs>(UnloadSceneEvent, this, args);
-                manager.OnSuccess = ev => LoadedScenes.TryRemove(args.UnloadScene.GetHashCode(), out scene);
+                manager.OnSuccess = ev => _loadedScenes.TryRemove(args.UnloadScene.GetHashCode(), out scene);
 
                 if (manager.Call())
                     return Result<IScene>.Success(args.UnloadScene);
@@ -213,7 +217,7 @@ namespace EngineGL.Impl
         public bool UnloadScenes()
         {
             int c = 0;
-            foreach (int hash in LoadedScenes.Keys)
+            foreach (int hash in _loadedScenes.Keys)
             {
                 if (UnloadScene(hash).IsSuccess)
                     c++;
@@ -264,12 +268,9 @@ namespace EngineGL.Impl
         {
             base.OnUpdateFrame(e);
 
-            foreach (IScene scene in LoadedScenes.Values)
+            foreach (IScene scene in _loadedScenes.Values)
             {
-                foreach (IObject obj in scene.SceneObjects.Values)
-                {
-                    obj.OnUpdate();
-                }
+                scene.OnUpdate();
             }
         }
 
@@ -277,17 +278,9 @@ namespace EngineGL.Impl
         {
             base.OnRenderFrame(e);
 
-            foreach (IScene scene in LoadedScenes.Values)
+            foreach (IScene scene in _loadedScenes.Values)
             {
-                foreach (IObject obj in scene.SceneObjects.Values)
-                {
-                    if (obj is IDrawable)
-                    {
-                        GL.PushAttrib(AttribMask.EnableBit);
-                        ((IDrawable) obj).OnDraw();
-                        GL.PopAttrib();
-                    }
-                }
+                scene.OnDraw();
             }
 
             SwapBuffers();

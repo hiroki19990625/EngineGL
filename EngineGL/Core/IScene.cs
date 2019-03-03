@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Concurrent;
+using EngineGL.Core.LifeCycle;
 using EngineGL.Event.Scene;
 using EngineGL.Utils;
 
 namespace EngineGL.Core
 {
-    public interface IScene : INameable
+    public interface IScene : INameable, IUpdateable, IDrawable
     {
-        ConcurrentDictionary<int, IObject> SceneObjects { get; }
-
         event EventHandler<AddObjectEventArgs> AddObjectEvent;
         event EventHandler<RemoveObjectEventArgs> RemoveObjectEvent;
 

@@ -3,6 +3,8 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using EngineGL.Core;
+using EngineGL.Core.LifeCycle;
+using EngineGL.Event.LifeCycle;
 using EngineGL.Event.Scene;
 using EngineGL.Utils;
 
@@ -11,10 +13,15 @@ namespace EngineGL.Impl
     [Serializable]
     public class Scene : IScene
     {
+        private readonly ConcurrentDictionary<int, IObject> _sceneObjects =
+            new ConcurrentDictionary<int, IObject>();
+
         public string Name { get; set; }
-        public ConcurrentDictionary<int, IObject> SceneObjects { get; } = new ConcurrentDictionary<int, IObject>();
         public event EventHandler<AddObjectEventArgs> AddObjectEvent;
         public event EventHandler<RemoveObjectEventArgs> RemoveObjectEvent;
+
+        public event EventHandler<UpdateEventArgs> Update;
+        public event EventHandler<DrawEventArgs> Draw;
 
         public Scene(string file) : this(new FileInfo(file))
         {
@@ -28,9 +35,32 @@ namespace EngineGL.Impl
         {
         }
 
+        public void OnUpdate()
+        {
+            Update?.Invoke(this, new UpdateEventArgs(this));
+
+            foreach (IObject obj in _sceneObjects.Values)
+            {
+                obj.OnUpdate();
+            }
+        }
+
+        public void OnDraw()
+        {
+            Draw?.Invoke(this, new DrawEventArgs(this));
+
+            foreach (IObject obj in _sceneObjects.Values)
+            {
+                if (obj is IDrawable)
+                {
+                    ((IDrawable) obj).OnDraw();
+                }
+            }
+        }
+
         public Result<IObject> GetObject(int hash)
         {
-            if (SceneObjects.TryGetValue(hash, out IObject obj))
+            if (_sceneObjects.TryGetValue(hash, out IObject obj))
             {
                 return Result<IObject>.Success(obj);
             }
@@ -52,12 +82,12 @@ namespace EngineGL.Impl
 
         public Result<IObject> AddObject(IObject obj)
         {
-            if (!SceneObjects.ContainsKey(obj.GetHashCode()))
+            if (!_sceneObjects.ContainsKey(obj.GetHashCode()))
             {
                 AddObjectEventArgs args = new AddObjectEventArgs(this, obj);
                 EventManager<AddObjectEventArgs> manager
                     = new EventManager<AddObjectEventArgs>(AddObjectEvent, this, args);
-                manager.OnSuccess = ev => SceneObjects.TryAdd(ev.AddObject.GetHashCode(), ev.AddObject);
+                manager.OnSuccess = ev => _sceneObjects.TryAdd(ev.AddObject.GetHashCode(), ev.AddObject);
 
                 if (manager.Call())
                 {
@@ -127,12 +157,12 @@ namespace EngineGL.Impl
 
         public Result<IObject> RemoveObject(int hash)
         {
-            if (SceneObjects.TryGetValue(hash, out IObject obj))
+            if (_sceneObjects.TryGetValue(hash, out IObject obj))
             {
                 RemoveObjectEventArgs args = new RemoveObjectEventArgs(this, obj);
                 EventManager<RemoveObjectEventArgs> manager
                     = new EventManager<RemoveObjectEventArgs>(RemoveObjectEvent, this, args);
-                manager.OnSuccess = ev => SceneObjects.TryRemove(hash, out obj);
+                manager.OnSuccess = ev => _sceneObjects.TryRemove(hash, out obj);
 
                 if (manager.Call())
                 {

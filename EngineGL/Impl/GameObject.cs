@@ -11,19 +11,19 @@ namespace EngineGL.Impl
 {
     public class GameObject : Object, IGameObject
     {
+        private readonly ConcurrentDictionary<int, IComponent> _attachedComponents =
+            new ConcurrentDictionary<int, IComponent>();
+
         public Vector3 Position { get; set; }
         public Vector3 Rotation { get; set; }
         public Vector3 Bounds { get; set; }
-
-        public ConcurrentDictionary<int, IComponent> AttachedComponents { get; }
-            = new ConcurrentDictionary<int, IComponent>();
 
         public event EventHandler<AddComponentEventArgs> AddComponentEvent;
         public event EventHandler<RemoveComponentEventArgs> RemoveComponentEvent;
 
         public Result<IComponent> GetComponent(int hash)
         {
-            if (AttachedComponents.TryGetValue(hash, out IComponent component))
+            if (_attachedComponents.TryGetValue(hash, out IComponent component))
                 return Result<IComponent>.Success(component);
 
             return Result<IComponent>.Fail();
@@ -31,7 +31,7 @@ namespace EngineGL.Impl
 
         public Result<T> GetComponentUnsafe<T>() where T : IComponent
         {
-            foreach (KeyValuePair<int, IComponent> pair in AttachedComponents)
+            foreach (KeyValuePair<int, IComponent> pair in _attachedComponents)
             {
                 IComponent component = pair.Value;
                 if (component is T)
@@ -55,7 +55,7 @@ namespace EngineGL.Impl
 
         public Result<IComponent> GetComponentUnsafe(Type type)
         {
-            foreach (KeyValuePair<int, IComponent> pair in AttachedComponents)
+            foreach (KeyValuePair<int, IComponent> pair in _attachedComponents)
             {
                 IComponent component = pair.Value;
                 if (component.GetType().FullName == type.FullName)
@@ -84,8 +84,22 @@ namespace EngineGL.Impl
         public Result<IComponent> AddComponent(IComponent component)
         {
             int hash = component.GetHashCode();
-            if (!AttachedComponents.ContainsKey(hash))
+            if (!_attachedComponents.ContainsKey(hash))
             {
+                AddComponentEventArgs args =
+                    new AddComponentEventArgs(this, component);
+                EventManager<AddComponentEventArgs> manager =
+                    new EventManager<AddComponentEventArgs>(AddComponentEvent, this, args);
+                manager.OnSuccess = ev =>
+                    _attachedComponents.TryAdd(ev.AddComponent.GetHashCode(), ev.AddComponent);
+
+                if (manager.Call())
+                {
+                    component.OnInitialze();
+                    return Result<IComponent>.Success(args.AddComponent);
+                }
+                else
+                    return Result<IComponent>.Fail();
             }
 
             return Result<IComponent>.Fail();
@@ -93,52 +107,109 @@ namespace EngineGL.Impl
 
         public Result<T> AddComponentUnsafe<T>(T component) where T : IComponent
         {
-            throw new NotImplementedException();
+            try
+            {
+                return Result<T>.Success((T) AddComponent(component).Value);
+            }
+            catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
+            {
+                return Result<T>.Fail(e.ToString());
+            }
         }
 
         public Result<T> AddComponentUnsafe<T>() where T : IComponent
         {
-            throw new NotImplementedException();
+            T instance = Activator.CreateInstance<T>();
+            return AddComponentUnsafe(instance);
         }
 
         public Result<IComponent> AddComponentUnsafe(Type type)
         {
-            throw new NotImplementedException();
+            try
+            {
+                IComponent instance = (IComponent) Activator.CreateInstance(type);
+                return AddComponent(instance);
+            }
+            catch (InvalidCastException e)
+            {
+                return Result<IComponent>.Fail(e.Message);
+            }
         }
 
         public Result<IComponent> RemoveComponent(int hash)
         {
-            throw new NotImplementedException();
+            if (_attachedComponents.TryGetValue(hash, out IComponent component))
+            {
+                RemoveComponentEventArgs args =
+                    new RemoveComponentEventArgs(this, component);
+                EventManager<RemoveComponentEventArgs> manager =
+                    new EventManager<RemoveComponentEventArgs>(RemoveComponentEvent, this, args);
+                manager.OnSuccess = ev =>
+                    _attachedComponents.TryRemove(ev.RemoveComponent.GetHashCode(), out component);
+
+                if (manager.Call())
+                {
+                    args.RemoveComponent.OnDestroy();
+                    return Result<IComponent>.Success(args.RemoveComponent);
+                }
+                else
+                    return Result<IComponent>.Fail();
+            }
+
+            return Result<IComponent>.Fail();
         }
 
         public Result<IComponent> RemoveComponent(IComponent component)
         {
-            throw new NotImplementedException();
+            return RemoveComponent(component.GetHashCode());
         }
 
         public Result<T> RemoveComponentUnsafe<T>(T component) where T : IComponent
         {
-            throw new NotImplementedException();
+            try
+            {
+                return Result<T>.Success((T) RemoveComponent(component).Value);
+            }
+            catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
+            {
+                return Result<T>.Fail(e.ToString());
+            }
         }
 
         public Result<T> RemoveComponentUnsafe<T>() where T : IComponent
         {
-            throw new NotImplementedException();
+            foreach (IComponent component in _attachedComponents.Values)
+                if (component is T)
+                    return RemoveComponentUnsafe((T) component);
+
+            return Result<T>.Fail();
         }
 
         public Result<T> RemoveComponentUnsafe<T>(int hash) where T : IComponent
         {
-            throw new NotImplementedException();
+            if (_attachedComponents.TryGetValue(hash, out IComponent component))
+                if (component is T)
+                    return RemoveComponentUnsafe((T) component);
+
+            return Result<T>.Fail();
         }
 
         public Result<IComponent> RemoveComponentUnsafe(Type type)
         {
-            throw new NotImplementedException();
+            foreach (IComponent component in _attachedComponents.Values)
+                if (component.GetType().FullName == type.FullName)
+                    return Result<IComponent>.Success(component);
+
+            return Result<IComponent>.Fail();
         }
 
         public Result<IComponent> RemoveComponentUnsafe(Type type, int hash)
         {
-            throw new NotImplementedException();
+            if (_attachedComponents.TryGetValue(hash, out IComponent component))
+                if (component.GetType().FullName == type.FullName)
+                    return Result<IComponent>.Success(component);
+
+            return Result<IComponent>.Fail();
         }
     }
 }

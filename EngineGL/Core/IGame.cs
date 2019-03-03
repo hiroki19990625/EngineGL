@@ -9,9 +9,6 @@ namespace EngineGL.Core
 {
     public interface IGame : Initialzeable, IDestroyable, INameable
     {
-        ConcurrentDictionary<int, IScene> PreLoadedScenes { get; }
-        ConcurrentDictionary<int, IScene> LoadedScenes { get; }
-
         event EventHandler<LoadSceneEventArgs> LoadSceneEvent;
         event EventHandler<UnloadSceneEventArgs> UnloadSceneEvent;
         event EventHandler<PreLoadSceneEventArgs> PreLoadSceneEvent;
