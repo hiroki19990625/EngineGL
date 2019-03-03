@@ -1,4 +1,3 @@
-using EngineGL.Utils;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -25,8 +24,7 @@ namespace EngineGL.Impl
         public override void OnUpdate()
         {
             base.OnUpdate();
-
-            Position += Vector3.UnitX * 0.01f;
+            
             LookAtMatrix =
                 Matrix4.LookAt(Vector3.Zero, -Vector3.UnitZ, Vector3.UnitY);
         }
