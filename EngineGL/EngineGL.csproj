@@ -120,6 +120,8 @@
     <Compile Include="Event\Scene\RemoveObjectEventArgs.cs" />
     <Compile Include="Event\Scene\SceneEventArgs.cs" />
     <Compile Include="Impl\Component.cs" />
+    <Compile Include="Impl\Drawable\2DBoxObject.cs" />
+    <Compile Include="Impl\Drawable\DrawableObject.cs" />
     <Compile Include="Impl\Drawable\LineObject.cs" />
     <Compile Include="Impl\Drawable\StippleLineObject.cs" />
     <Compile Include="Impl\Game.cs" />

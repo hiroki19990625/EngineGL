@@ -46,17 +46,23 @@ namespace EngineGL.Tests.Exec
             game.RenderFrame += Game_OnRenderFrame;
 
             Scene scene = new Scene();
+            scene.AddObject(new Box2DObject
+            {
+                BoxColor = Color4.White,
+                Position = new Vector3(-0.3f, -0.1f, -2f),
+                Bounds = new Vector3(0.2f, 0.2f, 0f)
+            });
             scene.AddObject(new LineObject
             {
                 LineColor = Color4.Red,
                 Position = new Vector3(-0.1f, -0.1f, -2f),
-                Bounds = new Vector3(0.1f, 0.1f, -2f)
+                Bounds = new Vector3(0.2f, 0.2f, 0f)
             });
             scene.AddObject(new StippleLineObject
             {
                 LineColor = Color4.Aqua,
                 Position = new Vector3(-0.1f, 0.1f, -2f),
-                Bounds = new Vector3(0.1f, -0.1f, -2f),
+                Bounds = new Vector3(0.2f, -0.2f, 0f),
                 Factor = 1,
                 Pattern = 0xf00f
             });
@@ -64,7 +70,7 @@ namespace EngineGL.Tests.Exec
             {
                 LineColor = Color4.Green,
                 Position = new Vector3(0f, 0.1f, -2f),
-                Bounds = new Vector3(0f, -0.1f, -2f),
+                Bounds = new Vector3(0f, -0.2f, 0),
                 Factor = 1,
                 Pattern = 0xf0af
             });

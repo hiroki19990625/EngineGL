@@ -18,7 +18,7 @@ namespace EngineGL.Impl.Drawable
             GL.Begin(PrimitiveType.Lines);
             GL.Color4(LineColor);
             GL.Vertex3(Position);
-            GL.Vertex3(Bounds);
+            GL.Vertex3(Position + Bounds);
             GL.End();
         }
     }
