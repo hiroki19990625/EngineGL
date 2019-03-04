@@ -1,6 +1,7 @@
 using System;
 using EngineGL.Impl;
 using EngineGL.Impl.Drawable;
+using EngineGL.Tests.Exec.TestComponents;
 using NUnit.Framework;
 using OpenTK;
 using OpenTK.Graphics;
@@ -15,7 +16,7 @@ namespace EngineGL.Tests.Exec
         public void ExecGame()
         {
             Game game = new Game();
-            //game.WindowState = WindowState.Fullscreen;
+            game.WindowState = WindowState.Fullscreen;
             game.Title = "Engine Test";
             game.Load += Game_OnLoad;
             game.Resize += (sender, args) =>
@@ -53,7 +54,9 @@ namespace EngineGL.Tests.Exec
                 Factor = 1,
                 Pattern = 0xf0af
             });
-            scene.AddObject(new StaticCamera());
+            StaticCamera camera = new StaticCamera();
+            camera.AddComponent(new ExceptionComponent());
+            scene.AddObject(camera);
             game.LoadScene(scene);
 
             game.Run(60.0d);

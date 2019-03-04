@@ -105,6 +105,7 @@ namespace EngineGL.Impl
 
                 if (manager.Call())
                 {
+                    component.ParentObject = this;
                     component.OnInitialze();
                     return Result<IComponent>.Success(args.AddComponent);
                 }

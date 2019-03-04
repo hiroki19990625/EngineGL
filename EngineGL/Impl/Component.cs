@@ -10,6 +10,20 @@ namespace EngineGL.Impl
         public event EventHandler<UpdateEventArgs> Update;
         public event EventHandler<DestroyEventArgs> Destroy;
 
+        public IComponentAttachable _parentObject;
+
+        public virtual IComponentAttachable ParentObject
+        {
+            get { return _parentObject; }
+            set
+            {
+                if (_parentObject == null)
+                    _parentObject = value;
+                else
+                    throw new InvalidOperationException();
+            }
+        }
+
         public virtual void OnInitialze()
         {
             Initialze?.Invoke(this, new InitialzeEventArgs(this));

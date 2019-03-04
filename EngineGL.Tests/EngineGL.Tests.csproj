@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exec\GamrExecTest.cs" />
+    <Compile Include="Exec\TestComponents\ExceptionComponent.cs" />
     <Compile Include="Impl\GameTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\DialogTests.cs" />

@@ -35,13 +35,13 @@ namespace EngineGL.Impl
             Destroy?.Invoke(this, new DestroyEventArgs(this));
         }
 
-        public Result<int> PreLoadScene(string file)
+        public virtual Result<int> PreLoadScene(string file)
         {
             FileInfo fileInfo = new FileInfo(file);
             return PreLoadScene(fileInfo);
         }
 
-        public Result<int> PreLoadScene(FileInfo file)
+        public virtual Result<int> PreLoadScene(FileInfo file)
         {
             IScene scene = new Scene(file);
             int hash = scene.GetHashCode();
@@ -57,7 +57,7 @@ namespace EngineGL.Impl
                 return Result<int>.Fail();
         }
 
-        public bool PreUnloadScene(int hash)
+        public virtual bool PreUnloadScene(int hash)
         {
             if (_preLoadedScenes.TryGetValue(hash, out IScene scene))
             {
@@ -71,7 +71,7 @@ namespace EngineGL.Impl
             return false;
         }
 
-        public bool PreUnloadScenes()
+        public virtual bool PreUnloadScenes()
         {
             int c = 0;
             foreach (int hash in _preLoadedScenes.Keys)
@@ -83,7 +83,7 @@ namespace EngineGL.Impl
             return c > 0;
         }
 
-        public Result<IScene> GetScene(int hash)
+        public virtual Result<IScene> GetScene(int hash)
         {
             if (_loadedScenes.TryGetValue(hash, out IScene scene))
             {
@@ -93,7 +93,7 @@ namespace EngineGL.Impl
             return Result<IScene>.Fail();
         }
 
-        public Result<T> GetSceneUnsafe<T>(int hash) where T : IScene
+        public virtual Result<T> GetSceneUnsafe<T>(int hash) where T : IScene
         {
             if (_loadedScenes.TryGetValue(hash, out IScene scene))
             {
@@ -103,7 +103,7 @@ namespace EngineGL.Impl
             return Result<T>.Fail();
         }
 
-        public Result<IScene> LoadScene(int hash)
+        public virtual Result<IScene> LoadScene(int hash)
         {
             if (_preLoadedScenes.TryGetValue(hash, out IScene scene)
                 || !_loadedScenes.ContainsKey(hash))
@@ -122,7 +122,7 @@ namespace EngineGL.Impl
             return Result<IScene>.Fail();
         }
 
-        public Result<IScene> LoadScene(IScene scene)
+        public virtual Result<IScene> LoadScene(IScene scene)
         {
             int hash = scene.GetHashCode();
             if (!_loadedScenes.ContainsKey(hash))
@@ -141,7 +141,7 @@ namespace EngineGL.Impl
             return Result<IScene>.Fail();
         }
 
-        public Result<T> LoadSceneUnsafe<T>(int hash) where T : IScene
+        public virtual Result<T> LoadSceneUnsafe<T>(int hash) where T : IScene
         {
             try
             {
@@ -153,7 +153,7 @@ namespace EngineGL.Impl
             }
         }
 
-        public Result<T> LoadSceneUnsafe<T>(T scene) where T : IScene
+        public virtual Result<T> LoadSceneUnsafe<T>(T scene) where T : IScene
         {
             try
             {
@@ -165,7 +165,7 @@ namespace EngineGL.Impl
             }
         }
 
-        public Result<IScene> UnloadScene(int hash)
+        public virtual Result<IScene> UnloadScene(int hash)
         {
             if (_loadedScenes.TryGetValue(hash, out IScene scene))
             {
@@ -183,12 +183,12 @@ namespace EngineGL.Impl
             return Result<IScene>.Fail();
         }
 
-        public Result<IScene> UnloadScene(IScene scene)
+        public virtual Result<IScene> UnloadScene(IScene scene)
         {
             return UnloadScene(scene.GetHashCode());
         }
 
-        public Result<T> UnloadSceneUnsafe<T>(int hash) where T : IScene
+        public virtual Result<T> UnloadSceneUnsafe<T>(int hash) where T : IScene
         {
             try
             {
@@ -200,7 +200,7 @@ namespace EngineGL.Impl
             }
         }
 
-        public Result<T> UnloadSceneUnsafe<T>(T scene) where T : IScene
+        public virtual Result<T> UnloadSceneUnsafe<T>(T scene) where T : IScene
         {
             try
             {
@@ -212,7 +212,7 @@ namespace EngineGL.Impl
             }
         }
 
-        public bool UnloadScenes()
+        public virtual bool UnloadScenes()
         {
             int c = 0;
             foreach (int hash in _loadedScenes.Keys)
@@ -224,19 +224,19 @@ namespace EngineGL.Impl
             return c > 0;
         }
 
-        public Result<IScene> LoadNextScene(int hash)
+        public virtual Result<IScene> LoadNextScene(int hash)
         {
             UnloadScenes();
             return LoadScene(hash);
         }
 
-        public Result<IScene> LoadNextScene(IScene scene)
+        public virtual Result<IScene> LoadNextScene(IScene scene)
         {
             UnloadScenes();
             return LoadScene(scene);
         }
 
-        public Result<T> LoadNextSceneUnsafe<T>(int hash) where T : IScene
+        public virtual Result<T> LoadNextSceneUnsafe<T>(int hash) where T : IScene
         {
             UnloadScenes();
             try
@@ -249,7 +249,7 @@ namespace EngineGL.Impl
             }
         }
 
-        public Result<T> LoadNextSceneUnsafe<T>(T scene) where T : IScene
+        public virtual Result<T> LoadNextSceneUnsafe<T>(T scene) where T : IScene
         {
             UnloadScenes();
             try
@@ -264,24 +264,38 @@ namespace EngineGL.Impl
 
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
-            base.OnUpdateFrame(e);
-
-            foreach (IScene scene in _loadedScenes.Values)
+            try
             {
-                scene.OnUpdate();
+                base.OnUpdateFrame(e);
+
+                foreach (IScene scene in _loadedScenes.Values)
+                {
+                    scene.OnUpdate();
+                }
+            }
+            catch (Exception exception)
+            {
+                Exit(exception);
             }
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-            base.OnRenderFrame(e);
-
-            foreach (IScene scene in _loadedScenes.Values)
+            try
             {
-                scene.OnDraw();
-            }
+                base.OnRenderFrame(e);
 
-            SwapBuffers();
+                foreach (IScene scene in _loadedScenes.Values)
+                {
+                    scene.OnDraw();
+                }
+
+                SwapBuffers();
+            }
+            catch (Exception exception)
+            {
+                Exit(exception);
+            }
         }
 
         protected override void OnLoad(EventArgs e)
@@ -294,8 +308,18 @@ namespace EngineGL.Impl
         public override void Exit()
         {
             OnDestroy();
+        }
 
+        public void Exit(Exception exception)
+        {
             base.Exit();
+            Dialog.Open("Exception", exception.ToString(), Dialog.DialogType.ICON_ERROR);
+        }
+
+        public void Exit(string message)
+        {
+            base.Exit();
+            Dialog.Open("Exception", message, Dialog.DialogType.ICON_ERROR);
         }
     }
 }
