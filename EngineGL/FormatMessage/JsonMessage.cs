@@ -20,7 +20,7 @@ namespace EngineGL.FormatMessage
             return JsonConvert.SerializeObject(obj, indented ? Formatting.Indented : Formatting.None,
                 new JsonSerializerSettings
                 {
-                    TypeNameHandling = TypeNameHandling.Auto
+                    TypeNameHandling = TypeNameHandling.All
                 });
         }
 
@@ -33,7 +33,7 @@ namespace EngineGL.FormatMessage
         {
             return JsonConvert.DeserializeObject<T>(json, new JsonSerializerSettings
             {
-                TypeNameHandling = TypeNameHandling.Auto
+                TypeNameHandling = TypeNameHandling.All
             });
         }
 
