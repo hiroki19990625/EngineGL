@@ -27,7 +27,7 @@ namespace EngineGL.Tests.Exec
             });
             configuration.AddRuleForAllLevels("LogFile");
             Game game = new Game();
-            game.WindowState = WindowState.Fullscreen;
+            //game.WindowState = WindowState.Fullscreen;
             game.Title = "Engine Test";
             game.ExceptionDialog = true;
             game.DebugLogging = true;
