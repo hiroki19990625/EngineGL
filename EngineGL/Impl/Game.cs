@@ -5,17 +5,28 @@ using EngineGL.Core;
 using EngineGL.Event.Game;
 using EngineGL.Event.LifeCycle;
 using EngineGL.Utils;
+using NLog;
+using NLog.Config;
 using OpenTK;
 
 namespace EngineGL.Impl
 {
     public class Game : GameWindow, IGame
     {
+        public static Logger Logger { get; private set; }
+
         private readonly ConcurrentDictionary<int, IScene> _preLoadedScenes =
             new ConcurrentDictionary<int, IScene>();
 
         private readonly ConcurrentDictionary<int, IScene> _loadedScenes =
             new ConcurrentDictionary<int, IScene>();
+
+        public bool ShowExitErrorDialog { get; set; } = true;
+        public bool ExceptionDialog { get; set; } = false;
+        public bool ExceptionExit { get; set; } = true;
+
+        public bool DebugLogging { get; set; } = false;
+        public LoggingConfiguration LoggingConfiguration { get; set; }
 
         public string Name { get; set; }
         public event EventHandler<InitialzeEventArgs> Initialze;
@@ -149,6 +160,7 @@ namespace EngineGL.Impl
             }
             catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
             {
+                Logger.Debug(e);
                 return Result<T>.Fail(e.ToString());
             }
         }
@@ -161,6 +173,7 @@ namespace EngineGL.Impl
             }
             catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
             {
+                Logger.Debug(e);
                 return Result<T>.Fail(e.ToString());
             }
         }
@@ -196,6 +209,7 @@ namespace EngineGL.Impl
             }
             catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
             {
+                Logger.Debug(e);
                 return Result<T>.Fail(e.ToString());
             }
         }
@@ -208,6 +222,7 @@ namespace EngineGL.Impl
             }
             catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
             {
+                Logger.Debug(e);
                 return Result<T>.Fail(e.ToString());
             }
         }
@@ -245,6 +260,7 @@ namespace EngineGL.Impl
             }
             catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
             {
+                Logger.Debug(e);
                 return Result<T>.Fail(e.ToString());
             }
         }
@@ -258,6 +274,7 @@ namespace EngineGL.Impl
             }
             catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
             {
+                Logger.Debug(e);
                 return Result<T>.Fail(e.ToString());
             }
         }
@@ -275,6 +292,7 @@ namespace EngineGL.Impl
             }
             catch (Exception exception)
             {
+                Logger.Error(exception);
                 Exit(exception);
             }
         }
@@ -294,12 +312,20 @@ namespace EngineGL.Impl
             }
             catch (Exception exception)
             {
+                Logger.Error(exception);
                 Exit(exception);
             }
         }
 
         protected override void OnLoad(EventArgs e)
         {
+            if (DebugLogging)
+            {
+                LogManager.Configuration = LoggingConfiguration;
+            }
+
+            Logger = LogManager.GetCurrentClassLogger();
+
             OnInitialze();
 
             base.OnLoad(e);
@@ -312,14 +338,24 @@ namespace EngineGL.Impl
 
         public void Exit(Exception exception)
         {
-            base.Exit();
-            Dialog.Open("Exception", exception.ToString(), Dialog.DialogType.ICON_ERROR);
+            if (ExceptionExit)
+            {
+                base.Exit();
+            }
+
+            if (ShowExitErrorDialog)
+            {
+                if (ExceptionDialog)
+                    Dialog.Open("Exception", exception.ToString(), Dialog.DialogType.ICON_ERROR);
+                else
+                    Dialog.Open("Exception", exception.Message, Dialog.DialogType.ICON_ERROR);
+            }
         }
 
         public void Exit(string message)
         {
             base.Exit();
-            Dialog.Open("Exception", message, Dialog.DialogType.ICON_ERROR);
+            Dialog.Open("Error", message, Dialog.DialogType.ICON_ERROR);
         }
     }
 }

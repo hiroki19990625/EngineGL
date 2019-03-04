@@ -1,7 +1,10 @@
 using System;
+using System.Text;
 using EngineGL.Impl;
 using EngineGL.Impl.Drawable;
 using EngineGL.Tests.Exec.TestComponents;
+using NLog.Config;
+using NLog.Targets;
 using NUnit.Framework;
 using OpenTK;
 using OpenTK.Graphics;
@@ -15,9 +18,20 @@ namespace EngineGL.Tests.Exec
         [Test]
         public void ExecGame()
         {
+            LoggingConfiguration configuration = new LoggingConfiguration();
+            configuration.AddTarget(new FileTarget("LogFile")
+            {
+                Layout = "${longdate} ${logger} ${message}${exception:format=ToString}",
+                FileName = "${basedir}/logs/Debug.log",
+                Encoding = Encoding.UTF8
+            });
+            configuration.AddRuleForAllLevels("LogFile");
             Game game = new Game();
             game.WindowState = WindowState.Fullscreen;
             game.Title = "Engine Test";
+            game.ExceptionDialog = true;
+            game.DebugLogging = true;
+            game.LoggingConfiguration = configuration;
             game.Load += Game_OnLoad;
             game.Resize += (sender, args) =>
             {

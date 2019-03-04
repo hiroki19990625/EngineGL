@@ -14,8 +14,8 @@ namespace EngineGL.Tests.Exec.TestComponents
             {
                 throw new Exception();
             }
-            
-            ((GameObject)ParentObject).Position += Vector3.UnitX * 0.01f;
+
+            ((GameObject) ParentObject).Position += Vector3.UnitX * 0.01f;
 
             Time++;
         }

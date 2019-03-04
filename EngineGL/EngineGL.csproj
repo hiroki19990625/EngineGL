@@ -128,6 +128,9 @@
     <Compile Include="Impl\Scene.cs" />
     <Compile Include="Impl\Camera.cs" />
     <Compile Include="Impl\StaticCamera.cs" />
+    <Compile Include="FormatMessage\JsonMessage.cs" />
+    <Compile Include="FormatMessage\NetworkMessage.cs" />
+    <Compile Include="FormatMessage\YamlMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Dialog.cs" />
     <Compile Include="Utils\EventManager.cs" />
