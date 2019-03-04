@@ -19,3 +19,6 @@ bin/*
 # PACKAGE
 packages
 packages/*
+
+# BUILDED PACKAGE
+*.exe
