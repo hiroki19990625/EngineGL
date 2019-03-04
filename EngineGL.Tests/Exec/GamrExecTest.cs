@@ -18,20 +18,12 @@ namespace EngineGL.Tests.Exec
         [Test]
         public void ExecGame()
         {
-            LoggingConfiguration configuration = new LoggingConfiguration();
-            configuration.AddTarget(new FileTarget("LogFile")
-            {
-                Layout = "${longdate} ${logger} ${message}${exception:format=ToString}",
-                FileName = "${basedir}/logs/Debug.log",
-                Encoding = Encoding.UTF8
-            });
-            configuration.AddRuleForAllLevels("LogFile");
             Game game = new Game();
             //game.WindowState = WindowState.Fullscreen;
             game.Title = "Engine Test";
             game.ExceptionDialog = true;
             game.DebugLogging = true;
-            game.LoggingConfiguration = configuration;
+            game.LoggingConfiguration = GetLoggingConfiguration();
             game.Load += Game_OnLoad;
             game.Resize += (sender, args) =>
             {
@@ -45,6 +37,27 @@ namespace EngineGL.Tests.Exec
             };
             game.RenderFrame += Game_OnRenderFrame;
 
+            game.LoadScene(GetInitScene());
+
+            game.Run(60.0d);
+        }
+
+        private LoggingConfiguration GetLoggingConfiguration()
+        {
+            LoggingConfiguration configuration = new LoggingConfiguration();
+            configuration.AddTarget(new FileTarget("LogFile")
+            {
+                Layout = "${longdate} ${logger} ${message}${exception:format=ToString}",
+                FileName = "${basedir}/logs/Debug.log",
+                Encoding = Encoding.UTF8
+            });
+            configuration.AddRuleForAllLevels("LogFile");
+
+            return configuration;
+        }
+
+        private Scene GetInitScene()
+        {
             Scene scene = new Scene();
             scene.AddObject(new SolidBoxObject2D
             {
@@ -86,9 +99,8 @@ namespace EngineGL.Tests.Exec
             StaticCamera camera = new StaticCamera();
             camera.AddComponent(new ExceptionComponent());
             scene.AddObject(camera);
-            game.LoadScene(scene);
 
-            game.Run(60.0d);
+            return scene;
         }
 
         private void Game_OnRenderFrame(object sender, FrameEventArgs e)
