@@ -35,15 +35,13 @@ namespace EngineGL.Tests.Exec
             {
                 LineColor = Color4.Red,
                 Position = new Vector3(-0.1f, -0.1f, -2f),
-                Bounds = new Vector3(0.1f, 0.1f, -2f),
-                LineWidth = 5f
+                Bounds = new Vector3(0.1f, 0.1f, -2f)
             });
             scene.AddObject(new StippleLineObject
             {
                 LineColor = Color4.Aqua,
                 Position = new Vector3(-0.1f, 0.1f, -2f),
                 Bounds = new Vector3(0.1f, -0.1f, -2f),
-                LineWidth = 10f,
                 Factor = 1,
                 Pattern = 0xf00f
             });
@@ -52,7 +50,6 @@ namespace EngineGL.Tests.Exec
                 LineColor = Color4.Green,
                 Position = new Vector3(0f, 0.1f, -2f),
                 Bounds = new Vector3(0f, -0.1f, -2f),
-                LineWidth = 10f,
                 Factor = 1,
                 Pattern = 0xf0af
             });

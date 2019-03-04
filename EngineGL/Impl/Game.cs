@@ -2,12 +2,10 @@ using System;
 using System.Collections.Concurrent;
 using System.IO;
 using EngineGL.Core;
-using EngineGL.Core.LifeCycle;
 using EngineGL.Event.Game;
 using EngineGL.Event.LifeCycle;
 using EngineGL.Utils;
 using OpenTK;
-using OpenTK.Graphics.OpenGL;
 
 namespace EngineGL.Impl
 {

@@ -7,6 +7,7 @@ using EngineGL.Core.LifeCycle;
 using EngineGL.Event.LifeCycle;
 using EngineGL.Event.Scene;
 using EngineGL.Utils;
+using OpenTK.Graphics.OpenGL;
 
 namespace EngineGL.Impl
 {
@@ -53,7 +54,9 @@ namespace EngineGL.Impl
             {
                 if (obj is IDrawable)
                 {
+                    GL.PushAttrib(AttribMask.EnableBit);
                     ((IDrawable) obj).OnDraw();
+                    GL.PopAttrib();
                 }
             }
         }
