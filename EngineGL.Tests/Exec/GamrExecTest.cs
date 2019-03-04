@@ -46,7 +46,7 @@ namespace EngineGL.Tests.Exec
             game.RenderFrame += Game_OnRenderFrame;
 
             Scene scene = new Scene();
-            scene.AddObject(new Box2DObject
+            scene.AddObject(new SolidBoxObject2D
             {
                 BoxColor = Color4.White,
                 Position = new Vector3(-0.3f, -0.1f, -2f),
