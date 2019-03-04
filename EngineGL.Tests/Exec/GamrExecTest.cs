@@ -52,6 +52,15 @@ namespace EngineGL.Tests.Exec
                 Position = new Vector3(-0.3f, -0.1f, -2f),
                 Bounds = new Vector3(0.2f, 0.2f, 0f)
             });
+            SolidPolygonObject2D poly = new SolidPolygonObject2D
+            {
+                PoligonColor = Color4.Gold,
+                Position = new Vector3(-0.3f, -0.3f, -2f)
+            };
+            poly.Points.Add(new Vector3(0, 0.1f, 0));
+            poly.Points.Add(new Vector3(0.1f, 0, 0));
+            poly.Points.Add(new Vector3(-0.1f, 0, 0));
+            scene.AddObject(poly);
             scene.AddObject(new LineObject
             {
                 LineColor = Color4.Red,
