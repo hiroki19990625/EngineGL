@@ -1,3 +1,5 @@
+using System;
+
 namespace EngineGL.Core
 {
     public interface INameable

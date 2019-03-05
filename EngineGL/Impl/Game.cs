@@ -4,6 +4,7 @@ using System.IO;
 using EngineGL.Core;
 using EngineGL.Event.Game;
 using EngineGL.Event.LifeCycle;
+using EngineGL.FormatMessage;
 using EngineGL.Utils;
 using NLog;
 using NLog.Config;
@@ -48,15 +49,17 @@ namespace EngineGL.Impl
             Destroy?.Invoke(this, new DestroyEventArgs(this));
         }
 
-        public virtual Result<int> PreLoadScene(string file)
+        public virtual Result<int> PreLoadScene<T>(string file) where T : IScene
         {
             FileInfo fileInfo = new FileInfo(file);
-            return PreLoadScene(fileInfo);
+            return PreLoadScene<T>(fileInfo);
         }
 
-        public virtual Result<int> PreLoadScene(FileInfo file)
+        public virtual Result<int> PreLoadScene<T>(FileInfo file) where T : IScene
         {
-            IScene scene = new Scene(file);
+            StreamReader reader = file.OpenText();
+            IScene scene = reader.ReadToEnd().FromDeserializableJson<T>();
+            reader.Close();
             int hash = scene.GetHashCode();
 
             PreLoadSceneEventArgs args = new PreLoadSceneEventArgs(this, file, scene);

@@ -14,8 +14,8 @@ namespace EngineGL.Core
         event EventHandler<PreLoadSceneEventArgs> PreLoadSceneEvent;
         event EventHandler<PreUnloadSceneEventArgs> PreUnloadSceneEvent;
 
-        Result<int> PreLoadScene(string file);
-        Result<int> PreLoadScene(FileInfo file);
+        Result<int> PreLoadScene<T>(string file) where T : IScene;
+        Result<int> PreLoadScene<T>(FileInfo file) where T : IScene;
 
         bool PreUnloadScene(int hash);
         bool PreUnloadScenes();
