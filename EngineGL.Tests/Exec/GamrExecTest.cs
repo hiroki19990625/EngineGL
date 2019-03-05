@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Text;
 using EngineGL.Impl;
 using EngineGL.Impl.Drawable;
@@ -9,7 +8,6 @@ using NLog.Targets;
 using NUnit.Framework;
 using OpenTK;
 using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
 
 namespace EngineGL.Tests.Exec
 {
@@ -26,6 +24,23 @@ namespace EngineGL.Tests.Exec
         [Test]
         public void ExecGame()
         {
+            Game game = new Game();
+            //game.WindowState = WindowState.Fullscreen;
+            game.Title = "Engine Test";
+            game.ExceptionDialog = true;
+            game.DebugLogging = true;
+            game.LoggingConfiguration = GetLoggingConfiguration();
+            game.Load += (sender, args) => game.LoadDefaultFunc();
+            game.Resize += (sender, args) => game.AdjustResize();
+            game.RenderFrame += (sender, args) => game.DrawDefaultFunc();
+
+            game.LoadScene(GetInitScene());
+
+            game.Run(60.0d);
+        }
+
+        private LoggingConfiguration GetLoggingConfiguration()
+        {
             LoggingConfiguration configuration = new LoggingConfiguration();
             configuration.AddTarget(new FileTarget("LogFile")
             {
@@ -34,25 +49,12 @@ namespace EngineGL.Tests.Exec
                 Encoding = Encoding.UTF8
             });
             configuration.AddRuleForAllLevels("LogFile");
-            Game game = new Game();
-            //game.WindowState = WindowState.Fullscreen;
-            game.Title = "Engine Test";
-            game.ExceptionDialog = true;
-            game.DebugLogging = true;
-            game.LoggingConfiguration = configuration;
-            game.Load += Game_OnLoad;
-            game.Resize += (sender, args) =>
-            {
-                GL.Viewport(game.ClientRectangle);
-                GL.MatrixMode(MatrixMode.Projection);
-                Matrix4 projection =
-                    Matrix4.CreatePerspectiveFieldOfView((float) Math.PI / 4, (float) game.Width / (float) game.Height,
-                        1.0f,
-                        64.0f);
-                GL.LoadMatrix(ref projection);
-            };
-            game.RenderFrame += Game_OnRenderFrame;
 
+            return configuration;
+        }
+
+        private Scene GetInitScene()
+        {
             Scene scene = new Scene();
             scene.AddObject(new SolidBoxObject2D
             {
@@ -95,9 +97,6 @@ namespace EngineGL.Tests.Exec
             camera.AddComponent(new ExceptionComponent());
             scene.AddObject(camera);
             game.LoadScene(scene);
-
-            scene.Save("game.sc");
-            Console.WriteLine(Environment.CurrentDirectory);
 
             game.Run(60.0d);
         }
