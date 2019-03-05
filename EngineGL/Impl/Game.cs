@@ -8,6 +8,8 @@ using EngineGL.Utils;
 using NLog;
 using NLog.Config;
 using OpenTK;
+using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 
 namespace EngineGL.Impl
 {
@@ -277,6 +279,28 @@ namespace EngineGL.Impl
                 Logger.Debug(e);
                 return Result<T>.Fail(e.ToString());
             }
+        }
+
+        public virtual void LoadDefaultFunc()
+        {
+            GL.ClearColor(Color4.Black);
+            GL.Enable(EnableCap.DepthTest);
+        }
+
+        public virtual void DrawDefaultFunc()
+        {
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+        }
+
+        public virtual void AdjustResize()
+        {
+            GL.Viewport(ClientRectangle);
+            GL.MatrixMode(MatrixMode.Projection);
+            Matrix4 projection =
+                Matrix4.CreatePerspectiveFieldOfView((float) Math.PI / 4, (float) Width / (float) Height,
+                    1.0f,
+                    64.0f);
+            GL.LoadMatrix(ref projection);
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e)

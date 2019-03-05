@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using EngineGL.Impl;
 using EngineGL.Impl.Drawable;
@@ -8,7 +7,6 @@ using NLog.Targets;
 using NUnit.Framework;
 using OpenTK;
 using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
 
 namespace EngineGL.Tests.Exec
 {
@@ -24,18 +22,9 @@ namespace EngineGL.Tests.Exec
             game.ExceptionDialog = true;
             game.DebugLogging = true;
             game.LoggingConfiguration = GetLoggingConfiguration();
-            game.Load += Game_OnLoad;
-            game.Resize += (sender, args) =>
-            {
-                GL.Viewport(game.ClientRectangle);
-                GL.MatrixMode(MatrixMode.Projection);
-                Matrix4 projection =
-                    Matrix4.CreatePerspectiveFieldOfView((float) Math.PI / 4, (float) game.Width / (float) game.Height,
-                        1.0f,
-                        64.0f);
-                GL.LoadMatrix(ref projection);
-            };
-            game.RenderFrame += Game_OnRenderFrame;
+            game.Load += (sender, args) => game.LoadDefaultFunc();
+            game.Resize += (sender, args) => game.AdjustResize();
+            game.RenderFrame += (sender, args) => game.DrawDefaultFunc();
 
             game.LoadScene(GetInitScene());
 
@@ -101,17 +90,6 @@ namespace EngineGL.Tests.Exec
             scene.AddObject(camera);
 
             return scene;
-        }
-
-        private void Game_OnRenderFrame(object sender, FrameEventArgs e)
-        {
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-        }
-
-        private void Game_OnLoad(object sender, EventArgs e)
-        {
-            GL.ClearColor(Color4.Black);
-            GL.Enable(EnableCap.DepthTest);
         }
     }
 }
