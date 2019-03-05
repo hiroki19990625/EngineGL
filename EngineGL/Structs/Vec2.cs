@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using Assimp;
 using OpenTK;
 
@@ -22,11 +23,13 @@ namespace EngineGL.Structs
             Y = y;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(Vec2 other)
         {
             return X.Equals(other.X) && Y.Equals(other.Y);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
