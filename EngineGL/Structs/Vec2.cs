@@ -8,8 +8,8 @@ namespace EngineGL.Structs
     [Serializable]
     public struct Vec2 : IEquatable<Vec2>
     {
-        private float X { get; set; }
-        private float Y { get; set; }
+        public float X { get; set; }
+        public float Y { get; set; }
 
         public Vec2(float value)
         {
