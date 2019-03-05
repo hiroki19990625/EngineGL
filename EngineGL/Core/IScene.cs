@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Concurrent;
+using System.IO;
+using System.Threading.Tasks;
 using EngineGL.Core.LifeCycle;
 using EngineGL.Event.Scene;
 using EngineGL.Utils;
@@ -28,5 +30,10 @@ namespace EngineGL.Core
 
         Result<IObject[]> RemoveObjects(params int[] hashs);
         Result<IObject[]> RemoveObjects(params IObject[] objs);
+
+        void Save(string filePath);
+        void Save(FileInfo file);
+        Task SaveAsync(string filePath);
+        Task SaveAsync(FileInfo fileInfo);
     }
 }

@@ -2,18 +2,21 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using EngineGL.Core;
 using EngineGL.Core.LifeCycle;
 using EngineGL.Event.LifeCycle;
 using EngineGL.Event.Scene;
+using EngineGL.FormatMessage;
 using EngineGL.Utils;
+using Newtonsoft.Json;
 using OpenTK.Graphics.OpenGL;
 
 namespace EngineGL.Impl
 {
-    [Serializable]
     public class Scene : IScene
     {
+        [JsonProperty("SceneObjects")]
         private readonly ConcurrentDictionary<int, IObject> _sceneObjects =
             new ConcurrentDictionary<int, IObject>();
 
@@ -23,18 +26,6 @@ namespace EngineGL.Impl
 
         public event EventHandler<UpdateEventArgs> Update;
         public event EventHandler<DrawEventArgs> Draw;
-
-        public Scene(string file) : this(new FileInfo(file))
-        {
-        }
-
-        public Scene(FileInfo file)
-        {
-        }
-
-        public Scene()
-        {
-        }
 
         public void OnUpdate()
         {
@@ -220,6 +211,36 @@ namespace EngineGL.Impl
             }
 
             return list.Count > 0 ? Result<IObject[]>.Success(list.ToArray()) : Result<IObject[]>.Fail();
+        }
+
+        public void Save(string filePath)
+        {
+            string json = this.ToDeserializableJson(true);
+
+            if (!File.Exists(filePath))
+                File.Create(filePath).Close();
+
+            File.WriteAllText(filePath, json);
+        }
+
+        public void Save(FileInfo file)
+        {
+            Save(file.FullName);
+        }
+
+        public async Task SaveAsync(string filePath)
+        {
+            string json = await this.ToDeserializableJsonAsync(true);
+
+            if (!File.Exists(filePath))
+                File.Create(filePath).Close();
+
+            File.WriteAllText(filePath, json);
+        }
+
+        public async Task SaveAsync(FileInfo fileInfo)
+        {
+            await SaveAsync(fileInfo.FullName);
         }
     }
 }

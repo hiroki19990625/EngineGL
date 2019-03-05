@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Text;
 using EngineGL.Impl;
 using EngineGL.Impl.Drawable;
@@ -15,6 +16,13 @@ namespace EngineGL.Tests.Exec
     [TestFixture]
     public class GamrExecTest
     {
+        [OneTimeSetUp]
+        public void RunBeforeAnyTests()
+        {
+            var dir = Path.GetDirectoryName(typeof(GamrExecTest).Assembly.Location);
+            Environment.CurrentDirectory = dir;
+        }
+        
         [Test]
         public void ExecGame()
         {
@@ -87,6 +95,9 @@ namespace EngineGL.Tests.Exec
             camera.AddComponent(new ExceptionComponent());
             scene.AddObject(camera);
             game.LoadScene(scene);
+
+            scene.Save("game.sc");
+            Console.WriteLine(Environment.CurrentDirectory);
 
             game.Run(60.0d);
         }
