@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Text;
 using EngineGL.Impl;
 using EngineGL.Impl.Drawable;
@@ -20,7 +21,7 @@ namespace EngineGL.Tests.Exec
             var dir = Path.GetDirectoryName(typeof(GamrExecTest).Assembly.Location);
             Environment.CurrentDirectory = dir;
         }
-        
+
         [Test]
         public void ExecGame()
         {
@@ -96,20 +97,8 @@ namespace EngineGL.Tests.Exec
             StaticCamera camera = new StaticCamera();
             camera.AddComponent(new ExceptionComponent());
             scene.AddObject(camera);
-            game.LoadScene(scene);
 
-            game.Run(60.0d);
-        }
-
-        private void Game_OnRenderFrame(object sender, FrameEventArgs e)
-        {
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-        }
-
-        private void Game_OnLoad(object sender, EventArgs e)
-        {
-            GL.ClearColor(Color4.Black);
-            GL.Enable(EnableCap.DepthTest);
+            return scene;
         }
     }
 }
