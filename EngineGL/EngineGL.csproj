@@ -154,6 +154,7 @@
     <Compile Include="FormatMessage\YamlMessage.cs" />
     <Compile Include="Structs\Vec2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Structs\Vec3.cs" />
     <Compile Include="Utils\Dialog.cs" />
     <Compile Include="Utils\EventManager.cs" />
     <Compile Include="Utils\JsonConverters.cs" />
