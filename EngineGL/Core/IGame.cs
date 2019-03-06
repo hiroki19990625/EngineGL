@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Concurrent;
 using System.IO;
 using EngineGL.Core.LifeCycle;
 using EngineGL.Event.Game;

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using EngineGL.Core;
 using EngineGL.Core.LifeCycle;
@@ -16,8 +17,7 @@ namespace EngineGL.Impl
 {
     public class Scene : IScene
     {
-        [JsonProperty("SceneObjects")]
-        private readonly ConcurrentDictionary<int, IObject> _sceneObjects =
+        [JsonProperty("SceneObjects")] private readonly ConcurrentDictionary<int, IObject> _sceneObjects =
             new ConcurrentDictionary<int, IObject>();
 
         public string Name { get; set; }
@@ -50,6 +50,11 @@ namespace EngineGL.Impl
                     GL.PopAttrib();
                 }
             }
+        }
+
+        public Result<IObject[]> GetObjects()
+        {
+            return Result<IObject[]>.Success(_sceneObjects.Values.ToArray());
         }
 
         public Result<IObject> GetObject(int hash)

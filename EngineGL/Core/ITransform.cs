@@ -1,13 +1,12 @@
-using System;
-using OpenTK;
+using EngineGL.Structs;
 
 namespace EngineGL.Core
 {
     public interface ITransform
     {
-        Vector3 Position { get; set; }
-        Vector3 Rotation { get; set; }
-        Vector3 Bounds { get; set; }
-        Vector3 Scale { get; set; }
+        Vec3 Position { get; set; }
+        Vec3 Rotation { get; set; }
+        Vec3 Bounds { get; set; }
+        Vec3 Scale { get; set; }
     }
 }

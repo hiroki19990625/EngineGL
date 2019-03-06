@@ -1,6 +1,6 @@
 using System;
 using EngineGL.Impl;
-using OpenTK;
+using EngineGL.Structs;
 
 namespace EngineGL.Tests.Exec.TestComponents
 {
@@ -15,7 +15,7 @@ namespace EngineGL.Tests.Exec.TestComponents
                 throw new Exception();
             }
 
-            ((GameObject) ParentObject).Position += Vector3.UnitX * 0.01f;
+            GameObject.Position += Vec3.Right * 0.01f;
 
             Time++;
         }

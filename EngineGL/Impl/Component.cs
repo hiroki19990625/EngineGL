@@ -1,6 +1,8 @@
 using System;
 using EngineGL.Core;
 using EngineGL.Event.LifeCycle;
+using Newtonsoft.Json;
+using YamlDotNet.Serialization;
 
 namespace EngineGL.Impl
 {
@@ -10,8 +12,9 @@ namespace EngineGL.Impl
         public event EventHandler<UpdateEventArgs> Update;
         public event EventHandler<DestroyEventArgs> Destroy;
 
-        [NonSerialized] public IComponentAttachable _parentObject;
+        private IComponentAttachable _parentObject;
 
+        [JsonIgnore, YamlIgnore]
         public virtual IComponentAttachable ParentObject
         {
             get => _parentObject;
@@ -24,6 +27,7 @@ namespace EngineGL.Impl
             }
         }
 
+        [JsonIgnore, YamlIgnore]
         public virtual IGameObject GameObject
         {
             get => (IGameObject) _parentObject;

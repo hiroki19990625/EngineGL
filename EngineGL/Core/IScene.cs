@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Concurrent;
 using System.IO;
 using System.Threading.Tasks;
 using EngineGL.Core.LifeCycle;
@@ -13,6 +12,7 @@ namespace EngineGL.Core
         event EventHandler<AddObjectEventArgs> AddObjectEvent;
         event EventHandler<RemoveObjectEventArgs> RemoveObjectEvent;
 
+        Result<IObject[]> GetObjects();
         Result<IObject> GetObject(int hash);
         Result<T> GetObjectUnsafe<T>(int hash) where T : IScene;
 

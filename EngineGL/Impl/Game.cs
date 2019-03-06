@@ -58,8 +58,23 @@ namespace EngineGL.Impl
         public virtual Result<int> PreLoadScene<T>(FileInfo file) where T : IScene
         {
             StreamReader reader = file.OpenText();
-            IScene scene = reader.ReadToEnd().FromDeserializableJson<T>();
+            IScene old = reader.ReadToEnd().FromDeserializableJson<T>();
+            T scene = Activator.CreateInstance<T>();
             reader.Close();
+            foreach (IObject s in old.GetObjects().Value)
+            {
+                if (s is IComponentAttachable)
+                {
+                    IComponentAttachable attachable = (IComponentAttachable) s;
+                    foreach (IComponent component in attachable.GetComponents().Value)
+                    {
+                        component.ParentObject = attachable;
+                    }
+                }
+
+                scene.AddObject(s);
+            }
+
             int hash = scene.GetHashCode();
 
             PreLoadSceneEventArgs args = new PreLoadSceneEventArgs(this, file, scene);

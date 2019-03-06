@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Concurrent;
 using EngineGL.Event.ComponentAttachable;
 using EngineGL.Utils;
 
@@ -10,6 +9,7 @@ namespace EngineGL.Core
         event EventHandler<AddComponentEventArgs> AddComponentEvent;
         event EventHandler<RemoveComponentEventArgs> RemoveComponentEvent;
 
+        Result<IComponent[]> GetComponents();
         Result<IComponent> GetComponent(int hash);
         Result<T> GetComponentUnsafe<T>() where T : IComponent;
         Result<T> GetComponentUnsafe<T>(int hash) where T : IComponent;

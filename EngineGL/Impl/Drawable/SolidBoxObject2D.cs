@@ -1,3 +1,4 @@
+using EngineGL.Structs;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -15,9 +16,9 @@ namespace EngineGL.Impl.Drawable
             GL.Begin(PrimitiveType.Quads);
             GL.Color4(BoxColor);
             GL.Vertex3(Position);
-            GL.Vertex3(Position + new Vector3(0, Bounds.Y, Bounds.Z));
-            GL.Vertex3(Position + new Vector3(Bounds.X, Bounds.Y, Bounds.Z));
-            GL.Vertex3(Position + new Vector3(Bounds.X, 0, Bounds.Z));
+            GL.Vertex3(Position + new Vec3(0, Bounds.Y, Bounds.Z));
+            GL.Vertex3(Position + new Vec3(Bounds.X, Bounds.Y, Bounds.Z));
+            GL.Vertex3(Position + new Vec3(Bounds.X, 0, Bounds.Z));
             GL.End();
         }
     }

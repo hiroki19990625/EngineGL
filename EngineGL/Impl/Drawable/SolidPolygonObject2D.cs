@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using OpenTK;
+using EngineGL.Structs;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
@@ -7,7 +7,7 @@ namespace EngineGL.Impl.Drawable
 {
     public class SolidPolygonObject2D : DrawableObject
     {
-        public List<Vector3> Points { get; } = new List<Vector3>();
+        public List<Vec3> Points { get; } = new List<Vec3>();
         public Color4 PoligonColor { get; set; }
 
         public override void OnDraw()

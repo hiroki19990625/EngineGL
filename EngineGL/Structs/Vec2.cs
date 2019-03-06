@@ -8,6 +8,14 @@ namespace EngineGL.Structs
     [Serializable]
     public struct Vec2 : IEquatable<Vec2>
     {
+        public static Vec2 Zero = new Vec2(0f, 0f);
+        public static Vec2 One = new Vec2(1f, 1f);
+        
+        public static Vec2 Up = new Vec2(0f, 1f);
+        public static Vec2 Down = new Vec2(0f, -1f);
+        public static Vec2 Right = new Vec2(1f, 0f);
+        public static Vec2 Left = new Vec2(-1f, 0f);
+        
         public float X { get; set; }
         public float Y { get; set; }
 
@@ -21,6 +29,12 @@ namespace EngineGL.Structs
         {
             X = x;
             Y = y;
+        }
+
+        public Vec2(Vec3 vec3)
+        {
+            X = vec3.X;
+            Y = vec3.Y;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -105,6 +119,11 @@ namespace EngineGL.Structs
         }
 
         public static implicit operator Vec2(Vector2D a)
+        {
+            return new Vec2(a.X, a.Y);
+        }
+
+        public static explicit operator Vec2(Vec3 a)
         {
             return new Vec2(a.X, a.Y);
         }

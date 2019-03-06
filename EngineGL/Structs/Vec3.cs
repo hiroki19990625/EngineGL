@@ -7,15 +7,37 @@ namespace EngineGL.Structs
     [Serializable]
     public struct Vec3 : IEquatable<Vec3>
     {
-        private float X { get; set; }
-        private float Y { get; set; }
-        private float Z { get; set; }
+        public static Vec3 Zero = new Vec3(0f, 0f, 0f);
+        public static Vec3 One = new Vec3(1f, 1f, 1f);
+
+        public static Vec3 Up = new Vec3(0f, 1f, 0f);
+        public static Vec3 Down = new Vec3(0f, -1f, 0f);
+        public static Vec3 Right = new Vec3(1f, 0f, 0f);
+        public static Vec3 Left = new Vec3(-1f, 0f, 0f);
+
+        public float X { get; set; }
+        public float Y { get; set; }
+        public float Z { get; set; }
 
         public Vec3(float value)
         {
             X = value;
             Y = value;
             Z = value;
+        }
+
+        public Vec3(Vec2 vec2)
+        {
+            X = vec2.X;
+            Y = vec2.Y;
+            Z = 0f;
+        }
+
+        public Vec3(float x, float y)
+        {
+            X = x;
+            Y = y;
+            Z = 0f;
         }
 
         public Vec3(float x, float y, float z)
@@ -110,6 +132,11 @@ namespace EngineGL.Structs
         public static implicit operator Vec3(Vector3D a)
         {
             return new Vec3(a.X, a.Y, a.Z);
+        }
+
+        public static implicit operator Vec3(Vec2 a)
+        {
+            return new Vec3(a.X, a.Y);
         }
 
         public static implicit operator Vector3(Vec3 a)

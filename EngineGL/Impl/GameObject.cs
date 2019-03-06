@@ -1,22 +1,24 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using EngineGL.Core;
 using EngineGL.Event.ComponentAttachable;
+using EngineGL.Structs;
 using EngineGL.Utils;
-using OpenTK;
+using Newtonsoft.Json;
 
 namespace EngineGL.Impl
 {
     public class GameObject : Object, IGameObject
     {
-        private readonly ConcurrentDictionary<int, IComponent> _attachedComponents =
+        [JsonProperty("Components")] private readonly ConcurrentDictionary<int, IComponent> _attachedComponents =
             new ConcurrentDictionary<int, IComponent>();
 
-        public Vector3 Position { get; set; }
-        public Vector3 Rotation { get; set; }
-        public Vector3 Bounds { get; set; }
-        public Vector3 Scale { get; set; } = Vector3.One;
+        public Vec3 Position { get; set; }
+        public Vec3 Rotation { get; set; }
+        public Vec3 Bounds { get; set; }
+        public Vec3 Scale { get; set; } = Vec3.One;
 
         public event EventHandler<AddComponentEventArgs> AddComponentEvent;
         public event EventHandler<RemoveComponentEventArgs> RemoveComponentEvent;
@@ -29,6 +31,11 @@ namespace EngineGL.Impl
             {
                 component.OnUpdate();
             }
+        }
+
+        public Result<IComponent[]> GetComponents()
+        {
+            return Result<IComponent[]>.Success(_attachedComponents.Values.ToArray());
         }
 
         public Result<IComponent> GetComponent(int hash)
