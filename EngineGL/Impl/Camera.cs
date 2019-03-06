@@ -8,7 +8,8 @@ namespace EngineGL.Impl
 {
     public abstract class Camera : GameObject, ICamera, IDrawable
     {
-        public Matrix4 LookAtMatrix { get; protected set; }
+        [NonSerialized] protected Matrix4 _lookAtMatrix;
+        public Matrix4 LookAtMatrix => _lookAtMatrix;
 
         public event EventHandler<DrawEventArgs> Draw;
 

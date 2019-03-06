@@ -24,8 +24,8 @@ namespace EngineGL.Impl
         public override void OnUpdate()
         {
             base.OnUpdate();
-            
-            LookAtMatrix =
+
+            _lookAtMatrix =
                 Matrix4.LookAt(Vector3.Zero, -Vector3.UnitZ, Vector3.UnitY);
         }
     }

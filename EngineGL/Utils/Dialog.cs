@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace EngineGL.Utils
@@ -33,19 +34,24 @@ namespace EngineGL.Utils
             CONTINUE = 11,
         }
 
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [DllImport("User32.dll", CharSet = CharSet.Unicode)]
         private static extern int MessageBox(IntPtr handle, string text, string caption, uint type);
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DialogResult Open(string text)
         {
             return (DialogResult) Open("", text);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DialogResult Open(string caption, string text)
         {
             return (DialogResult) Open(caption, text, 0);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DialogResult Open(string caption, string text, DialogType type)
         {
             return (DialogResult) MessageBox(IntPtr.Zero, text, caption, (uint) type);

@@ -10,11 +10,11 @@ namespace EngineGL.Impl
         public event EventHandler<UpdateEventArgs> Update;
         public event EventHandler<DestroyEventArgs> Destroy;
 
-        public IComponentAttachable _parentObject;
+        [NonSerialized] public IComponentAttachable _parentObject;
 
         public virtual IComponentAttachable ParentObject
         {
-            get { return _parentObject; }
+            get => _parentObject;
             set
             {
                 if (_parentObject == null)
@@ -22,6 +22,11 @@ namespace EngineGL.Impl
                 else
                     throw new InvalidOperationException();
             }
+        }
+
+        public virtual IGameObject GameObject
+        {
+            get => (IGameObject) _parentObject;
         }
 
         public virtual void OnInitialze()
