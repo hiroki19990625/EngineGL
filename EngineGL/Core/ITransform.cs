@@ -1,4 +1,5 @@
 using EngineGL.Structs;
+using EngineGL.Structs.Math;
 
 namespace EngineGL.Core
 {
