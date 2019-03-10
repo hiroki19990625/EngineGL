@@ -1,11 +1,10 @@
 namespace EngineGL.Structs.Secure
 {
-    public interface ISecureValue<T> where T : struct
+    public interface ISecureValue<T>
     {
         byte[] Seed { get; }
         T Value { get; }
 
-        byte[] ToSecure(T value);
-        T FromSecure(byte[] secure);
+        void Set(T value);
     }
 }

@@ -2,7 +2,7 @@ using EngineGL.Utils;
 
 namespace EngineGL.Structs.Secure
 {
-    public abstract class SecureValue<T> : ISecureValue<T> where T : struct
+    public abstract class SecureValue<T> : ISecureValue<T>
     {
         private byte[] _secureValue;
 
@@ -22,12 +22,17 @@ namespace EngineGL.Structs.Secure
             Init(value);
         }
 
-        public void Init(T value)
+        public virtual void Init(T value)
         {
             byte[] buffer = ToSecure(value);
             Seed = new byte[buffer.Length];
             LocalThreadRandom.GetRandom().NextBytes(Seed);
             _secureValue = this.Xor(buffer);
+        }
+
+        public virtual void Set(T value)
+        {
+            Init(value);
         }
 
         public abstract byte[] ToSecure(T value);
