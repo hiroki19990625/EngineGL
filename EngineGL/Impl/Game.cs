@@ -5,12 +5,16 @@ using EngineGL.Core;
 using EngineGL.Event.Game;
 using EngineGL.Event.LifeCycle;
 using EngineGL.FormatMessage;
+using EngineGL.Structs.Math;
 using EngineGL.Utils;
+using ImGuiNET;
 using NLog;
 using NLog.Config;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using OpenTK.Input;
+using Vector2 = System.Numerics.Vector2;
 
 namespace EngineGL.Impl
 {
@@ -301,13 +305,38 @@ namespace EngineGL.Impl
 
         public virtual void LoadDefaultFunc()
         {
+            ImGui.SetCurrentContext(ImGui.CreateContext());
+
+            ImGui_Init();
+
             GL.ClearColor(Color4.Black);
             GL.Enable(EnableCap.DepthTest);
         }
 
-        public virtual void DrawDefaultFunc()
+        public virtual void DrawDefaultFunc(FrameEventArgs ev)
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+
+            ImGuiIOPtr io = ImGui.GetIO();
+            Vec2 display = new Vec2(Size.Width, Size.Height);
+            io.DisplaySize = display;
+            io.DisplayFramebufferScale = Vec2.One;
+            io.DeltaTime = (float) ev.Time;
+
+            ImGui.NewFrame();
+
+            //ImGui.Begin("window", ImGuiWindowFlags.None);
+            ImGui.Text("str");
+            //ImGui.End();
+
+            ImGui.Render();
+
+            unsafe
+            {
+                ImGui.GetDrawData().ScaleClipRects(io.DisplayFramebufferScale);
+                if (io.RenderDrawListsFnUnused == IntPtr.Zero)
+                    ImGui_Render(ImGui.GetDrawData());
+            }
         }
 
         public virtual void AdjustResize()
@@ -319,6 +348,126 @@ namespace EngineGL.Impl
                     1.0f,
                     64.0f);
             GL.LoadMatrix(ref projection);
+        }
+
+        private unsafe void ImGui_Init()
+        {
+            ImGuiIOPtr io = ImGui.GetIO();
+            byte* tex;
+            int w;
+            int h;
+            io.Fonts.GetTexDataAsAlpha8(out tex, out w, out h);
+
+            int p = GL.GenTexture();
+            GL.BindTexture(TextureTarget.Texture2D, p);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int) All.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int) All.Linear);
+            GL.TexImage2D(
+                TextureTarget.Texture2D,
+                0,
+                PixelInternalFormat.Alpha,
+                w,
+                h,
+                0,
+                PixelFormat.Alpha,
+                PixelType.UnsignedByte,
+                new IntPtr(tex));
+
+            io.Fonts.SetTexID((IntPtr) p);
+
+            io.Fonts.ClearTexData();
+            GL.BindTexture(TextureTarget.Texture2D, 0);
+        }
+
+        private unsafe void ImGui_Render(ImDrawData* drawData)
+        {
+            int last_texture;
+            GL.GetInteger(GetPName.TextureBinding2D, out last_texture);
+            GL.PushAttrib(AttribMask.EnableBit | AttribMask.ColorBufferBit | AttribMask.TransformBit);
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+            GL.Disable(EnableCap.CullFace);
+            GL.Disable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.ScissorTest);
+            GL.EnableClientState(ArrayCap.VertexArray);
+            GL.EnableClientState(ArrayCap.TextureCoordArray);
+            GL.EnableClientState(ArrayCap.ColorArray);
+            GL.Enable(EnableCap.Texture2D);
+
+            GL.UseProgram(0);
+
+            ImGuiIOPtr io = ImGui.GetIO();
+
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.PushMatrix();
+            GL.LoadIdentity();
+            GL.Ortho(
+                0.0f,
+                io.DisplaySize.X / io.DisplayFramebufferScale.X,
+                io.DisplaySize.Y / io.DisplayFramebufferScale.Y,
+                0.0f,
+                -1.0f,
+                1.0f);
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.PushMatrix();
+            GL.LoadIdentity();
+
+            for (int n = 0; n < drawData->CmdListsCount; n++)
+            {
+                ImDrawList* cmd_list = drawData->CmdLists[n];
+                byte* vtx_buffer = (byte*) cmd_list->VtxBuffer.Data;
+                ushort* idx_buffer = (ushort*) cmd_list->IdxBuffer.Data;
+
+                ImDrawVert vert0 = *((ImDrawVert*) vtx_buffer);
+                ImDrawVert vert1 = *(((ImDrawVert*) vtx_buffer) + 1);
+                ImDrawVert vert2 = *(((ImDrawVert*) vtx_buffer) + 2);
+
+                GL.VertexPointer(2, VertexPointerType.Float, sizeof(ImDrawVert),
+                    new IntPtr(vtx_buffer + 0));
+                GL.TexCoordPointer(2, TexCoordPointerType.Float, sizeof(ImDrawVert),
+                    new IntPtr(vtx_buffer + 8));
+                GL.ColorPointer(4, ColorPointerType.UnsignedByte, sizeof(ImDrawVert),
+                    new IntPtr(vtx_buffer + 16));
+
+                for (int cmd_i = 0; cmd_i < cmd_list->CmdBuffer.Size; cmd_i++)
+                {
+                    ImDrawCmd* pcmd = &(((ImDrawCmd*) cmd_list->CmdBuffer.Data)[cmd_i]);
+                    if (pcmd->UserCallback != IntPtr.Zero)
+                    {
+                        throw new NotImplementedException();
+                    }
+                    else
+                    {
+                        GL.BindTexture(TextureTarget.Texture2D, pcmd->TextureId.ToInt32());
+                        GL.Scissor(
+                            (int) pcmd->ClipRect.X,
+                            (int) (io.DisplaySize.Y - pcmd->ClipRect.W),
+                            (int) (pcmd->ClipRect.Z - pcmd->ClipRect.X),
+                            (int) (pcmd->ClipRect.W - pcmd->ClipRect.Y));
+                        ushort[] indices = new ushort[pcmd->ElemCount];
+                        for (int i = 0; i < indices.Length; i++)
+                        {
+                            indices[i] = idx_buffer[i];
+                        }
+
+                        GL.DrawElements(PrimitiveType.Triangles, (int) pcmd->ElemCount, DrawElementsType.UnsignedShort,
+                            new IntPtr(idx_buffer));
+                    }
+
+                    idx_buffer += pcmd->ElemCount;
+                }
+            }
+
+            // Restore modified state
+            GL.DisableClientState(ArrayCap.ColorArray);
+            GL.DisableClientState(ArrayCap.TextureCoordArray);
+            GL.DisableClientState(ArrayCap.VertexArray);
+            GL.BindTexture(TextureTarget.Texture2D, last_texture);
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.PopMatrix();
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.PopMatrix();
+            GL.PopAttrib();
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e)

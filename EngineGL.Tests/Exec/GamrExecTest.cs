@@ -34,9 +34,10 @@ namespace EngineGL.Tests.Exec
             game.LoggingConfiguration = GetLoggingConfiguration();
             game.Load += (sender, args) => game.LoadDefaultFunc();
             game.Resize += (sender, args) => game.AdjustResize();
-            game.RenderFrame += (sender, args) => game.DrawDefaultFunc();
+            game.RenderFrame += (sender, args) => game.DrawDefaultFunc(args);
 
-            game.LoadScene(GetInitScene());
+            //game.LoadScene(GetInitScene());
+            game.LoadScene(new Scene());
 
             game.Run(60.0d);
         }
@@ -52,7 +53,7 @@ namespace EngineGL.Tests.Exec
             game.LoggingConfiguration = GetLoggingConfiguration();
             game.Load += (sender, args) => game.LoadDefaultFunc();
             game.Resize += (sender, args) => game.AdjustResize();
-            game.RenderFrame += (sender, args) => game.DrawDefaultFunc();
+            game.RenderFrame += (sender, args) => game.DrawDefaultFunc(args);
 
             int hash = game.PreLoadScene<Scene>("scene.json").Value;
             game.LoadScene(hash);
