@@ -1,4 +1,5 @@
 using EngineGL.Structs;
+using EngineGL.Structs.Math;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;

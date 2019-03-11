@@ -4,6 +4,7 @@ using System.Text;
 using EngineGL.Impl;
 using EngineGL.Impl.Drawable;
 using EngineGL.Structs;
+using EngineGL.Structs.Math;
 using EngineGL.Tests.Exec.TestComponents;
 using NLog.Config;
 using NLog.Targets;

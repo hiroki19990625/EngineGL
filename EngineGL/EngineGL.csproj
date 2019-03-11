@@ -152,12 +152,22 @@
     <Compile Include="FormatMessage\JsonMessage.cs" />
     <Compile Include="FormatMessage\NetworkMessage.cs" />
     <Compile Include="FormatMessage\YamlMessage.cs" />
-    <Compile Include="Structs\Vec2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Structs\Vec3.cs" />
+    <Compile Include="Structs\Math\Vec2.cs" />
+    <Compile Include="Structs\Math\Vec3.cs" />
+    <Compile Include="Structs\Secure\ISecureValue.cs" />
+    <Compile Include="Structs\Secure\SecureDouble.cs" />
+    <Compile Include="Structs\Secure\SecureExtensions.cs" />
+    <Compile Include="Structs\Secure\SecureFloat.cs" />
+    <Compile Include="Structs\Secure\SecureInt.cs" />
+    <Compile Include="Structs\Secure\SecureLong.cs" />
+    <Compile Include="Structs\Secure\SecureShort.cs" />
+    <Compile Include="Structs\Secure\SecureString.cs" />
+    <Compile Include="Structs\Secure\SecureValue.cs" />
     <Compile Include="Utils\Dialog.cs" />
     <Compile Include="Utils\EventManager.cs" />
     <Compile Include="Utils\JsonConverters.cs" />
+    <Compile Include="Utils\LocalThreadRandom.cs" />
     <Compile Include="Utils\Result.cs" />
   </ItemGroup>
   <ItemGroup>

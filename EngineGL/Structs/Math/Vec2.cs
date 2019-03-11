@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using Assimp;
 using OpenTK;
 
-namespace EngineGL.Structs
+namespace EngineGL.Structs.Math
 {
     [Serializable]
     public struct Vec2 : IEquatable<Vec2>

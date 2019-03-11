@@ -5,6 +5,7 @@ using System.Linq;
 using EngineGL.Core;
 using EngineGL.Event.ComponentAttachable;
 using EngineGL.Structs;
+using EngineGL.Structs.Math;
 using EngineGL.Utils;
 using Newtonsoft.Json;
 

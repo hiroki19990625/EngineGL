@@ -71,6 +71,7 @@
     <Compile Include="FormatMessage\MessageTests.cs" />
     <Compile Include="Impl\GameTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Structs\Secure\SecureTests.cs" />
     <Compile Include="Utils\DialogTests.cs" />
   </ItemGroup>
   <ItemGroup>
