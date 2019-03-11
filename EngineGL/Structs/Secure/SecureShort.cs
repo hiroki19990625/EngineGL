@@ -8,12 +8,12 @@ namespace EngineGL.Structs.Secure
         {
         }
 
-        public override byte[] ToSecure(short value)
+        protected override byte[] ToSecure(short value)
         {
             return BitConverter.GetBytes(value);
         }
 
-        public override short FromSecure(byte[] secure)
+        protected override short FromSecure(byte[] secure)
         {
             return BitConverter.ToInt16(secure, 0);
         }

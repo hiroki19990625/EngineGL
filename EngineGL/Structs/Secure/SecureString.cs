@@ -9,12 +9,12 @@ namespace EngineGL.Structs.Secure
         {
         }
 
-        public override byte[] ToSecure(string value)
+        protected override byte[] ToSecure(string value)
         {
             return Encoding.UTF8.GetBytes(value);
         }
 
-        public override string FromSecure(byte[] secure)
+        protected override string FromSecure(byte[] secure)
         {
             return Encoding.UTF8.GetString(secure);
         }

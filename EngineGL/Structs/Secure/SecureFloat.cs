@@ -8,12 +8,12 @@ namespace EngineGL.Structs.Secure
         {
         }
 
-        public override byte[] ToSecure(float value)
+        protected override byte[] ToSecure(float value)
         {
             return BitConverter.GetBytes(value);
         }
 
-        public override float FromSecure(byte[] secure)
+        protected override float FromSecure(byte[] secure)
         {
             return BitConverter.ToSingle(secure, 0);
         }

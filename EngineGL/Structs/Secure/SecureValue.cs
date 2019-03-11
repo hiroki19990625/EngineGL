@@ -13,6 +13,7 @@ namespace EngineGL.Structs.Secure
             get
             {
                 byte[] data = (byte[]) _secureValue.Clone();
+                data = this.Xor(data);
                 return FromSecure(data);
             }
         }
@@ -22,7 +23,7 @@ namespace EngineGL.Structs.Secure
             Init(value);
         }
 
-        public virtual void Init(T value)
+        protected virtual void Init(T value)
         {
             byte[] buffer = ToSecure(value);
             Seed = new byte[buffer.Length];
@@ -35,7 +36,7 @@ namespace EngineGL.Structs.Secure
             Init(value);
         }
 
-        public abstract byte[] ToSecure(T value);
-        public abstract T FromSecure(byte[] secure);
+        protected abstract byte[] ToSecure(T value);
+        protected abstract T FromSecure(byte[] secure);
     }
 }
