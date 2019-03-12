@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Drawing;
 using System.IO;
+using System.Runtime.InteropServices;
 using EngineGL.Core;
 using EngineGL.Event.Game;
 using EngineGL.Event.LifeCycle;
@@ -340,8 +341,14 @@ namespace EngineGL.Impl
 
             ImGui_Input_Init(io);
 
-            //ImGui.GetIO().Fonts.AddFontFromFileTTF("", 14.0f, IntPtr.Zero,
-            //    io.Fonts.GetGlyphRangesJapanese());
+            io.ImeWindowHandle = WindowInfo.Handle;
+
+            byte[] ttf = (byte[]) Fonts.ResourceManager.GetObject("meiryo");
+            fixed (byte* bp = ttf)
+            {
+                IntPtr ptr = (IntPtr) bp;
+                io.Fonts.AddFontFromMemoryTTF(ptr, 0, 20.0f, IntPtr.Zero, io.Fonts.GetGlyphRangesJapanese());
+            }
 
             byte* tex;
             int w;
@@ -395,7 +402,6 @@ namespace EngineGL.Impl
         protected unsafe void ImGui_Input_Update_Key(ImGuiIOPtr io)
         {
             KeyboardState keyboardState = Keyboard.GetState();
-
             io.NativePtr->KeysDown[(int) Key.Tab] = BoolHelper.ToByte(keyboardState[Key.Tab]);
             io.NativePtr->KeysDown[(int) Key.Left] = BoolHelper.ToByte(keyboardState[Key.Left]);
             io.NativePtr->KeysDown[(int) Key.Right] = BoolHelper.ToByte(keyboardState[Key.Right]);
@@ -420,18 +426,17 @@ namespace EngineGL.Impl
         protected unsafe void ImGui_Input_Update()
         {
             ImGuiIOPtr io = ImGui.GetIO();
-
             ImGui_Input_Update_Key(io);
-
             MouseState cursorState = Mouse.GetCursorState();
-            MouseState mouseState = Mouse.GetState();
 
+            MouseState mouseState = Mouse.GetState();
             if (Focused)
             {
                 Point windowPoint = PointToClient(new Point(cursorState.X, cursorState.Y));
                 io.MousePos = new Vec2(windowPoint.X / io.DisplayFramebufferScale.X,
                     windowPoint.Y / io.DisplayFramebufferScale.Y);
             }
+
             else
             {
                 io.MousePos = new Vec2(-1f, -1f);
@@ -440,7 +445,6 @@ namespace EngineGL.Impl
             io.NativePtr->MouseDown[0] = BoolHelper.ToByte(mouseState.LeftButton == ButtonState.Pressed);
             io.NativePtr->MouseDown[1] = BoolHelper.ToByte(mouseState.RightButton == ButtonState.Pressed);
             io.NativePtr->MouseDown[2] = BoolHelper.ToByte(mouseState.MiddleButton == ButtonState.Pressed);
-
             float newWheelPos = mouseState.WheelPrecise;
             float delta = newWheelPos - _mouseWheel;
             _mouseWheel = newWheelPos;
@@ -452,12 +456,9 @@ namespace EngineGL.Impl
             ImGuiIOPtr io = ImGui.GetIO();
             Vec2 display = new Vec2(ClientSize.Width, ClientSize.Height);
             io.DisplaySize = display;
-            io.DisplayFramebufferScale = Vec2.One * 1.5f;
+            io.DisplayFramebufferScale = Vec2.One;
             io.DeltaTime = (float) ev.Time;
-
-
             ImGui.NewFrame();
-
             foreach (IScene scene in _loadedScenes.Values)
             {
                 scene.OnGUI(ev.Time);
@@ -465,17 +466,13 @@ namespace EngineGL.Impl
 
             ImGui.Render();
 
-            unsafe
-            {
-                if (io.RenderDrawListsFnUnused == IntPtr.Zero)
-                    ImGui_DataRender(ImGui.GetDrawData());
-            }
+            if (io.RenderDrawListsFnUnused == IntPtr.Zero)
+                ImGui_DataRender(ImGui.GetDrawData());
         }
 
         protected unsafe void ImGui_DataRender(ImDrawData* drawData)
         {
             ImGuiIOPtr io = ImGui.GetIO();
-
             int last_texture;
             GL.GetInteger(GetPName.TextureBinding2D, out last_texture);
             GL.PushAttrib(AttribMask.EnableBit | AttribMask.ColorBufferBit | AttribMask.TransformBit);
@@ -488,11 +485,8 @@ namespace EngineGL.Impl
             GL.EnableClientState(ArrayCap.TextureCoordArray);
             GL.EnableClientState(ArrayCap.ColorArray);
             GL.Enable(EnableCap.Texture2D);
-
             GL.UseProgram(0);
-
             ImGui.GetDrawData().ScaleClipRects(io.DisplayFramebufferScale);
-
             GL.MatrixMode(MatrixMode.Projection);
             GL.PushMatrix();
             GL.LoadIdentity();
@@ -506,8 +500,9 @@ namespace EngineGL.Impl
             GL.MatrixMode(MatrixMode.Modelview);
             GL.PushMatrix();
             GL.LoadIdentity();
-
-            for (int n = 0; n < drawData->CmdListsCount; n++)
+            for (int n = 0;
+                n < drawData->CmdListsCount;
+                n++)
             {
                 ImDrawList* cmd_list = drawData->CmdLists[n];
                 byte* vtx_buffer = (byte*) cmd_list->VtxBuffer.Data;
@@ -570,13 +565,13 @@ namespace EngineGL.Impl
             {
                 base.OnUpdateFrame(e);
                 ImGui_Input_Update();
-
                 foreach (IScene scene in _loadedScenes.Values)
                 {
                     scene.OnUpdate(e.Time);
                 }
             }
             catch (Exception exception)
+
             {
                 Logger.Error(exception);
                 Exit(exception);
@@ -588,7 +583,6 @@ namespace EngineGL.Impl
             try
             {
                 base.OnRenderFrame(e);
-
                 foreach (IScene scene in _loadedScenes.Values)
                 {
                     scene.OnDraw(e.Time);
@@ -611,16 +605,13 @@ namespace EngineGL.Impl
             }
 
             Logger = LogManager.GetCurrentClassLogger();
-
             OnInitialze();
-
             base.OnLoad(e);
         }
 
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
             base.OnKeyPress(e);
-
             ImGui.GetIO().AddInputCharacter(e.KeyChar);
         }
 
