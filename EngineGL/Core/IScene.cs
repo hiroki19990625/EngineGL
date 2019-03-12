@@ -7,7 +7,7 @@ using EngineGL.Utils;
 
 namespace EngineGL.Core
 {
-    public interface IScene : INameable, IUpdateable, IDrawable
+    public interface IScene : INameable, IUpdateable, IDrawable, IGuiRenderable
     {
         event EventHandler<AddObjectEventArgs> AddObjectEvent;
         event EventHandler<RemoveObjectEventArgs> RemoveObjectEvent;

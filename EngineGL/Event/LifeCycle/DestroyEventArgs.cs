@@ -5,7 +5,7 @@ namespace EngineGL.Event.LifeCycle
 {
     public class DestroyEventArgs : EventArgs
     {
-        public IDestroyable DestroyTarget { get; set; }
+        public IDestroyable DestroyTarget { get; }
 
         public DestroyEventArgs(IDestroyable destroyable)
         {

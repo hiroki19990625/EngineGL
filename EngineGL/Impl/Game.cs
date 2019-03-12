@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.Drawing;
 using System.IO;
 using EngineGL.Core;
 using EngineGL.Event.Game;
@@ -27,6 +28,8 @@ namespace EngineGL.Impl
 
         private readonly ConcurrentDictionary<int, IScene> _loadedScenes =
             new ConcurrentDictionary<int, IScene>();
+
+        private float _mouseWheel;
 
         public bool ShowExitErrorDialog { get; set; } = true;
         public bool ExceptionDialog { get; set; } = false;
@@ -317,26 +320,7 @@ namespace EngineGL.Impl
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            ImGuiIOPtr io = ImGui.GetIO();
-            Vec2 display = new Vec2(Size.Width, Size.Height);
-            io.DisplaySize = display;
-            io.DisplayFramebufferScale = Vec2.One;
-            io.DeltaTime = (float) ev.Time;
-
-            ImGui.NewFrame();
-
-            //ImGui.Begin("window", ImGuiWindowFlags.None);
-            ImGui.Text("str");
-            //ImGui.End();
-
-            ImGui.Render();
-
-            unsafe
-            {
-                ImGui.GetDrawData().ScaleClipRects(io.DisplayFramebufferScale);
-                if (io.RenderDrawListsFnUnused == IntPtr.Zero)
-                    ImGui_Render(ImGui.GetDrawData());
-            }
+            ImGui_Render(ev);
         }
 
         public virtual void AdjustResize()
@@ -350,9 +334,12 @@ namespace EngineGL.Impl
             GL.LoadMatrix(ref projection);
         }
 
-        private unsafe void ImGui_Init()
+        protected unsafe void ImGui_Init()
         {
             ImGuiIOPtr io = ImGui.GetIO();
+
+            ImGui_Input_Init(io);
+
             byte* tex;
             int w;
             int h;
@@ -379,8 +366,113 @@ namespace EngineGL.Impl
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
-        private unsafe void ImGui_Render(ImDrawData* drawData)
+        protected unsafe void ImGui_Input_Init(ImGuiIOPtr io)
         {
+            io.NativePtr->KeyMap[(int) ImGuiKey.Tab] = (int) Key.Tab;
+            io.NativePtr->KeyMap[(int) ImGuiKey.LeftArrow] = (int) Key.Left;
+            io.NativePtr->KeyMap[(int) ImGuiKey.RightArrow] = (int) Key.Right;
+            io.NativePtr->KeyMap[(int) ImGuiKey.UpArrow] = (int) Key.Up;
+            io.NativePtr->KeyMap[(int) ImGuiKey.DownArrow] = (int) Key.Down;
+            io.NativePtr->KeyMap[(int) ImGuiKey.PageUp] = (int) Key.PageUp;
+            io.NativePtr->KeyMap[(int) ImGuiKey.PageDown] = (int) Key.Down;
+            io.NativePtr->KeyMap[(int) ImGuiKey.Home] = (int) Key.Home;
+            io.NativePtr->KeyMap[(int) ImGuiKey.End] = (int) Key.End;
+            io.NativePtr->KeyMap[(int) ImGuiKey.Delete] = (int) Key.Delete;
+            io.NativePtr->KeyMap[(int) ImGuiKey.Backspace] = (int) Key.BackSpace;
+            io.NativePtr->KeyMap[(int) ImGuiKey.Enter] = (int) Key.Enter;
+            io.NativePtr->KeyMap[(int) ImGuiKey.Escape] = (int) Key.Escape;
+            io.NativePtr->KeyMap[(int) ImGuiKey.A] = (int) Key.A;
+            io.NativePtr->KeyMap[(int) ImGuiKey.C] = (int) Key.C;
+            io.NativePtr->KeyMap[(int) ImGuiKey.V] = (int) Key.V;
+            io.NativePtr->KeyMap[(int) ImGuiKey.X] = (int) Key.X;
+            io.NativePtr->KeyMap[(int) ImGuiKey.Y] = (int) Key.Y;
+            io.NativePtr->KeyMap[(int) ImGuiKey.Z] = (int) Key.Z;
+        }
+
+        protected unsafe void ImGui_Input_Update_Key(ImGuiIOPtr io)
+        {
+            KeyboardState keyboardState = Keyboard.GetState();
+
+            io.NativePtr->KeysDown[(int) ImGuiKey.Tab] = keyboardState[Key.Tab] ? (byte) 1 : (byte) 0;
+            io.NativePtr->KeyMap[(int) ImGuiKey.LeftArrow] = (int) Key.Left;
+            io.NativePtr->KeyMap[(int) ImGuiKey.RightArrow] = (int) Key.Right;
+            io.NativePtr->KeyMap[(int) ImGuiKey.UpArrow] = (int) Key.Up;
+            io.NativePtr->KeyMap[(int) ImGuiKey.DownArrow] = (int) Key.Down;
+            io.NativePtr->KeyMap[(int) ImGuiKey.PageUp] = (int) Key.PageUp;
+            io.NativePtr->KeyMap[(int) ImGuiKey.PageDown] = (int) Key.Down;
+            io.NativePtr->KeyMap[(int) ImGuiKey.Home] = (int) Key.Home;
+            io.NativePtr->KeyMap[(int) ImGuiKey.End] = (int) Key.End;
+            io.NativePtr->KeyMap[(int) ImGuiKey.Delete] = (int) Key.Delete;
+            io.NativePtr->KeyMap[(int) ImGuiKey.Backspace] = (int) Key.BackSpace;
+            io.NativePtr->KeyMap[(int) ImGuiKey.Enter] = (int) Key.Enter;
+            io.NativePtr->KeyMap[(int) ImGuiKey.Escape] = (int) Key.Escape;
+            io.NativePtr->KeyMap[(int) ImGuiKey.A] = (int) Key.A;
+            io.NativePtr->KeyMap[(int) ImGuiKey.C] = (int) Key.C;
+            io.NativePtr->KeyMap[(int) ImGuiKey.V] = (int) Key.V;
+            io.NativePtr->KeyMap[(int) ImGuiKey.X] = (int) Key.X;
+            io.NativePtr->KeyMap[(int) ImGuiKey.Y] = (int) Key.Y;
+            io.NativePtr->KeyMap[(int) ImGuiKey.Z] = (int) Key.Z;
+        }
+
+        protected unsafe void ImGui_Input_Update()
+        {
+            ImGuiIOPtr io = ImGui.GetIO();
+
+            ImGui_Input_Update_Key(io);
+
+            MouseState cursorState = Mouse.GetCursorState();
+            MouseState mouseState = Mouse.GetState();
+
+            if (Focused)
+            {
+                Point windowPoint = PointToClient(new Point(cursorState.X, cursorState.Y));
+                io.MousePos = new Vec2(windowPoint.X / io.DisplayFramebufferScale.X,
+                    windowPoint.Y / io.DisplayFramebufferScale.Y);
+            }
+            else
+            {
+                io.MousePos = new Vec2(-1f, -1f);
+            }
+
+            io.NativePtr->MouseDown[0] = mouseState.LeftButton == ButtonState.Pressed ? (byte) 1 : (byte) 0;
+            io.NativePtr->MouseDown[1] = mouseState.RightButton == ButtonState.Pressed ? (byte) 1 : (byte) 0;
+            io.NativePtr->MouseDown[2] = mouseState.MiddleButton == ButtonState.Pressed ? (byte) 1 : (byte) 0;
+
+            float newWheelPos = mouseState.WheelPrecise;
+            float delta = newWheelPos - _mouseWheel;
+            _mouseWheel = newWheelPos;
+            io.MouseWheel += delta;
+        }
+
+        protected unsafe void ImGui_Render(FrameEventArgs ev)
+        {
+            ImGuiIOPtr io = ImGui.GetIO();
+            Vec2 display = new Vec2(ClientSize.Width, ClientSize.Height);
+            io.DisplaySize = display;
+            io.DisplayFramebufferScale = Vec2.One * 1.5f;
+            io.DeltaTime = (float) ev.Time;
+
+
+            ImGui.NewFrame();
+
+            foreach (IScene scene in _loadedScenes.Values)
+            {
+                scene.OnGUI(ev.Time);
+            }
+
+            ImGui.Render();
+
+            unsafe
+            {
+                if (io.RenderDrawListsFnUnused == IntPtr.Zero)
+                    ImGui_DataRender(ImGui.GetDrawData());
+            }
+        }
+
+        protected unsafe void ImGui_DataRender(ImDrawData* drawData)
+        {
+            ImGuiIOPtr io = ImGui.GetIO();
+
             int last_texture;
             GL.GetInteger(GetPName.TextureBinding2D, out last_texture);
             GL.PushAttrib(AttribMask.EnableBit | AttribMask.ColorBufferBit | AttribMask.TransformBit);
@@ -396,7 +488,7 @@ namespace EngineGL.Impl
 
             GL.UseProgram(0);
 
-            ImGuiIOPtr io = ImGui.GetIO();
+            ImGui.GetDrawData().ScaleClipRects(io.DisplayFramebufferScale);
 
             GL.MatrixMode(MatrixMode.Projection);
             GL.PushMatrix();
@@ -418,9 +510,9 @@ namespace EngineGL.Impl
                 byte* vtx_buffer = (byte*) cmd_list->VtxBuffer.Data;
                 ushort* idx_buffer = (ushort*) cmd_list->IdxBuffer.Data;
 
-                ImDrawVert vert0 = *((ImDrawVert*) vtx_buffer);
+                /*ImDrawVert vert0 = *((ImDrawVert*) vtx_buffer);
                 ImDrawVert vert1 = *(((ImDrawVert*) vtx_buffer) + 1);
-                ImDrawVert vert2 = *(((ImDrawVert*) vtx_buffer) + 2);
+                ImDrawVert vert2 = *(((ImDrawVert*) vtx_buffer) + 2);*/
 
                 GL.VertexPointer(2, VertexPointerType.Float, sizeof(ImDrawVert),
                     new IntPtr(vtx_buffer + 0));
@@ -440,7 +532,7 @@ namespace EngineGL.Impl
                     {
                         GL.BindTexture(TextureTarget.Texture2D, pcmd->TextureId.ToInt32());
                         GL.Scissor(
-                            (int) pcmd->ClipRect.X,
+                            (int) (pcmd->ClipRect.X),
                             (int) (io.DisplaySize.Y - pcmd->ClipRect.W),
                             (int) (pcmd->ClipRect.Z - pcmd->ClipRect.X),
                             (int) (pcmd->ClipRect.W - pcmd->ClipRect.Y));
@@ -458,7 +550,6 @@ namespace EngineGL.Impl
                 }
             }
 
-            // Restore modified state
             GL.DisableClientState(ArrayCap.ColorArray);
             GL.DisableClientState(ArrayCap.TextureCoordArray);
             GL.DisableClientState(ArrayCap.VertexArray);
@@ -475,10 +566,11 @@ namespace EngineGL.Impl
             try
             {
                 base.OnUpdateFrame(e);
+                ImGui_Input_Update();
 
                 foreach (IScene scene in _loadedScenes.Values)
                 {
-                    scene.OnUpdate();
+                    scene.OnUpdate(e.Time);
                 }
             }
             catch (Exception exception)
@@ -496,7 +588,7 @@ namespace EngineGL.Impl
 
                 foreach (IScene scene in _loadedScenes.Values)
                 {
-                    scene.OnDraw();
+                    scene.OnDraw(e.Time);
                 }
 
                 SwapBuffers();

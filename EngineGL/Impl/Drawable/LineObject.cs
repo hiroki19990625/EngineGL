@@ -8,9 +8,9 @@ namespace EngineGL.Impl.Drawable
         public Color4 LineColor { get; set; }
         public float LineWidth { get; set; } = 1;
 
-        public override void OnDraw()
+        public override void OnDraw(double deltaTime)
         {
-            CallDrawEvent();
+            CallDrawEvent(deltaTime);
 
             GL.LineWidth(LineWidth);
 

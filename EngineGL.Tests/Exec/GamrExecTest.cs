@@ -6,6 +6,7 @@ using EngineGL.Impl.Drawable;
 using EngineGL.Structs;
 using EngineGL.Structs.Math;
 using EngineGL.Tests.Exec.TestComponents;
+using EngineGL.Tests.Exec.TestObjects;
 using NLog.Config;
 using NLog.Targets;
 using NUnit.Framework;
@@ -36,7 +37,7 @@ namespace EngineGL.Tests.Exec
             game.Resize += (sender, args) => game.AdjustResize();
             game.RenderFrame += (sender, args) => game.DrawDefaultFunc(args);
 
-            //game.LoadScene(GetInitScene());
+            game.LoadScene(GetInitScene());
             game.LoadScene(new Scene());
 
             game.Run(60.0d);
@@ -118,6 +119,8 @@ namespace EngineGL.Tests.Exec
             StaticCamera camera = new StaticCamera();
             camera.AddComponent(new ExceptionComponent());
             scene.AddObject(camera);
+
+            scene.AddObject(new GUIObject());
 
             scene.Save("scene.json");
 

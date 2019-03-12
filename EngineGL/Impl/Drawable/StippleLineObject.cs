@@ -7,9 +7,9 @@ namespace EngineGL.Impl.Drawable
         public byte Factor { get; set; }
         public ushort Pattern { get; set; }
 
-        public override void OnDraw()
+        public override void OnDraw(double deltaTime)
         {
-            CallDrawEvent();
+            CallDrawEvent(deltaTime);
 
             GL.LineWidth(LineWidth);
             GL.LineStipple(Factor, Pattern);

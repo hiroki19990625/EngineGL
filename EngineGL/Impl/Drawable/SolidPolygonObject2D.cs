@@ -11,9 +11,9 @@ namespace EngineGL.Impl.Drawable
         public List<Vec3> Points { get; } = new List<Vec3>();
         public Color4 PoligonColor { get; set; }
 
-        public override void OnDraw()
+        public override void OnDraw(double deltaTime)
         {
-            base.OnDraw();
+            base.OnDraw(deltaTime);
 
             GL.Begin(PrimitiveType.Polygon);
             GL.Color4(PoligonColor);

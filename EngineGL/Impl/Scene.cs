@@ -26,28 +26,41 @@ namespace EngineGL.Impl
 
         public event EventHandler<UpdateEventArgs> Update;
         public event EventHandler<DrawEventArgs> Draw;
+        public event EventHandler<GuiRenderEventArgs> GuiRender;
 
-        public void OnUpdate()
+        public void OnUpdate(double deltaTime)
         {
-            Update?.Invoke(this, new UpdateEventArgs(this));
+            Update?.Invoke(this, new UpdateEventArgs(this, deltaTime));
 
             foreach (IObject obj in _sceneObjects.Values)
             {
-                obj.OnUpdate();
+                obj.OnUpdate(deltaTime);
             }
         }
 
-        public void OnDraw()
+        public void OnDraw(double deltaTime)
         {
-            Draw?.Invoke(this, new DrawEventArgs(this));
+            Draw?.Invoke(this, new DrawEventArgs(this, deltaTime));
 
             foreach (IObject obj in _sceneObjects.Values)
             {
                 if (obj is IDrawable)
                 {
                     GL.PushAttrib(AttribMask.EnableBit);
-                    ((IDrawable) obj).OnDraw();
+                    ((IDrawable) obj).OnDraw(deltaTime);
                     GL.PopAttrib();
+                }
+            }
+        }
+
+        public void OnGUI(double deltaTime)
+        {
+            GuiRender?.Invoke(this, new GuiRenderEventArgs(this, deltaTime));
+            foreach (IObject obj in _sceneObjects.Values)
+            {
+                if (obj is IGuiRenderable)
+                {
+                    ((IGuiRenderable) obj).OnGUI(deltaTime);
                 }
             }
         }

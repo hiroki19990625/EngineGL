@@ -118,6 +118,7 @@
     <Compile Include="Core\ITransform.cs" />
     <Compile Include="Core\LifeCycle\IDestroyable.cs" />
     <Compile Include="Core\LifeCycle\IDrawable.cs" />
+    <Compile Include="Core\LifeCycle\IGuiRenderable.cs" />
     <Compile Include="Core\LifeCycle\Initialzeable.cs" />
     <Compile Include="Core\LifeCycle\IUpdateable.cs" />
     <Compile Include="Core\INameable.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="Event\CancelableEvent.cs" />
     <Compile Include="Event\LifeCycle\DestroyEventArgs.cs" />
     <Compile Include="Event\LifeCycle\DrawEventArgs.cs" />
+    <Compile Include="Event\LifeCycle\GuiRenderEventArgs.cs" />
     <Compile Include="Event\LifeCycle\InitialzeEventArgs.cs" />
     <Compile Include="Event\LifeCycle\UpdateEventArgs.cs" />
     <Compile Include="Event\Nameable\NameableEventArgs.cs" />
@@ -146,6 +148,7 @@
     <Compile Include="Impl\Drawable\StippleLineObject.cs" />
     <Compile Include="Impl\Game.cs" />
     <Compile Include="Impl\GameObject.cs" />
+    <Compile Include="Impl\GUIRender.cs" />
     <Compile Include="Impl\Object.cs" />
     <Compile Include="Impl\Scene.cs" />
     <Compile Include="Impl\Camera.cs" />

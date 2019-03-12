@@ -92,6 +92,7 @@
   <ItemGroup>
     <Compile Include="Exec\GamrExecTest.cs" />
     <Compile Include="Exec\TestComponents\ExceptionComponent.cs" />
+    <Compile Include="Exec\TestObjects\GUIObject.cs" />
     <Compile Include="FormatMessage\MessageTests.cs" />
     <Compile Include="Impl\GameTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
