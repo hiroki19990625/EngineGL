@@ -340,6 +340,9 @@ namespace EngineGL.Impl
 
             ImGui_Input_Init(io);
 
+            //ImGui.GetIO().Fonts.AddFontFromFileTTF("", 14.0f, IntPtr.Zero,
+            //    io.Fonts.GetGlyphRangesJapanese());
+
             byte* tex;
             int w;
             int h;
@@ -393,25 +396,25 @@ namespace EngineGL.Impl
         {
             KeyboardState keyboardState = Keyboard.GetState();
 
-            io.NativePtr->KeysDown[(int) ImGuiKey.Tab] = keyboardState[Key.Tab] ? (byte) 1 : (byte) 0;
-            io.NativePtr->KeyMap[(int) ImGuiKey.LeftArrow] = (int) Key.Left;
-            io.NativePtr->KeyMap[(int) ImGuiKey.RightArrow] = (int) Key.Right;
-            io.NativePtr->KeyMap[(int) ImGuiKey.UpArrow] = (int) Key.Up;
-            io.NativePtr->KeyMap[(int) ImGuiKey.DownArrow] = (int) Key.Down;
-            io.NativePtr->KeyMap[(int) ImGuiKey.PageUp] = (int) Key.PageUp;
-            io.NativePtr->KeyMap[(int) ImGuiKey.PageDown] = (int) Key.Down;
-            io.NativePtr->KeyMap[(int) ImGuiKey.Home] = (int) Key.Home;
-            io.NativePtr->KeyMap[(int) ImGuiKey.End] = (int) Key.End;
-            io.NativePtr->KeyMap[(int) ImGuiKey.Delete] = (int) Key.Delete;
-            io.NativePtr->KeyMap[(int) ImGuiKey.Backspace] = (int) Key.BackSpace;
-            io.NativePtr->KeyMap[(int) ImGuiKey.Enter] = (int) Key.Enter;
-            io.NativePtr->KeyMap[(int) ImGuiKey.Escape] = (int) Key.Escape;
-            io.NativePtr->KeyMap[(int) ImGuiKey.A] = (int) Key.A;
-            io.NativePtr->KeyMap[(int) ImGuiKey.C] = (int) Key.C;
-            io.NativePtr->KeyMap[(int) ImGuiKey.V] = (int) Key.V;
-            io.NativePtr->KeyMap[(int) ImGuiKey.X] = (int) Key.X;
-            io.NativePtr->KeyMap[(int) ImGuiKey.Y] = (int) Key.Y;
-            io.NativePtr->KeyMap[(int) ImGuiKey.Z] = (int) Key.Z;
+            io.NativePtr->KeysDown[(int) Key.Tab] = BoolHelper.ToByte(keyboardState[Key.Tab]);
+            io.NativePtr->KeysDown[(int) Key.Left] = BoolHelper.ToByte(keyboardState[Key.Left]);
+            io.NativePtr->KeysDown[(int) Key.Right] = BoolHelper.ToByte(keyboardState[Key.Right]);
+            io.NativePtr->KeysDown[(int) Key.Up] = BoolHelper.ToByte(keyboardState[Key.Up]);
+            io.NativePtr->KeysDown[(int) Key.Down] = BoolHelper.ToByte(keyboardState[Key.Down]);
+            io.NativePtr->KeysDown[(int) Key.PageUp] = BoolHelper.ToByte(keyboardState[Key.PageUp]);
+            io.NativePtr->KeysDown[(int) Key.PageDown] = BoolHelper.ToByte(keyboardState[Key.PageDown]);
+            io.NativePtr->KeysDown[(int) Key.Home] = BoolHelper.ToByte(keyboardState[Key.Home]);
+            io.NativePtr->KeysDown[(int) Key.End] = BoolHelper.ToByte(keyboardState[Key.End]);
+            io.NativePtr->KeysDown[(int) Key.Delete] = BoolHelper.ToByte(keyboardState[Key.Delete]);
+            io.NativePtr->KeysDown[(int) Key.BackSpace] = BoolHelper.ToByte(keyboardState[Key.BackSpace]);
+            io.NativePtr->KeysDown[(int) Key.Enter] = BoolHelper.ToByte(keyboardState[Key.Enter]);
+            io.NativePtr->KeysDown[(int) Key.Escape] = BoolHelper.ToByte(keyboardState[Key.Escape]);
+            io.NativePtr->KeysDown[(int) Key.A] = BoolHelper.ToByte(keyboardState[Key.A]);
+            io.NativePtr->KeysDown[(int) Key.C] = BoolHelper.ToByte(keyboardState[Key.C]);
+            io.NativePtr->KeysDown[(int) Key.V] = BoolHelper.ToByte(keyboardState[Key.V]);
+            io.NativePtr->KeysDown[(int) Key.X] = BoolHelper.ToByte(keyboardState[Key.X]);
+            io.NativePtr->KeysDown[(int) Key.Y] = BoolHelper.ToByte(keyboardState[Key.Y]);
+            io.NativePtr->KeysDown[(int) Key.Z] = BoolHelper.ToByte(keyboardState[Key.Z]);
         }
 
         protected unsafe void ImGui_Input_Update()
@@ -434,9 +437,9 @@ namespace EngineGL.Impl
                 io.MousePos = new Vec2(-1f, -1f);
             }
 
-            io.NativePtr->MouseDown[0] = mouseState.LeftButton == ButtonState.Pressed ? (byte) 1 : (byte) 0;
-            io.NativePtr->MouseDown[1] = mouseState.RightButton == ButtonState.Pressed ? (byte) 1 : (byte) 0;
-            io.NativePtr->MouseDown[2] = mouseState.MiddleButton == ButtonState.Pressed ? (byte) 1 : (byte) 0;
+            io.NativePtr->MouseDown[0] = BoolHelper.ToByte(mouseState.LeftButton == ButtonState.Pressed);
+            io.NativePtr->MouseDown[1] = BoolHelper.ToByte(mouseState.RightButton == ButtonState.Pressed);
+            io.NativePtr->MouseDown[2] = BoolHelper.ToByte(mouseState.MiddleButton == ButtonState.Pressed);
 
             float newWheelPos = mouseState.WheelPrecise;
             float delta = newWheelPos - _mouseWheel;
@@ -612,6 +615,13 @@ namespace EngineGL.Impl
             OnInitialze();
 
             base.OnLoad(e);
+        }
+
+        protected override void OnKeyPress(KeyPressEventArgs e)
+        {
+            base.OnKeyPress(e);
+
+            ImGui.GetIO().AddInputCharacter(e.KeyChar);
         }
 
         public override void Exit()
