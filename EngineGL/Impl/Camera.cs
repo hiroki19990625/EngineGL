@@ -15,9 +15,9 @@ namespace EngineGL.Impl
 
         public event EventHandler<DrawEventArgs> Draw;
 
-        public virtual void OnDraw()
+        public virtual void OnDraw(double deltaTime)
         {
-            Draw?.Invoke(this, new DrawEventArgs(this));
+            Draw?.Invoke(this, new DrawEventArgs(this, deltaTime));
         }
     }
 }

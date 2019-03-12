@@ -23,9 +23,9 @@ namespace EngineGL.Impl
             Destroy?.Invoke(this, new DestroyEventArgs(this));
         }
 
-        public virtual void OnUpdate()
+        public virtual void OnUpdate(double deltaTime)
         {
-            Update?.Invoke(this, new UpdateEventArgs(this));
+            Update?.Invoke(this, new UpdateEventArgs(this, deltaTime));
         }
     }
 }

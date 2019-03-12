@@ -24,13 +24,13 @@ namespace EngineGL.Impl
         public event EventHandler<AddComponentEventArgs> AddComponentEvent;
         public event EventHandler<RemoveComponentEventArgs> RemoveComponentEvent;
 
-        public override void OnUpdate()
+        public override void OnUpdate(double deltaTime)
         {
-            base.OnUpdate();
+            base.OnUpdate(deltaTime);
 
             foreach (IComponent component in _attachedComponents.Values)
             {
-                component.OnUpdate();
+                component.OnUpdate(deltaTime);
             }
         }
 

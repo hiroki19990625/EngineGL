@@ -9,9 +9,9 @@ namespace EngineGL.Tests.Exec.TestComponents
     {
         public int Time { get; set; }
 
-        public override void OnUpdate()
+        public override void OnUpdate(double deltaTime)
         {
-            if (Time >= 60)
+            if (Time >= 10000)
             {
                 throw new Exception();
             }

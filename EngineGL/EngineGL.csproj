@@ -12,8 +12,9 @@
     <RootNamespace>EngineGL</RootNamespace>
     <AssemblyName>EngineGL</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>latest</LangVersion>
     <FileAlignment>512</FileAlignment>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -117,6 +118,7 @@
     <Compile Include="Core\ITransform.cs" />
     <Compile Include="Core\LifeCycle\IDestroyable.cs" />
     <Compile Include="Core\LifeCycle\IDrawable.cs" />
+    <Compile Include="Core\LifeCycle\IGuiRenderable.cs" />
     <Compile Include="Core\LifeCycle\Initialzeable.cs" />
     <Compile Include="Core\LifeCycle\IUpdateable.cs" />
     <Compile Include="Core\INameable.cs" />
@@ -131,12 +133,14 @@
     <Compile Include="Event\CancelableEvent.cs" />
     <Compile Include="Event\LifeCycle\DestroyEventArgs.cs" />
     <Compile Include="Event\LifeCycle\DrawEventArgs.cs" />
+    <Compile Include="Event\LifeCycle\GuiRenderEventArgs.cs" />
     <Compile Include="Event\LifeCycle\InitialzeEventArgs.cs" />
     <Compile Include="Event\LifeCycle\UpdateEventArgs.cs" />
     <Compile Include="Event\Nameable\NameableEventArgs.cs" />
     <Compile Include="Event\Scene\AddObjectEventArgs.cs" />
     <Compile Include="Event\Scene\RemoveObjectEventArgs.cs" />
     <Compile Include="Event\Scene\SceneEventArgs.cs" />
+    <Compile Include="Fonts.Designer.cs" />
     <Compile Include="Impl\Component.cs" />
     <Compile Include="Impl\Drawable\SolidBoxObject2D.cs" />
     <Compile Include="Impl\Drawable\SolidPolygonObject2D.cs" />
@@ -145,6 +149,7 @@
     <Compile Include="Impl\Drawable\StippleLineObject.cs" />
     <Compile Include="Impl\Game.cs" />
     <Compile Include="Impl\GameObject.cs" />
+    <Compile Include="Impl\GUIRender.cs" />
     <Compile Include="Impl\Object.cs" />
     <Compile Include="Impl\Scene.cs" />
     <Compile Include="Impl\Camera.cs" />
@@ -164,6 +169,7 @@
     <Compile Include="Structs\Secure\SecureShort.cs" />
     <Compile Include="Structs\Secure\SecureString.cs" />
     <Compile Include="Structs\Secure\SecureValue.cs" />
+    <Compile Include="Utils\BoolHelper.cs" />
     <Compile Include="Utils\Dialog.cs" />
     <Compile Include="Utils\EventManager.cs" />
     <Compile Include="Utils\JsonConverters.cs" />
@@ -173,9 +179,14 @@
   <ItemGroup>
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
+    <None Include="Resources\arial.ttf" />
+    <None Include="Resources\meiryo.ttc" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include=".nuget" />
+    <Folder Include=".nuget\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Fonts.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AssimpNet.4.1.0\build\AssimpNet.targets" Condition="Exists('..\packages\AssimpNet.4.1.0\build\AssimpNet.targets')" />

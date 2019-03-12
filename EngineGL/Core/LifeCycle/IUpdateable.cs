@@ -7,6 +7,6 @@ namespace EngineGL.Core.LifeCycle
     {
         event EventHandler<UpdateEventArgs> Update;
 
-        void OnUpdate();
+        void OnUpdate(double deltaTime);
     }
 }

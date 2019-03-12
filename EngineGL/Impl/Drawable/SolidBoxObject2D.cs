@@ -10,9 +10,9 @@ namespace EngineGL.Impl.Drawable
     {
         public Color4 BoxColor { get; set; }
 
-        public override void OnDraw()
+        public override void OnDraw(double deltaTime)
         {
-            base.OnDraw();
+            base.OnDraw(deltaTime);
 
             GL.Begin(PrimitiveType.Quads);
             GL.Color4(BoxColor);

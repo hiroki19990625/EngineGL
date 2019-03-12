@@ -8,14 +8,14 @@ namespace EngineGL.Impl.Drawable
     {
         public event EventHandler<DrawEventArgs> Draw;
 
-        public virtual void OnDraw()
+        public virtual void OnDraw(double deltaTime)
         {
-            CallDrawEvent();
+            CallDrawEvent(deltaTime);
         }
 
-        protected void CallDrawEvent()
+        protected void CallDrawEvent(double deltaTime)
         {
-            Draw?.Invoke(this, new DrawEventArgs(this));
+            Draw?.Invoke(this, new DrawEventArgs(this, deltaTime));
         }
     }
 }

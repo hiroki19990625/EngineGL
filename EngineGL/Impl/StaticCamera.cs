@@ -5,9 +5,9 @@ namespace EngineGL.Impl
 {
     public class StaticCamera : Camera
     {
-        public override void OnDraw()
+        public override void OnDraw(double deltaTime)
         {
-            base.OnDraw();
+            base.OnDraw(deltaTime);
 
             Matrix4 pos = Matrix4.CreateTranslation(Position);
             Matrix4 rotX = Matrix4.CreateRotationX(Rotation.X);
@@ -21,9 +21,9 @@ namespace EngineGL.Impl
             GL.LoadMatrix(ref mat);
         }
 
-        public override void OnUpdate()
+        public override void OnUpdate(double deltaTime)
         {
-            base.OnUpdate();
+            base.OnUpdate(deltaTime);
 
             _lookAtMatrix =
                 Matrix4.LookAt(Vector3.Zero, -Vector3.UnitZ, Vector3.UnitY);

@@ -7,6 +7,6 @@ namespace EngineGL.Core.LifeCycle
     {
         event EventHandler<DrawEventArgs> Draw;
 
-        void OnDraw();
+        void OnDraw(double deltaTime);
     }
 }
