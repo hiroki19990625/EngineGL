@@ -7,6 +7,8 @@ using EngineGL.Core;
 using EngineGL.Event.Game;
 using EngineGL.Event.LifeCycle;
 using EngineGL.FormatMessage;
+using EngineGL.Resources;
+using EngineGL.Resources.Font;
 using EngineGL.Structs.Math;
 using EngineGL.Utils;
 using ImGuiNET;
@@ -343,7 +345,7 @@ namespace EngineGL.Impl
 
             io.ImeWindowHandle = WindowInfo.Handle;
 
-            byte[] ttf = (byte[]) Fonts.ResourceManager.GetObject("meiryo");
+            byte[] ttf = Fonts.meiryo;
             fixed (byte* bp = ttf)
             {
                 IntPtr ptr = (IntPtr) bp;
