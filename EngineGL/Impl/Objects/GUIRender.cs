@@ -2,7 +2,7 @@ using System;
 using EngineGL.Core.LifeCycle;
 using EngineGL.Event.LifeCycle;
 
-namespace EngineGL.Impl
+namespace EngineGL.Impl.Objects
 {
     public class GUIRender : GameObject, IGuiRenderable
     {

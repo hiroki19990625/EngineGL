@@ -99,7 +99,11 @@ namespace EngineGL.Impl
                 AddObjectEventArgs args = new AddObjectEventArgs(this, obj);
                 EventManager<AddObjectEventArgs> manager
                     = new EventManager<AddObjectEventArgs>(AddObjectEvent, this, args);
-                manager.OnSuccess = ev => _sceneObjects.TryAdd(ev.AddObject.GetHashCode(), ev.AddObject);
+                manager.OnSuccess = ev =>
+                {
+                    ev.AddObject.Scene = this;
+                    return _sceneObjects.TryAdd(ev.AddObject.GetHashCode(), ev.AddObject);
+                };
 
                 if (manager.Call())
                 {
@@ -135,7 +139,7 @@ namespace EngineGL.Impl
             object ins = Activator.CreateInstance(type);
             if (ins is IObject)
             {
-                return Result<IObject>.Success((IObject) ins);
+                return Result<IObject>.Success(AddObject((IObject) ins).Value);
             }
 
             return Result<IObject>.Fail();

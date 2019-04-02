@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using EngineGL.Core;
 using EngineGL.Event.ComponentAttachable;
-using EngineGL.Structs;
 using EngineGL.Structs.Math;
 using EngineGL.Utils;
 using Newtonsoft.Json;
+using YamlDotNet.Serialization;
 
 namespace EngineGL.Impl
 {

@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using OpenTK;
 using YamlDotNet.Serialization;
 
-namespace EngineGL.Impl
+namespace EngineGL.Impl.Objects
 {
     public abstract class Camera : GameObject, ICamera, IDrawable
     {

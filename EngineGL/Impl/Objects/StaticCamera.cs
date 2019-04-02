@@ -1,7 +1,7 @@
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-namespace EngineGL.Impl
+namespace EngineGL.Impl.Objects
 {
     public class StaticCamera : Camera
     {

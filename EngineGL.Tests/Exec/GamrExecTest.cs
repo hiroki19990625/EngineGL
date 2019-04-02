@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using EngineGL.Impl;
 using EngineGL.Impl.Drawable;
+using EngineGL.Impl.Objects;
 using EngineGL.Structs;
 using EngineGL.Structs.Math;
 using EngineGL.Tests.Exec.TestComponents;

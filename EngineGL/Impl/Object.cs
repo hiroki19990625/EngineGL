@@ -1,11 +1,15 @@
 using System;
 using EngineGL.Core;
 using EngineGL.Event.LifeCycle;
+using Newtonsoft.Json;
+using YamlDotNet.Serialization;
 
 namespace EngineGL.Impl
 {
     public class Object : IObject
     {
+        [YamlIgnore, JsonIgnore] public IScene Scene { get; set; }
+
         public string Name { get; set; }
         public string Tag { get; set; }
 

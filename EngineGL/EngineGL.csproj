@@ -141,6 +141,7 @@
     <Compile Include="Event\Scene\RemoveObjectEventArgs.cs" />
     <Compile Include="Event\Scene\SceneEventArgs.cs" />
     <Compile Include="Impl\Component.cs" />
+    <Compile Include="Impl\Components\Collision.cs" />
     <Compile Include="Impl\Drawable\SolidBoxObject2D.cs" />
     <Compile Include="Impl\Drawable\SolidPolygonObject2D.cs" />
     <Compile Include="Impl\Drawable\DrawableObject.cs" />
@@ -148,11 +149,11 @@
     <Compile Include="Impl\Drawable\StippleLineObject.cs" />
     <Compile Include="Impl\Game.cs" />
     <Compile Include="Impl\GameObject.cs" />
-    <Compile Include="Impl\GUIRender.cs" />
     <Compile Include="Impl\Object.cs" />
+    <Compile Include="Impl\Objects\Camera.cs" />
+    <Compile Include="Impl\Objects\GUIRender.cs" />
+    <Compile Include="Impl\Objects\StaticCamera.cs" />
     <Compile Include="Impl\Scene.cs" />
-    <Compile Include="Impl\Camera.cs" />
-    <Compile Include="Impl\StaticCamera.cs" />
     <Compile Include="FormatMessage\JsonMessage.cs" />
     <Compile Include="FormatMessage\NetworkMessage.cs" />
     <Compile Include="FormatMessage\YamlMessage.cs" />
