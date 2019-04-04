@@ -1,5 +1,6 @@
 using System;
 using EngineGL.Impl;
+using EngineGL.Impl.Objects;
 using ImGuiNET;
 
 namespace EngineGL.Tests.Exec.TestObjects
