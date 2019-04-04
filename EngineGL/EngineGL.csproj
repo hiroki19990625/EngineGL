@@ -142,6 +142,7 @@
     <Compile Include="Event\Scene\SceneEventArgs.cs" />
     <Compile Include="Impl\Component.cs" />
     <Compile Include="Impl\Components\Collision.cs" />
+    <Compile Include="Impl\Components\Collision2D.cs" />
     <Compile Include="Impl\Drawable\SolidBoxObject2D.cs" />
     <Compile Include="Impl\Drawable\SolidPolygonObject2D.cs" />
     <Compile Include="Impl\Drawable\DrawableObject.cs" />
@@ -180,6 +181,8 @@
     <Compile Include="Utils\JsonConverters.cs" />
     <Compile Include="Utils\LocalThreadRandom.cs" />
     <Compile Include="Utils\Result.cs" />
+    <Compile Include="Utils\SerializableAction.cs" />
+    <Compile Include="Utils\SerializableEventHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="OpenTK.dll.config" />

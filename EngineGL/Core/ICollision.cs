@@ -1,13 +1,13 @@
 using System;
 using EngineGL.Structs.Math;
+using EngineGL.Utils;
 
 namespace EngineGL.Core
 {
-    public interface ICollision
+    public interface ICollision : IComponent
     {
-        Vec3 CollisionBound { get; set; }
-        bool OnCollisionEnter();
-        bool OnCollisionStay();
-        bool OnCollisionLeave();
+        SerializableAction<IGameObject> OnCollisionEnter { set; }
+        SerializableAction<IGameObject> OnCollisionStay { set; }
+        SerializableAction<IGameObject> OnCollisionLeave { set; }
     }
 }
