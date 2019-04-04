@@ -1,3 +1,4 @@
+using EngineGL.Core;
 using EngineGL.Impl.Objects;
 using ImGuiNET;
 
@@ -20,9 +21,14 @@ namespace EngineGL.Tests.Exec.TestObjects
             ImGui.End();
         }
 
-        public void SetCollision(bool value)
+        public void CollisionTrue(IGameObject gameObject)
         {
-            Collision = value;
+            Collision = true;
+        }
+
+        public void CollisionFalse(IGameObject gameObject)
+        {
+            Collision = false;
         }
     }
 }

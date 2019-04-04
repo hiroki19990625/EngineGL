@@ -10,9 +10,17 @@ namespace EngineGL.Impl.Components
     {
         public bool Entered { get; private set; }
 
-        public SerializableAction<IGameObject> OnCollisionEnter { get; set; }
-        public SerializableAction<IGameObject> OnCollisionStay { get; set; }
-        public SerializableAction<IGameObject> OnCollisionLeave { get; set; }
+        public virtual void OnCollisionEnter(IGameObject gameObject)
+        {
+        }
+
+        public virtual void OnCollisionStay(IGameObject gameObject)
+        {
+        }
+
+        public virtual void OnCollisionLeave(IGameObject gameObject)
+        {
+        }
 
         public override void OnUpdate(double deltaTime)
         {
@@ -23,7 +31,7 @@ namespace EngineGL.Impl.Components
             for (int i = 0; i < objects.Length; i++)
             {
                 if (objects[i].GetHashCode() != GameObject.GetHashCode() &&
-                    objects[i] is IGameObject gameObject)
+                    objects[i] is IGameObject gameObject && !Entered)
                 {
                     Vec3 obj2 = gameObject.Position;
                     Vec3 bound2 = gameObject.Bounds;
@@ -33,18 +41,22 @@ namespace EngineGL.Impl.Components
                     {
                         if (Entered)
                         {
-                            OnCollisionStay?.Action(gameObject);
+                            OnCollisionStay(gameObject);
                         }
                         else
                         {
+                            OnCollisionEnter(gameObject);
                             Entered = true;
-                            OnCollisionEnter?.Action(gameObject);
                         }
+
+                        break;
                     }
-                    else if (Entered)
+
+                    if (Entered)
                     {
+                        OnCollisionLeave(gameObject);
                         Entered = false;
-                        OnCollisionLeave?.Action(gameObject);
+                        break;
                     }
                 }
             }

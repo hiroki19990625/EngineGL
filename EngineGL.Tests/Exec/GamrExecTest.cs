@@ -1,6 +1,8 @@
 using System;
 using System.IO;
+using System.Linq.Expressions;
 using System.Text;
+using EngineGL.Core;
 using EngineGL.Impl;
 using EngineGL.Impl.Components;
 using EngineGL.Impl.Drawable;
@@ -90,6 +92,7 @@ namespace EngineGL.Tests.Exec
             });
 
             CollisionInspector inspector = new CollisionInspector();
+            inspector.Tag = "GUI";
             scene.AddObject(inspector);
 
             SolidPolygonObject2D poly = new SolidPolygonObject2D
@@ -102,11 +105,6 @@ namespace EngineGL.Tests.Exec
             poly.Points.Add(new Vec3(0f, 0, 0));
             poly.Points.Add(new Vec3(2f, 0, 0));
             poly.AddComponentUnsafe<PlayerComponent>();
-
-            Result<Collision2D> collision = poly.AddComponentUnsafe<Collision2D>();
-            collision.Value.OnCollisionEnter.Action = o => { inspector.Collision = true; };
-            collision.Value.OnCollisionStay.Action = o => { inspector.Collision = true; };
-            collision.Value.OnCollisionLeave.Action = o => { inspector.Collision = false; };
             scene.AddObject(poly);
 
             scene.AddObject(new LineObject

@@ -181,8 +181,6 @@
     <Compile Include="Utils\JsonConverters.cs" />
     <Compile Include="Utils\LocalThreadRandom.cs" />
     <Compile Include="Utils\Result.cs" />
-    <Compile Include="Utils\SerializableAction.cs" />
-    <Compile Include="Utils\SerializableEventHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="OpenTK.dll.config" />

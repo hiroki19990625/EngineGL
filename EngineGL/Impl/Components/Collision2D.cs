@@ -9,9 +9,17 @@ namespace EngineGL.Impl.Components
     {
         public bool Entered { get; private set; }
 
-        public SerializableAction<IGameObject> OnCollisionEnter { get; set; } = new SerializableAction<IGameObject>();
-        public SerializableAction<IGameObject> OnCollisionStay { get; set; } = new SerializableAction<IGameObject>();
-        public SerializableAction<IGameObject> OnCollisionLeave { get; set; } = new SerializableAction<IGameObject>();
+        public virtual void OnCollisionEnter(IGameObject gameObject)
+        {
+        }
+
+        public virtual void OnCollisionStay(IGameObject gameObject)
+        {
+        }
+
+        public virtual void OnCollisionLeave(IGameObject gameObject)
+        {
+        }
 
         public override void OnUpdate(double deltaTime)
         {
@@ -31,18 +39,22 @@ namespace EngineGL.Impl.Components
                     {
                         if (Entered)
                         {
-                            OnCollisionStay?.Action(gameObject);
+                            OnCollisionStay(gameObject);
                         }
                         else
                         {
                             Entered = true;
-                            OnCollisionEnter?.Action(gameObject);
+                            OnCollisionEnter(gameObject);
                         }
+
+                        break;
                     }
-                    else if (Entered)
+
+                    if (Entered)
                     {
                         Entered = false;
-                        OnCollisionLeave?.Action(gameObject);
+                        OnCollisionLeave(gameObject);
+                        break;
                     }
                 }
             }

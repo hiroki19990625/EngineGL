@@ -6,8 +6,8 @@ namespace EngineGL.Core
 {
     public interface ICollision : IComponent
     {
-        SerializableAction<IGameObject> OnCollisionEnter { set; }
-        SerializableAction<IGameObject> OnCollisionStay { set; }
-        SerializableAction<IGameObject> OnCollisionLeave { set; }
+        void OnCollisionEnter(IGameObject gameObject);
+        void OnCollisionStay(IGameObject gameObject);
+        void OnCollisionLeave(IGameObject gameObject);
     }
 }
