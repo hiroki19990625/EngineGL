@@ -8,6 +8,7 @@ namespace EngineGL.Impl.Components
     public class Collision2D : Component, ICollision
     {
         public bool Entered { get; private set; }
+        public IGameObject HitGameObject { get; private set; }
 
         public virtual void OnCollisionEnter(IGameObject gameObject)
         {
@@ -39,22 +40,24 @@ namespace EngineGL.Impl.Components
                         obj1.Y < obj2.Y + bound2.Y &&
                         obj1.Y + bound1.Y > obj2.Y)
                     {
-                        if (Entered)
+                        if (Entered && HitGameObject.GetHashCode() == gameObject.GetHashCode())
                         {
                             OnCollisionStay(gameObject);
                         }
-                        else
+                        else if (!Entered && HitGameObject == null)
                         {
                             Entered = true;
+                            HitGameObject = gameObject;
                             OnCollisionEnter(gameObject);
                         }
 
                         break;
                     }
 
-                    if (Entered)
+                    if (Entered && HitGameObject.GetHashCode() == gameObject.GetHashCode())
                     {
                         Entered = false;
+                        HitGameObject = null;
                         OnCollisionLeave(gameObject);
                         break;
                     }

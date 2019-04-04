@@ -9,6 +9,7 @@ namespace EngineGL.Impl.Components
     public class Collision : Component, ICollision
     {
         public bool Entered { get; private set; }
+        public IGameObject HitGameObject { get; private set; }
 
         public virtual void OnCollisionEnter(IGameObject gameObject)
         {
@@ -31,31 +32,36 @@ namespace EngineGL.Impl.Components
             for (int i = 0; i < objects.Length; i++)
             {
                 if (objects[i].GetHashCode() != GameObject.GetHashCode() &&
-                    objects[i] is IGameObject gameObject && !Entered)
+                    objects[i] is IGameObject gameObject)
                 {
                     Vec3 obj2 = gameObject.Position;
                     Vec3 bound2 = gameObject.Bounds;
-                    if (Math.Abs(obj1.X - obj2.X) < bound1.X / 2 + bound2.X / 2 &&
-                        Math.Abs(obj1.Y - obj2.Y) < bound1.Y / 2 + bound2.Y / 2 &&
-                        Math.Abs(obj1.Z - obj2.Z) < bound1.Z / 2 + bound2.Z / 2)
+                    if (obj1.X < obj2.X + bound2.X &&
+                        obj1.X + bound1.X > obj2.X &&
+                        obj1.Y < obj2.Y + bound2.Y &&
+                        obj1.Y + bound1.Y > obj2.Y &&
+                        obj1.Z < obj2.Z + bound2.Z &&
+                        obj1.Z + bound1.Z > obj2.Z)
                     {
-                        if (Entered)
+                        if (Entered && HitGameObject.GetHashCode() == gameObject.GetHashCode())
                         {
                             OnCollisionStay(gameObject);
                         }
-                        else
+                        else if (!Entered && HitGameObject == null)
                         {
-                            OnCollisionEnter(gameObject);
                             Entered = true;
+                            HitGameObject = gameObject;
+                            OnCollisionEnter(gameObject);
                         }
 
                         break;
                     }
 
-                    if (Entered)
+                    if (Entered && HitGameObject.GetHashCode() == gameObject.GetHashCode())
                     {
-                        OnCollisionLeave(gameObject);
                         Entered = false;
+                        HitGameObject = null;
+                        OnCollisionLeave(gameObject);
                         break;
                     }
                 }

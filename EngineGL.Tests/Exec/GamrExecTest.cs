@@ -87,8 +87,8 @@ namespace EngineGL.Tests.Exec
             scene.AddObject(new SolidBoxObject2D
             {
                 BoxColor = Color4.White,
-                Position = new Vec3(-3f, -1f, 0f),
-                Bounds = new Vec3(2f, 2f, 0f)
+                Position = new Vec3(3f, 3f, 0f),
+                Bounds = new Vec3(1f, 1f, 0f)
             });
 
             CollisionInspector inspector = new CollisionInspector();
@@ -99,15 +99,15 @@ namespace EngineGL.Tests.Exec
             {
                 PoligonColor = Color4.Gold,
                 Position = new Vec3(-3f, -3f, 0f),
-                Bounds = new Vec3(2f, 1f, 0)
+                Bounds = new Vec3(2f, 1.5f, 0)
             };
-            poly.Points.Add(new Vec3(1f, 1f, 0));
+            poly.Points.Add(new Vec3(1f, 1.5f, 0));
             poly.Points.Add(new Vec3(0f, 0, 0));
             poly.Points.Add(new Vec3(2f, 0, 0));
             poly.AddComponentUnsafe<PlayerComponent>();
             scene.AddObject(poly);
 
-            scene.AddObject(new LineObject
+            /*scene.AddObject(new LineObject
             {
                 LineColor = Color4.Red,
                 Position = new Vec3(-1f, -1f, 0f),
@@ -130,7 +130,7 @@ namespace EngineGL.Tests.Exec
                 Bounds = new Vec3(0f, -2f, 0),
                 Factor = 1,
                 Pattern = 0xf0af
-            });
+            });*/
 
             StaticCamera camera = new StaticCamera();
             camera.Position = new Vec3(0, 0, -10f);
