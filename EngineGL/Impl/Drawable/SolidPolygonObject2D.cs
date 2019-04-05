@@ -31,7 +31,7 @@ namespace EngineGL.Impl.Drawable
                 bou.Z = Math.Max(Position.Z + Points[i].Z, bou.Z);
             }
 
-            Bounds = bou;
+            // Bounds = bou;
 
             GL.End();
         }

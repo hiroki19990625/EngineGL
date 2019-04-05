@@ -98,8 +98,7 @@ namespace EngineGL.Tests.Exec
             SolidPolygonObject2D poly = new SolidPolygonObject2D
             {
                 PoligonColor = Color4.Gold,
-                Position = new Vec3(-3f, -3f, 0f),
-                Bounds = new Vec3(2f, 1.5f, 0)
+                Position = new Vec3(-3f, -3f, 0f)
             };
             poly.Points.Add(new Vec3(1f, 1.5f, 0));
             poly.Points.Add(new Vec3(0f, 0, 0));
