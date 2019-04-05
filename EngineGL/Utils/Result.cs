@@ -15,7 +15,7 @@ namespace EngineGL.Utils
                 if (IsSuccess)
                     return _value;
                 else
-                    throw new InvalidOperationException("値が Null の為、操作出来ません。");
+                    throw new InvalidOperationException("Can not operate because the value is null.");
             }
         }
 

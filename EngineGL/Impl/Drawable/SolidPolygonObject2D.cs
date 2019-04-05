@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using EngineGL.Structs;
 using EngineGL.Structs.Math;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -17,10 +17,21 @@ namespace EngineGL.Impl.Drawable
 
             GL.Begin(PrimitiveType.Polygon);
             GL.Color4(PoligonColor);
+
+            Vec3 bou = new Vec3();
             for (int i = 0; i < Points.Count; i++)
             {
+                if (Points[i].X < 0 && Points[i].Y < 0 && Points[i].Z < 0)
+                    throw new ArgumentOutOfRangeException(nameof(Points),
+                        Resources.Lang.Resources.SolidPolygonObject2D_OnDraw_Throw);
+
                 GL.Vertex3(Position + Points[i]);
+                bou.X = Math.Max(Position.X + Points[i].X, bou.X);
+                bou.Y = Math.Max(Position.Y + Points[i].Y, bou.Y);
+                bou.Z = Math.Max(Position.Z + Points[i].Z, bou.Z);
             }
+
+            Bounds = bou;
 
             GL.End();
         }

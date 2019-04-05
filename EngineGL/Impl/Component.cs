@@ -23,7 +23,7 @@ namespace EngineGL.Impl
                 if (_parentObject == null)
                     _parentObject = value;
                 else
-                    throw new InvalidOperationException();
+                    throw new InvalidOperationException("Component already has parent object linked.");
             }
         }
 
