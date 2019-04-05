@@ -36,8 +36,8 @@ namespace EngineGL.Impl.Components
                 {
                     Vec3 obj2 = gameObject.Position;
                     Vec3 bound2 = gameObject.Bounds;
-                    if (bound1.X < 0 && bound1.Y < 0 && bound1.Z < 0 ||
-                        bound2.X < 0 && bound2.Y < 0 && bound2.Z < 0)
+                    if (bound1.X <= 0 && bound1.Y <= 0 && bound1.Z <= 0 ||
+                        bound2.X <= 0 && bound2.Y <= 0 && bound2.Z <= 0)
                         continue;
 
                     if (obj1.X < obj2.X + bound2.X &&

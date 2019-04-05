@@ -43,6 +43,15 @@ namespace EngineGL.Tests.Exec.TestComponents
             }
 
             GameObject.Position += new Vec3(x, y, 0) * (float) deltaTime;
+
+            IObject[] objs = GameObject.Scene.GetObjects().Value;
+            foreach (IObject o in objs)
+            {
+                if (o is CollisionInspector go)
+                {
+                    go.Pos = GameObject.Bounds.X + ":" + GameObject.Bounds.Y;
+                }
+            }
         }
 
         public override void OnCollisionEnter(IGameObject gameObject)

@@ -135,7 +135,7 @@ namespace EngineGL.Tests.Exec
             camera.Position = new Vec3(0, 0, -10f);
             // camera.AddComponent(new ExceptionComponent());
             scene.AddObject(camera);
-
+            
             scene.Save("scene.json");
 
             return scene;

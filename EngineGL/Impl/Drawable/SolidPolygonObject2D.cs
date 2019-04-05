@@ -26,12 +26,12 @@ namespace EngineGL.Impl.Drawable
                         Resources.Lang.Resources.SolidPolygonObject2D_OnDraw_Throw);
 
                 GL.Vertex3(Position + Points[i]);
-                bou.X = Math.Max(Position.X + Points[i].X, bou.X);
-                bou.Y = Math.Max(Position.Y + Points[i].Y, bou.Y);
-                bou.Z = Math.Max(Position.Z + Points[i].Z, bou.Z);
+                bou.X = Math.Max(Points[i].X, bou.X);
+                bou.Y = Math.Max(Points[i].Y, bou.Y);
+                bou.Z = Math.Max(Points[i].Z, bou.Z);
             }
 
-            // Bounds = bou;
+            Bounds = bou;
 
             GL.End();
         }
