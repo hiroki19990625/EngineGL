@@ -143,6 +143,8 @@
     <Compile Include="Impl\Component.cs" />
     <Compile Include="Impl\Components\Collision.cs" />
     <Compile Include="Impl\Components\Collision2D.cs" />
+    <Compile Include="Impl\Drawable\CircleObject.cs" />
+    <Compile Include="Impl\Drawable\PointsObject.cs" />
     <Compile Include="Impl\Drawable\SolidBoxObject2D.cs" />
     <Compile Include="Impl\Drawable\SolidPolygonObject2D.cs" />
     <Compile Include="Impl\Drawable\DrawableObject.cs" />
