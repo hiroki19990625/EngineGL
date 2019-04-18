@@ -8,12 +8,14 @@ namespace EngineGL.Impl.Drawable
 {
     public class CircleObject : DrawableObject
     {
-        private float Radius { get; set; }
+        public float Radius { get; set; }
+        public Color4 CircleColor { get; set; }
 
         public override void OnDraw(double deltaTime)
         {
             base.OnDraw(deltaTime);
             GL.Begin(PrimitiveType.Lines);
+            GL.Color4(CircleColor);
             for (float th1 = 0.0f; th1 <= 360.0f; th1 = th1 + 1.0f)
             {
                 float th2 = th1 + 10.0f;

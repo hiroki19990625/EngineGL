@@ -106,36 +106,23 @@ namespace EngineGL.Tests.Exec
             poly.AddComponentUnsafe<PlayerComponent>();
             scene.AddObject(poly);
 
-            /*scene.AddObject(new LineObject
+            scene.AddObject(new PointsObject
             {
-                LineColor = Color4.Red,
-                Position = new Vec3(-1f, -1f, 0f),
-                Bounds = new Vec3(2f, 2f, 0f)
+                Position = new Vec3(10, 10, 0),
+                PointColor = Color4.White
             });
 
-            scene.AddObject(new StippleLineObject
+            scene.AddObject(new CircleObject
             {
-                LineColor = Color4.Aqua,
-                Position = new Vec3(-1f, 1f, 0f),
-                Bounds = new Vec3(2f, -2f, 0f),
-                Factor = 1,
-                Pattern = 0x7777
+                Position = new Vec3(20, 20, 0),
+                Radius = 5f,
+                CircleColor = Color4.White
             });
-
-            scene.AddObject(new StippleLineObject
-            {
-                LineColor = Color4.Green,
-                Position = new Vec3(0f, 1f, 0f),
-                Bounds = new Vec3(0f, -2f, 0),
-                Factor = 1,
-                Pattern = 0xf0af
-            });*/
-
             StaticCamera camera = new StaticCamera();
             camera.Position = new Vec3(0, 0, -10f);
             // camera.AddComponent(new ExceptionComponent());
             scene.AddObject(camera);
-            
+
             scene.Save("scene.json");
 
             return scene;
