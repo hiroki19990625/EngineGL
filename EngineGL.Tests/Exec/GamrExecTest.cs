@@ -1,17 +1,12 @@
 using System;
 using System.IO;
-using System.Linq.Expressions;
 using System.Text;
-using EngineGL.Core;
 using EngineGL.Impl;
-using EngineGL.Impl.Components;
 using EngineGL.Impl.Drawable;
 using EngineGL.Impl.Objects;
-using EngineGL.Structs;
 using EngineGL.Structs.Math;
 using EngineGL.Tests.Exec.TestComponents;
 using EngineGL.Tests.Exec.TestObjects;
-using EngineGL.Utils;
 using NLog.Config;
 using NLog.Targets;
 using NUnit.Framework;
@@ -108,16 +103,17 @@ namespace EngineGL.Tests.Exec
 
             scene.AddObject(new PointsObject
             {
-                Position = new Vec3(10, 10, 0),
+                Position = new Vec3(2, 2, 0),
                 PointColor = Color4.White
             });
-
             scene.AddObject(new CircleObject
             {
-                Position = new Vec3(20, 20, 0),
-                Radius = 5f,
-                CircleColor = Color4.White
+                Position = new Vec3(3.5f, 3.5f, 0),
+                Bounds = new Vec3(1, 1, 0),
+                Radius = 0.5f,
+                CircleColor = Color4.Red
             });
+
             StaticCamera camera = new StaticCamera();
             camera.Position = new Vec3(0, 0, -10f);
             // camera.AddComponent(new ExceptionComponent());
