@@ -104,7 +104,8 @@ namespace EngineGL.Tests.Exec
             scene.AddObject(new PointsObject
             {
                 Position = new Vec3(2, 2, 0),
-                PointColor = Color4.White
+                PointColor = Color4.White,
+                PointSize = 10
             });
             scene.AddObject(new CircleObject
             {
