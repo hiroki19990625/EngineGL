@@ -1,4 +1,6 @@
 # EngineGL
+[![Nuget](https://img.shields.io/nuget/v/EngineGL.svg)](https://www.nuget.org/packages/EngineGL/)
+
 ### OpenGL(OpenTK)を使ったゲームエンジン(C# 100%)
 
 - ネイティブ実装して逆に遅くなってしましたのでC# 100％実装になりました。
