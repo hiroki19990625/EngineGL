@@ -1,4 +1,6 @@
 # EngineGL
+[![Nuget](https://img.shields.io/nuget/v/EngineGL.svg)](https://www.nuget.org/packages/EngineGL/)
+
 ### OpenGL(OpenTK)を使ったゲームエンジン(C# 100%)
 
 - ネイティブ実装して逆に遅くなってしましたのでC# 100％実装になりました。
@@ -9,7 +11,7 @@
 - Unity風のプログラム構造
 - カメラ
 - 各種シリアライザ
-- 大量のバグ
+- GUI機能
 
 ### TODO
 
@@ -17,7 +19,6 @@
 - Textureの読み込み
 - 画像の表示
 - ネイティブ実装
-- GUI機能
 
 ### ライブラリ
 
