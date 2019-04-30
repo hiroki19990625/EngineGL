@@ -1,3 +1,4 @@
+using System;
 using EngineGL.Core.LifeCycle;
 
 namespace EngineGL.Core
@@ -6,5 +7,6 @@ namespace EngineGL.Core
     {
         IComponentAttachable ParentObject { get; set; }
         IGameObject GameObject { get; }
+        Guid InstanceGuid { get; }
     }
 }

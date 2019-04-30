@@ -7,14 +7,13 @@ using EngineGL.Event.ComponentAttachable;
 using EngineGL.Structs.Math;
 using EngineGL.Utils;
 using Newtonsoft.Json;
-using YamlDotNet.Serialization;
 
 namespace EngineGL.Impl
 {
     public class GameObject : Object, IGameObject
     {
-        [JsonProperty("Components")] private readonly ConcurrentDictionary<int, IComponent> _attachedComponents =
-            new ConcurrentDictionary<int, IComponent>();
+        [JsonProperty("Components")] private readonly ConcurrentDictionary<Guid, IComponent> _attachedComponents =
+            new ConcurrentDictionary<Guid, IComponent>();
 
         public Vec3 Position { get; set; }
         public Vec3 Rotation { get; set; }
@@ -39,7 +38,7 @@ namespace EngineGL.Impl
             return Result<IComponent[]>.Success(_attachedComponents.Values.ToArray());
         }
 
-        public Result<IComponent> GetComponent(int hash)
+        public Result<IComponent> GetComponent(Guid hash)
         {
             if (_attachedComponents.TryGetValue(hash, out IComponent component))
                 return Result<IComponent>.Success(component);
@@ -49,7 +48,7 @@ namespace EngineGL.Impl
 
         public Result<T> GetComponentUnsafe<T>() where T : IComponent
         {
-            foreach (KeyValuePair<int, IComponent> pair in _attachedComponents)
+            foreach (KeyValuePair<Guid, IComponent> pair in _attachedComponents)
             {
                 IComponent component = pair.Value;
                 if (component is T)
@@ -59,7 +58,7 @@ namespace EngineGL.Impl
             return Result<T>.Fail();
         }
 
-        public Result<T> GetComponentUnsafe<T>(int hash) where T : IComponent
+        public Result<T> GetComponentUnsafe<T>(Guid hash) where T : IComponent
         {
             try
             {
@@ -73,7 +72,7 @@ namespace EngineGL.Impl
 
         public Result<IComponent> GetComponentUnsafe(Type type)
         {
-            foreach (KeyValuePair<int, IComponent> pair in _attachedComponents)
+            foreach (KeyValuePair<Guid, IComponent> pair in _attachedComponents)
             {
                 IComponent component = pair.Value;
                 if (component.GetType().FullName == type.FullName)
@@ -83,7 +82,7 @@ namespace EngineGL.Impl
             return Result<IComponent>.Fail();
         }
 
-        public Result<IComponent> GetComponentUnsafe(Type type, int hash)
+        public Result<IComponent> GetComponentUnsafe(Type type, Guid hash)
         {
             try
             {
@@ -101,15 +100,14 @@ namespace EngineGL.Impl
 
         public Result<IComponent> AddComponent(IComponent component)
         {
-            int hash = component.GetHashCode();
+            Guid hash = component.InstanceGuid;
             if (!_attachedComponents.ContainsKey(hash))
             {
                 AddComponentEventArgs args =
                     new AddComponentEventArgs(this, component);
                 EventManager<AddComponentEventArgs> manager =
                     new EventManager<AddComponentEventArgs>(AddComponentEvent, this, args);
-                manager.OnSuccess = ev =>
-                    _attachedComponents.TryAdd(ev.AddComponent.GetHashCode(), ev.AddComponent);
+                manager.OnSuccess = ev => _attachedComponents.TryAdd(ev.AddComponent.InstanceGuid, ev.AddComponent);
 
                 if (manager.Call())
                 {
@@ -155,7 +153,7 @@ namespace EngineGL.Impl
             }
         }
 
-        public Result<IComponent> RemoveComponent(int hash)
+        public Result<IComponent> RemoveComponent(Guid hash)
         {
             if (_attachedComponents.TryGetValue(hash, out IComponent component))
             {
@@ -164,7 +162,7 @@ namespace EngineGL.Impl
                 EventManager<RemoveComponentEventArgs> manager =
                     new EventManager<RemoveComponentEventArgs>(RemoveComponentEvent, this, args);
                 manager.OnSuccess = ev =>
-                    _attachedComponents.TryRemove(ev.RemoveComponent.GetHashCode(), out component);
+                    _attachedComponents.TryRemove(ev.RemoveComponent.InstanceGuid, out component);
 
                 if (manager.Call())
                 {
@@ -180,7 +178,7 @@ namespace EngineGL.Impl
 
         public Result<IComponent> RemoveComponent(IComponent component)
         {
-            return RemoveComponent(component.GetHashCode());
+            return RemoveComponent(component.InstanceGuid);
         }
 
         public Result<T> RemoveComponentUnsafe<T>(T component) where T : IComponent
@@ -204,7 +202,7 @@ namespace EngineGL.Impl
             return Result<T>.Fail();
         }
 
-        public Result<T> RemoveComponentUnsafe<T>(int hash) where T : IComponent
+        public Result<T> RemoveComponentUnsafe<T>(Guid hash) where T : IComponent
         {
             if (_attachedComponents.TryGetValue(hash, out IComponent component))
                 if (component is T)
@@ -222,7 +220,7 @@ namespace EngineGL.Impl
             return Result<IComponent>.Fail();
         }
 
-        public Result<IComponent> RemoveComponentUnsafe(Type type, int hash)
+        public Result<IComponent> RemoveComponentUnsafe(Type type, Guid hash)
         {
             if (_attachedComponents.TryGetValue(hash, out IComponent component))
                 if (component.GetType().FullName == type.FullName)

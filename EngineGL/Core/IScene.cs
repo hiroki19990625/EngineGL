@@ -13,8 +13,8 @@ namespace EngineGL.Core
         event EventHandler<RemoveObjectEventArgs> RemoveObjectEvent;
 
         Result<IObject[]> GetObjects();
-        Result<IObject> GetObject(int hash);
-        Result<T> GetObjectUnsafe<T>(int hash) where T : IScene;
+        Result<IObject> GetObject(Guid hash);
+        Result<T> GetObjectUnsafe<T>(Guid hash) where T : IScene;
 
         Result<IObject> AddObject(IObject obj);
         Result<T> AddObjectUnsafe<T>(T obj) where T : IObject;
@@ -24,11 +24,11 @@ namespace EngineGL.Core
         Result<IObject[]> AddObjects(params IObject[] objs);
         Result<T[]> AddObjectsUnsafe<T>(params T[] objs) where T : IObject;
 
-        Result<IObject> RemoveObject(int hash);
+        Result<IObject> RemoveObject(Guid hash);
         Result<IObject> RemoveObject(IObject obj);
         Result<T> RemoveObjectUnsafe<T>(T obj) where T : IObject;
 
-        Result<IObject[]> RemoveObjects(params int[] hashs);
+        Result<IObject[]> RemoveObjects(params Guid[] hashs);
         Result<IObject[]> RemoveObjects(params IObject[] objs);
 
         void Save(string filePath);

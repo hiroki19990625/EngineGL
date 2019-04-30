@@ -2,12 +2,10 @@ using System;
 using System.Collections.Concurrent;
 using System.Drawing;
 using System.IO;
-using System.Runtime.InteropServices;
 using EngineGL.Core;
 using EngineGL.Event.Game;
 using EngineGL.Event.LifeCycle;
 using EngineGL.FormatMessage;
-using EngineGL.Resources;
 using EngineGL.Resources.Font;
 using EngineGL.Structs.Math;
 using EngineGL.Utils;
@@ -18,7 +16,6 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
-using Vector2 = System.Numerics.Vector2;
 
 namespace EngineGL.Impl
 {
@@ -84,8 +81,6 @@ namespace EngineGL.Impl
 
                 scene.AddObject(s);
             }
-
-            int hash = scene.GetHashCode();
 
             PreLoadSceneEventArgs args = new PreLoadSceneEventArgs(this, file, scene);
             EventManager<PreLoadSceneEventArgs> manager

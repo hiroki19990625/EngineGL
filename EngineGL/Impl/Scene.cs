@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using EngineGL.Core;
 using EngineGL.Core.LifeCycle;
@@ -18,8 +17,8 @@ namespace EngineGL.Impl
 {
     public class Scene : IScene
     {
-        [JsonProperty("SceneObjects")] private readonly ConcurrentDictionary<int, IObject> _sceneObjects =
-            new ConcurrentDictionary<int, IObject>();
+        [JsonProperty("SceneObjects")] private readonly ConcurrentDictionary<Guid, IObject> _sceneObjects =
+            new ConcurrentDictionary<Guid, IObject>();
 
         public string Name { get; set; }
         public event EventHandler<AddObjectEventArgs> AddObjectEvent;
@@ -71,7 +70,7 @@ namespace EngineGL.Impl
             return Result<IObject[]>.Success(_sceneObjects.Values.ToArray());
         }
 
-        public Result<IObject> GetObject(int hash)
+        public Result<IObject> GetObject(Guid hash)
         {
             if (_sceneObjects.TryGetValue(hash, out IObject obj))
             {
@@ -81,7 +80,7 @@ namespace EngineGL.Impl
             return Result<IObject>.Fail();
         }
 
-        public Result<T> GetObjectUnsafe<T>(int hash) where T : IScene
+        public Result<T> GetObjectUnsafe<T>(Guid hash) where T : IScene
         {
             try
             {
@@ -95,7 +94,7 @@ namespace EngineGL.Impl
 
         public Result<IObject> AddObject(IObject obj)
         {
-            if (!_sceneObjects.ContainsKey(obj.GetHashCode()))
+            if (!_sceneObjects.ContainsKey(obj.InstanceGuid))
             {
                 AddObjectEventArgs args = new AddObjectEventArgs(this, obj);
                 EventManager<AddObjectEventArgs> manager
@@ -103,7 +102,7 @@ namespace EngineGL.Impl
                 manager.OnSuccess = ev =>
                 {
                     ev.AddObject.Scene = this;
-                    return _sceneObjects.TryAdd(ev.AddObject.GetHashCode(), ev.AddObject);
+                    return _sceneObjects.TryAdd(ev.AddObject.InstanceGuid, ev.AddObject);
                 };
 
                 if (manager.Call())
@@ -172,7 +171,7 @@ namespace EngineGL.Impl
             return list.Count > 0 ? Result<T[]>.Success(list.ToArray()) : Result<T[]>.Fail();
         }
 
-        public Result<IObject> RemoveObject(int hash)
+        public Result<IObject> RemoveObject(Guid hash)
         {
             if (_sceneObjects.TryGetValue(hash, out IObject obj))
             {
@@ -195,7 +194,7 @@ namespace EngineGL.Impl
 
         public Result<IObject> RemoveObject(IObject obj)
         {
-            return RemoveObject(obj.GetHashCode());
+            return RemoveObject(obj.InstanceGuid);
         }
 
         public Result<T> RemoveObjectUnsafe<T>(T obj) where T : IObject
@@ -210,10 +209,10 @@ namespace EngineGL.Impl
             }
         }
 
-        public Result<IObject[]> RemoveObjects(params int[] hashs)
+        public Result<IObject[]> RemoveObjects(params Guid[] hashs)
         {
             List<IObject> list = new List<IObject>();
-            foreach (int hash in hashs)
+            foreach (Guid hash in hashs)
             {
                 Result<IObject> obj = RemoveObject(hash);
                 if (obj.IsSuccess)

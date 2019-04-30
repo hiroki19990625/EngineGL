@@ -33,6 +33,8 @@ namespace EngineGL.Impl
             get => (IGameObject) _parentObject;
         }
 
+        public Guid InstanceGuid { get; set; } = Guid.NewGuid();
+
         public virtual void OnInitialze()
         {
             Initialze?.Invoke(this, new InitialzeEventArgs(this));

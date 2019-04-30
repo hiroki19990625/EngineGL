@@ -7,5 +7,6 @@ namespace EngineGL.Core
     {
         IScene Scene { get; set; }
         string Tag { get; set; }
+        Guid InstanceGuid { get; }
     }
 }

@@ -57,7 +57,7 @@ namespace EngineGL.Tests.Exec
             game.RenderFrame += (sender, args) => game.DrawDefaultFunc(args);
 
             int hash = game.PreLoadScene<Scene>("scene.json").Value;
-            game.LoadScene(hash);
+            game.LoadScene(hash).Value.Save("scene.json");
 
             game.Run(60.0d);
         }
@@ -120,7 +120,7 @@ namespace EngineGL.Tests.Exec
             // camera.AddComponent(new ExceptionComponent());
             scene.AddObject(camera);
 
-            scene.Save("scene.json");
+            //scene.Save("scene.json");
 
             return scene;
         }

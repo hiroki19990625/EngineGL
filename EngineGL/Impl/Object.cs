@@ -12,6 +12,7 @@ namespace EngineGL.Impl
 
         public string Name { get; set; }
         public string Tag { get; set; }
+        public Guid InstanceGuid { get; set; } = Guid.NewGuid();
 
         public event EventHandler<InitialzeEventArgs> Initialze;
         public event EventHandler<DestroyEventArgs> Destroy;
