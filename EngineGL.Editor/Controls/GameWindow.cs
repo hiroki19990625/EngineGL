@@ -23,6 +23,7 @@ namespace EngineGL.Editor.Controls
         {
             InitializeComponent();
             AutoScaleMode = AutoScaleMode.Dpi;
+            DockAreas = DockAreas.Document | DockAreas.Float;
         }
 
         private void application_Idle(object sender, EventArgs e)

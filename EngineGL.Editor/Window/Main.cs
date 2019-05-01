@@ -29,6 +29,7 @@ namespace EngineGL.Editor.Window
             OpenNodeEditorWindow();
             OpenToolBoxWindow();
             OpenGameWindow();
+            OpenCodeEditorWindow();
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -60,6 +61,12 @@ namespace EngineGL.Editor.Window
             gameWindow.GLLoad += GameWindow_GLLoad;
             gameWindow.GLRender += GameWindow_GLRender;
             gameWindow.GLResize += GameWindow_GLResize;
+        }
+
+        public void OpenCodeEditorWindow()
+        {
+            CodeEditorWindow codeEditorWindow = new CodeEditorWindow();
+            codeEditorWindow.Show(dockPanel1, DockState.Document);
         }
 
         private void GameWindow_GLLoad(object sender, Event.GLControlEventArgs e)
