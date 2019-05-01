@@ -621,7 +621,7 @@ namespace EngineGL.Impl
         {
             if (ExceptionExit)
             {
-                base.Exit();
+                Exit();
             }
 
             if (ShowExitErrorDialog)
@@ -635,7 +635,7 @@ namespace EngineGL.Impl
 
         public void Exit(string message)
         {
-            base.Exit();
+            Exit();
             Dialog.Open("Error", message, Dialog.DialogType.ICON_ERROR);
         }
     }
