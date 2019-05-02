@@ -48,3 +48,4 @@
 - [RoslynPad.Roslyn](https://github.com/aelij/RoslynPad)
 - [RoslynPad.Roslyn.Windows](https://github.com/aelij/RoslynPad)
 - [RoslynPad.Editor.Windows](https://github.com/aelij/RoslynPad)
+- [NodeEditor](https://github.com/komorra/NodeEditorWinforms)
