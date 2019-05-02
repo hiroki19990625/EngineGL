@@ -22,13 +22,30 @@
 
 ### ライブラリ
 
-- NLog
-- AssimpNet
-- ImGui
-- MessagePack
-- NUnit
-- Newtonsoft.Json
-- OpenTK
-- QuickFont
-- SharpFont
-- YamlDotNet
+#### EngineGL
+- [AssimpNet](https://bitbucket.org/Starnick/assimpnet)
+- [ImGui.NET](https://github.com/mellinoe/imgui.net)
+- [MessagePack](https://github.com/neuecc/MessagePack-CSharp/)
+- [Newtonsoft.Json](https://www.newtonsoft.com/json)
+- [NLog](https://nlog-project.org/)
+- [OpenTK](https://github.com/opentk/opentk)
+- [QuickFont.Desktop](https://github.com/opcon/QuickFont)
+- [SharpFont](https://github.com/Robmaister/SharpFont)
+- [SharpFont.Dependencies](https://github.com/Robmaister/SharpFont.Dependencies)
+- [SharpZipLib](https://github.com/icsharpcode/SharpZipLib)
+- [System.Buffers](https://dotnet.microsoft.com/)
+- [System.Numerics.Vectors](https://dotnet.microsoft.com/)
+- [System.Runtime.CompilerServices.Unsafe](https://dotnet.microsoft.com/)
+- [System.Threading.Tasks.Extensions](https://dotnet.microsoft.com/)
+- [YamlDotNet](https://github.com/aaubry/YamlDotNet)
+
+#### EngineGL.Editor
+- [AvalonEdit](http://avalonedit.net/)
+- [DockPanelSuite](http://dockpanelsuite.com/)
+- [DockPanelSuite.ThemeVS2015](http://dockpanelsuite.com/)
+- [ManagedEsent](http://managedesent.codeplex.com/)
+- [OpenTK.GLControl](https://github.com/opentk/opentk)
+- [RoslynPad.Roslyn](https://github.com/aelij/RoslynPad)
+- [RoslynPad.Roslyn.Windows](https://github.com/aelij/RoslynPad)
+- [RoslynPad.Editor.Windows](https://github.com/aelij/RoslynPad)
+- [NodeEditor](https://github.com/komorra/NodeEditorWinforms)
