@@ -500,7 +500,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="freetype6.dll" />
     <Content Include="NodeEditor.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
