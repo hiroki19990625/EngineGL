@@ -23,3 +23,6 @@ packages/*
 # BUILDED PACKAGE
 *.exe
 /.vs/EngineGL
+
+# NUGET PACKAGE
+EngineGL.Editor/freetype6.dll
