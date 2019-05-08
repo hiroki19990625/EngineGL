@@ -420,6 +420,18 @@
     <Compile Include="Controls\CodeEditorWindow.Designer.cs">
       <DependentUpon>CodeEditorWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\GameEditorWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\GameEditorWindow.Designer.cs">
+      <DependentUpon>GameEditorWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\GameObjectListWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\GameObjectListWindow.Designer.cs">
+      <DependentUpon>GameObjectListWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\GameWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -437,6 +449,12 @@
     </Compile>
     <Compile Include="Controls\NodeEditorWindow.Designer.cs">
       <DependentUpon>NodeEditorWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ProjectWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\ProjectWindow.Designer.cs">
+      <DependentUpon>ProjectWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\ToolBoxWindow.cs">
       <SubType>Form</SubType>
@@ -458,6 +476,12 @@
     <EmbeddedResource Include="Controls\CodeEditorWindow.resx">
       <DependentUpon>CodeEditorWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\GameEditorWindow.resx">
+      <DependentUpon>GameEditorWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\GameObjectListWindow.resx">
+      <DependentUpon>GameObjectListWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\GameWindow.resx">
       <DependentUpon>GameWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -466,6 +490,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\NodeEditorWindow.resx">
       <DependentUpon>NodeEditorWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ProjectWindow.resx">
+      <DependentUpon>ProjectWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ToolBoxWindow.resx">
       <DependentUpon>ToolBoxWindow.cs</DependentUpon>
