@@ -7,13 +7,13 @@ namespace EngineGL.Structs.Math
     [Serializable]
     public struct Vec3 : IEquatable<Vec3>
     {
-        public static Vec3 Zero = new Vec3(0f, 0f, 0f);
-        public static Vec3 One = new Vec3(1f, 1f, 1f);
+        public static Vec3 Zero { get; } = new Vec3(0f, 0f, 0f);
+        public static Vec3 One { get; } = new Vec3(1f, 1f, 1f);
 
-        public static Vec3 Up = new Vec3(0f, 1f, 0f);
-        public static Vec3 Down = new Vec3(0f, -1f, 0f);
-        public static Vec3 Right = new Vec3(1f, 0f, 0f);
-        public static Vec3 Left = new Vec3(-1f, 0f, 0f);
+        public static Vec3 Up { get; } = new Vec3(0f, 1f, 0f);
+        public static Vec3 Down { get; } = new Vec3(0f, -1f, 0f);
+        public static Vec3 Right { get; } = new Vec3(1f, 0f, 0f);
+        public static Vec3 Left { get; } = new Vec3(-1f, 0f, 0f);
 
         public float X { get; set; }
         public float Y { get; set; }
