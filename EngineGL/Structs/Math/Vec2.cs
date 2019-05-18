@@ -20,6 +20,17 @@ namespace EngineGL.Structs.Math
         public float X { get; set; }
         public float Y { get; set; }
 
+        public float Magnitude => (float)System.Math.Sqrt(SqrMagnitude);
+        public Vec2 Normalized
+        {
+            get
+            {
+                var m = Magnitude;
+                return new Vec2(X / m, Y / m);
+            }
+        }
+        public float SqrMagnitude => X * X + Y * Y;
+
         public Vec2(float value)
         {
             X = value;
@@ -37,6 +48,11 @@ namespace EngineGL.Structs.Math
             X = vec3.X;
             Y = vec3.Y;
         }
+
+        public float Dot(Vec2 other) => X * other.X + Y * other.Y;
+
+        public float Cross(Vec2 other) =>  X * other.Y - Y * other.X;
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(Vec2 other)

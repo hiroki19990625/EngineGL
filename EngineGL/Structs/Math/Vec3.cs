@@ -19,6 +19,19 @@ namespace EngineGL.Structs.Math
         public float Y { get; set; }
         public float Z { get; set; }
 
+        public float Magnitude => (float)System.Math.Sqrt(SqrMagnitude);
+
+        public Vec3 Normalized
+        {
+            get
+            {
+                var m = Magnitude;
+                return new Vec3(X / m, Y / m, Z / m);
+            }
+        }
+
+        public float SqrMagnitude => X * X + Y * Y + Z * Z;
+
         public Vec3(float value)
         {
             X = value;
@@ -46,6 +59,10 @@ namespace EngineGL.Structs.Math
             Y = y;
             Z = z;
         }
+
+        public float Dot(Vec3 other) => X * other.X + Y * other.Y + Z * other.Z;
+
+        public Vec3 Cross(Vec3 other) => new Vec3(Y * other.Z - Z * other.Y, Z * other.X - X * other.Z, X * other.Y - Y * other.X);
 
         public bool Equals(Vec3 other)
         {
