@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Runtime.CompilerServices;
 using Assimp;
 using OpenTK;
+using Newtonsoft.Json;
 
 namespace EngineGL.Structs.Math
 {
@@ -21,6 +22,8 @@ namespace EngineGL.Structs.Math
         public float Y { get; set; }
 
         public float Magnitude => (float)System.Math.Sqrt(SqrMagnitude);
+
+        [JsonIgnore]
         public Vec2 Normalized
         {
             get
@@ -29,6 +32,8 @@ namespace EngineGL.Structs.Math
                 return new Vec2(X / m, Y / m);
             }
         }
+
+        [JsonIgnore]
         public float SqrMagnitude => X * X + Y * Y;
 
         public Vec2(float value)
