@@ -24,7 +24,7 @@ namespace EngineGL.Tests.Exec
             Environment.CurrentDirectory = dir;
         }
 
-        [Test]
+        [Test,Order(1)]
         public void ExecGame()
         {
             Game game = new Game();
@@ -43,7 +43,7 @@ namespace EngineGL.Tests.Exec
             game.Run(60.0d);
         }
 
-        [Test]
+        [Test, Order(2)]
         public void ExecGame2()
         {
             Game game = new Game();
@@ -120,7 +120,7 @@ namespace EngineGL.Tests.Exec
             // camera.AddComponent(new ExceptionComponent());
             scene.AddObject(camera);
 
-            //scene.Save("scene.json");
+            scene.Save("scene.json");
 
             return scene;
         }
