@@ -462,7 +462,9 @@
     <Compile Include="Controls\Window\ToolBoxWindow.Designer.cs">
       <DependentUpon>ToolBoxWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Core\Window\IDocumentWindow.cs" />
     <Compile Include="Core\Window\IMainWindow.cs" />
+    <Compile Include="Core\Window\IWindow.cs" />
     <Compile Include="EditorInstance.cs" />
     <Compile Include="Event\GLControlEventArgs.cs" />
     <Compile Include="Impl\GameWindowHandler.cs" />

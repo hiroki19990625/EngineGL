@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using EngineGL.Editor.Controls;
 using EngineGL.Editor.Controls.Window;
 using EngineGL.Editor.Core.Window;
-using EngineGL.Editor.Impl;
+using EngineGL.Editor.Event;
 using OpenTK.Input;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -24,12 +17,19 @@ namespace EngineGL.Editor.Window
         public ToolStrip ToolStrip => toolStrip;
         public StatusStrip StatusStrip => statusStrip;
 
+        public Guid WindowId { get; } = Guid.NewGuid();
+
+        public void WindowToolStrip(ToolStrip toolStrip)
+        {
+            this.toolStrip.Items.Add("test");
+        }
+
         public MainWindow()
         {
             InitializeComponent();
             AutoScaleMode = AutoScaleMode.Dpi;
 
-            Instance = new EditorInstance();
+            Instance = new EditorInstance(this);
 
             OpenInspectorToolWindow();
             OpenNodeEditorWindow();
@@ -38,49 +38,74 @@ namespace EngineGL.Editor.Window
             OpenCodeEditorWindow();
         }
 
-        private void Main_Load(object sender, EventArgs e)
+        public IWindow OpenCodeEditorWindow()
         {
+            CodeEditorWindow codeEditorWindow = new CodeEditorWindow();
+            codeEditorWindow.Show(dockPanel1, DockState.Document);
+
+            return codeEditorWindow;
         }
 
-        public void OpenInspectorToolWindow()
+        public IWindow OpenGameEditorWindow()
         {
-            InspectorToolWindow toolWindow = new InspectorToolWindow();
-            toolWindow.Show(dockPanel1, DockState.DockRight);
+            return null;
         }
 
-        public void OpenNodeEditorWindow()
+        public IWindow OpenGameObjectListWindow()
         {
-            NodeEditorWindow nodeEditorWindow = new NodeEditorWindow();
-            nodeEditorWindow.Show(dockPanel1, DockState.Document);
+            return null;
         }
 
-        public void OpenToolBoxWindow()
-        {
-            ToolBoxWindow toolBoxWindow = new ToolBoxWindow();
-            toolBoxWindow.Show(dockPanel1, DockState.DockBottom);
-        }
-
-        public void OpenGameWindow()
+        public IWindow OpenGameWindow()
         {
             GameWindow gameWindow = new GameWindow();
             gameWindow.Show(dockPanel1, DockState.Document);
             gameWindow.GLLoad += GameWindow_GLLoad;
             gameWindow.GLRender += GameWindow_GLRender;
             gameWindow.GLResize += GameWindow_GLResize;
+
+            return gameWindow;
         }
 
-        public void OpenCodeEditorWindow()
+        public IWindow OpenInspectorToolWindow()
         {
-            CodeEditorWindow codeEditorWindow = new CodeEditorWindow();
-            codeEditorWindow.Show(dockPanel1, DockState.Document);
+            InspectorToolWindow toolWindow = new InspectorToolWindow();
+            toolWindow.Show(dockPanel1, DockState.DockRight);
+
+            return toolWindow;
         }
 
-        private void GameWindow_GLLoad(object sender, Event.GLControlEventArgs e)
+        public IWindow OpenNodeEditorWindow()
+        {
+            NodeEditorWindow nodeEditorWindow = new NodeEditorWindow();
+            nodeEditorWindow.Show(dockPanel1, DockState.Document);
+
+            return nodeEditorWindow;
+        }
+
+        public IWindow OpenProjectWindow()
+        {
+            return null;
+        }
+
+        public IWindow OpenToolBoxWindow()
+        {
+            ToolBoxWindow toolBoxWindow = new ToolBoxWindow();
+            toolBoxWindow.Show(dockPanel1, DockState.DockBottom);
+
+            return toolBoxWindow;
+        }
+
+        private void Main_Load(object sender, EventArgs e)
+        {
+        }
+
+        private void GameWindow_GLLoad(object sender, GLControlEventArgs e)
         {
             Instance.Handler.Load(e.GLControl.Handle);
         }
 
-        private void GameWindow_GLRender(object sender, Event.GLControlEventArgs e)
+        private void GameWindow_GLRender(object sender, GLControlEventArgs e)
         {
             MouseState cursorState = Mouse.GetCursorState();
             Instance.Handler.Render(Focused, e.GLControl.PointToClient(new Point(cursorState.X, cursorState.Y)),
@@ -88,9 +113,13 @@ namespace EngineGL.Editor.Window
             e.GLControl.SwapBuffers();
         }
 
-        private void GameWindow_GLResize(object sender, Event.GLControlEventArgs e)
+        private void GameWindow_GLResize(object sender, GLControlEventArgs e)
         {
             Instance.Handler.Resize(e.GLControl.ClientRectangle);
+        }
+
+        private void gameSceneFileGToolStripMenuItem_Click(object sender, EventArgs e)
+        {
         }
     }
 }

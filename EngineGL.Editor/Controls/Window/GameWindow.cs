@@ -1,15 +1,23 @@
 ﻿using System;
 using System.Windows.Forms;
+using EngineGL.Editor.Core.Window;
 using EngineGL.Editor.Event;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace EngineGL.Editor.Controls.Window
 {
-    public partial class GameWindow : DockContent
+    public partial class GameWindow : DockContent, IDocumentWindow
     {
         public event EventHandler<GLControlEventArgs> GLLoad;
         public event EventHandler<GLControlEventArgs> GLRender;
         public event EventHandler<GLControlEventArgs> GLResize;
+
+        public Guid WindowId { get; }
+
+        public void WindowToolStrip(ToolStrip toolStrip)
+        {
+            throw new NotImplementedException();
+        }
 
         public GameWindow()
         {

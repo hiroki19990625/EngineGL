@@ -33,35 +33,45 @@
             this.fileFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.openOToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.solutionFileSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cSProjFilePToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gameSceneFileGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // dockPanel1
             // 
-            this.dockPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dockPanel1.DockBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(242)))));
+            this.dockPanel1.Anchor =
+                ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top |
+                                                         System.Windows.Forms.AnchorStyles.Bottom) |
+                                                        System.Windows.Forms.AnchorStyles.Left) |
+                                                       System.Windows.Forms.AnchorStyles.Right)));
+            this.dockPanel1.DockBackColor = System.Drawing.Color.FromArgb(((int) (((byte) (238)))),
+                ((int) (((byte) (238)))), ((int) (((byte) (242)))));
             this.dockPanel1.DocumentStyle = WeifenLuo.WinFormsUI.Docking.DocumentStyle.DockingWindow;
-            this.dockPanel1.Location = new System.Drawing.Point(0, 56);
+            this.dockPanel1.Location = new System.Drawing.Point(0, 75);
+            this.dockPanel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dockPanel1.Name = "dockPanel1";
             this.dockPanel1.ShowAutoHideContentOnHover = false;
-            this.dockPanel1.Size = new System.Drawing.Size(800, 369);
+            this.dockPanel1.Size = new System.Drawing.Size(800, 492);
             this.dockPanel1.TabIndex = 0;
             // 
             // menuStrip
             // 
             this.menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileFToolStripMenuItem});
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this.fileFToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(800, 28);
+            this.menuStrip.Padding = new System.Windows.Forms.Padding(6, 3, 0, 3);
+            this.menuStrip.Size = new System.Drawing.Size(800, 30);
             this.menuStrip.TabIndex = 2;
             this.menuStrip.Text = "menuStrip1";
             // 
             // fileFToolStripMenuItem
             // 
+            this.fileFToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
+                {this.openOToolStripMenuItem});
             this.fileFToolStripMenuItem.Name = "fileFToolStripMenuItem";
             this.fileFToolStripMenuItem.Size = new System.Drawing.Size(61, 24);
             this.fileFToolStripMenuItem.Text = "File(&F)";
@@ -69,7 +79,7 @@
             // toolStrip
             // 
             this.toolStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.toolStrip.Location = new System.Drawing.Point(0, 28);
+            this.toolStrip.Location = new System.Drawing.Point(0, 30);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(800, 25);
             this.toolStrip.TabIndex = 3;
@@ -78,22 +88,54 @@
             // statusStrip
             // 
             this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.statusStrip.Location = new System.Drawing.Point(0, 428);
+            this.statusStrip.Location = new System.Drawing.Point(0, 578);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(800, 22);
             this.statusStrip.TabIndex = 4;
             this.statusStrip.Text = "statusStrip1";
             // 
+            // openOToolStripMenuItem
+            // 
+            this.openOToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
+            {
+                this.solutionFileSToolStripMenuItem, this.cSProjFilePToolStripMenuItem,
+                this.gameSceneFileGToolStripMenuItem
+            });
+            this.openOToolStripMenuItem.Name = "openOToolStripMenuItem";
+            this.openOToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.openOToolStripMenuItem.Text = "Open(&O)";
+            // 
+            // solutionFileSToolStripMenuItem
+            // 
+            this.solutionFileSToolStripMenuItem.Name = "solutionFileSToolStripMenuItem";
+            this.solutionFileSToolStripMenuItem.Size = new System.Drawing.Size(213, 26);
+            this.solutionFileSToolStripMenuItem.Text = "Solution File(&S)";
+            // 
+            // cSProjFilePToolStripMenuItem
+            // 
+            this.cSProjFilePToolStripMenuItem.Name = "cSProjFilePToolStripMenuItem";
+            this.cSProjFilePToolStripMenuItem.Size = new System.Drawing.Size(213, 26);
+            this.cSProjFilePToolStripMenuItem.Text = "CS Proj File(&P)";
+            // 
+            // gameSceneFileGToolStripMenuItem
+            // 
+            this.gameSceneFileGToolStripMenuItem.Name = "gameSceneFileGToolStripMenuItem";
+            this.gameSceneFileGToolStripMenuItem.Size = new System.Drawing.Size(213, 26);
+            this.gameSceneFileGToolStripMenuItem.Text = "Game Scene File(&G)";
+            this.gameSceneFileGToolStripMenuItem.Click +=
+                new System.EventHandler(this.gameSceneFileGToolStripMenuItem_Click);
+            // 
             // MainWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 600);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.dockPanel1);
             this.Controls.Add(this.menuStrip);
             this.MainMenuStrip = this.menuStrip;
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "MainWindow";
             this.Text = "EngineGL Editor";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -102,7 +144,6 @@
             this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
@@ -111,6 +152,10 @@
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem fileFToolStripMenuItem;
         private System.Windows.Forms.ToolStrip toolStrip;
+        private System.Windows.Forms.ToolStripMenuItem openOToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem solutionFileSToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cSProjFilePToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gameSceneFileGToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip;
     }
 }
