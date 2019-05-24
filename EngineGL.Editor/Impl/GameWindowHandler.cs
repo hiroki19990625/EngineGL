@@ -4,7 +4,7 @@ using OpenTK;
 
 namespace EngineGL.Editor.Impl
 {
-    public class GameWindowHandler : IGameWindowHandler
+    public class GameWindowHandler
     {
         public Game Game { get; } = new Game();
 
