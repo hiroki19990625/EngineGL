@@ -21,7 +21,8 @@ namespace EngineGL.Impl
 {
     public class Game : GameWindow, IGame
     {
-        public static Logger Logger { get; private set; }
+        public static Logger Logger { get; private set; } = LogManager.GetCurrentClassLogger();
+
 
         private readonly ConcurrentDictionary<int, IScene> _preLoadedScenes =
             new ConcurrentDictionary<int, IScene>();
@@ -601,7 +602,6 @@ namespace EngineGL.Impl
                 LogManager.Configuration = LoggingConfiguration;
             }
 
-            Logger = LogManager.GetCurrentClassLogger();
             OnInitialze();
             base.OnLoad(e);
         }
