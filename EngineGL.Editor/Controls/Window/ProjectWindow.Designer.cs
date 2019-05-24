@@ -1,6 +1,6 @@
-﻿namespace EngineGL.Editor.Controls
+﻿namespace EngineGL.Editor.Controls.Window
 {
-    partial class ToolBoxWindow
+    partial class ProjectWindow
     {
         /// <summary> 
         /// 必要なデザイナー変数です。
@@ -28,32 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.treeView1 = new System.Windows.Forms.TreeView();
             this.SuspendLayout();
             // 
-            // tabControl1
+            // treeView1
             // 
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(282, 253);
-            this.tabControl1.TabIndex = 0;
+            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView1.Location = new System.Drawing.Point(0, 0);
+            this.treeView1.Name = "treeView1";
+            this.treeView1.Size = new System.Drawing.Size(282, 253);
+            this.treeView1.TabIndex = 0;
             // 
-            // ToolBoxWindow
+            // ProjectWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(282, 253);
-            this.Controls.Add(this.tabControl1);
-            this.Name = "ToolBoxWindow";
-            this.Text = "ToolBox";
+            this.Controls.Add(this.treeView1);
+            this.Name = "ProjectWindow";
+            this.Text = "Project";
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TreeView treeView1;
     }
 }

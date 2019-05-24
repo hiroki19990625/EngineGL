@@ -17,7 +17,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 
-namespace EngineGL.Editor
+namespace EngineGL.Editor.Impl
 {
     public class Game : IGame
     {

@@ -1,6 +1,6 @@
-﻿namespace EngineGL.Editor.Controls
+﻿namespace EngineGL.Editor.Controls.Window
 {
-    partial class InspectorToolWindow
+    partial class GameEditorWindow
     {
         /// <summary> 
         /// 必要なデザイナー変数です。
@@ -28,31 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            this.glControl1 = new OpenTK.GLControl();
             this.SuspendLayout();
             // 
-            // propertyGrid1
+            // glControl1
             // 
-            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
-            this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(282, 253);
-            this.propertyGrid1.TabIndex = 0;
+            this.glControl1.BackColor = System.Drawing.Color.Black;
+            this.glControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.glControl1.Location = new System.Drawing.Point(0, 0);
+            this.glControl1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.glControl1.Name = "glControl1";
+            this.glControl1.Size = new System.Drawing.Size(282, 253);
+            this.glControl1.TabIndex = 0;
+            this.glControl1.VSync = false;
             // 
-            // InspectorToolWindow
+            // GameEditorWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(282, 253);
-            this.Controls.Add(this.propertyGrid1);
-            this.Name = "InspectorToolWindow";
-            this.Text = "Property";
+            this.Controls.Add(this.glControl1);
+            this.Name = "GameEditorWindow";
+            this.Text = "GameEditor";
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.PropertyGrid propertyGrid1;
+        private OpenTK.GLControl glControl1;
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace EngineGL.Editor.Controls
+﻿namespace EngineGL.Editor.Controls.Window
 {
-    partial class CodeEditorWindow
+    partial class GameWindow
     {
         /// <summary> 
         /// 必要なデザイナー変数です。
@@ -28,34 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
             this.SuspendLayout();
+            this.glControl = new OpenTK.GLControl();
+            //
+            // glControl
+            //
+            this.glControl.Name = "glControl";
+            this.glControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.glControl.Load += new System.EventHandler(this.glControl_Load);
+            this.glControl.Resize += new System.EventHandler(this.glControl_Resize);
             // 
-            // elementHost1
-            // 
-            this.elementHost1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.elementHost1.Location = new System.Drawing.Point(0, 0);
-            this.elementHost1.Name = "elementHost1";
-            this.elementHost1.Size = new System.Drawing.Size(282, 253);
-            this.elementHost1.TabIndex = 0;
-            this.elementHost1.Text = "elementHost1";
-            this.elementHost1.Child = null;
-            // 
-            // CodeEditorWindow
+            // GameWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(282, 253);
-            this.Controls.Add(this.elementHost1);
-            this.Name = "CodeEditorWindow";
-            this.Text = "CodeEditor";
-            this.Load += new System.EventHandler(this.CodeEditorWindow_Load);
+            this.Name = "GameWindow";
+            this.Text = "Game";
+            this.Closed += new System.EventHandler(this.gameWindow_Closed);
+            this.Controls.Add(this.glControl);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Integration.ElementHost elementHost1;
+        private OpenTK.GLControl glControl;
     }
 }

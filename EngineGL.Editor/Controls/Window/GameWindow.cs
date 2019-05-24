@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using EngineGL.Editor.Event;
-using OpenTK;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace EngineGL.Editor.Controls
+namespace EngineGL.Editor.Controls.Window
 {
     public partial class GameWindow : DockContent
     {

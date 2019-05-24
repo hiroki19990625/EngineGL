@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using RoslynPad.Editor;
 using RoslynPad.Roslyn;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace EngineGL.Editor.Controls
+namespace EngineGL.Editor.Controls.Window
 {
     public partial class CodeEditorWindow : DockContent
     {

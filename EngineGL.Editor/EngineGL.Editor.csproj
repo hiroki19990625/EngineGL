@@ -142,7 +142,7 @@
     </Reference>
     <Reference Include="NodeEditor, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\NodeEditor.dll</HintPath>
+      <HintPath>Dlls\NodeEditor.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK, Version=3.0.1.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <HintPath>..\packages\OpenTK.3.0.1\lib\net20\OpenTK.dll</HintPath>
@@ -414,87 +414,89 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\CodeEditorWindow.cs">
+    <Compile Include="Controls\Window\CodeEditorWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Controls\CodeEditorWindow.Designer.cs">
+    <Compile Include="Controls\Window\CodeEditorWindow.Designer.cs">
       <DependentUpon>CodeEditorWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\GameEditorWindow.cs">
+    <Compile Include="Controls\Window\GameEditorWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Controls\GameEditorWindow.Designer.cs">
+    <Compile Include="Controls\Window\GameEditorWindow.Designer.cs">
       <DependentUpon>GameEditorWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\GameObjectListWindow.cs">
+    <Compile Include="Controls\Window\GameObjectListWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Controls\GameObjectListWindow.Designer.cs">
+    <Compile Include="Controls\Window\GameObjectListWindow.Designer.cs">
       <DependentUpon>GameObjectListWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\GameWindow.cs">
+    <Compile Include="Controls\Window\GameWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Controls\GameWindow.Designer.cs">
+    <Compile Include="Controls\Window\GameWindow.Designer.cs">
       <DependentUpon>GameWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\InspectorToolWindow.cs">
+    <Compile Include="Controls\Window\InspectorToolWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Controls\InspectorToolWindow.Designer.cs">
+    <Compile Include="Controls\Window\InspectorToolWindow.Designer.cs">
       <DependentUpon>InspectorToolWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\NodeEditorWindow.cs">
+    <Compile Include="Controls\Window\NodeEditorWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Controls\NodeEditorWindow.Designer.cs">
+    <Compile Include="Controls\Window\NodeEditorWindow.Designer.cs">
       <DependentUpon>NodeEditorWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ProjectWindow.cs">
+    <Compile Include="Controls\Window\ProjectWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Controls\ProjectWindow.Designer.cs">
+    <Compile Include="Controls\Window\ProjectWindow.Designer.cs">
       <DependentUpon>ProjectWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ToolBoxWindow.cs">
+    <Compile Include="Controls\Window\ToolBoxWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Controls\ToolBoxWindow.Designer.cs">
+    <Compile Include="Controls\Window\ToolBoxWindow.Designer.cs">
       <DependentUpon>ToolBoxWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Core\Window\IMainWindow.cs" />
+    <Compile Include="EditorInstance.cs" />
     <Compile Include="Event\GLControlEventArgs.cs" />
-    <Compile Include="FormEditor.cs" />
-    <Compile Include="Game.cs" />
+    <Compile Include="Impl\GameWindowHandler.cs" />
+    <Compile Include="Impl\Game.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Window\Main.cs">
+    <Compile Include="Window\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Window\Main.Designer.cs">
-      <DependentUpon>Main.cs</DependentUpon>
+    <Compile Include="Window\MainWindow.Designer.cs">
+      <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Controls\CodeEditorWindow.resx">
+    <EmbeddedResource Include="Controls\Window\CodeEditorWindow.resx">
       <DependentUpon>CodeEditorWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\GameEditorWindow.resx">
+    <EmbeddedResource Include="Controls\Window\GameEditorWindow.resx">
       <DependentUpon>GameEditorWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\GameObjectListWindow.resx">
+    <EmbeddedResource Include="Controls\Window\GameObjectListWindow.resx">
       <DependentUpon>GameObjectListWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\GameWindow.resx">
+    <EmbeddedResource Include="Controls\Window\GameWindow.resx">
       <DependentUpon>GameWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\InspectorToolWindow.resx">
+    <EmbeddedResource Include="Controls\Window\InspectorToolWindow.resx">
       <DependentUpon>InspectorToolWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\NodeEditorWindow.resx">
+    <EmbeddedResource Include="Controls\Window\NodeEditorWindow.resx">
       <DependentUpon>NodeEditorWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ProjectWindow.resx">
+    <EmbeddedResource Include="Controls\Window\ProjectWindow.resx">
       <DependentUpon>ProjectWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ToolBoxWindow.resx">
+    <EmbeddedResource Include="Controls\Window\ToolBoxWindow.resx">
       <DependentUpon>ToolBoxWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -506,10 +508,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Window\Main.resx">
-      <DependentUpon>Main.cs</DependentUpon>
+    <EmbeddedResource Include="Window\MainWindow.resx">
+      <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="OpenTK.dll.config" />
+    <None Include="OpenTK.dll.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -526,7 +530,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="NodeEditor.dll">
+    <Content Include="Dlls\NodeEditor.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

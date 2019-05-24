@@ -1,6 +1,6 @@
-﻿namespace EngineGL.Editor.Controls
+﻿namespace EngineGL.Editor.Controls.Window
 {
-    partial class GameWindow
+    partial class ToolBoxWindow
     {
         /// <summary> 
         /// 必要なデザイナー変数です。
@@ -28,31 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.tabControl1 = new System.Windows.Forms.TabControl();
             this.SuspendLayout();
-            this.glControl = new OpenTK.GLControl();
-            //
-            // glControl
-            //
-            this.glControl.Name = "glControl";
-            this.glControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.glControl.Load += new System.EventHandler(this.glControl_Load);
-            this.glControl.Resize += new System.EventHandler(this.glControl_Resize);
             // 
-            // GameWindow
+            // tabControl1
+            // 
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(282, 253);
+            this.tabControl1.TabIndex = 0;
+            // 
+            // ToolBoxWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(282, 253);
-            this.Name = "GameWindow";
-            this.Text = "Game";
-            this.Closed += new System.EventHandler(this.gameWindow_Closed);
-            this.Controls.Add(this.glControl);
+            this.Controls.Add(this.tabControl1);
+            this.Name = "ToolBoxWindow";
+            this.Text = "ToolBox";
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private OpenTK.GLControl glControl;
+        private System.Windows.Forms.TabControl tabControl1;
     }
 }

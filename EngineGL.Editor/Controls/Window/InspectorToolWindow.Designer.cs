@@ -1,6 +1,6 @@
-﻿namespace EngineGL.Editor.Controls
+﻿namespace EngineGL.Editor.Controls.Window
 {
-    partial class GameObjectListWindow
+    partial class InspectorToolWindow
     {
         /// <summary> 
         /// 必要なデザイナー変数です。
@@ -28,33 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.SuspendLayout();
             // 
-            // listBox1
+            // propertyGrid1
             // 
-            this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 15;
-            this.listBox1.Location = new System.Drawing.Point(0, 0);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(282, 253);
-            this.listBox1.TabIndex = 0;
+            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
+            this.propertyGrid1.Name = "propertyGrid1";
+            this.propertyGrid1.Size = new System.Drawing.Size(282, 253);
+            this.propertyGrid1.TabIndex = 0;
             // 
-            // GameObjectListWindow
+            // InspectorToolWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(282, 253);
-            this.Controls.Add(this.listBox1);
-            this.Name = "GameObjectListWindow";
-            this.Text = "GameObjectList";
+            this.Controls.Add(this.propertyGrid1);
+            this.Name = "InspectorToolWindow";
+            this.Text = "Property";
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.PropertyGrid propertyGrid1;
     }
 }

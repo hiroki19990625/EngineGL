@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Drawing;
-using EngineGL.Impl;
-using EngineGL.Impl.Drawable;
-using EngineGL.Impl.Objects;
-using EngineGL.Structs.Math;
 using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
 
-namespace EngineGL.Editor
+namespace EngineGL.Editor.Impl
 {
-    public class FormEditor
+    public class GameWindowHandler : IGameWindowHandler
     {
         public Game Game { get; } = new Game();
 

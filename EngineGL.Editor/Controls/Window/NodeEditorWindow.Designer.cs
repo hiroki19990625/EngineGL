@@ -1,4 +1,4 @@
-﻿namespace EngineGL.Editor.Controls
+﻿namespace EngineGL.Editor.Controls.Window
 {
     partial class NodeEditorWindow
     {

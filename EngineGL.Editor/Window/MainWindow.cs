@@ -8,22 +8,28 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using EngineGL.Editor.Controls;
+using EngineGL.Editor.Controls.Window;
+using EngineGL.Editor.Core.Window;
+using EngineGL.Editor.Impl;
 using OpenTK.Input;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace EngineGL.Editor.Window
 {
-    public partial class Main : Form
+    public partial class MainWindow : Form, IMainWindow
     {
-        public FormEditor Editor { get; }
+        public EditorInstance Instance { get; }
 
-        public Main()
+        public MenuStrip MenuStrip => menuStrip;
+        public ToolStrip ToolStrip => toolStrip;
+        public StatusStrip StatusStrip => statusStrip;
+
+        public MainWindow()
         {
             InitializeComponent();
             AutoScaleMode = AutoScaleMode.Dpi;
 
-            Editor = new FormEditor();
-
+            Instance = new EditorInstance();
 
             OpenInspectorToolWindow();
             OpenNodeEditorWindow();
@@ -71,20 +77,20 @@ namespace EngineGL.Editor.Window
 
         private void GameWindow_GLLoad(object sender, Event.GLControlEventArgs e)
         {
-            Editor.Load(e.GLControl.Handle);
+            Instance.Handler.Load(e.GLControl.Handle);
         }
 
         private void GameWindow_GLRender(object sender, Event.GLControlEventArgs e)
         {
             MouseState cursorState = Mouse.GetCursorState();
-            Editor.Render(Focused, e.GLControl.PointToClient(new Point(cursorState.X, cursorState.Y)),
+            Instance.Handler.Render(Focused, e.GLControl.PointToClient(new Point(cursorState.X, cursorState.Y)),
                 e.GLControl.ClientRectangle.Size);
             e.GLControl.SwapBuffers();
         }
 
         private void GameWindow_GLResize(object sender, Event.GLControlEventArgs e)
         {
-            Editor.Resize(e.GLControl.ClientRectangle);
+            Instance.Handler.Resize(e.GLControl.ClientRectangle);
         }
     }
 }
