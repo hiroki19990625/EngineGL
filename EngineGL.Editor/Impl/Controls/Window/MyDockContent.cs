@@ -9,6 +9,10 @@ namespace EngineGL.Editor.Impl.Controls.Window
         protected IMainWindow _hostWindow;
         public Guid WindowGuid { get; }
 
+        public MyDockContent()
+        {
+        }
+
         public MyDockContent(IMainWindow hostWindow)
         {
             WindowGuid = Guid.NewGuid();

@@ -433,6 +433,9 @@
     <EmbeddedResource Include="Impl\Controls\Window\MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Impl\Controls\Window\SolutionTreeContent.resx">
+      <DependentUpon>SolutionTreeContent.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

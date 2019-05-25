@@ -29,11 +29,12 @@
         private void InitializeComponent()
         {
             this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.fileFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.solutionFilesSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
-            this.fileFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.solutionFilesSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vS2015LightTheme1 = new WeifenLuo.WinFormsUI.Docking.VS2015LightTheme();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,6 +48,21 @@
             this.menuStrip.Size = new System.Drawing.Size(800, 28);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
+            // 
+            // fileFToolStripMenuItem
+            // 
+            this.fileFToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.solutionFilesSToolStripMenuItem});
+            this.fileFToolStripMenuItem.Name = "fileFToolStripMenuItem";
+            this.fileFToolStripMenuItem.Size = new System.Drawing.Size(61, 24);
+            this.fileFToolStripMenuItem.Text = "File(&F)";
+            // 
+            // solutionFilesSToolStripMenuItem
+            // 
+            this.solutionFilesSToolStripMenuItem.Name = "solutionFilesSToolStripMenuItem";
+            this.solutionFilesSToolStripMenuItem.Size = new System.Drawing.Size(190, 26);
+            this.solutionFilesSToolStripMenuItem.Text = "Solution Files(&S)";
+            this.solutionFilesSToolStripMenuItem.Click += new System.EventHandler(this.SolutionFilesSToolStripMenuItem_Click);
             // 
             // toolStrip
             // 
@@ -71,26 +87,15 @@
             this.dockPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dockPanel.DockBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(242)))));
             this.dockPanel.DocumentStyle = WeifenLuo.WinFormsUI.Docking.DocumentStyle.DockingWindow;
             this.dockPanel.Location = new System.Drawing.Point(0, 52);
             this.dockPanel.Name = "dockPanel";
+            this.dockPanel.Padding = new System.Windows.Forms.Padding(6);
+            this.dockPanel.ShowAutoHideContentOnHover = false;
             this.dockPanel.Size = new System.Drawing.Size(800, 373);
             this.dockPanel.TabIndex = 3;
-            // 
-            // fileFToolStripMenuItem
-            // 
-            this.fileFToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.solutionFilesSToolStripMenuItem});
-            this.fileFToolStripMenuItem.Name = "fileFToolStripMenuItem";
-            this.fileFToolStripMenuItem.Size = new System.Drawing.Size(61, 24);
-            this.fileFToolStripMenuItem.Text = "File(&F)";
-            // 
-            // solutionFilesSToolStripMenuItem
-            // 
-            this.solutionFilesSToolStripMenuItem.Name = "solutionFilesSToolStripMenuItem";
-            this.solutionFilesSToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
-            this.solutionFilesSToolStripMenuItem.Text = "Solution Files(&S)";
-            this.solutionFilesSToolStripMenuItem.Click += new System.EventHandler(this.SolutionFilesSToolStripMenuItem_Click);
+            this.dockPanel.Theme = this.vS2015LightTheme1;
             // 
             // MainWindow
             // 
@@ -120,5 +125,6 @@
         private WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
         private System.Windows.Forms.ToolStripMenuItem fileFToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem solutionFilesSToolStripMenuItem;
+        private WeifenLuo.WinFormsUI.Docking.VS2015LightTheme vS2015LightTheme1;
     }
 }

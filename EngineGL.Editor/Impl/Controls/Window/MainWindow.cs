@@ -74,8 +74,11 @@ namespace EngineGL.Editor.Impl.Controls.Window
                 using (var workspace = MSBuildWorkspace.Create())
                 {
                     Solution solution = await workspace.OpenSolutionAsync(dialog.FileName);
-                    AddWindow(new SolutionTreeContent(this, solution));
+                    SolutionTreeContent solutionTree = new SolutionTreeContent(this);
+                    solutionTree.LoadSolution(solution);
+                    AddWindow(solutionTree);
                 }
             }
         }
     }
+}
