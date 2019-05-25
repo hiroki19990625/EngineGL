@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using EngineGL.Editor.Core.Control.Window;
 using EngineGL.Utils;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.MSBuild;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace EngineGL.Editor.Impl.Controls.Window
@@ -59,5 +61,21 @@ namespace EngineGL.Editor.Impl.Controls.Window
 
             return Result<T>.Fail();
         }
+
+        private async void SolutionFilesSToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = false;
+            dialog.Filter = "Solution File|*sln";
+
+            DialogResult result = dialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                using (var workspace = MSBuildWorkspace.Create())
+                {
+                    Solution solution = await workspace.OpenSolutionAsync(dialog.FileName);
+                    AddWindow(new SolutionTreeContent(this, solution));
+                }
+            }
+        }
     }
-}

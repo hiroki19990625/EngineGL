@@ -425,6 +425,9 @@
     <Compile Include="Impl\Controls\Window\MyDockContent.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Impl\Controls\Window\SolutionTreeContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Impl\Controls\Window\MainWindow.resx">
