@@ -13,7 +13,7 @@ namespace EngineGL.Editor.Core.Window
         IWindow OpenCodeEditorWindow();
         IWindow OpenGameEditorWindow();
         IWindow OpenGameObjectListWindow();
-        IWindow OpenGameWindow();
+        IWindow OpenGameWindow(string fileName);
         IWindow OpenInspectorToolWindow();
         IWindow OpenNodeEditorWindow();
         IWindow OpenProjectWindow();

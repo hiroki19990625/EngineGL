@@ -31,12 +31,10 @@
             this.dockPanel1 = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStrip = new System.Windows.Forms.ToolStrip();
-            this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.openOToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.solutionFileSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cSProjFilePToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gameSceneFileGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStrip = new System.Windows.Forms.ToolStrip();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -76,6 +74,22 @@
             this.fileFToolStripMenuItem.Size = new System.Drawing.Size(61, 24);
             this.fileFToolStripMenuItem.Text = "File(&F)";
             // 
+            // openOToolStripMenuItem
+            // 
+            this.openOToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
+                {this.solutionFileSToolStripMenuItem});
+            this.openOToolStripMenuItem.Name = "openOToolStripMenuItem";
+            this.openOToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.openOToolStripMenuItem.Text = "Open(&O)";
+            // 
+            // solutionFileSToolStripMenuItem
+            // 
+            this.solutionFileSToolStripMenuItem.Name = "solutionFileSToolStripMenuItem";
+            this.solutionFileSToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
+            this.solutionFileSToolStripMenuItem.Text = "Solution File(&S)";
+            this.solutionFileSToolStripMenuItem.Click +=
+                new System.EventHandler(this.solutionFileSToolStripMenuItem_Click);
+            // 
             // toolStrip
             // 
             this.toolStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -94,37 +108,6 @@
             this.statusStrip.TabIndex = 4;
             this.statusStrip.Text = "statusStrip1";
             // 
-            // openOToolStripMenuItem
-            // 
-            this.openOToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
-            {
-                this.solutionFileSToolStripMenuItem, this.cSProjFilePToolStripMenuItem,
-                this.gameSceneFileGToolStripMenuItem
-            });
-            this.openOToolStripMenuItem.Name = "openOToolStripMenuItem";
-            this.openOToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
-            this.openOToolStripMenuItem.Text = "Open(&O)";
-            // 
-            // solutionFileSToolStripMenuItem
-            // 
-            this.solutionFileSToolStripMenuItem.Name = "solutionFileSToolStripMenuItem";
-            this.solutionFileSToolStripMenuItem.Size = new System.Drawing.Size(213, 26);
-            this.solutionFileSToolStripMenuItem.Text = "Solution File(&S)";
-            // 
-            // cSProjFilePToolStripMenuItem
-            // 
-            this.cSProjFilePToolStripMenuItem.Name = "cSProjFilePToolStripMenuItem";
-            this.cSProjFilePToolStripMenuItem.Size = new System.Drawing.Size(213, 26);
-            this.cSProjFilePToolStripMenuItem.Text = "CS Proj File(&P)";
-            // 
-            // gameSceneFileGToolStripMenuItem
-            // 
-            this.gameSceneFileGToolStripMenuItem.Name = "gameSceneFileGToolStripMenuItem";
-            this.gameSceneFileGToolStripMenuItem.Size = new System.Drawing.Size(213, 26);
-            this.gameSceneFileGToolStripMenuItem.Text = "Game Scene File(&G)";
-            this.gameSceneFileGToolStripMenuItem.Click +=
-                new System.EventHandler(this.gameSceneFileGToolStripMenuItem_Click);
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -137,7 +120,6 @@
             this.MainMenuStrip = this.menuStrip;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "MainWindow";
-            this.Text = "EngineGL Editor";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Main_Load);
             this.menuStrip.ResumeLayout(false);
@@ -154,8 +136,6 @@
         private System.Windows.Forms.ToolStrip toolStrip;
         private System.Windows.Forms.ToolStripMenuItem openOToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem solutionFileSToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem cSProjFilePToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem gameSceneFileGToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip;
     }
 }

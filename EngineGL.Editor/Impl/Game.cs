@@ -21,7 +21,7 @@ namespace EngineGL.Editor.Impl
 {
     public class Game : IGame
     {
-        public static Logger Logger { get; private set; }
+        public static Logger Logger { get; } = LogManager.GetCurrentClassLogger();
 
         private readonly ConcurrentDictionary<int, IScene> _preLoadedScenes =
             new ConcurrentDictionary<int, IScene>();
@@ -33,7 +33,7 @@ namespace EngineGL.Editor.Impl
 
         public bool ShowExitErrorDialog { get; set; } = true;
         public bool ExceptionDialog { get; set; } = false;
-        public bool ExceptionExit { get; set; } = true;
+        public bool ExceptionExit { get; set; } = false;
 
         public bool DebugLogging { get; set; } = false;
         public LoggingConfiguration LoggingConfiguration { get; set; }
@@ -596,7 +596,6 @@ namespace EngineGL.Editor.Impl
                 LogManager.Configuration = LoggingConfiguration;
             }
 
-            Logger = LogManager.GetCurrentClassLogger();
             OnInitialze();
         }
 

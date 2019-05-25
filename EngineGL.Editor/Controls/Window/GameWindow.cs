@@ -8,22 +8,20 @@ namespace EngineGL.Editor.Controls.Window
 {
     public partial class GameWindow : DockContent, IDocumentWindow
     {
+        private EditorInstance _instance;
         public event EventHandler<GLControlEventArgs> GLLoad;
         public event EventHandler<GLControlEventArgs> GLRender;
         public event EventHandler<GLControlEventArgs> GLResize;
 
         public Guid WindowId { get; }
 
-        public void WindowToolStrip(ToolStrip toolStrip)
-        {
-            throw new NotImplementedException();
-        }
-
-        public GameWindow()
+        public GameWindow(EditorInstance instance)
         {
             InitializeComponent();
             AutoScaleMode = AutoScaleMode.Dpi;
             DockAreas = DockAreas.Document | DockAreas.Float;
+
+            _instance = instance;
         }
 
         private void application_Idle(object sender, EventArgs e)
@@ -47,6 +45,16 @@ namespace EngineGL.Editor.Controls.Window
         private void glControl_Resize(object sender, EventArgs e)
         {
             GLResize?.Invoke(this, new GLControlEventArgs(glControl));
+        }
+
+        private void GameWindow_Enter(object sender, EventArgs e)
+        {
+            _instance.MainWindow.ToolStrip.Items.Add(new ToolStripButton("Play"));
+        }
+
+        private void GameWindow_Leave(object sender, EventArgs e)
+        {
+            _instance.MainWindow.ToolStrip.Items.Clear();
         }
     }
 }
