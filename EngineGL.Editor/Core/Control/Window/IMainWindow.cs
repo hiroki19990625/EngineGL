@@ -20,5 +20,6 @@ namespace EngineGL.Editor.Core.Control.Window
         void RemoveWindow(MyDockContent content);
         Result<MyDockContent> GetWindow(Guid guid);
         Result<T> GetWindow<T>(Guid guid) where T : MyDockContent;
+        bool ContainsWindow(Guid guid);
     }
 }

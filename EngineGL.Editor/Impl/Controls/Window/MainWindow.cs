@@ -21,6 +21,8 @@ namespace EngineGL.Editor.Impl.Controls.Window
         private ConcurrentDictionary<Guid, MyDockContent> _myDockContents =
             new ConcurrentDictionary<Guid, MyDockContent>();
 
+        private Guid _solutionTreeGuid;
+
         public MenuStrip MenuStrip => menuStrip;
         public ToolStrip ToolStrip => toolStrip;
         public StatusStrip StatusStrip => statusStrip;
@@ -62,6 +64,11 @@ namespace EngineGL.Editor.Impl.Controls.Window
             return Result<T>.Fail();
         }
 
+        public bool ContainsWindow(Guid guid)
+        {
+            return _myDockContents.ContainsKey(guid);
+        }
+
         private async void SolutionFilesSToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -74,9 +81,21 @@ namespace EngineGL.Editor.Impl.Controls.Window
                 using (var workspace = MSBuildWorkspace.Create())
                 {
                     Solution solution = await workspace.OpenSolutionAsync(dialog.FileName);
-                    SolutionTreeContent solutionTree = new SolutionTreeContent(this);
-                    solutionTree.LoadSolution(solution);
-                    AddWindow(solutionTree);
+                    SolutionTreeContent solutionTree;
+                    if (ContainsWindow(_solutionTreeGuid))
+                    {
+                        solutionTree = GetWindow<SolutionTreeContent>(_solutionTreeGuid).Value;
+                        solutionTree.LoadSolution(solution);
+                    }
+                    else
+                    {
+                        solutionTree = new SolutionTreeContent(this);
+                        solutionTree.LoadSolution(solution);
+
+                        _solutionTreeGuid = solutionTree.WindowGuid;
+
+                        AddWindow(solutionTree);
+                    }
                 }
             }
         }

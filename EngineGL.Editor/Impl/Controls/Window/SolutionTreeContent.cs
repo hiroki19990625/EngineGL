@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 using EngineGL.Editor.Core.Control.Window;
 using Microsoft.CodeAnalysis;
@@ -8,6 +9,15 @@ namespace EngineGL.Editor.Impl.Controls.Window
 {
     public class SolutionTreeContent : MyDockContent
     {
+        public const int FOLDER = 0;
+        public const int FOLDER_OPEN = 1;
+        public const int SOLUTION = 2;
+        public const int PROJECT = 3;
+        public const int CS_CODE = 4;
+        public const int CONFIG = 5;
+        public const int PROPERTY = 6;
+        public const int DLL = 7;
+
         private ToolStrip toolStrip1;
         private TreeView treeView1;
         private ToolStripButton toolStripButton1;
@@ -30,17 +40,35 @@ namespace EngineGL.Editor.Impl.Controls.Window
 
         public void LoadSolution(Solution solution)
         {
+            string fileName = Path.GetFileName(solution.FilePath);
+
+            _projects.Clear();
+
             foreach (ProjectId projectId in solution.GetProjectDependencyGraph().GetTopologicallySortedProjects())
             {
                 Project project = solution.GetProject(projectId);
                 _projects.Add(project);
+            }
+
+            treeView1.Nodes.Clear();
+
+            TreeNode node = treeView1.Nodes.Add(fileName);
+            node.ImageIndex = SOLUTION;
+            node.SelectedImageIndex = SOLUTION;
+
+            foreach (Project project in _projects)
+            {
+                TreeNode n = node.Nodes.Add(project.Name);
+                n.ImageIndex = PROJECT;
+                n.SelectedImageIndex = PROJECT;
             }
         }
 
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SolutionTreeContent));
+            System.ComponentModel.ComponentResourceManager resources =
+                new System.ComponentModel.ComponentResourceManager(typeof(SolutionTreeContent));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
@@ -57,14 +85,16 @@ namespace EngineGL.Editor.Impl.Controls.Window
             // toolStrip1
             // 
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton1,
-            this.toolStripButton2,
-            this.toolStripSeparator1,
-            this.toolStripButton3,
-            this.toolStripSeparator2,
-            this.toolStripButton4,
-            this.toolStripButton5});
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
+            {
+                this.toolStripButton1,
+                this.toolStripButton2,
+                this.toolStripSeparator1,
+                this.toolStripButton3,
+                this.toolStripSeparator2,
+                this.toolStripButton4,
+                this.toolStripButton5
+            });
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(282, 27);
@@ -129,14 +159,18 @@ namespace EngineGL.Editor.Impl.Controls.Window
             // treeView1
             // 
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView1.ImageIndex = 0;
+            this.treeView1.ImageList = this.imageList1;
             this.treeView1.Location = new System.Drawing.Point(0, 27);
             this.treeView1.Name = "treeView1";
+            this.treeView1.SelectedImageIndex = 0;
             this.treeView1.Size = new System.Drawing.Size(282, 226);
             this.treeView1.TabIndex = 1;
             // 
             // imageList1
             // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.ImageStream =
+                ((System.Windows.Forms.ImageListStreamer) (resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             this.imageList1.Images.SetKeyName(0, "Folder.png");
             this.imageList1.Images.SetKeyName(1, "FolderOpen.png");
@@ -158,7 +192,6 @@ namespace EngineGL.Editor.Impl.Controls.Window
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
     }
 }
