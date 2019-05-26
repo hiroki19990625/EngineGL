@@ -444,6 +444,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="EngineGL.Editor.cd" />
     <None Include="OpenTK.dll.config">
@@ -468,6 +469,37 @@
     <Content Include="Dlls\NodeEditor.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Icon\SolutionTree\CS_Application.png" />
+    <Content Include="Resources\Icon\Data\Remove_color.png" />
+    <Content Include="Resources\Icon\Logger\StatusInformation.png" />
+    <Content Include="Resources\Icon\Logger\StatusInvalid.png" />
+    <Content Include="Resources\Icon\Logger\StatusNo.png" />
+    <Content Include="Resources\Icon\Logger\StatusOK.png" />
+    <Content Include="Resources\Icon\Logger\StatusWarning.png" />
+    <Content Include="Resources\Icon\Player\Pause.png" />
+    <Content Include="Resources\Icon\Player\Run.png" />
+    <Content Include="Resources\Icon\Player\StatusPause.png" />
+    <Content Include="Resources\Icon\Player\StatusRun.png" />
+    <Content Include="Resources\Icon\Player\StatusStop.png" />
+    <Content Include="Resources\Icon\Script\Class.png" />
+    <Content Include="Resources\Icon\SolutionTree\ToolBar\AddItem.png" />
+    <Content Include="Resources\Icon\Data\Add.png" />
+    <Content Include="Resources\Icon\SolutionTree\ConfigurationFile.png" />
+    <Content Include="Resources\Icon\SolutionTree\CS.png" />
+    <Content Include="Resources\Icon\SolutionTree\CS_ProjectSENode.png" />
+    <Content Include="Resources\Icon\SolutionTree\ToolBar\ExpandAll.png" />
+    <Content Include="Resources\Icon\SolutionTree\Folder.png" />
+    <Content Include="Resources\Icon\SolutionTree\FolderOpen.png" />
+    <Content Include="Resources\Icon\Script\Interface.png" />
+    <Content Include="Resources\Icon\SolutionTree\Library.png" />
+    <Content Include="Resources\Icon\SolutionTree\ToolBar\NewItem.png" />
+    <Content Include="Resources\Icon\SolutionTree\ToolBar\NewSolutionFolder.png" />
+    <Content Include="Resources\Icon\SolutionTree\Property.png" />
+    <Content Include="Resources\Icon\SaveAll.png" />
+    <Content Include="Resources\Icon\Save.png" />
+    <Content Include="Resources\Icon\SolutionTree\ToolBar\Refresh.png" />
+    <Content Include="Resources\Icon\Player\Stop.png" />
+    <Content Include="Resources\Icon\Script\Structure.png" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
