@@ -2,7 +2,9 @@
 using System.IO;
 using System.Windows.Forms;
 using EngineGL.Editor.Core.Control.Window;
-using Microsoft.CodeAnalysis;
+using Microsoft.Build.Construction;
+using Microsoft.Build.Definition;
+using Microsoft.Build.Evaluation;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace EngineGL.Editor.Impl.Controls.Window
@@ -17,6 +19,7 @@ namespace EngineGL.Editor.Impl.Controls.Window
         public const int CONFIG = 5;
         public const int PROPERTY = 6;
         public const int DLL = 7;
+        public const int FILE = 8;
 
         private ToolStrip toolStrip1;
         private TreeView treeView1;
@@ -38,29 +41,109 @@ namespace EngineGL.Editor.Impl.Controls.Window
             Show(hostWindow.DockPanel, DockState.DockLeft);
         }
 
-        public void LoadSolution(Solution solution)
+        public void LoadSolution(SolutionFile solution, string path)
         {
-            string fileName = Path.GetFileName(solution.FilePath);
-
-            _projects.Clear();
-
-            foreach (ProjectId projectId in solution.GetProjectDependencyGraph().GetTopologicallySortedProjects())
-            {
-                Project project = solution.GetProject(projectId);
-                _projects.Add(project);
-            }
+            string fileName = Path.GetFileName(path);
 
             treeView1.Nodes.Clear();
+            _projects.Clear();
 
             TreeNode node = treeView1.Nodes.Add(fileName);
             node.ImageIndex = SOLUTION;
             node.SelectedImageIndex = SOLUTION;
 
-            foreach (Project project in _projects)
+            foreach (ProjectInSolution projectSolution in solution.ProjectsInOrder)
             {
-                TreeNode n = node.Nodes.Add(project.Name);
-                n.ImageIndex = PROJECT;
-                n.SelectedImageIndex = PROJECT;
+                Project project = Project.FromFile(projectSolution.AbsolutePath, new ProjectOptions());
+                _projects.Add(project);
+
+                LoadProject(project, projectSolution.ProjectName, node);
+            }
+        }
+
+        private void LoadProject(Project project, string name, TreeNode root)
+        {
+            Queue<(DirectoryInfo dir, TreeNode node)> queue = new Queue<(DirectoryInfo dir, TreeNode node)>();
+            DirectoryInfo directory = new FileInfo(project.FullPath).Directory;
+
+            List<string> docs = new List<string>();
+            foreach (ProjectItem item in project.Items)
+            {
+                if (item.ItemType == "Compile" || item.ItemType == "EmbeddedResource")
+                {
+                    string path = directory.FullName + "\\" + item.EvaluatedInclude;
+                    if (!docs.Contains(path))
+                        docs.Add(path);
+                }
+            }
+
+            TreeNode node = root.Nodes.Add(name);
+            node.ImageIndex = PROJECT;
+            node.SelectedImageIndex = PROJECT;
+
+            queue.Enqueue((directory, node));
+
+            while (queue.Count > 0)
+            {
+                int cnt = 0;
+                (DirectoryInfo dir, TreeNode node) data = queue.Dequeue();
+                foreach (DirectoryInfo d in data.dir.GetDirectories())
+                {
+                    TreeNode n;
+                    if (d.Name.ToLower() == "properties")
+                    {
+                        n = data.node.Nodes.Insert(0, d.Name);
+                        n.ImageIndex = PROPERTY;
+                        n.SelectedImageIndex = PROPERTY;
+                    }
+                    else
+                    {
+                        n = data.node.Nodes.Add(d.Name);
+                        n.ImageIndex = FOLDER;
+                        n.SelectedImageIndex = FOLDER;
+                    }
+
+                    queue.Enqueue((d, n));
+                    cnt++;
+                }
+
+                foreach (FileInfo file in data.dir.GetFiles())
+                {
+                    if (docs.Contains(file.FullName))
+                    {
+                        TreeNode n = data.node.Nodes.Add(file.Name);
+                        int img = GetFileImage(file.Name);
+                        n.ImageIndex = img;
+                        n.SelectedImageIndex = img;
+                    }
+
+                    cnt++;
+                }
+
+                if (cnt == 0)
+                {
+                    MessageBox.Show(data.node.Text);
+                    data.node.Parent.Nodes.Remove(data.node);
+                }
+            }
+        }
+
+        private int GetFileImage(string fileName)
+        {
+            string ext = Path.GetExtension(fileName);
+            switch (ext)
+            {
+                case ".cs":
+                    return CS_CODE;
+
+                case ".config":
+                    return CONFIG;
+
+                case ".dll":
+                    return DLL;
+
+                default:
+                    return FILE;
             }
         }
 
@@ -180,6 +263,7 @@ namespace EngineGL.Editor.Impl.Controls.Window
             this.imageList1.Images.SetKeyName(5, "ConfigurationFile.png");
             this.imageList1.Images.SetKeyName(6, "Property.png");
             this.imageList1.Images.SetKeyName(7, "Library.png");
+            this.imageList1.Images.SetKeyName(8, "FileSource.png");
             // 
             // SolutionTreeContent
             // 

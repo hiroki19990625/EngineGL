@@ -10,8 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using EngineGL.Editor.Core.Control.Window;
 using EngineGL.Utils;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.MSBuild;
+using Microsoft.Build.Construction;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace EngineGL.Editor.Impl.Controls.Window
@@ -78,24 +77,22 @@ namespace EngineGL.Editor.Impl.Controls.Window
             DialogResult result = dialog.ShowDialog();
             if (result == DialogResult.OK)
             {
-                using (var workspace = MSBuildWorkspace.Create())
+                string fileName = dialog.FileName;
+                SolutionFile solution = SolutionFile.Parse(fileName);
+                SolutionTreeContent solutionTree;
+                if (ContainsWindow(_solutionTreeGuid))
                 {
-                    Solution solution = await workspace.OpenSolutionAsync(dialog.FileName);
-                    SolutionTreeContent solutionTree;
-                    if (ContainsWindow(_solutionTreeGuid))
-                    {
-                        solutionTree = GetWindow<SolutionTreeContent>(_solutionTreeGuid).Value;
-                        solutionTree.LoadSolution(solution);
-                    }
-                    else
-                    {
-                        solutionTree = new SolutionTreeContent(this);
-                        solutionTree.LoadSolution(solution);
+                    solutionTree = GetWindow<SolutionTreeContent>(_solutionTreeGuid).Value;
+                    solutionTree.LoadSolution(solution, fileName);
+                }
+                else
+                {
+                    solutionTree = new SolutionTreeContent(this);
+                    solutionTree.LoadSolution(solution, fileName);
 
-                        _solutionTreeGuid = solutionTree.WindowGuid;
+                    _solutionTreeGuid = solutionTree.WindowGuid;
 
-                        AddWindow(solutionTree);
-                    }
+                    AddWindow(solutionTree);
                 }
             }
         }
