@@ -32,6 +32,9 @@ namespace EngineGL.Editor.Impl.Controls.Window
         private ToolStripButton toolStripButton5;
         private ImageList imageList1;
         private System.ComponentModel.IContainer components;
+
+        private SolutionFile _solution;
+        private string _filePath;
         private List<Project> _projects = new List<Project>();
 
         public SolutionTreeContent(IMainWindow hostWindow) : base(hostWindow)
@@ -43,10 +46,14 @@ namespace EngineGL.Editor.Impl.Controls.Window
 
         public void LoadSolution(SolutionFile solution, string path)
         {
+            _filePath = path;
+            _solution = solution;
+
             string fileName = Path.GetFileName(path);
 
             treeView1.Nodes.Clear();
             _projects.Clear();
+            ProjectCollection.GlobalProjectCollection.UnloadAllProjects();
 
             TreeNode node = treeView1.Nodes.Add(fileName);
             node.ImageIndex = SOLUTION;
@@ -71,7 +78,7 @@ namespace EngineGL.Editor.Impl.Controls.Window
             foreach (ProjectItem item in project.Items)
             {
                 if (item.ItemType == "Compile" ||
-                    item.ItemType == "EmbeddedResource" || 
+                    item.ItemType == "EmbeddedResource" ||
                     item.ItemType == "Content" ||
                     item.ItemType == "None")
                 {
@@ -199,6 +206,8 @@ namespace EngineGL.Editor.Impl.Controls.Window
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(24, 24);
             this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.ToolTipText = "Tree Update";
+            this.toolStripButton1.Click += new System.EventHandler(this.ToolStripButton1_Click);
             // 
             // toolStripButton2
             // 
@@ -208,6 +217,8 @@ namespace EngineGL.Editor.Impl.Controls.Window
             this.toolStripButton2.Name = "toolStripButton2";
             this.toolStripButton2.Size = new System.Drawing.Size(24, 24);
             this.toolStripButton2.Text = "toolStripButton2";
+            this.toolStripButton2.ToolTipText = "Expand All";
+            this.toolStripButton2.Click += new System.EventHandler(this.ToolStripButton2_Click);
             // 
             // toolStripSeparator1
             // 
@@ -284,6 +295,17 @@ namespace EngineGL.Editor.Impl.Controls.Window
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
+        }
+
+        private void ToolStripButton1_Click(object sender, System.EventArgs e)
+        {
+            if (_solution != null && !string.IsNullOrEmpty(_filePath))
+                LoadSolution(_solution, _filePath);
+        }
+
+        private void ToolStripButton2_Click(object sender, System.EventArgs e)
+        {
+            treeView1.ExpandAll();
         }
     }
 }
