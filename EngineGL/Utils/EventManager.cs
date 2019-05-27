@@ -31,9 +31,9 @@ namespace EngineGL.Utils
             }
         }
 
-        public EventManager(EventHandler<T> hander, object sender, T args)
+        public EventManager(EventHandler<T> handler, object sender, T args)
         {
-            Handler = hander;
+            Handler = handler;
             Sender = sender;
             EventArgs = args;
         }
