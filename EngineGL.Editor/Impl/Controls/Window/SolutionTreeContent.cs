@@ -67,13 +67,27 @@ namespace EngineGL.Editor.Impl.Controls.Window
             DirectoryInfo directory = new FileInfo(project.FullPath).Directory;
 
             List<string> docs = new List<string>();
+            List<string> docFolders = new List<string>();
             foreach (ProjectItem item in project.Items)
             {
-                if (item.ItemType == "Compile" || item.ItemType == "EmbeddedResource")
+                if (item.ItemType == "Compile" ||
+                    item.ItemType == "EmbeddedResource" || 
+                    item.ItemType == "Content" ||
+                    item.ItemType == "None")
                 {
                     string path = directory.FullName + "\\" + item.EvaluatedInclude;
-                    if (!docs.Contains(path))
-                        docs.Add(path);
+                    if (File.Exists(path))
+                    {
+                        if (!docs.Contains(path))
+                            docs.Add(path);
+
+                        string[] folders = Path.GetDirectoryName(path).Split('\\');
+                        foreach (string folder in folders)
+                        {
+                            if (!docFolders.Contains(folder))
+                                docFolders.Add(folder);
+                        }
+                    }
                 }
             }
 
@@ -85,26 +99,27 @@ namespace EngineGL.Editor.Impl.Controls.Window
 
             while (queue.Count > 0)
             {
-                int cnt = 0;
                 (DirectoryInfo dir, TreeNode node) data = queue.Dequeue();
                 foreach (DirectoryInfo d in data.dir.GetDirectories())
                 {
-                    TreeNode n;
-                    if (d.Name.ToLower() == "properties")
+                    if (docFolders.Contains(d.Name))
                     {
-                        n = data.node.Nodes.Insert(0, d.Name);
-                        n.ImageIndex = PROPERTY;
-                        n.SelectedImageIndex = PROPERTY;
-                    }
-                    else
-                    {
-                        n = data.node.Nodes.Add(d.Name);
-                        n.ImageIndex = FOLDER;
-                        n.SelectedImageIndex = FOLDER;
-                    }
+                        TreeNode n;
+                        if (d.Name.ToLower() == "properties")
+                        {
+                            n = data.node.Nodes.Insert(0, d.Name);
+                            n.ImageIndex = PROPERTY;
+                            n.SelectedImageIndex = PROPERTY;
+                        }
+                        else
+                        {
+                            n = data.node.Nodes.Add(d.Name);
+                            n.ImageIndex = FOLDER;
+                            n.SelectedImageIndex = FOLDER;
+                        }
 
-                    queue.Enqueue((d, n));
-                    cnt++;
+                        queue.Enqueue((d, n));
+                    }
                 }
 
                 foreach (FileInfo file in data.dir.GetFiles())
@@ -116,14 +131,6 @@ namespace EngineGL.Editor.Impl.Controls.Window
                         n.ImageIndex = img;
                         n.SelectedImageIndex = img;
                     }
-
-                    cnt++;
-                }
-
-                if (cnt == 0)
-                {
-                    MessageBox.Show(data.node.Text);
-                    data.node.Parent.Nodes.Remove(data.node);
                 }
             }
         }
@@ -242,6 +249,7 @@ namespace EngineGL.Editor.Impl.Controls.Window
             // treeView1
             // 
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView1.Font = new System.Drawing.Font("MS UI Gothic", 10F);
             this.treeView1.ImageIndex = 0;
             this.treeView1.ImageList = this.imageList1;
             this.treeView1.Location = new System.Drawing.Point(0, 27);

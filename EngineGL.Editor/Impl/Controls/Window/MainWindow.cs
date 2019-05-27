@@ -68,7 +68,7 @@ namespace EngineGL.Editor.Impl.Controls.Window
             return _myDockContents.ContainsKey(guid);
         }
 
-        private async void SolutionFilesSToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SolutionFilesSToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Multiselect = false;
