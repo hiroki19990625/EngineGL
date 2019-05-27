@@ -33,11 +33,28 @@ namespace EngineGL.Impl
             }
         }
 
+        /// <summary>
+        /// アタッチされているコンポーネントを全て取得します。
+        /// </summary>
+        /// <returns>
+        /// <para>成功した場合、<see cref="Result{T}"/>でラップされた</para>
+        /// アタッチされている全てのコンポーネントを返します。
+        /// <para>失敗した場合、<see cref="Result{T}"/> の Fail を返します。</para>
+        /// </returns>
         public Result<IComponent[]> GetComponents()
         {
             return Result<IComponent[]>.Success(_attachedComponents.Values.ToArray());
         }
 
+        /// <summary>
+        /// インスタンスID からアタッチされているコンポーネントを取得します。
+        /// </summary>
+        /// <param name="hash">インスタンスID</param>
+        /// <returns>
+        /// <para>成功した場合、<see cref="Result{T}"/>でラップされた</para>
+        /// インスタンスID がら取得したコンポーネントを返します。
+        /// <para>失敗した場合、<see cref="Result{T}"/> の Fail を返します。</para>
+        /// </returns>
         public Result<IComponent> GetComponent(Guid hash)
         {
             if (_attachedComponents.TryGetValue(hash, out IComponent component))
@@ -46,6 +63,16 @@ namespace EngineGL.Impl
             return Result<IComponent>.Fail();
         }
 
+        /// <summary>
+        /// <para>ジェネリクス型情報からアタッチされているコンポーネントを取得します。</para>
+        /// <para>この操作は安全ではありません。
+        /// 型情報の型に明示的キャストを行うため例外発生する可能性があります。</para>
+        /// <para>また、複数のコンポーネントが存在する場合、最初に見つかったコンポーネントを返すため、</para>
+        /// <para>個々のコンポーネントを取得する場合、<seealso cref="GetComponentUnsafe{T}(Guid)"/>
+        /// メソッドを利用してください。</para>
+        /// </summary>
+        /// <typeparam name="T"><see cref="IComponent"/>型の型引数</typeparam>
+        /// <returns></returns>
         public Result<T> GetComponentUnsafe<T>() where T : IComponent
         {
             foreach (KeyValuePair<Guid, IComponent> pair in _attachedComponents)
