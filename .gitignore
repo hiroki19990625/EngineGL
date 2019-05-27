@@ -24,5 +24,9 @@ packages/*
 *.exe
 /.vs/EngineGL
 
+# VS
+.vs
+.vs/*
+
 # NUGET PACKAGE
 EngineGL.Editor/freetype6.dll
