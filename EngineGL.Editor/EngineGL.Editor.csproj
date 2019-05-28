@@ -213,7 +213,7 @@
   <ItemGroup>
     <Compile Include="Core\Control\Window\IMainWindow.cs" />
     <Compile Include="Core\Control\Window\IWindow.cs" />
-    <Compile Include="Core\Parser\CSharpCodeParser.cs" />
+    <Compile Include="Impl\Parser\CSharpCodeParser.cs" />
     <Compile Include="Impl\Controls\Window\CodeParseTreeContent.cs">
       <SubType>Form</SubType>
     </Compile>

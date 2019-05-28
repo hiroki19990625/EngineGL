@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using EngineGL.Editor.Core.Control.Window;
-using EngineGL.Editor.Core.Parser;
+using EngineGL.Editor.Impl.Parser;
 using Microsoft.CodeAnalysis.CSharp;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -48,7 +48,11 @@ namespace EngineGL.Editor.Impl.Controls.Window
             TreeNode cls = treeView1.Nodes.Add(body.Name);
             foreach (CodeTypeDeclaration declaration in body.Types)
             {
-                cls.Nodes.Add(declaration.Name);
+                TreeNode node = cls.Nodes.Add(declaration.Name);
+                foreach (CodeTypeMember member in declaration.Members)
+                {
+                    node.Nodes.Add(member.Name);
+                }
             }
         }
 

@@ -1,13 +1,11 @@
-﻿using System.CodeDom;
-using System.CodeDom.Compiler;
+﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
-using System.IO;
 using System.Windows.Forms;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace EngineGL.Editor.Core.Parser
+namespace EngineGL.Editor.Impl.Parser
 {
     public class CSharpCodeParser
     {
@@ -72,6 +70,7 @@ namespace EngineGL.Editor.Core.Parser
                 if (syntax is ClassDeclarationSyntax classDeclaration)
                 {
                     type.Name = classDeclaration.Identifier.Text;
+                    type.Members.AddRange(GetClassMembers(type, classDeclaration.Members));
                     classes.Add(type);
                 }
                 else if (syntax is StructDeclarationSyntax structDeclaration)
@@ -92,13 +91,32 @@ namespace EngineGL.Editor.Core.Parser
                     type.IsEnum = true;
                     classes.Add(type);
                 }
-                else
+                else if (syntax is DelegateDeclarationSyntax delegateDeclaration)
                 {
-                    MessageBox.Show(syntax.GetType().Name);
+                    type = new CodeTypeDelegate(delegateDeclaration.Identifier.Text);
+                    classes.Add(type);
                 }
             }
 
             return classes.ToArray();
+        }
+
+        public CodeTypeMember[] GetClassMembers(CodeTypeDeclaration type, SyntaxList<MemberDeclarationSyntax> list)
+        {
+            List<CodeTypeMember> members = new List<CodeTypeMember>();
+            for (int i = 0; i < list.Count; i++)
+            {
+                MemberDeclarationSyntax syntax = list[i];
+                if (syntax is PropertyDeclarationSyntax propertyDeclaration)
+                {
+                    CodeMemberProperty property = new CodeMemberProperty();
+                    property.Name = propertyDeclaration.Identifier.Text;
+                    property.Type = new CodeTypeReference(new CodeTypeParameter(propertyDeclaration.Type.ToString()));
+                    members.Add(property);
+                }
+            }
+
+            return members.ToArray();
         }
     }
 }
