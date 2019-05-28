@@ -24,11 +24,7 @@ namespace EngineGL.Impl
         public static Logger Logger { get; private set; } = LogManager.GetCurrentClassLogger();
 
 
-        private readonly ConcurrentDictionary<int, IScene> _preLoadedScenes =
-            new ConcurrentDictionary<int, IScene>();
-
-        private readonly ConcurrentDictionary<int, IScene> _loadedScenes =
-            new ConcurrentDictionary<int, IScene>();
+        private readonly SceneManager sceneManager = new SceneManager(Logger);
 
         private float _mouseWheel;
 
@@ -58,252 +54,60 @@ namespace EngineGL.Impl
         }
 
         public virtual Result<int> PreLoadScene<T>(string file) where T : IScene
-        {
-            FileInfo fileInfo = new FileInfo(file);
-            return PreLoadScene<T>(fileInfo);
-        }
+            => sceneManager.PreLoadScene<T>(file, this, PreLoadSceneEvent);
 
         public virtual Result<int> PreLoadScene<T>(FileInfo file) where T : IScene
-        {
-            StreamReader reader = file.OpenText();
-            IScene old = reader.ReadToEnd().FromDeserializableJson<T>();
-            T scene = Activator.CreateInstance<T>();
-            reader.Close();
-            foreach (IObject s in old.GetObjects().Value)
-            {
-                if (s is IComponentAttachable)
-                {
-                    IComponentAttachable attachable = (IComponentAttachable) s;
-                    foreach (IComponent component in attachable.GetComponents().Value)
-                    {
-                        component.ParentObject = attachable;
-                    }
-                }
-
-                scene.AddObject(s);
-            }
-
-            PreLoadSceneEventArgs args = new PreLoadSceneEventArgs(this, file, scene);
-            EventManager<PreLoadSceneEventArgs> manager
-                = new EventManager<PreLoadSceneEventArgs>(PreLoadSceneEvent, this, args);
-            manager.OnSuccess = ev => _preLoadedScenes.TryAdd(ev.PreLoadScene.GetHashCode(), ev.PreLoadScene);
-
-            if (manager.Call())
-                return Result<int>.Success(args.PreLoadScene.GetHashCode());
-            else
-                return Result<int>.Fail();
-        }
+            => sceneManager.PreLoadScene<T>(file, this, PreLoadSceneEvent);
 
         public virtual bool PreUnloadScene(int hash)
-        {
-            if (_preLoadedScenes.TryGetValue(hash, out IScene scene))
-            {
-                PreUnloadSceneEventArgs args = new PreUnloadSceneEventArgs(this, scene);
-                EventManager<PreUnloadSceneEventArgs> manager
-                    = new EventManager<PreUnloadSceneEventArgs>(PreUnloadSceneEvent, this, args);
-                manager.OnSuccess = ev => _preLoadedScenes.TryRemove(ev.PreUnloadScene.GetHashCode(), out scene);
-                return manager.Call();
-            }
-
-            return false;
-        }
+            => sceneManager.PreUnloadScene(hash, this, PreUnloadSceneEvent);
 
         public virtual bool PreUnloadScenes()
-        {
-            int c = 0;
-            foreach (int hash in _preLoadedScenes.Keys)
-            {
-                if (PreUnloadScene(hash))
-                    c++;
-            }
-
-            return c > 0;
-        }
+            => sceneManager.PreUnloadScenes(this, PreUnloadSceneEvent);
 
         public virtual Result<IScene> GetScene(int hash)
-        {
-            if (_loadedScenes.TryGetValue(hash, out IScene scene))
-            {
-                return Result<IScene>.Success(scene);
-            }
-
-            return Result<IScene>.Fail();
-        }
+            => sceneManager.GetScene(hash);
 
         public virtual Result<T> GetSceneUnsafe<T>(int hash) where T : IScene
-        {
-            if (_loadedScenes.TryGetValue(hash, out IScene scene))
-            {
-                return Result<T>.Success((T) scene);
-            }
-
-            return Result<T>.Fail();
-        }
+            => sceneManager.GetSceneUnsafe<T>(hash);
 
         public virtual Result<IScene> LoadScene(int hash)
-        {
-            if (_preLoadedScenes.TryGetValue(hash, out IScene scene)
-                || !_loadedScenes.ContainsKey(hash))
-            {
-                LoadSceneEventArgs args = new LoadSceneEventArgs(this, scene);
-                EventManager<LoadSceneEventArgs> manager
-                    = new EventManager<LoadSceneEventArgs>(LoadSceneEvent, this, args);
-                manager.OnSuccess = ev => _loadedScenes.TryAdd(ev.LoadScene.GetHashCode(), ev.LoadScene);
-
-                if (manager.Call())
-                    return Result<IScene>.Success(args.LoadScene);
-                else
-                    return Result<IScene>.Fail();
-            }
-
-            return Result<IScene>.Fail();
-        }
+            => sceneManager.LoadScene(hash, this, LoadSceneEvent);
 
         public virtual Result<IScene> LoadScene(IScene scene)
-        {
-            int hash = scene.GetHashCode();
-            if (!_loadedScenes.ContainsKey(hash))
-            {
-                LoadSceneEventArgs args = new LoadSceneEventArgs(this, scene);
-                EventManager<LoadSceneEventArgs> manager
-                    = new EventManager<LoadSceneEventArgs>(LoadSceneEvent, this, args);
-                manager.OnSuccess = ev => _loadedScenes.TryAdd(ev.LoadScene.GetHashCode(), ev.LoadScene);
-
-                if (manager.Call())
-                    return Result<IScene>.Success(args.LoadScene);
-                else
-                    return Result<IScene>.Fail();
-            }
-
-            return Result<IScene>.Fail();
-        }
+            => sceneManager.LoadScene(scene, this, LoadSceneEvent);
 
         public virtual Result<T> LoadSceneUnsafe<T>(int hash) where T : IScene
-        {
-            try
-            {
-                return Result<T>.Success((T) LoadScene(hash).Value);
-            }
-            catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
-            {
-                Logger.Debug(e);
-                return Result<T>.Fail(e.ToString());
-            }
-        }
-
+            => sceneManager.LoadSceneUnsafe<T>(hash, this, LoadSceneEvent);
         public virtual Result<T> LoadSceneUnsafe<T>(T scene) where T : IScene
-        {
-            try
-            {
-                return Result<T>.Success((T) LoadScene(scene).Value);
-            }
-            catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
-            {
-                Logger.Debug(e);
-                return Result<T>.Fail(e.ToString());
-            }
-        }
+            => sceneManager.LoadSceneUnsafe(scene, this, LoadSceneEvent);
 
         public virtual Result<IScene> UnloadScene(int hash)
-        {
-            if (_loadedScenes.TryGetValue(hash, out IScene scene))
-            {
-                UnloadSceneEventArgs args = new UnloadSceneEventArgs(this, scene);
-                EventManager<UnloadSceneEventArgs> manager
-                    = new EventManager<UnloadSceneEventArgs>(UnloadSceneEvent, this, args);
-                manager.OnSuccess = ev => _loadedScenes.TryRemove(args.UnloadScene.GetHashCode(), out scene);
-
-                if (manager.Call())
-                    return Result<IScene>.Success(args.UnloadScene);
-                else
-                    return Result<IScene>.Fail();
-            }
-
-            return Result<IScene>.Fail();
-        }
+            => sceneManager.UnloadScene(hash, this, UnloadSceneEvent);
 
         public virtual Result<IScene> UnloadScene(IScene scene)
-        {
-            return UnloadScene(scene.GetHashCode());
-        }
+            => sceneManager.UnloadScene(scene, this, UnloadSceneEvent);
 
         public virtual Result<T> UnloadSceneUnsafe<T>(int hash) where T : IScene
-        {
-            try
-            {
-                return Result<T>.Success((T) UnloadScene(hash).Value);
-            }
-            catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
-            {
-                Logger.Debug(e);
-                return Result<T>.Fail(e.ToString());
-            }
-        }
+            => sceneManager.UnloadSceneUnsafe<T>(hash, this, UnloadSceneEvent);
 
         public virtual Result<T> UnloadSceneUnsafe<T>(T scene) where T : IScene
-        {
-            try
-            {
-                return Result<T>.Success((T) UnloadScene(scene).Value);
-            }
-            catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
-            {
-                Logger.Debug(e);
-                return Result<T>.Fail(e.ToString());
-            }
-        }
+            => sceneManager.UnloadSceneUnsafe(scene, this, UnloadSceneEvent);
 
         public virtual bool UnloadScenes()
-        {
-            int c = 0;
-            foreach (int hash in _loadedScenes.Keys)
-            {
-                if (UnloadScene(hash).IsSuccess)
-                    c++;
-            }
-
-            return c > 0;
-        }
+            => sceneManager.UnloadScenes(this, UnloadSceneEvent);
 
         public virtual Result<IScene> LoadNextScene(int hash)
-        {
-            UnloadScenes();
-            return LoadScene(hash);
-        }
+            => sceneManager.LoadNextScene(hash, this, UnloadSceneEvent, LoadSceneEvent);
 
         public virtual Result<IScene> LoadNextScene(IScene scene)
-        {
-            UnloadScenes();
-            return LoadScene(scene);
-        }
+            => sceneManager.LoadNextScene(scene, this, UnloadSceneEvent, LoadSceneEvent);
 
         public virtual Result<T> LoadNextSceneUnsafe<T>(int hash) where T : IScene
-        {
-            UnloadScenes();
-            try
-            {
-                return Result<T>.Success((T) LoadScene(hash).Value);
-            }
-            catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
-            {
-                Logger.Debug(e);
-                return Result<T>.Fail(e.ToString());
-            }
-        }
+            => sceneManager.LoadNextSceneUnsafe<T>(hash, this, UnloadSceneEvent, LoadSceneEvent);
 
         public virtual Result<T> LoadNextSceneUnsafe<T>(T scene) where T : IScene
-        {
-            UnloadScenes();
-            try
-            {
-                return Result<T>.Success((T) LoadScene(scene).Value);
-            }
-            catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
-            {
-                Logger.Debug(e);
-                return Result<T>.Fail(e.ToString());
-            }
-        }
+            => sceneManager.LoadNextSceneUnsafe<T>(scene, this, UnloadSceneEvent, LoadSceneEvent);
 
         public virtual void LoadDefaultFunc()
         {
@@ -457,10 +261,7 @@ namespace EngineGL.Impl
             io.DisplayFramebufferScale = Vec2.One;
             io.DeltaTime = (float) ev.Time;
             ImGui.NewFrame();
-            foreach (IScene scene in _loadedScenes.Values)
-            {
-                scene.OnGUI(ev.Time);
-            }
+            sceneManager.Render(ev.Time);
 
             ImGui.Render();
 
@@ -563,10 +364,7 @@ namespace EngineGL.Impl
             {
                 base.OnUpdateFrame(e);
                 ImGui_Input_Update();
-                foreach (IScene scene in _loadedScenes.Values)
-                {
-                    scene.OnUpdate(e.Time);
-                }
+                sceneManager.OnUpdateFrame(e.Time);
             }
             catch (Exception exception)
 
@@ -581,11 +379,7 @@ namespace EngineGL.Impl
             try
             {
                 base.OnRenderFrame(e);
-                foreach (IScene scene in _loadedScenes.Values)
-                {
-                    scene.OnDraw(e.Time);
-                }
-
+                sceneManager.OnUpdateFrame(e.Time);
                 SwapBuffers();
             }
             catch (Exception exception)
