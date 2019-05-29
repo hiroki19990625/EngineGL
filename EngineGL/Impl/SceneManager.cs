@@ -47,7 +47,7 @@ namespace EngineGL.Impl
 
             PreLoadSceneEventArgs args = new PreLoadSceneEventArgs(game, file, scene);
             EventManager<PreLoadSceneEventArgs> manager
-                = new EventManager<PreLoadSceneEventArgs>(preLoadSceneEvent, this, args);
+                = new EventManager<PreLoadSceneEventArgs>(preLoadSceneEvent, game, args);
             manager.OnSuccess = ev => _preLoadedScenes.TryAdd(ev.PreLoadScene.GetHashCode(), ev.PreLoadScene);
 
             if (manager.Call())
@@ -62,7 +62,7 @@ namespace EngineGL.Impl
             {
                 PreUnloadSceneEventArgs args = new PreUnloadSceneEventArgs(game, scene);
                 EventManager<PreUnloadSceneEventArgs> manager
-                    = new EventManager<PreUnloadSceneEventArgs>(preUnloadSceneEvent, this, args);
+                    = new EventManager<PreUnloadSceneEventArgs>(preUnloadSceneEvent, game, args);
                 manager.OnSuccess = ev => _preLoadedScenes.TryRemove(ev.PreUnloadScene.GetHashCode(), out scene);
                 return manager.Call();
             }
@@ -109,7 +109,7 @@ namespace EngineGL.Impl
             {
                 LoadSceneEventArgs args = new LoadSceneEventArgs(game, scene);
                 EventManager<LoadSceneEventArgs> manager
-                    = new EventManager<LoadSceneEventArgs>(loadSceneEvent, this, args);
+                    = new EventManager<LoadSceneEventArgs>(loadSceneEvent, game, args);
                 manager.OnSuccess = ev => _loadedScenes.TryAdd(ev.LoadScene.GetHashCode(), ev.LoadScene);
 
                 if (manager.Call())
@@ -128,7 +128,7 @@ namespace EngineGL.Impl
             {
                 LoadSceneEventArgs args = new LoadSceneEventArgs(game, scene);
                 EventManager<LoadSceneEventArgs> manager
-                    = new EventManager<LoadSceneEventArgs>(loadSceneEvent, this, args);
+                    = new EventManager<LoadSceneEventArgs>(loadSceneEvent, game, args);
                 manager.OnSuccess = ev => _loadedScenes.TryAdd(ev.LoadScene.GetHashCode(), ev.LoadScene);
 
                 if (manager.Call())
@@ -267,7 +267,7 @@ namespace EngineGL.Impl
             }
         }
 
-        public void Render(double time)
+        public void OnGUI(double time)
         {
             foreach (IScene scene in _loadedScenes.Values)
             {
@@ -280,6 +280,14 @@ namespace EngineGL.Impl
             foreach (IScene scene in _loadedScenes.Values)
             {
                 scene.OnUpdate(time);
+            }
+        }
+
+        public void OnDraw(double time)
+        {
+            foreach (IScene scene in _loadedScenes.Values)
+            {
+                scene.OnDraw(time);
             }
         }
     }
