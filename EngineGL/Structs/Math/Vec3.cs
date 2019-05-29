@@ -21,7 +21,7 @@ namespace EngineGL.Structs.Math
         public float Y { get; set; }
         public float Z { get; set; }
 
-        public float Magnitude => (float)System.Math.Sqrt(SqrMagnitude);
+        [JsonIgnore] public float Magnitude => (float) System.Math.Sqrt(SqrMagnitude);
 
         [JsonIgnore]
         public Vec3 Normalized
@@ -33,8 +33,7 @@ namespace EngineGL.Structs.Math
             }
         }
 
-        [JsonIgnore]
-        public float SqrMagnitude => X * X + Y * Y + Z * Z;
+        [JsonIgnore] public float SqrMagnitude => X * X + Y * Y + Z * Z;
 
         public Vec3(float value)
         {
@@ -66,7 +65,8 @@ namespace EngineGL.Structs.Math
 
         public float Dot(Vec3 other) => X * other.X + Y * other.Y + Z * other.Z;
 
-        public Vec3 Cross(Vec3 other) => new Vec3(Y * other.Z - Z * other.Y, Z * other.X - X * other.Z, X * other.Y - Y * other.X);
+        public Vec3 Cross(Vec3 other) =>
+            new Vec3(Y * other.Z - Z * other.Y, Z * other.X - X * other.Z, X * other.Y - Y * other.X);
 
         public bool Equals(Vec3 other)
         {

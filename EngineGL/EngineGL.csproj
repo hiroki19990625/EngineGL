@@ -170,6 +170,7 @@
     <Compile Include="Resources\Lang\Resources.Designer.cs" />
     <Compile Include="Structs\Math\Vec2.cs" />
     <Compile Include="Structs\Math\Vec3.cs" />
+    <Compile Include="Structs\Math\Vec4.cs" />
     <Compile Include="Structs\Secure\ISecureValue.cs" />
     <Compile Include="Structs\Secure\SecureDouble.cs" />
     <Compile Include="Structs\Secure\SecureExtensions.cs" />

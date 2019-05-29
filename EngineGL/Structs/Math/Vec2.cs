@@ -21,7 +21,7 @@ namespace EngineGL.Structs.Math
         public float X { get; set; }
         public float Y { get; set; }
 
-        public float Magnitude => (float)System.Math.Sqrt(SqrMagnitude);
+        [JsonIgnore] public float Magnitude => (float) System.Math.Sqrt(SqrMagnitude);
 
         [JsonIgnore]
         public Vec2 Normalized
@@ -33,8 +33,7 @@ namespace EngineGL.Structs.Math
             }
         }
 
-        [JsonIgnore]
-        public float SqrMagnitude => X * X + Y * Y;
+        [JsonIgnore] public float SqrMagnitude => X * X + Y * Y;
 
         public Vec2(float value)
         {
@@ -56,7 +55,7 @@ namespace EngineGL.Structs.Math
 
         public float Dot(Vec2 other) => X * other.X + Y * other.Y;
 
-        public float Cross(Vec2 other) =>  X * other.Y - Y * other.X;
+        public float Cross(Vec2 other) => X * other.Y - Y * other.X;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
