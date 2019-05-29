@@ -1,13 +1,5 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using EngineGL.Impl;
-using EngineGL.Impl.Drawable;
-using EngineGL.Utils;
 using NUnit.Framework;
-using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
 
 namespace EngineGL.Tests.Impl
 {
