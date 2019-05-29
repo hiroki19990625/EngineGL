@@ -1,8 +1,9 @@
+using System;
 using System.Drawing;
 
 namespace EngineGL.Structs.Drawing
 {
-    public class Colour4
+    public class Colour4 : IEquatable<Colour4>
     {
         public byte R { get; set; }
         public byte G { get; set; }
@@ -33,6 +34,14 @@ namespace EngineGL.Structs.Drawing
             A = a;
         }
 
+        public Colour4(byte r, byte g, byte b)
+        {
+            R = r;
+            G = g;
+            B = b;
+            A = byte.MaxValue;
+        }
+
         public static implicit operator Colour4(Color color)
         {
             return new Colour4(color.R, color.G, color.B, color.A);
@@ -46,6 +55,26 @@ namespace EngineGL.Structs.Drawing
         public static implicit operator OpenTK.Graphics.Color4(Colour4 color)
         {
             return new OpenTK.Graphics.Color4(ToFloat(color.R), ToFloat(color.G), ToFloat(color.B), ToFloat(color.A));
+        }
+
+        public static implicit operator Colour4(Colour3 a)
+        {
+            return new Colour4(a.R, a.G, a.B);
+        }
+
+        public static bool operator ==(Colour4 a, Colour4 b)
+        {
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(Colour4 a, Colour4 b)
+        {
+            return !a.Equals(b);
+        }
+
+        public bool Equals(Colour4 other)
+        {
+            return R.Equals(other.R) && G.Equals(other.G) && B.Equals(other.B);
         }
 
         private static byte ToByte(float f)
