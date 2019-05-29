@@ -21,14 +21,14 @@ namespace EngineGL.Tests.Impl
             Scene loadCancel = new Scene();
             Scene unloadCancel = new Scene();
 
-            game.LoadSceneEvent += (sender, args) =>
+            game.SceneEvents.LoadSceneEvent += (sender, args) =>
             {
                 if (args.LoadScene.GetHashCode() == loadCancel.GetHashCode())
                 {
                     args.IsCanceled = true;
                 }
             };
-            game.UnloadSceneEvent += (sender, args) =>
+            game.SceneEvents.UnloadSceneEvent += (sender, args) =>
             {
                 if (args.UnloadScene.GetHashCode() == unloadCancel.GetHashCode())
                 {
