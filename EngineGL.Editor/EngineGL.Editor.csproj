@@ -213,7 +213,7 @@
   <ItemGroup>
     <Compile Include="Core\Control\Window\IMainWindow.cs" />
     <Compile Include="Core\Control\Window\IWindow.cs" />
-    <Compile Include="Impl\Parser\CSharpCodeParser.cs" />
+    <Compile Include="Impl\CodeBuilder\CSharpCodeDomBuilder.cs" />
     <Compile Include="Impl\Controls\Window\CodeParseTreeContent.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -229,6 +229,7 @@
     <Compile Include="Impl\Controls\Window\SolutionTreeContent.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Impl\TreeWalker\CSharpCodeWalker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Impl\Controls\Window\CodeParseTreeContent.resx">

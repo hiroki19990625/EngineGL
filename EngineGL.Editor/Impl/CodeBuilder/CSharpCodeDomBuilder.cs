@@ -1,31 +1,29 @@
-﻿using System;
-using System.CodeDom;
+﻿using System.CodeDom;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace EngineGL.Editor.Impl.Parser
+namespace EngineGL.Editor.Impl.CodeBuilder
 {
-    public class CSharpCodeParser
+    public class CSharpCodeDomBuilder
     {
         private CompilationUnitSyntax _unit;
 
-        public CSharpCodeParser(CompilationUnitSyntax compilationUnit)
+        public CSharpCodeDomBuilder(CompilationUnitSyntax compilationUnit)
         {
             _unit = compilationUnit;
         }
 
-        public CodeCompileUnit Parse()
+        public CodeCompileUnit Build()
         {
             CodeCompileUnit unit = new CodeCompileUnit();
 
             CodeNamespace nameSpace = new CodeNamespace();
             nameSpace.Comments.Clear();
 
-            nameSpace.Imports.AddRange(GetImports(_unit.Usings));
+            nameSpace.Imports.AddRange(CreateImports(_unit.Usings));
 
-            CodeNamespace bodyNameSpace = GetNamespace();
+            CodeNamespace bodyNameSpace = CreateNamespace();
 
             unit.Namespaces.Add(nameSpace);
             unit.Namespaces.Add(bodyNameSpace);
@@ -33,7 +31,7 @@ namespace EngineGL.Editor.Impl.Parser
             return unit;
         }
 
-        public CodeNamespaceImport[] GetImports(SyntaxList<UsingDirectiveSyntax> usingDirectiveList)
+        public CodeNamespaceImport[] CreateImports(SyntaxList<UsingDirectiveSyntax> usingDirectiveList)
         {
             CodeNamespaceImport[] imports = new CodeNamespaceImport[usingDirectiveList.Count];
             for (int i = 0; i < imports.Length; i++)
@@ -44,7 +42,7 @@ namespace EngineGL.Editor.Impl.Parser
             return imports;
         }
 
-        public CodeNamespace GetNamespace()
+        public CodeNamespace CreateNamespace()
         {
             CodeNamespace codeNamespace = new CodeNamespace("DefaultNamespace");
             foreach (MemberDeclarationSyntax member in _unit.Members)
@@ -52,15 +50,15 @@ namespace EngineGL.Editor.Impl.Parser
                 if (member is NamespaceDeclarationSyntax namespaceDeclaration)
                 {
                     codeNamespace.Name = namespaceDeclaration.Name.ToString();
-                    codeNamespace.Imports.AddRange(GetImports(namespaceDeclaration.Usings));
-                    codeNamespace.Types.AddRange(GetTypes(namespaceDeclaration.Members));
+                    codeNamespace.Imports.AddRange(CreateImports(namespaceDeclaration.Usings));
+                    codeNamespace.Types.AddRange(CreateTypes(namespaceDeclaration.Members));
                 }
             }
 
             return codeNamespace;
         }
 
-        public CodeTypeDeclaration[] GetTypes(SyntaxList<MemberDeclarationSyntax> typeDeclarationList)
+        public CodeTypeDeclaration[] CreateTypes(SyntaxList<MemberDeclarationSyntax> typeDeclarationList)
         {
             List<CodeTypeDeclaration> classes = new List<CodeTypeDeclaration>();
             for (int i = 0; i < typeDeclarationList.Count; i++)
@@ -70,7 +68,7 @@ namespace EngineGL.Editor.Impl.Parser
                 if (syntax is ClassDeclarationSyntax classDeclaration)
                 {
                     type.Name = classDeclaration.Identifier.Text;
-                    type.Members.AddRange(GetClassMembers(type, classDeclaration.Members));
+                    type.Members.AddRange(CreateClassMembers(type, classDeclaration.Members));
                     classes.Add(type);
                 }
                 else if (syntax is StructDeclarationSyntax structDeclaration)
@@ -101,7 +99,7 @@ namespace EngineGL.Editor.Impl.Parser
             return classes.ToArray();
         }
 
-        public CodeTypeMember[] GetClassMembers(CodeTypeDeclaration type, SyntaxList<MemberDeclarationSyntax> list)
+        public CodeTypeMember[] CreateClassMembers(CodeTypeDeclaration type, SyntaxList<MemberDeclarationSyntax> list)
         {
             List<CodeTypeMember> members = new List<CodeTypeMember>();
             for (int i = 0; i < list.Count; i++)
@@ -111,7 +109,7 @@ namespace EngineGL.Editor.Impl.Parser
                 {
                     CodeMemberProperty property = new CodeMemberProperty();
                     property.Name = propertyDeclaration.Identifier.Text;
-                    property.Type = new CodeTypeReference(new CodeTypeParameter(propertyDeclaration.Type.ToString()));
+                    property.Type = new CodeTypeReference();
                     members.Add(property);
                 }
             }

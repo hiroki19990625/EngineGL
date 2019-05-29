@@ -7,7 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using EngineGL.Editor.Core.Control.Window;
-using EngineGL.Editor.Impl.Parser;
+using EngineGL.Editor.Impl.CodeBuilder;
+using EngineGL.Editor.Impl.TreeWalker;
 using Microsoft.CodeAnalysis.CSharp;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -17,8 +18,9 @@ namespace EngineGL.Editor.Impl.Controls.Window
     {
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.ToolStrip toolStrip1;
-
-        private CSharpCodeParser _parser;
+        private ImageList imageList1;
+        private System.ComponentModel.IContainer components;
+        private CSharpCodeDomBuilder _parser;
 
         public CodeParseTreeContent(IMainWindow hostWindow) : base(hostWindow)
         {
@@ -30,36 +32,19 @@ namespace EngineGL.Editor.Impl.Controls.Window
         public void OpenFile(string filePath)
         {
             string str = File.ReadAllText(filePath, Encoding.UTF8);
+            TreeNode root = this.treeView1.Nodes.Add(Path.GetFileName(filePath));
             CSharpSyntaxTree syntax = (CSharpSyntaxTree) CSharpSyntaxTree.ParseText(str);
-
-            _parser = new CSharpCodeParser(syntax.GetCompilationUnitRoot());
-            CodeCompileUnit unit = _parser.Parse();
-            if (unit == null)
-                return;
-
-            CodeNamespace unitNamespace = unit.Namespaces[0];
-            TreeNode importNode = treeView1.Nodes.Add("Imports");
-            foreach (CodeNamespaceImport import in unitNamespace.Imports)
-            {
-                importNode.Nodes.Add(import.Namespace);
-            }
-
-            CodeNamespace body = unitNamespace = unit.Namespaces[1];
-            TreeNode cls = treeView1.Nodes.Add(body.Name);
-            foreach (CodeTypeDeclaration declaration in body.Types)
-            {
-                TreeNode node = cls.Nodes.Add(declaration.Name);
-                foreach (CodeTypeMember member in declaration.Members)
-                {
-                    node.Nodes.Add(member.Name);
-                }
-            }
+            CSharpCodeWalker walker = new CSharpCodeWalker(root);
+            walker.VisitCompilationUnit(syntax.GetCompilationUnitRoot());
         }
 
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CodeParseTreeContent));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.treeView1 = new System.Windows.Forms.TreeView();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -74,10 +59,22 @@ namespace EngineGL.Editor.Impl.Controls.Window
             // treeView1
             // 
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView1.ImageIndex = 0;
+            this.treeView1.ImageList = this.imageList1;
             this.treeView1.Location = new System.Drawing.Point(0, 25);
             this.treeView1.Name = "treeView1";
+            this.treeView1.SelectedImageIndex = 0;
             this.treeView1.Size = new System.Drawing.Size(282, 228);
             this.treeView1.TabIndex = 2;
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "CS.png");
+            this.imageList1.Images.SetKeyName(1, "Class.png");
+            this.imageList1.Images.SetKeyName(2, "Interface.png");
+            this.imageList1.Images.SetKeyName(3, "Structure.png");
             // 
             // CodeParseTreeContent
             // 
@@ -88,6 +85,7 @@ namespace EngineGL.Editor.Impl.Controls.Window
             this.Text = "Code Parse Tree";
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
     }
 }
