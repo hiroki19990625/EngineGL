@@ -259,7 +259,7 @@ namespace EngineGL.Impl
             io.DisplayFramebufferScale = Vec2.One;
             io.DeltaTime = (float) ev.Time;
             ImGui.NewFrame();
-            sceneManager.Render(ev.Time);
+            sceneManager.OnGUI(ev.Time);
 
             ImGui.Render();
 
@@ -377,7 +377,7 @@ namespace EngineGL.Impl
             try
             {
                 base.OnRenderFrame(e);
-                sceneManager.OnUpdateFrame(e.Time);
+                sceneManager.OnDraw(e.Time);
                 SwapBuffers();
             }
             catch (Exception exception)
