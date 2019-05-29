@@ -168,6 +168,8 @@
       <DependentUpon>Fonts.resx</DependentUpon>
     </Compile>
     <Compile Include="Resources\Lang\Resources.Designer.cs" />
+    <Compile Include="Structs\Drawing\Colour3.cs" />
+    <Compile Include="Structs\Drawing\Colour4.cs" />
     <Compile Include="Structs\Math\Vec2.cs" />
     <Compile Include="Structs\Math\Vec3.cs" />
     <Compile Include="Structs\Secure\ISecureValue.cs" />
