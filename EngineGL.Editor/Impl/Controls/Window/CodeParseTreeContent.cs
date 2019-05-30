@@ -20,7 +20,6 @@ namespace EngineGL.Editor.Impl.Controls.Window
         private System.Windows.Forms.ToolStrip toolStrip1;
         private ImageList imageList1;
         private System.ComponentModel.IContainer components;
-        private CSharpCodeDomBuilder _parser;
 
         public CodeParseTreeContent(IMainWindow hostWindow) : base(hostWindow)
         {
@@ -41,7 +40,8 @@ namespace EngineGL.Editor.Impl.Controls.Window
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CodeParseTreeContent));
+            System.ComponentModel.ComponentResourceManager resources =
+                new System.ComponentModel.ComponentResourceManager(typeof(CodeParseTreeContent));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
@@ -69,7 +69,8 @@ namespace EngineGL.Editor.Impl.Controls.Window
             // 
             // imageList1
             // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.ImageStream =
+                ((System.Windows.Forms.ImageListStreamer) (resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             this.imageList1.Images.SetKeyName(0, "CS.png");
             this.imageList1.Images.SetKeyName(1, "Class.png");
@@ -85,7 +86,6 @@ namespace EngineGL.Editor.Impl.Controls.Window
             this.Text = "Code Parse Tree";
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
     }
 }
