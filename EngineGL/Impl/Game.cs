@@ -4,7 +4,6 @@ using EngineGL.Core;
 using EngineGL.Event.Game;
 using EngineGL.Event.LifeCycle;
 using EngineGL.Utils;
-using ImGuiNET;
 using NLog;
 using NLog.Config;
 using OpenTK;
@@ -167,12 +166,6 @@ namespace EngineGL.Impl
             base.OnLoad(e);
         }
 
-        protected override void OnKeyPress(KeyPressEventArgs e)
-        {
-            base.OnKeyPress(e);
-            ImGui.GetIO().AddInputCharacter(e.KeyChar);
-        }
-
         public override void Exit()
         {
             OnDestroy();
@@ -187,17 +180,17 @@ namespace EngineGL.Impl
 
             if (ShowExitErrorDialog)
             {
-                if (ExceptionDialog)
+                /*if (ExceptionDialog)
                     Dialog.Open("Exception", exception.ToString(), Dialog.DialogType.ICON_ERROR);
                 else
-                    Dialog.Open("Exception", exception.Message, Dialog.DialogType.ICON_ERROR);
+                    Dialog.Open("Exception", exception.Message, Dialog.DialogType.ICON_ERROR);*/
             }
         }
 
         public void Exit(string message)
         {
             Exit();
-            Dialog.Open("Error", message, Dialog.DialogType.ICON_ERROR);
+            //Dialog.Open("Error", message, Dialog.DialogType.ICON_ERROR);
         }
     }
 }
