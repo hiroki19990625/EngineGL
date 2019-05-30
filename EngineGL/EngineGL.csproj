@@ -172,6 +172,7 @@
     <Compile Include="Structs\Drawing\Colour4.cs" />
     <Compile Include="Structs\Math\Vec2.cs" />
     <Compile Include="Structs\Math\Vec3.cs" />
+    <Compile Include="Structs\Math\Vec4.cs" />
     <Compile Include="Structs\Secure\ISecureValue.cs" />
     <Compile Include="Structs\Secure\SecureDouble.cs" />
     <Compile Include="Structs\Secure\SecureExtensions.cs" />
@@ -181,6 +182,9 @@
     <Compile Include="Structs\Secure\SecureShort.cs" />
     <Compile Include="Structs\Secure\SecureString.cs" />
     <Compile Include="Structs\Secure\SecureValue.cs" />
+    <Compile Include="Structs\Secure\SecureVec3.cs" />
+    <Compile Include="Structs\Secure\SecureVec2.cs" />
+    <Compile Include="Structs\Secure\SecureVec4.cs" />
     <Compile Include="Utils\BoolHelper.cs" />
     <Compile Include="Utils\Dialog.cs" />
     <Compile Include="Utils\EventManager.cs" />
