@@ -19,8 +19,6 @@ namespace EngineGL.Impl
 
         private readonly SceneManager sceneManager = new SceneManager(Logger);
 
-        private float _mouseWheel;
-
         public bool ShowExitErrorDialog { get; set; } = true;
         public bool ExceptionDialog { get; set; } = false;
         public bool ExceptionExit { get; set; } = true;
