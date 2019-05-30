@@ -24,7 +24,7 @@ namespace EngineGL.Tests.Exec
             Environment.CurrentDirectory = dir;
         }
 
-        [Test,Order(1)]
+        [Test, Order(1)]
         public void ExecGame()
         {
             Game game = new Game();
