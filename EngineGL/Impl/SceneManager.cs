@@ -17,15 +17,19 @@ namespace EngineGL.Impl
 
         private readonly Logger logger;
 
+        private readonly SceneManagerEvents events = new SceneManagerEvents();
+
+        public ISceneManagerEvents Events => events;
+
         public SceneManager(Logger logger) => this.logger = logger;
 
-        public virtual Result<int> PreLoadScene<T>(string file, IGame game, EventHandler<PreLoadSceneEventArgs> preLoadSceneEvent) where T : IScene
+        public virtual Result<int> PreLoadScene<T>(string file, IGame game) where T : IScene
         {
             FileInfo fileInfo = new FileInfo(file);
-            return PreLoadScene<T>(fileInfo, game, preLoadSceneEvent);
+            return PreLoadScene<T>(fileInfo, game);
         }
 
-        public virtual Result<int> PreLoadScene<T>(FileInfo file, IGame game, EventHandler<PreLoadSceneEventArgs> preLoadSceneEvent) where T : IScene
+        public virtual Result<int> PreLoadScene<T>(FileInfo file, IGame game) where T : IScene
         {
             StreamReader reader = file.OpenText();
             IScene old = reader.ReadToEnd().FromDeserializableJson<T>();
@@ -47,7 +51,7 @@ namespace EngineGL.Impl
 
             PreLoadSceneEventArgs args = new PreLoadSceneEventArgs(game, file, scene);
             EventManager<PreLoadSceneEventArgs> manager
-                = new EventManager<PreLoadSceneEventArgs>(preLoadSceneEvent, game, args);
+                = new EventManager<PreLoadSceneEventArgs>(events.PreLoadSceneDelegate, game, args);
             manager.OnSuccess = ev => _preLoadedScenes.TryAdd(ev.PreLoadScene.GetHashCode(), ev.PreLoadScene);
 
             if (manager.Call())
@@ -56,13 +60,13 @@ namespace EngineGL.Impl
                 return Result<int>.Fail();
         }
 
-        public virtual bool PreUnloadScene(int hash, IGame game, EventHandler<PreUnloadSceneEventArgs> preUnloadSceneEvent)
+        public virtual bool PreUnloadScene(int hash, IGame game)
         {
             if (_preLoadedScenes.TryGetValue(hash, out IScene scene))
             {
                 PreUnloadSceneEventArgs args = new PreUnloadSceneEventArgs(game, scene);
                 EventManager<PreUnloadSceneEventArgs> manager
-                    = new EventManager<PreUnloadSceneEventArgs>(preUnloadSceneEvent, game, args);
+                    = new EventManager<PreUnloadSceneEventArgs>(events.PreUnloadSceneDelegate, game, args);
                 manager.OnSuccess = ev => _preLoadedScenes.TryRemove(ev.PreUnloadScene.GetHashCode(), out scene);
                 return manager.Call();
             }
@@ -70,12 +74,12 @@ namespace EngineGL.Impl
             return false;
         }
 
-        public virtual bool PreUnloadScenes(IGame game, EventHandler<PreUnloadSceneEventArgs> preUnloadSceneEvent)
+        public virtual bool PreUnloadScenes(IGame game)
         {
             int c = 0;
             foreach (int hash in _preLoadedScenes.Keys)
             {
-                if (PreUnloadScene(hash, game, preUnloadSceneEvent))
+                if (PreUnloadScene(hash, game))
                     c++;
             }
 
@@ -102,14 +106,14 @@ namespace EngineGL.Impl
             return Result<T>.Fail();
         }
 
-        public virtual Result<IScene> LoadScene(int hash, IGame game, EventHandler<LoadSceneEventArgs> loadSceneEvent)
+        public virtual Result<IScene> LoadScene(int hash, IGame game)
         {
             if (_preLoadedScenes.TryGetValue(hash, out IScene scene)
                 || !_loadedScenes.ContainsKey(hash))
             {
                 LoadSceneEventArgs args = new LoadSceneEventArgs(game, scene);
                 EventManager<LoadSceneEventArgs> manager
-                    = new EventManager<LoadSceneEventArgs>(loadSceneEvent, game, args);
+                    = new EventManager<LoadSceneEventArgs>(events.LoadSceneDelegate, game, args);
                 manager.OnSuccess = ev => _loadedScenes.TryAdd(ev.LoadScene.GetHashCode(), ev.LoadScene);
 
                 if (manager.Call())
@@ -121,14 +125,14 @@ namespace EngineGL.Impl
             return Result<IScene>.Fail();
         }
 
-        public virtual Result<IScene> LoadScene(IScene scene, IGame game, EventHandler<LoadSceneEventArgs> loadSceneEvent)
+        public virtual Result<IScene> LoadScene(IScene scene, IGame game)
         {
             int hash = scene.GetHashCode();
             if (!_loadedScenes.ContainsKey(hash))
             {
                 LoadSceneEventArgs args = new LoadSceneEventArgs(game, scene);
                 EventManager<LoadSceneEventArgs> manager
-                    = new EventManager<LoadSceneEventArgs>(loadSceneEvent, game, args);
+                    = new EventManager<LoadSceneEventArgs>(events.LoadSceneDelegate, game, args);
                 manager.OnSuccess = ev => _loadedScenes.TryAdd(ev.LoadScene.GetHashCode(), ev.LoadScene);
 
                 if (manager.Call())
@@ -140,11 +144,11 @@ namespace EngineGL.Impl
             return Result<IScene>.Fail();
         }
 
-        public virtual Result<T> LoadSceneUnsafe<T>(int hash, IGame game, EventHandler<LoadSceneEventArgs> loadSceneEvent) where T : IScene
+        public virtual Result<T> LoadSceneUnsafe<T>(int hash, IGame game) where T : IScene
         {
             try
             {
-                return Result<T>.Success((T)LoadScene(hash, game, loadSceneEvent).Value);
+                return Result<T>.Success((T)LoadScene(hash, game).Value);
             }
             catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
             {
@@ -153,11 +157,11 @@ namespace EngineGL.Impl
             }
         }
 
-        public virtual Result<T> LoadSceneUnsafe<T>(T scene, IGame game, EventHandler<LoadSceneEventArgs> loadSceneEvent) where T : IScene
+        public virtual Result<T> LoadSceneUnsafe<T>(T scene, IGame game) where T : IScene
         {
             try
             {
-                return Result<T>.Success((T)LoadScene(scene, game, loadSceneEvent).Value);
+                return Result<T>.Success((T)LoadScene(scene, game).Value);
             }
             catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
             {
@@ -166,13 +170,13 @@ namespace EngineGL.Impl
             }
         }
 
-        public virtual Result<IScene> UnloadScene(int hash, IGame game, EventHandler<UnloadSceneEventArgs> unloadSceneEvent)
+        public virtual Result<IScene> UnloadScene(int hash, IGame game)
         {
             if (_loadedScenes.TryGetValue(hash, out IScene scene))
             {
                 UnloadSceneEventArgs args = new UnloadSceneEventArgs(game, scene);
                 EventManager<UnloadSceneEventArgs> manager
-                    = new EventManager<UnloadSceneEventArgs>(unloadSceneEvent, game, args);
+                    = new EventManager<UnloadSceneEventArgs>(events.UnloadSceneDelegate, game, args);
                 manager.OnSuccess = ev => _loadedScenes.TryRemove(args.UnloadScene.GetHashCode(), out scene);
 
                 if (manager.Call())
@@ -184,16 +188,16 @@ namespace EngineGL.Impl
             return Result<IScene>.Fail();
         }
 
-        public virtual Result<IScene> UnloadScene(IScene scene, IGame game, EventHandler<UnloadSceneEventArgs> unloadSceneEvent)
+        public virtual Result<IScene> UnloadScene(IScene scene, IGame game)
         {
-            return UnloadScene(scene.GetHashCode(), game, unloadSceneEvent);
+            return UnloadScene(scene.GetHashCode(), game);
         }
 
-        public virtual Result<T> UnloadSceneUnsafe<T>(int hash, IGame game, EventHandler<UnloadSceneEventArgs> unloadSceneEvent) where T : IScene
+        public virtual Result<T> UnloadSceneUnsafe<T>(int hash, IGame game) where T : IScene
         {
             try
             {
-                return Result<T>.Success((T)UnloadScene(hash, game, unloadSceneEvent).Value);
+                return Result<T>.Success((T)UnloadScene(hash, game).Value);
             }
             catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
             {
@@ -202,11 +206,11 @@ namespace EngineGL.Impl
             }
         }
 
-        public virtual Result<T> UnloadSceneUnsafe<T>(T scene, IGame game, EventHandler<UnloadSceneEventArgs> unloadSceneEvent) where T : IScene
+        public virtual Result<T> UnloadSceneUnsafe<T>(T scene, IGame game) where T : IScene
         {
             try
             {
-                return Result<T>.Success((T)UnloadScene(scene, game, unloadSceneEvent).Value);
+                return Result<T>.Success((T)UnloadScene(scene, game).Value);
             }
             catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
             {
@@ -215,36 +219,36 @@ namespace EngineGL.Impl
             }
         }
 
-        public virtual bool UnloadScenes(IGame game, EventHandler<UnloadSceneEventArgs> unloadSceneEvent)
+        public virtual bool UnloadScenes(IGame game)
         {
             int c = 0;
             foreach (int hash in _loadedScenes.Keys)
             {
-                if (UnloadScene(hash, game, unloadSceneEvent).IsSuccess)
+                if (UnloadScene(hash, game).IsSuccess)
                     c++;
             }
 
             return c > 0;
         }
 
-        public virtual Result<IScene> LoadNextScene(int hash, IGame game, EventHandler<UnloadSceneEventArgs> unloadSceneEvent, EventHandler<LoadSceneEventArgs> loadSceneEvent)
+        public virtual Result<IScene> LoadNextScene(int hash, IGame game)
         {
-            UnloadScenes(game, unloadSceneEvent);
-            return LoadScene(hash, game, loadSceneEvent);
+            UnloadScenes(game);
+            return LoadScene(hash, game);
         }
 
-        public virtual Result<IScene> LoadNextScene(IScene scene, IGame game, EventHandler<UnloadSceneEventArgs> unloadSceneEvent, EventHandler<LoadSceneEventArgs> loadSceneEvent)
+        public virtual Result<IScene> LoadNextScene(IScene scene, IGame game)
         {
-            UnloadScenes(game, unloadSceneEvent);
-            return LoadScene(scene, game, loadSceneEvent);
+            UnloadScenes(game);
+            return LoadScene(scene, game);
         }
 
-        public virtual Result<T> LoadNextSceneUnsafe<T>(int hash, IGame game, EventHandler<UnloadSceneEventArgs> unloadSceneEvent, EventHandler<LoadSceneEventArgs> loadSceneEvent) where T : IScene
+        public virtual Result<T> LoadNextSceneUnsafe<T>(int hash, IGame game) where T : IScene
         {
-            UnloadScenes(game, unloadSceneEvent);
+            UnloadScenes(game);
             try
             {
-                return Result<T>.Success((T)LoadScene(hash, game, loadSceneEvent).Value);
+                return Result<T>.Success((T)LoadScene(hash, game).Value);
             }
             catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
             {
@@ -253,12 +257,12 @@ namespace EngineGL.Impl
             }
         }
 
-        public virtual Result<T> LoadNextSceneUnsafe<T>(T scene, IGame game, EventHandler<UnloadSceneEventArgs> unloadSceneEvent, EventHandler<LoadSceneEventArgs> loadSceneEvent) where T : IScene
+        public virtual Result<T> LoadNextSceneUnsafe<T>(T scene, IGame game) where T : IScene
         {
-            UnloadScenes(game, unloadSceneEvent);
+            UnloadScenes(game);
             try
             {
-                return Result<T>.Success((T)LoadScene(scene, game, loadSceneEvent).Value);
+                return Result<T>.Success((T)LoadScene(scene, game).Value);
             }
             catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
             {

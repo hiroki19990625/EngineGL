@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using EngineGL.Core;
-using EngineGL.Event.Game;
 using EngineGL.Event.LifeCycle;
 using EngineGL.Utils;
 using NLog;
@@ -29,10 +28,7 @@ namespace EngineGL.Impl
         public string Name { get; set; }
         public event EventHandler<InitialzeEventArgs> Initialze;
         public event EventHandler<DestroyEventArgs> Destroy;
-        public event EventHandler<LoadSceneEventArgs> LoadSceneEvent;
-        public event EventHandler<UnloadSceneEventArgs> UnloadSceneEvent;
-        public event EventHandler<PreLoadSceneEventArgs> PreLoadSceneEvent;
-        public event EventHandler<PreUnloadSceneEventArgs> PreUnloadSceneEvent;
+        public ISceneManagerEvents SceneEvents => sceneManager.Events;
 
         public virtual void OnInitialze()
         {
@@ -45,16 +41,16 @@ namespace EngineGL.Impl
         }
 
         public virtual Result<int> PreLoadScene<T>(string file) where T : IScene
-            => sceneManager.PreLoadScene<T>(file, this, PreLoadSceneEvent);
+            => sceneManager.PreLoadScene<T>(file, this);
 
         public virtual Result<int> PreLoadScene<T>(FileInfo file) where T : IScene
-            => sceneManager.PreLoadScene<T>(file, this, PreLoadSceneEvent);
+            => sceneManager.PreLoadScene<T>(file, this);
 
         public virtual bool PreUnloadScene(int hash)
-            => sceneManager.PreUnloadScene(hash, this, PreUnloadSceneEvent);
+            => sceneManager.PreUnloadScene(hash, this);
 
         public virtual bool PreUnloadScenes()
-            => sceneManager.PreUnloadScenes(this, PreUnloadSceneEvent);
+            => sceneManager.PreUnloadScenes(this);
 
         public virtual Result<IScene> GetScene(int hash)
             => sceneManager.GetScene(hash);
@@ -63,43 +59,42 @@ namespace EngineGL.Impl
             => sceneManager.GetSceneUnsafe<T>(hash);
 
         public virtual Result<IScene> LoadScene(int hash)
-            => sceneManager.LoadScene(hash, this, LoadSceneEvent);
+            => sceneManager.LoadScene(hash, this);
 
         public virtual Result<IScene> LoadScene(IScene scene)
-            => sceneManager.LoadScene(scene, this, LoadSceneEvent);
+            => sceneManager.LoadScene(scene, this);
 
         public virtual Result<T> LoadSceneUnsafe<T>(int hash) where T : IScene
-            => sceneManager.LoadSceneUnsafe<T>(hash, this, LoadSceneEvent);
-
+            => sceneManager.LoadSceneUnsafe<T>(hash, this);
         public virtual Result<T> LoadSceneUnsafe<T>(T scene) where T : IScene
-            => sceneManager.LoadSceneUnsafe(scene, this, LoadSceneEvent);
+            => sceneManager.LoadSceneUnsafe(scene, this);
 
         public virtual Result<IScene> UnloadScene(int hash)
-            => sceneManager.UnloadScene(hash, this, UnloadSceneEvent);
+            => sceneManager.UnloadScene(hash, this);
 
         public virtual Result<IScene> UnloadScene(IScene scene)
-            => sceneManager.UnloadScene(scene, this, UnloadSceneEvent);
+            => sceneManager.UnloadScene(scene, this);
 
         public virtual Result<T> UnloadSceneUnsafe<T>(int hash) where T : IScene
-            => sceneManager.UnloadSceneUnsafe<T>(hash, this, UnloadSceneEvent);
+            => sceneManager.UnloadSceneUnsafe<T>(hash, this);
 
         public virtual Result<T> UnloadSceneUnsafe<T>(T scene) where T : IScene
-            => sceneManager.UnloadSceneUnsafe(scene, this, UnloadSceneEvent);
+            => sceneManager.UnloadSceneUnsafe(scene, this);
 
         public virtual bool UnloadScenes()
-            => sceneManager.UnloadScenes(this, UnloadSceneEvent);
+            => sceneManager.UnloadScenes(this);
 
         public virtual Result<IScene> LoadNextScene(int hash)
-            => sceneManager.LoadNextScene(hash, this, UnloadSceneEvent, LoadSceneEvent);
+            => sceneManager.LoadNextScene(hash, this);
 
         public virtual Result<IScene> LoadNextScene(IScene scene)
-            => sceneManager.LoadNextScene(scene, this, UnloadSceneEvent, LoadSceneEvent);
+            => sceneManager.LoadNextScene(scene, this);
 
         public virtual Result<T> LoadNextSceneUnsafe<T>(int hash) where T : IScene
-            => sceneManager.LoadNextSceneUnsafe<T>(hash, this, UnloadSceneEvent, LoadSceneEvent);
+            => sceneManager.LoadNextSceneUnsafe<T>(hash, this);
 
         public virtual Result<T> LoadNextSceneUnsafe<T>(T scene) where T : IScene
-            => sceneManager.LoadNextSceneUnsafe<T>(scene, this, UnloadSceneEvent, LoadSceneEvent);
+            => sceneManager.LoadNextSceneUnsafe<T>(scene, this);
 
         public virtual void LoadDefaultFunc()
         {

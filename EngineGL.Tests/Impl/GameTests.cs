@@ -1,13 +1,5 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using EngineGL.Impl;
-using EngineGL.Impl.Drawable;
-using EngineGL.Utils;
 using NUnit.Framework;
-using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
 
 namespace EngineGL.Tests.Impl
 {
@@ -21,14 +13,14 @@ namespace EngineGL.Tests.Impl
             Scene loadCancel = new Scene();
             Scene unloadCancel = new Scene();
 
-            game.LoadSceneEvent += (sender, args) =>
+            game.SceneEvents.LoadSceneEvent += (sender, args) =>
             {
                 if (args.LoadScene.GetHashCode() == loadCancel.GetHashCode())
                 {
                     args.IsCanceled = true;
                 }
             };
-            game.UnloadSceneEvent += (sender, args) =>
+            game.SceneEvents.UnloadSceneEvent += (sender, args) =>
             {
                 if (args.UnloadScene.GetHashCode() == unloadCancel.GetHashCode())
                 {
