@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using EngineGL.Editor.Core.Control.Window;
@@ -37,9 +38,17 @@ namespace EngineGL.Editor.Impl.Controls.Window
         private string _filePath;
         private List<Project> _projects = new List<Project>();
 
+        public Dictionary<string, Action<string>> FileOpenWindowList = new Dictionary<string, Action<string>>();
+
         public SolutionTreeContent(IMainWindow hostWindow) : base(hostWindow)
         {
             InitializeComponent();
+
+            FileOpenWindowList.Add(".cs", filePath =>
+            {
+                CodeParseTreeContent codeParseTree = new CodeParseTreeContent(hostWindow);
+                codeParseTree.OpenFile(filePath);
+            });
 
             Show(hostWindow.DockPanel, DockState.DockLeft);
         }
@@ -137,6 +146,7 @@ namespace EngineGL.Editor.Impl.Controls.Window
                         int img = GetFileImage(file.Name);
                         n.ImageIndex = img;
                         n.SelectedImageIndex = img;
+                        n.Tag = file.FullName;
                     }
                 }
             }
@@ -268,6 +278,8 @@ namespace EngineGL.Editor.Impl.Controls.Window
             this.treeView1.SelectedImageIndex = 0;
             this.treeView1.Size = new System.Drawing.Size(282, 226);
             this.treeView1.TabIndex = 1;
+            this.treeView1.NodeMouseDoubleClick +=
+                new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView1_NodeMouseDoubleClick);
             // 
             // imageList1
             // 
@@ -306,6 +318,21 @@ namespace EngineGL.Editor.Impl.Controls.Window
         private void ToolStripButton2_Click(object sender, System.EventArgs e)
         {
             treeView1.ExpandAll();
+        }
+
+        private void TreeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            TreeNode node = e.Node;
+            string filePath = node.Tag?.ToString();
+            if (filePath == null)
+                return;
+            ;
+            string ext = Path.GetExtension(filePath);
+
+            if (FileOpenWindowList.ContainsKey(ext))
+            {
+                FileOpenWindowList[ext].Invoke(filePath);
+            }
         }
     }
 }

@@ -1,9 +1,6 @@
 using EngineGL.Core;
-using EngineGL.Impl;
 using EngineGL.Impl.Components;
 using EngineGL.Structs.Math;
-using EngineGL.Tests.Exec.TestObjects;
-using EngineGL.Utils;
 using OpenTK.Input;
 
 namespace EngineGL.Tests.Exec.TestComponents
@@ -47,38 +44,14 @@ namespace EngineGL.Tests.Exec.TestComponents
 
         public override void OnCollisionEnter(IGameObject gameObject)
         {
-            IObject[] objs = GameObject.Scene.GetObjects().Value;
-            foreach (IObject o in objs)
-            {
-                if (o is CollisionInspector go)
-                {
-                    go.Collision = true;
-                }
-            }
         }
 
         public override void OnCollisionStay(IGameObject gameObject)
         {
-            IObject[] objs = GameObject.Scene.GetObjects().Value;
-            foreach (IObject o in objs)
-            {
-                if (o is CollisionInspector go)
-                {
-                    go.Collision = true;
-                }
-            }
         }
 
         public override void OnCollisionLeave(IGameObject gameObject)
         {
-            IObject[] objs = GameObject.Scene.GetObjects().Value;
-            foreach (IObject o in objs)
-            {
-                if (o is CollisionInspector go)
-                {
-                    go.Collision = false;
-                }
-            }
         }
     }
 }

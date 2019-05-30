@@ -6,7 +6,6 @@ using EngineGL.Impl.Drawable;
 using EngineGL.Impl.Objects;
 using EngineGL.Structs.Math;
 using EngineGL.Tests.Exec.TestComponents;
-using EngineGL.Tests.Exec.TestObjects;
 using NLog.Config;
 using NLog.Targets;
 using NUnit.Framework;
@@ -85,10 +84,6 @@ namespace EngineGL.Tests.Exec
                 Position = new Vec3(3f, 3f, 0f),
                 Bounds = new Vec3(1f, 1f, 0f)
             });
-
-            CollisionInspector inspector = new CollisionInspector();
-            inspector.Tag = "GUI";
-            scene.AddObject(inspector);
 
             SolidPolygonObject2D poly = new SolidPolygonObject2D
             {
