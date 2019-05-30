@@ -30,5 +30,10 @@ namespace EngineGL.Structs.Secure
 
             return new Vec3(x, y, z);
         }
+
+        public static implicit operator Vec3(SecureVec3 a)
+        {
+            return a.Value;
+        }
     }
 }

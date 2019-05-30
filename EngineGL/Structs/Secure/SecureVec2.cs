@@ -29,5 +29,10 @@ namespace EngineGL.Structs.Secure
 
             return new Vec2(x, y);
         }
+
+        public static implicit operator Vec2(SecureVec2 a)
+        {
+            return a.Value;
+        }
     }
 }

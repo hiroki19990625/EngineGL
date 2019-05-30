@@ -6,7 +6,7 @@ namespace EngineGL.Structs.Secure
     public class SecureVec4 : SecureValue<Vec4>
     {
         private const int INT_SIZE = 4;
-        private const int INT_COUNT = 3;
+        private const int INT_COUNT = 4;
 
         public SecureVec4(Vec4 value) : base(value)
         {
@@ -31,6 +31,11 @@ namespace EngineGL.Structs.Secure
             float w = BitConverter.ToSingle(secure, INT_SIZE * 3);
 
             return new Vec4(x, y, z, w);
+        }
+
+        public static implicit operator Vec4(SecureVec4 a)
+        {
+            return a.Value;
         }
     }
 }

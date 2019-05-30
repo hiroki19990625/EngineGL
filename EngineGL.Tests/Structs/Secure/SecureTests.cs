@@ -1,4 +1,5 @@
 using System;
+using EngineGL.Structs.Math;
 using EngineGL.Structs.Secure;
 using NUnit.Framework;
 
@@ -16,17 +17,20 @@ namespace EngineGL.Tests.Structs.Secure
             SecureFloat secureFloat = new SecureFloat(123.456789f);
             SecureDouble secureDouble = new SecureDouble(123.456789d);
             SecureString secureString = new SecureString("secure");
-            Assert.AreEqual((short) secureShort, 500);
-            Assert.AreEqual((int) secureInt, 100000);
-            Assert.AreEqual((long) secureLong, 10000000000);
-            Assert.AreEqual((float) secureFloat, 123.456789f);
-            Assert.AreEqual((double) secureDouble, 123.456789d);
-            Assert.AreEqual((string) secureString, "secure");
+            Assert.IsTrue(secureShort == 500);
+            Assert.IsTrue(secureInt == 100000);
+            Assert.IsTrue(secureLong == 10000000000);
+            Assert.IsTrue(secureFloat == 123.456789f);
+            Assert.IsTrue(secureDouble == 123.456789d);
+            Assert.IsTrue(secureString == "secure");
+            Assert.IsTrue(new SecureVec2(new Vec2(10f, 10f)) == new Vec2(10f, 10f));
+            Assert.IsTrue(new SecureVec3(new Vec3(10f, 10f, 10f)) == new Vec3(10f, 10f, 10f));
+            Assert.IsTrue(new SecureVec4(new Vec4(10f, 10f, 10f, 10f)) == new Vec4(10f, 10f, 10f, 10f));
 
-            secureInt.Set(500);
+            secureInt.Set(123);
             secureString.Set("network");
-            Assert.AreEqual((int) secureInt, 500);
-            Assert.AreEqual((string) secureString, "network");
+            Assert.IsTrue(secureInt == 123);
+            Assert.IsTrue(secureString == "network");
         }
     }
 }
