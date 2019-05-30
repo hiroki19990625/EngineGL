@@ -140,7 +140,17 @@ namespace EngineGL.Structs.Math
             return new Vec3(a.X, a.Y, a.Z);
         }
 
+        public static explicit operator Vec3(Vector4 a)
+        {
+            return new Vec3(a.X, a.Y, a.Z);
+        }
+
         public static implicit operator Vec3(System.Numerics.Vector3 a)
+        {
+            return new Vec3(a.X, a.Y, a.Z);
+        }
+
+        public static explicit operator Vec3(System.Numerics.Vector4 a)
         {
             return new Vec3(a.X, a.Y, a.Z);
         }
@@ -153,6 +163,11 @@ namespace EngineGL.Structs.Math
         public static implicit operator Vec3(Vec2 a)
         {
             return new Vec3(a.X, a.Y);
+        }
+
+        public static explicit operator Vec3(Vec4 a)
+        {
+            return new Vec3(a.X, a.Y, a.Z);
         }
 
         public static implicit operator Vector3(Vec3 a)

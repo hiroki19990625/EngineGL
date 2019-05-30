@@ -16,17 +16,17 @@ namespace EngineGL.Tests.Structs.Secure
             SecureFloat secureFloat = new SecureFloat(123.456789f);
             SecureDouble secureDouble = new SecureDouble(123.456789d);
             SecureString secureString = new SecureString("secure");
-            Console.WriteLine(secureShort);
-            Console.WriteLine(secureInt);
-            Console.WriteLine(secureLong);
-            Console.WriteLine(secureFloat);
-            Console.WriteLine(secureDouble);
-            Console.WriteLine(secureString);
+            Assert.AreEqual((short) secureShort, 500);
+            Assert.AreEqual((int) secureInt, 100000);
+            Assert.AreEqual((long) secureLong, 10000000000);
+            Assert.AreEqual((float) secureFloat, 123.456789f);
+            Assert.AreEqual((double) secureDouble, 123.456789d);
+            Assert.AreEqual((string) secureString, "secure");
 
             secureInt.Set(500);
             secureString.Set("network");
-            Console.WriteLine(secureInt);
-            Console.WriteLine(secureString);
+            Assert.AreEqual((int) secureInt, 500);
+            Assert.AreEqual((string) secureString, "network");
         }
     }
 }
