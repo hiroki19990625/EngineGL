@@ -2,16 +2,14 @@ using System;
 using System.IO;
 using EngineGL.Core.LifeCycle;
 using EngineGL.Event.Game;
+using EngineGL.Impl;
 using EngineGL.Utils;
 
 namespace EngineGL.Core
 {
     public interface IGame : Initialzeable, IDestroyable, INameable
     {
-        event EventHandler<LoadSceneEventArgs> LoadSceneEvent;
-        event EventHandler<UnloadSceneEventArgs> UnloadSceneEvent;
-        event EventHandler<PreLoadSceneEventArgs> PreLoadSceneEvent;
-        event EventHandler<PreUnloadSceneEventArgs> PreUnloadSceneEvent;
+        ISceneManagerEvents SceneEvents { get; }
 
         Result<int> PreLoadScene<T>(string file) where T : IScene;
         Result<int> PreLoadScene<T>(FileInfo file) where T : IScene;
