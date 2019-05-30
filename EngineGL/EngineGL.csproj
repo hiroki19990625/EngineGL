@@ -2,6 +2,17 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageVersion>0.3.0-beta1</PackageVersion>
+        <Title>EngineGL</Title>
+        <Authors>EngineGL Development Team</Authors>
+        <Description>C# 100% GameEngine</Description>
+        <Copyright>Copyright  ©EngineGL Development Team 2019</Copyright>
+        <PackageProjectUrl>https://github.com/hiroki19990625/EngineGL</PackageProjectUrl>
+        <PackageLicenseUrl></PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/hiroki19990625/EngineGL</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>GameEngine</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>
