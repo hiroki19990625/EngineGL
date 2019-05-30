@@ -4,6 +4,7 @@ using EngineGL.Event.LifeCycle;
 
 namespace EngineGL.Impl.Objects
 {
+    [Obsolete]
     public class GUIRender : GameObject, IGuiRenderable
     {
         public event EventHandler<GuiRenderEventArgs> GuiRender;
