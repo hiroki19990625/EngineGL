@@ -1,9 +1,9 @@
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
-namespace EngineGL.Impl.Drawable
+namespace EngineGL.Impl.Drawable.Shape2D
 {
-    public class LineObject : DrawableObject
+    public class LineObject2D : DrawableObject
     {
         public Color4 LineColor { get; set; }
         public float LineWidth { get; set; } = 1;

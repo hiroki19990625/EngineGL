@@ -4,7 +4,7 @@ using EngineGL.Structs.Math;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
-namespace EngineGL.Impl.Drawable
+namespace EngineGL.Impl.Drawable.Shape2D
 {
     public class SolidPolygonObject2D : DrawableObject
     {

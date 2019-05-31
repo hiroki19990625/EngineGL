@@ -2,10 +2,10 @@ using System;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
-namespace EngineGL.Impl.Drawable
+namespace EngineGL.Impl.Drawable.Shape2D
 
 {
-    public class CircleObject : DrawableObject
+    public class CircleObject2D : DrawableObject
     {
         public float Radius { get; set; }
         public Color4 CircleColor { get; set; }

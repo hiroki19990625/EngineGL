@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using EngineGL.Impl;
 using EngineGL.Impl.Drawable;
+using EngineGL.Impl.Drawable.Shape2D;
 using EngineGL.Impl.Objects;
 using EngineGL.Structs.Math;
 using EngineGL.Tests.Exec.TestComponents;
@@ -96,15 +97,15 @@ namespace EngineGL.Tests.Exec
             poly.AddComponentUnsafe<PlayerComponent>();
             scene.AddObject(poly);
 
-            scene.AddObject(new PointsObject
+            scene.AddObject(new PointsObject2D
             {
                 Position = new Vec3(2, 2, 0),
                 PointColor = Color4.White,
                 PointSize = 10
             });
-            scene.AddObject(new CircleObject
+            scene.AddObject(new CircleObject2D
             {
-                Position = new Vec3(3.5f, 3.5f, 0),
+                Position = new Vec3(3.5f, 1f, 0),
                 Bounds = new Vec3(1, 1, 0),
                 Radius = 0.5f,
                 CircleColor = Color4.Red
