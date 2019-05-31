@@ -1,8 +1,8 @@
 using OpenTK.Graphics.OpenGL;
 
-namespace EngineGL.Impl.Drawable
+namespace EngineGL.Impl.Drawable.Shape2D
 {
-    public class StippleLineObject : LineObject
+    public class StippleLineObject2D : LineObject2D
     {
         public byte Factor { get; set; }
         public ushort Pattern { get; set; }

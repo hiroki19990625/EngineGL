@@ -1,9 +1,9 @@
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
-namespace EngineGL.Impl.Drawable
+namespace EngineGL.Impl.Drawable.Shape2D
 {
-    public class PointsObject : DrawableObject
+    public class PointsObject2D : DrawableObject
     {
         public Color4 PointColor { get; set; }
         public float PointSize { get; set; } = 1;

@@ -6,7 +6,7 @@ using EngineGL.Utils;
 
 namespace EngineGL.Impl.Components
 {
-    public class Collision : Component, ICollision
+    public class Collision3D : Component, ICollision
     {
         public bool Entered { get; private set; }
         public IGameObject HitGameObject { get; private set; }
