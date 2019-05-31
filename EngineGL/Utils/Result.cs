@@ -105,4 +105,10 @@ namespace EngineGL.Utils
             Message = message;
         }
     }
+
+    public static class ResultHelper
+    {
+        public static Result<T> Success<T>(T value) => Result<T>.Success(value);
+        public static Result<T> Fail<T>() => Result<T>.Fail();
+    }
 }
