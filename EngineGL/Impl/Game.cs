@@ -13,7 +13,7 @@ namespace EngineGL.Impl
 {
     public class Game : GameWindow, IGame
     {
-        public static Logger Logger { get; private set; } = LogManager.GetCurrentClassLogger();
+        public static Logger Logger { get; } = LogManager.GetCurrentClassLogger();
 
 
         private readonly SceneManager sceneManager = new SceneManager(Logger);
