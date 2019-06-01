@@ -20,6 +20,8 @@ namespace EngineGL.Impl
         [JsonProperty("SceneObjects")] private readonly ConcurrentDictionary<Guid, IObject> _sceneObjects =
             new ConcurrentDictionary<Guid, IObject>();
 
+        private readonly DrawableList _drawables = new DrawableList();
+
         public string Name { get; set; }
         public event EventHandler<AddObjectEventArgs> AddObjectEvent;
         public event EventHandler<RemoveObjectEventArgs> RemoveObjectEvent;
@@ -41,16 +43,7 @@ namespace EngineGL.Impl
         public void OnDraw(double deltaTime)
         {
             Draw?.Invoke(this, new DrawEventArgs(this, deltaTime));
-
-            foreach (IObject obj in _sceneObjects.Values)
-            {
-                if (obj is IDrawable)
-                {
-                    GL.PushAttrib(AttribMask.EnableBit);
-                    ((IDrawable) obj).OnDraw(deltaTime);
-                    GL.PopAttrib();
-                }
-            }
+            _drawables.OnDraw(deltaTime);
         }
 
         public void OnGUI(double deltaTime)
@@ -108,6 +101,8 @@ namespace EngineGL.Impl
                 if (manager.Call())
                 {
                     args.AddObject.OnInitialze();
+                    if (args.AddObject is IDrawable)
+                        _drawables.Add(args.AddObject.InstanceGuid, (IDrawable)args.AddObject);
                     return Result<IObject>.Success(args.AddObject);
                 }
                 else
@@ -183,6 +178,7 @@ namespace EngineGL.Impl
                 if (manager.Call())
                 {
                     args.RemoveObject.OnDestroy();
+                    _drawables.Remove(args.RemoveObject.InstanceGuid);
                     return Result<IObject>.Success(args.RemoveObject);
                 }
                 else
