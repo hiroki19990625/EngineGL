@@ -7,6 +7,7 @@ using EngineGL.Impl.Drawable.Shape2D;
 using EngineGL.Impl.Objects;
 using EngineGL.Structs.Math;
 using EngineGL.Tests.Exec.TestComponents;
+using EngineGL.Tests.Exec.TextObjects;
 using NLog.Config;
 using NLog.Targets;
 using NUnit.Framework;
@@ -110,6 +111,7 @@ namespace EngineGL.Tests.Exec
                 Radius = 0.5f,
                 CircleColor = Color4.Red
             });
+            scene.AddObject(new TextureRender());
 
             StaticCamera camera = new StaticCamera();
             camera.Position = new Vec3(0, 0, -10f);

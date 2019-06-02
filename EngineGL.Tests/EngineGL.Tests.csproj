@@ -16,4 +16,10 @@
       <ProjectReference Include="..\EngineGL\EngineGL.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Images\TestImage.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
