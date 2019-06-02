@@ -5,13 +5,12 @@ using OpenTK.Graphics.OpenGL;
 
 namespace EngineGL.Impl
 {
-
     /// <summary>
     /// シーンに追加されたIDrawableなオブジェクトの描画制御を実装します
     /// </summary>
     class DrawableList
     {
-        private Dictionary<Guid,IDrawable> drawables=new Dictionary<Guid, IDrawable>(128);
+        private Dictionary<Guid, IDrawable> drawables = new Dictionary<Guid, IDrawable>(128);
 
         /// <summary>
         /// 新たなIDrawableを描画リストに追加します。
@@ -19,7 +18,7 @@ namespace EngineGL.Impl
         /// </summary>
         /// <param name="guid">オブジェクトのguid</param>
         /// <param name="drawable">追加したいIDrawableオブジェクト</param>
-        public void Add(Guid guid,IDrawable drawable)
+        public void Add(Guid guid, IDrawable drawable)
         {
             drawables[guid] = drawable;
         }
@@ -29,7 +28,6 @@ namespace EngineGL.Impl
         /// 存在しないguidの場合は無視されます
         /// </summary>
         /// <param name="guid">オブジェクトのguid</param>
-
         public void Remove(Guid guid)
         {
             drawables.Remove(guid);
@@ -39,11 +37,10 @@ namespace EngineGL.Impl
         {
             foreach (IDrawable drawable in drawables.Values)
             {
-                GL.PushAttrib(AttribMask.EnableBit);
+                GL.PushAttrib(AttribMask.AllAttribBits);
                 drawable.OnDraw(deltaTime);
                 GL.PopAttrib();
             }
         }
-
     }
 }
