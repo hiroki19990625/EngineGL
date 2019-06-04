@@ -92,6 +92,7 @@ namespace EngineGL.Tests.Exec
                 PoligonColor = Color4.Gold,
                 Position = new Vec3(-3f, -3f, 0f)
             };
+            poly.Layer = 1;
             poly.Points.Add(new Vec3(1f, 1.5f, 0));
             poly.Points.Add(new Vec3(0f, 0, 0));
             poly.Points.Add(new Vec3(2f, 0, 0));
