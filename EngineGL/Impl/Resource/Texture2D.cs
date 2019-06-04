@@ -1,16 +1,20 @@
 ﻿using System.Drawing;
 using EngineGL.Core.Resource;
+using Newtonsoft.Json;
 
 namespace EngineGL.Impl.Resource
 {
     public class Texture2D : ITexture
     {
-        public int TextureHash { get; }
+        public string FileName { get; }
 
-        public Bitmap Bitmap { get; }
+        [JsonIgnore] public int TextureHash { get; }
 
-        public Texture2D(Bitmap bitmap, int hash)
+        [JsonIgnore] public Bitmap Bitmap { get; }
+
+        public Texture2D(string fileName, Bitmap bitmap, int hash)
         {
+            FileName = fileName;
             TextureHash = hash;
             Bitmap = bitmap;
         }
