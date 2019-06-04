@@ -19,5 +19,10 @@ namespace EngineGL.Core.LifeCycle
         /// </summary>
         /// <param name="deltaTime">ゲームのフレーム更新間隔時間</param>
         void OnDraw(double deltaTime);
+
+        /// <summary>
+        /// 描画レイヤー
+        /// </summary>
+        uint Layer { get; }
     }
 }

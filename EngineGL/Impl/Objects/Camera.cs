@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using EngineGL.Core;
 using EngineGL.Core.LifeCycle;
 using EngineGL.Event.LifeCycle;
@@ -10,6 +10,12 @@ namespace EngineGL.Impl.Objects
 {
     public abstract class Camera : GameObject, ICamera, IDrawable
     {
+
+        /// <summary>
+        /// 描画レイヤー
+        /// </summary>
+        public uint Layer { get; set; } = 0;
+
         protected Matrix4 _lookAtMatrix;
         [JsonIgnore, YamlIgnore] public Matrix4 LookAtMatrix => _lookAtMatrix;
 
