@@ -112,7 +112,10 @@ namespace EngineGL.Tests.Exec
                 Radius = 0.5f,
                 CircleColor = Color4.Red
             });
-            scene.AddObject(new TextureRender());
+            scene.AddObject(new RawTexture2D("Images/download.png")
+            {
+                Bounds = new Vec3(1, 1, 0),
+            });
 
             StaticCamera camera = new StaticCamera();
             camera.Position = new Vec3(0, 0, -10f);

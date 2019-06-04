@@ -15,7 +15,7 @@ namespace EngineGL.Tests.Exec.TextObjects
         {
             base.OnInitialze();
 
-            Texture = ResourceManager.LoadTexture2D("Images/TestImage.png");
+            Texture = ResourceManager.LoadTexture2D("Images/download.png");
         }
 
         public override void OnDraw(double deltaTime)
@@ -23,8 +23,6 @@ namespace EngineGL.Tests.Exec.TextObjects
             CallDrawEvent(deltaTime);
 
             GL.Enable(EnableCap.Texture2D);
-
-            GL.BindTexture(TextureTarget.Texture2D, Texture.TextureHash);
 
             GL.Begin(PrimitiveType.Quads);
 
