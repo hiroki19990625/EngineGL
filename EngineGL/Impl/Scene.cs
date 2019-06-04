@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -29,6 +29,11 @@ namespace EngineGL.Impl
         public event EventHandler<UpdateEventArgs> Update;
         public event EventHandler<DrawEventArgs> Draw;
         public event EventHandler<GuiRenderEventArgs> GuiRender;
+
+        /// <summary>
+        /// 描画レイヤー
+        /// </summary>
+        public uint Layer { get; set; } = 0;
 
         public void OnUpdate(double deltaTime)
         {

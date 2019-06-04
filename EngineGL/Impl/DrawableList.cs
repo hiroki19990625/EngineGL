@@ -10,7 +10,9 @@ namespace EngineGL.Impl
     /// </summary>
     class DrawableList
     {
-        private Dictionary<Guid, IDrawable> drawables = new Dictionary<Guid, IDrawable>(128);
+
+        private SortedList<uint, Dictionary<Guid, IDrawable>> drawables
+            = new SortedList<uint, Dictionary<Guid, IDrawable>>();
 
         /// <summary>
         /// 新たなIDrawableを描画リストに追加します。
@@ -20,7 +22,10 @@ namespace EngineGL.Impl
         /// <param name="drawable">追加したいIDrawableオブジェクト</param>
         public void Add(Guid guid, IDrawable drawable)
         {
-            drawables[guid] = drawable;
+            uint layer = uint.MaxValue - drawable.Layer;
+            if (drawables.ContainsKey(layer) == false)
+                drawables[layer] = new Dictionary<Guid, IDrawable>();
+            drawables[layer][guid] = drawable;
         }
 
         /// <summary>
@@ -30,17 +35,22 @@ namespace EngineGL.Impl
         /// <param name="guid">オブジェクトのguid</param>
         public void Remove(Guid guid)
         {
-            drawables.Remove(guid);
+            foreach (var drawables in drawables.Values)
+                drawables.Remove(guid);
         }
 
         public void OnDraw(double deltaTime)
         {
-            foreach (IDrawable drawable in drawables.Values)
+            foreach (var drawables in drawables.Values)
             {
-                GL.PushAttrib(AttribMask.AllAttribBits);
-                drawable.OnDraw(deltaTime);
-                GL.PopAttrib();
+                foreach(var drawable in drawables.Values)
+                {
+                    GL.PushAttrib(AttribMask.AllAttribBits);
+                    drawable.OnDraw(deltaTime);
+                    GL.PopAttrib();
+                }
             }
         }
+
     }
 }
