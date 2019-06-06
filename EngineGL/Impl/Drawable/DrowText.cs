@@ -1,8 +1,5 @@
 using System;
 using System.Drawing;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -52,11 +49,11 @@ namespace EngineGL.Impl.Drawable
                 rectangle = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
             }
 
-            public void DrawString(string text,Font font,Brush brush,PointF point)
+            public void DrawString(string text, Font font, Brush brush, PointF point)
             {
-                graphics.DrawString(text,font,brush,point);
+                graphics.DrawString(text, font, brush, point);
                 SizeF size = graphics.MeasureString(text, font);
-                rectangle = Rectangle.Round(RectangleF.Union(rectangle, new RectangleF(point,size)));
+                rectangle = Rectangle.Round(RectangleF.Union(rectangle, new RectangleF(point, size)));
                 rectangle = Rectangle.Intersect(rectangle, new Rectangle(0, 0, bitmap.Width, bitmap.Height));
             }
 
@@ -76,12 +73,12 @@ namespace EngineGL.Impl.Drawable
                     System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rectangle,
                         System.Drawing.Imaging.ImageLockMode.ReadOnly,
                         System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                    
-                    OpenTK.Graphics.OpenGL4.GL.BindTexture(OpenTK.Graphics.OpenGL4.TextureTarget.Texture1D,texture);
-                    OpenTK.Graphics.OpenGL4.GL.TexSubImage2D(OpenTK.Graphics.OpenGL4.TextureTarget.Texture1D,
-                        0,rectangle.X,rectangle.Y,rectangle.Width,rectangle.Height,
-                        OpenTK.Graphics.OpenGL4.PixelFormat.Bgra,
-                        OpenTK.Graphics.OpenGL4.PixelType.UnsignedByte,
+
+                    GL.BindTexture(TextureTarget.Texture1D, texture);
+                    GL.TexSubImage2D(TextureTarget.Texture1D,
+                        0, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height,
+                        PixelFormat.Bgra,
+                        PixelType.UnsignedByte,
                         data.Scan0);
                     bitmap.UnlockBits(data);
                     rectangle = Rectangle.Empty;
@@ -106,25 +103,24 @@ namespace EngineGL.Impl.Drawable
                 Dispose(true);
                 GC.SuppressFinalize(this);
             }
-            
+
             ~TextRenderer()
             {
                 Console.WriteLine("[Warning] Resource leaked: {0}.", typeof(TextRenderer));
             }
-
         }
 
         protected override void OnLoad(EventArgs e)
         {
-            renderer = new TextRenderer(Width,Height);
+            renderer = new TextRenderer(Width, Height);
             PointF position = PointF.Empty;
-            
+
             renderer.Clear(Color.MidnightBlue);
-            renderer.DrawString("The quick brown fox jumps over the lazy dog",serif,Brushes.White,position);
+            renderer.DrawString("The quick brown fox jumps over the lazy dog", serif, Brushes.White, position);
             position.Y += serif.Height;
-            renderer.DrawString("The quick brown fox jumps over the lazy dog",sans,Brushes.White, position);
+            renderer.DrawString("The quick brown fox jumps over the lazy dog", sans, Brushes.White, position);
             position.Y += sans.Height;
-            renderer.DrawString("The quick brown fox jumps over the lazy dog",mono,Brushes.White, position);
+            renderer.DrawString("The quick brown fox jumps over the lazy dog", mono, Brushes.White, position);
             position.Y += mono.Height;
         }
 
@@ -139,7 +135,7 @@ namespace EngineGL.Impl.Drawable
             GL.Viewport(ClientRectangle);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
-            GL.Ortho(-1.0,1.0,-1.0,1.0,0.0,4.0);
+            GL.Ortho(-1.0, 1.0, -1.0, 1.0, 0.0, 4.0);
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -153,23 +149,18 @@ namespace EngineGL.Impl.Drawable
             GL.BindTexture(TextureTarget.Texture2D, renderer.Texture);
             GL.Begin(BeginMode.Quads);
 
-            GL.TexCoord2(0.0f, 1.0f); GL.Vertex2(-1f, -1f);
-            GL.TexCoord2(1.0f, 1.0f); GL.Vertex2(1f, -1f);
-            GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(1f, 1f);
-            GL.TexCoord2(0.0f, 0.0f); GL.Vertex2(-1f, 1f);
+            GL.TexCoord2(0.0f, 1.0f);
+            GL.Vertex2(-1f, -1f);
+            GL.TexCoord2(1.0f, 1.0f);
+            GL.Vertex2(1f, -1f);
+            GL.TexCoord2(1.0f, 0.0f);
+            GL.Vertex2(1f, 1f);
+            GL.TexCoord2(0.0f, 0.0f);
+            GL.Vertex2(-1f, 1f);
 
             GL.End();
 
             SwapBuffers();
-        }
-        
-        public static void Main()
-        {
-            using (TextRendering example = new TextRendering())
-            {
-                Utilities.SetWindowTitle(example);
-                example.Run(30.0);
-            }
         }
     }
 }
