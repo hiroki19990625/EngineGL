@@ -92,6 +92,7 @@ namespace EngineGL.Tests.Exec
                 PoligonColor = Color4.Gold,
                 Position = new Vec3(-3f, -3f, 0f)
             };
+            poly.Layer = 1;
             poly.Points.Add(new Vec3(1f, 1.5f, 0));
             poly.Points.Add(new Vec3(0f, 0, 0));
             poly.Points.Add(new Vec3(2f, 0, 0));
@@ -111,7 +112,10 @@ namespace EngineGL.Tests.Exec
                 Radius = 0.5f,
                 CircleColor = Color4.Red
             });
-            scene.AddObject(new TextureRender());
+            scene.AddObject(new RawTexture2D("Images/download.png")
+            {
+                Bounds = new Vec3(1, 1, 0),
+            });
 
             StaticCamera camera = new StaticCamera();
             camera.Position = new Vec3(0, 0, -10f);

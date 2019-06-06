@@ -13,7 +13,7 @@ namespace EngineGL.Impl.Resource
         public static ITexture LoadTexture2D(string filePath)
         {
             Bitmap bitmap = new Bitmap(filePath);
-            //bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
             BitmapData data = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly,
                 PixelFormat.Format32bppArgb);
@@ -31,7 +31,7 @@ namespace EngineGL.Impl.Resource
 
             GL.BindTexture(TextureTarget.Texture2D, 0);
 
-            return new Texture2D(bitmap, ptr);
+            return new Texture2D(filePath, bitmap, ptr);
         }
 
         public static void UnloadTexture(ITexture texture)
