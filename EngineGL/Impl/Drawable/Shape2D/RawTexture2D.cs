@@ -22,7 +22,7 @@ namespace EngineGL.Impl.Drawable.Shape2D
 
         public RawTexture2D(string fileName, bool autoDispose = false)
         {
-            Texture = ResourceManager.LoadTexture2D(fileName);
+            Texture = ResourceManager.LoadTexture<Texture2D>(fileName);
             AutoDispose = autoDispose;
         }
 
@@ -30,7 +30,7 @@ namespace EngineGL.Impl.Drawable.Shape2D
         {
             if (Texture.TextureHash == 0)
             {
-                Texture = ResourceManager.LoadTexture2D(Texture.FileName);
+                Texture = ResourceManager.LoadTexture<Texture2D>(Texture.FileName);
             }
         }
 
