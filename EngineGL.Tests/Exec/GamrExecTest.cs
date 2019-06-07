@@ -116,7 +116,10 @@ namespace EngineGL.Tests.Exec
                 .SetPosition(new Vec3(3.5f, 1f, 0))
                 .SetBounds(new Vec3(1, 1, 0))
             );
-            scene.AddObject(new TextureRender());
+            scene.AddObject(new RawTexture2D("Images/download.png")
+            {
+                Bounds = new Vec3(1, 1, 0),
+            });
 
             StaticCamera camera = new StaticCamera();
             camera.Transform.Position = new Vec3(0, 0, -10f);
