@@ -15,13 +15,59 @@ namespace EngineGL.Impl
         [JsonProperty("Components")] private readonly ConcurrentDictionary<Guid, IComponent> _attachedComponents =
             new ConcurrentDictionary<Guid, IComponent>();
 
-        public Vec3 Position { get; set; }
-        public Vec3 Rotation { get; set; }
-        public Vec3 Bounds { get; set; }
-        public Vec3 Scale { get; set; } = Vec3.One;
+        public ITransform Transform { get; } = new Transform();
+
 
         public event EventHandler<AddComponentEventArgs> AddComponentEvent;
         public event EventHandler<RemoveComponentEventArgs> RemoveComponentEvent;
+
+        /// <summary>
+        /// transformのPositionに値をセットする
+        /// </summary>
+        /// <returns>
+        /// 自分自身のGameObjectを返す
+        /// </returns>
+        public GameObject SetPosition(Vec3 pos)
+        {
+            Transform.Position = pos;
+            return this;
+        }
+
+        /// <summary>
+        /// transformのRotationに値をセットする
+        /// </summary>
+        /// <returns>
+        /// 自分自身のGameObjectを返す
+        /// </returns>
+        public GameObject SetRotation(Vec3 pos)
+        {
+            Transform.Rotation= pos;
+            return this;
+        }
+
+        /// <summary>
+        /// transformのScaleに値をセットする
+        /// </summary>
+        /// <returns>
+        /// 自分自身のGameObjectを返す
+        /// </returns>
+        public GameObject SetScale(Vec3 pos)
+        {
+            Transform.Scale = pos;
+            return this;
+        }
+
+        /// <summary>
+        /// transformのBoundsに値をセットする
+        /// </summary>
+        /// <returns>
+        /// 自分自身のGameObjectを返す
+        /// </returns>
+        public GameObject SetBounds(Vec3 pos)
+        {
+            Transform.Bounds = pos;
+            return this;
+        }
 
         public override void OnUpdate(double deltaTime)
         {

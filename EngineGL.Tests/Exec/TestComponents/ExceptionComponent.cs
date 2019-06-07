@@ -16,7 +16,7 @@ namespace EngineGL.Tests.Exec.TestComponents
                 throw new Exception();
             }
 
-            GameObject.Position += Vec3.Right * 0.01f;
+            GameObject.Transform.Position += Vec3.Right * 0.01f;
 
             Time++;
         }

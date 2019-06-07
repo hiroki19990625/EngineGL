@@ -27,15 +27,15 @@ namespace EngineGL.Impl.Components
         {
             IScene scene = GameObject.Scene;
             IObject[] objects = scene.GetObjects().Value;
-            Vec3 obj1 = GameObject.Position;
-            Vec3 bound1 = GameObject.Bounds;
+            Vec3 obj1 = GameObject.Transform.Position;
+            Vec3 bound1 = GameObject.Transform.Bounds;
             for (int i = 0; i < objects.Length; i++)
             {
                 if (objects[i].GetHashCode() != GameObject.GetHashCode() &&
                     objects[i] is IGameObject gameObject)
                 {
-                    Vec3 obj2 = gameObject.Position;
-                    Vec3 bound2 = gameObject.Bounds;
+                    Vec3 obj2 = gameObject.Transform.Position;
+                    Vec3 bound2 = gameObject.Transform.Bounds;
                     if (bound1.X <= 0 && bound1.Y <= 0 && bound1.Z <= 0 ||
                         bound2.X <= 0 && bound2.Y <= 0 && bound2.Z <= 0)
                         continue;

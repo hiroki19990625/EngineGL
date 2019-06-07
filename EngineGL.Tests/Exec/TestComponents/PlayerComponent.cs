@@ -39,7 +39,7 @@ namespace EngineGL.Tests.Exec.TestComponents
                 x = 1f;
             }
 
-            GameObject.Position += new Vec3(x, y, 0) * (float) deltaTime;
+            GameObject.Transform.Position += new Vec3(x, y, 0) * (float) deltaTime;
         }
 
         public override void OnCollisionEnter(IGameObject gameObject)

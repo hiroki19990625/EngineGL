@@ -16,7 +16,7 @@ namespace EngineGL.Impl.Drawable.Shape2D
 
             GL.Begin(PrimitiveType.Points);
             GL.Color4(PointColor);
-            GL.Vertex3(Position);
+            GL.Vertex3(Transform.Position);
             GL.End();
         }
     }

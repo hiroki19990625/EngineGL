@@ -14,10 +14,10 @@ namespace EngineGL.Impl.Drawable.Shape2D
 
             GL.Begin(PrimitiveType.Quads);
             GL.Color4(BoxColor);
-            GL.Vertex3(Position);
-            GL.Vertex3(Position + new Vec3(0, Bounds.Y, Bounds.Z));
-            GL.Vertex3(Position + new Vec3(Bounds.X, Bounds.Y, Bounds.Z));
-            GL.Vertex3(Position + new Vec3(Bounds.X, 0, Bounds.Z));
+            GL.Vertex3(Transform.Position);
+            GL.Vertex3(Transform.Position + new Vec3(0, Transform.Bounds.Y, Transform.Bounds.Z));
+            GL.Vertex3(Transform.Position + new Vec3(Transform.Bounds.X, Transform.Bounds.Y, Transform.Bounds.Z));
+            GL.Vertex3(Transform.Position + new Vec3(Transform.Bounds.X, 0, Transform.Bounds.Z));
             GL.End();
         }
     }
