@@ -66,6 +66,7 @@ namespace EngineGL.Impl
 
         public virtual Result<T> LoadSceneUnsafe<T>(int hash) where T : IScene
             => sceneManager.LoadSceneUnsafe<T>(hash, this);
+
         public virtual Result<T> LoadSceneUnsafe<T>(T scene) where T : IScene
             => sceneManager.LoadSceneUnsafe(scene, this);
 
@@ -100,6 +101,7 @@ namespace EngineGL.Impl
         {
             GL.ClearColor(Color4.Black);
             GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.Texture2D);
         }
 
         public virtual void DrawDefaultFunc(FrameEventArgs ev)
