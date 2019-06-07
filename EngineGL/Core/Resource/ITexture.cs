@@ -6,7 +6,5 @@ namespace EngineGL.Core.Resource
     {
         string FileName { get; }
         int TextureHash { get; }
-
-        void Load();
     }
 }
