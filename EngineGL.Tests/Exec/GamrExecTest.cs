@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.IO;
 using System.Text;
 using EngineGL.Impl;
@@ -118,6 +119,14 @@ namespace EngineGL.Tests.Exec
             );
             scene.AddObject(new RawTexture2D("Images/download.png")
                 .SetBounds(new Vec3(1, 1, 0)));
+            scene.AddObject(new TextRenderer(100, 100)
+                {
+                    Color = Color.Red,
+                    Text = "Hello"
+                }
+                .SetPosition(new Vec3(2f, -2f, 0))
+                .SetBounds(new Vec3(1, 1, 0))
+            );
 
             StaticCamera camera = new StaticCamera();
             camera.Transform.Position = new Vec3(0, 0, -10f);

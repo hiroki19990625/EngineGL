@@ -99,7 +99,7 @@ namespace EngineGL.Impl
 
         public virtual void LoadDefaultFunc()
         {
-            GL.ClearColor(Color4.Black);
+            GL.ClearColor(Color4.White);
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.Texture2D);
         }
