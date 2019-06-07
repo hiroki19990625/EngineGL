@@ -4,7 +4,7 @@ using EngineGL.Structs.Drawing;
 
 namespace EngineGL.Impl.UI
 {
-    public class Label : IUi
+    public class Label : IElement
     {
         public string Text { get; set; }
         public int FontSize { get; set; }

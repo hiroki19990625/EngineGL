@@ -1,7 +1,6 @@
 namespace EngineGL.Core
 {
-    public class IUi
+    public interface IElement
     {
-        
     }
 }

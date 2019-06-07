@@ -4,7 +4,7 @@ using EngineGL.Structs.Drawing;
 
 namespace EngineGL.Impl.UI
 {
-    public class Button : IUi
+    public class Button : IElement
     {
         public string Text { get; set; }
         public Colour4 BackColor { get; set; }
