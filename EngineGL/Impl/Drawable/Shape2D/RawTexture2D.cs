@@ -38,8 +38,6 @@ namespace EngineGL.Impl.Drawable.Shape2D
         {
             base.OnDraw(deltaTime);
 
-            GL.Enable(EnableCap.Texture2D);
-
             GL.BindTexture(TextureTarget.Texture2D, Texture.TextureHash);
 
             GL.Begin(PrimitiveType.Quads);
