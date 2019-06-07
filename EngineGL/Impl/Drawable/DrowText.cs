@@ -6,7 +6,6 @@ using OpenTK.Graphics.OpenGL;
 
 namespace EngineGL.Impl.Drawable
 {
-
     public class TextRenderer : IDisposable
     {
         Bitmap _bitmap;
@@ -25,7 +24,7 @@ namespace EngineGL.Impl.Drawable
                 throw new InvalidOperationException("No GraphicsContext is current on the calling thread.");
 
             _bitmap = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            Graphics.FromImage(_bitmap);
+            _graphics = Graphics.FromImage(_bitmap);
             _graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
             _texture = GL.GenTexture();
             GL.BindTexture(TextureTarget.Texture2D, _texture);
