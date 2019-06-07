@@ -83,15 +83,17 @@ namespace EngineGL.Tests.Exec
             scene.AddObject(new SolidBoxObject2D
             {
                 BoxColor = Color4.White,
-                Position = new Vec3(3f, 3f, 0f),
-                Bounds = new Vec3(1f, 1f, 0f)
-            });
+            }
+                .SetPosition(new Vec3(3f, 3f, 0f))
+                .SetBounds(new Vec3(1f, 1f, 0f))
+            );
 
             SolidPolygonObject2D poly = new SolidPolygonObject2D
             {
                 PoligonColor = Color4.Gold,
-                Position = new Vec3(-3f, -3f, 0f)
             };
+
+            poly.SetPosition(new Vec3(-3f, -3f, 0f));
             poly.Layer = 1;
             poly.Points.Add(new Vec3(1f, 1.5f, 0));
             poly.Points.Add(new Vec3(0f, 0, 0));
@@ -101,24 +103,26 @@ namespace EngineGL.Tests.Exec
 
             scene.AddObject(new PointsObject2D
             {
-                Position = new Vec3(2, 2, 0),
                 PointColor = Color4.White,
                 PointSize = 10
-            });
+            }
+                .SetPosition(new Vec3(2, 2, 0))
+            );
             scene.AddObject(new CircleObject2D
             {
-                Position = new Vec3(3.5f, 1f, 0),
-                Bounds = new Vec3(1, 1, 0),
                 Radius = 0.5f,
                 CircleColor = Color4.Red
-            });
+            }
+                .SetPosition(new Vec3(3.5f, 1f, 0))
+                .SetBounds(new Vec3(1, 1, 0))
+            );
             scene.AddObject(new RawTexture2D("Images/download.png")
             {
                 Bounds = new Vec3(1, 1, 0),
             });
 
             StaticCamera camera = new StaticCamera();
-            camera.Position = new Vec3(0, 0, -10f);
+            camera.Transform.Position = new Vec3(0, 0, -10f);
             // camera.AddComponent(new ExceptionComponent());
             scene.AddObject(camera);
 

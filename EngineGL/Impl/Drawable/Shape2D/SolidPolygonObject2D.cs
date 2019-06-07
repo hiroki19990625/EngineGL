@@ -25,13 +25,13 @@ namespace EngineGL.Impl.Drawable.Shape2D
                     throw new ArgumentOutOfRangeException(nameof(Points),
                         Resources.Lang.Resources.SolidPolygonObject2D_OnDraw_Throw);
 
-                GL.Vertex3(Position + Points[i]);
+                GL.Vertex3(Transform.Position + Points[i]);
                 bou.X = Math.Max(Points[i].X, bou.X);
                 bou.Y = Math.Max(Points[i].Y, bou.Y);
                 bou.Z = Math.Max(Points[i].Z, bou.Z);
             }
 
-            Bounds = bou;
+            Transform.Bounds = bou;
 
             GL.End();
         }

@@ -16,8 +16,8 @@ namespace EngineGL.Impl.Drawable.Shape2D
 
             GL.Begin(PrimitiveType.Lines);
             GL.Color4(LineColor);
-            GL.Vertex3(Position);
-            GL.Vertex3(Position + Bounds);
+            GL.Vertex3(Transform.Position);
+            GL.Vertex3(Transform.Position + Transform.Bounds);
             GL.End();
         }
     }
