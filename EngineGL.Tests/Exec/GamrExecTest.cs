@@ -81,9 +81,9 @@ namespace EngineGL.Tests.Exec
         {
             Scene scene = new Scene();
             scene.AddObject(new SolidBoxObject2D
-            {
-                BoxColor = Color4.White,
-            }
+                {
+                    BoxColor = Color4.White,
+                }
                 .SetPosition(new Vec3(3f, 3f, 0f))
                 .SetBounds(new Vec3(1f, 1f, 0f))
             );
@@ -102,24 +102,22 @@ namespace EngineGL.Tests.Exec
             scene.AddObject(poly);
 
             scene.AddObject(new PointsObject2D
-            {
-                PointColor = Color4.White,
-                PointSize = 10
-            }
+                {
+                    PointColor = Color4.White,
+                    PointSize = 10
+                }
                 .SetPosition(new Vec3(2, 2, 0))
             );
             scene.AddObject(new CircleObject2D
-            {
-                Radius = 0.5f,
-                CircleColor = Color4.Red
-            }
+                {
+                    Radius = 0.5f,
+                    CircleColor = Color4.Red
+                }
                 .SetPosition(new Vec3(3.5f, 1f, 0))
                 .SetBounds(new Vec3(1, 1, 0))
             );
             scene.AddObject(new RawTexture2D("Images/download.png")
-            {
-                Bounds = new Vec3(1, 1, 0),
-            });
+                .SetBounds(new Vec3(1, 1, 0)));
 
             StaticCamera camera = new StaticCamera();
             camera.Transform.Position = new Vec3(0, 0, -10f);
