@@ -109,58 +109,5 @@ namespace EngineGL.Impl.Drawable
                 Console.WriteLine("[Warning] Resource leaked: {0}.", typeof(TextRenderer));
             }
         }
-
-        protected override void OnLoad(EventArgs e)
-        {
-            renderer = new TextRenderer(Width, Height);
-            PointF position = PointF.Empty;
-
-            renderer.Clear(Color.MidnightBlue);
-            renderer.DrawString("The quick brown fox jumps over the lazy dog", serif, Brushes.White, position);
-            position.Y += serif.Height;
-            renderer.DrawString("The quick brown fox jumps over the lazy dog", sans, Brushes.White, position);
-            position.Y += sans.Height;
-            renderer.DrawString("The quick brown fox jumps over the lazy dog", mono, Brushes.White, position);
-            position.Y += mono.Height;
-        }
-
-        protected override void OnUnload(EventArgs e)
-        {
-            renderer.Dispose();
-        }
-
-
-        protected override void OnResize(EventArgs e)
-        {
-            GL.Viewport(ClientRectangle);
-            GL.MatrixMode(MatrixMode.Projection);
-            GL.LoadIdentity();
-            GL.Ortho(-1.0, 1.0, -1.0, 1.0, 0.0, 4.0);
-        }
-
-        protected override void OnRenderFrame(FrameEventArgs e)
-        {
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-
-            GL.MatrixMode(MatrixMode.Modelview);
-            GL.LoadIdentity();
-
-            GL.Enable(EnableCap.Texture2D);
-            GL.BindTexture(TextureTarget.Texture2D, renderer.Texture);
-            GL.Begin(BeginMode.Quads);
-
-            GL.TexCoord2(0.0f, 1.0f);
-            GL.Vertex2(-1f, -1f);
-            GL.TexCoord2(1.0f, 1.0f);
-            GL.Vertex2(1f, -1f);
-            GL.TexCoord2(1.0f, 0.0f);
-            GL.Vertex2(1f, 1f);
-            GL.TexCoord2(0.0f, 0.0f);
-            GL.Vertex2(-1f, 1f);
-
-            GL.End();
-
-            SwapBuffers();
-        }
     }
 }
