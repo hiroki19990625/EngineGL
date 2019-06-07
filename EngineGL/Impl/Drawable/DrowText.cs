@@ -9,17 +9,17 @@ namespace EngineGL.Impl.Drawable
     class TextRendering : GameWindow
     {
         TextRenderer renderer;
-        Font serif = new Font(FontFamily.GenericSerif, 24);
-        Font sans = new Font(FontFamily.GenericSansSerif, 24);
-        Font mono = new Font(FontFamily.GenericMonospace, 24);
+        Font _serif = new Font(FontFamily.GenericSerif, 24);
+        Font _sans = new Font(FontFamily.GenericSansSerif, 24);
+        Font _mono = new Font(FontFamily.GenericMonospace, 24);
 
         public class TextRenderer : IDisposable
         {
-            Bitmap bitmap;
-            Graphics graphics;
-            int texture;
-            Rectangle rectangle;
-            bool disposed;
+            Bitmap _bitmap;
+            Graphics _graphics;
+            int _texture;
+            Rectangle _rectangle;
+            bool _disposed;
 
             public TextRenderer(int width, int height)
             {
@@ -30,11 +30,11 @@ namespace EngineGL.Impl.Drawable
                 if (GraphicsContext.CurrentContext == null)
                     throw new InvalidOperationException("No GraphicsContext is current on the calling thread.");
 
-                bitmap = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                Graphics.FromImage(bitmap);
-                graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
-                texture = GL.GenTexture();
-                GL.BindTexture(TextureTarget.Texture2D, texture);
+                _bitmap = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                Graphics.FromImage(_bitmap);
+                _graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+                _texture = GL.GenTexture();
+                GL.BindTexture(TextureTarget.Texture2D, _texture);
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
                     (int) TextureMinFilter.Linear);
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
@@ -45,16 +45,16 @@ namespace EngineGL.Impl.Drawable
 
             public void Clear(Color color)
             {
-                graphics.Clear(color);
-                rectangle = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
+                _graphics.Clear(color);
+                _rectangle = new Rectangle(0, 0, _bitmap.Width, _bitmap.Height);
             }
 
             public void DrawString(string text, Font font, Brush brush, PointF point)
             {
-                graphics.DrawString(text, font, brush, point);
-                SizeF size = graphics.MeasureString(text, font);
-                rectangle = Rectangle.Round(RectangleF.Union(rectangle, new RectangleF(point, size)));
-                rectangle = Rectangle.Intersect(rectangle, new Rectangle(0, 0, bitmap.Width, bitmap.Height));
+                _graphics.DrawString(text, font, brush, point);
+                SizeF size = _graphics.MeasureString(text, font);
+                _rectangle = Rectangle.Round(RectangleF.Union(_rectangle, new RectangleF(point, size)));
+                _rectangle = Rectangle.Intersect(_rectangle, new Rectangle(0, 0, _bitmap.Width, _bitmap.Height));
             }
 
             public int Texture
@@ -62,38 +62,38 @@ namespace EngineGL.Impl.Drawable
                 get
                 {
                     UploadBitmap();
-                    return texture;
+                    return _texture;
                 }
             }
 
             private void UploadBitmap()
             {
-                if (rectangle != Rectangle.Empty)
+                if (_rectangle != Rectangle.Empty)
                 {
-                    System.Drawing.Imaging.BitmapData data = bitmap.LockBits(rectangle,
+                    System.Drawing.Imaging.BitmapData data = _bitmap.LockBits(_rectangle,
                         System.Drawing.Imaging.ImageLockMode.ReadOnly,
                         System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-                    GL.BindTexture(TextureTarget.Texture1D, texture);
+                    GL.BindTexture(TextureTarget.Texture1D, _texture);
                     GL.TexSubImage2D(TextureTarget.Texture1D,
-                        0, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height,
+                        0, _rectangle.X, _rectangle.Y, _rectangle.Width, _rectangle.Height,
                         PixelFormat.Bgra,
                         PixelType.UnsignedByte,
                         data.Scan0);
-                    bitmap.UnlockBits(data);
-                    rectangle = Rectangle.Empty;
+                    _bitmap.UnlockBits(data);
+                    _rectangle = Rectangle.Empty;
                 }
             }
 
             private void Dispose(bool manual)
             {
-                if (!disposed)
+                if (!_disposed)
                 {
-                    bitmap.Dispose();
-                    graphics.Dispose();
+                    _bitmap.Dispose();
+                    _graphics.Dispose();
                     if (GraphicsContext.CurrentContext != null)
                     {
-                        OpenTK.Graphics.OpenGL4.GL.DeleteTexture(texture);
+                        OpenTK.Graphics.OpenGL4.GL.DeleteTexture(_texture);
                     }
                 }
             }
