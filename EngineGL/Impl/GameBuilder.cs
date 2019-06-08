@@ -20,9 +20,21 @@ namespace EngineGL.Impl
             return this;
         }
 
+        public GameBuilder SetExceptionExit(bool exit)
+        {
+            _game.ExceptionExit = exit;
+            return this;
+        }
+
         public GameBuilder SetExceptinDialog(bool exceptionDialog)
         {
             _game.ExceptionDialog = exceptionDialog;
+            return this;
+        }
+
+        public GameBuilder SetShowExitErrorDialog(bool exitErrorDialog)
+        {
+            _game.ShowExitErrorDialog = exitErrorDialog;
             return this;
         }
 
@@ -38,12 +50,6 @@ namespace EngineGL.Impl
             return this;
         }
 
-        /*public GameBuilder SetIcon(Icon icon)
-        {
-            _game.Icon = icon;
-            return this;
-        }*/
-
         public GameBuilder SetWindowState(WindowState state)
         {
             _game.WindowState = state;
@@ -53,6 +59,18 @@ namespace EngineGL.Impl
         public GameBuilder SetClientSize(Size size)
         {
             _game.ClientSize = size;
+            return this;
+        }
+
+        public GameBuilder SetIcon(Icon icon)
+        {
+            _game.Icon = icon;
+            return this;
+        }
+
+        public GameBuilder SetWindowBorder(WindowBorder border)
+        {
+            _game.WindowBorder = border;
             return this;
         }
 
