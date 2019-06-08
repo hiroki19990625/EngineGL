@@ -17,7 +17,6 @@ namespace EngineGL.Impl.Drawable
 
         public Color Color { get; set; }
 
-
         public string Text
         {
             get => _text;
