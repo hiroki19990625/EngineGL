@@ -226,14 +226,14 @@
     <Content Include="Resources\Icon\Script\Structure.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EngineGL\EngineGL.csproj">
-      <Project>{619adcd2-31e7-4a2d-b4c1-650910b4615d}</Project>
-      <Name>EngineGL</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.2\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.2\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EngineGL\EngineGL.csproj">
+      <Project>{B40DC809-5EBF-49DD-848B-7C413D0E51DB}</Project>
+      <Name>EngineGL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
