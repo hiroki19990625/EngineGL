@@ -1,7 +1,9 @@
-using EngineGL.Impl;
+using System;
+using System.Drawing;
 using NLog.Config;
+using OpenTK;
 
-namespace EngineGL.FormatMessage
+namespace EngineGL.Impl
 {
     public class GameBuilder
     {
@@ -30,10 +32,51 @@ namespace EngineGL.FormatMessage
             return this;
         }
 
+        public GameBuilder SetVSync(VSyncMode mode)
+        {
+            _game.VSync = mode;
+            return this;
+        }
+
+        /*public GameBuilder SetIcon(Icon icon)
+        {
+            _game.Icon = icon;
+            return this;
+        }*/
+
+        public GameBuilder SetWindowState(WindowState state)
+        {
+            _game.WindowState = state;
+            return this;
+        }
+
+        public GameBuilder SetClientSize(Size size)
+        {
+            _game.ClientSize = size;
+            return this;
+        }
 
         public GameBuilder SetLoggingConfiguration(LoggingConfiguration loggingConfiguration)
         {
             _game.LoggingConfiguration = loggingConfiguration;
+            return this;
+        }
+
+        public GameBuilder AddLoadEvent(EventHandler<EventArgs> action)
+        {
+            _game.Load += action;
+            return this;
+        }
+
+        public GameBuilder AddResizeEvent(EventHandler<EventArgs> action)
+        {
+            _game.Resize += action;
+            return this;
+        }
+
+        public GameBuilder AddRenderFrameEvent(EventHandler<FrameEventArgs> action)
+        {
+            _game.RenderFrame += action;
             return this;
         }
 
