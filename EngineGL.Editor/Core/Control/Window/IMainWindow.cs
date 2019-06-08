@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Windows.Documents;
 using System.Windows.Forms;
 using EngineGL.Editor.Impl.Controls.Window;
 using EngineGL.Utils;
