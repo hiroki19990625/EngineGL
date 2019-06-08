@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>EngineGL</id>
+    <version>$version$-beta1</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/hiroki19990625/EngineGL/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/hiroki19990625/EngineGL</projectUrl>
+    <!-- iconUrl></iconUrl -->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>C# 100% GameEngine</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2019 EngineGL Contributors</copyright>
+    <tags>GameEngine 2D 3D</tags>
+  </metadata>
+</package>
