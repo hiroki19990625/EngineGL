@@ -121,7 +121,7 @@ namespace EngineGL.Tests.Exec
                 .SetBounds(new Vec3(1, 1, 0)));
             scene.AddObject(new TextRenderer(100, 100)
                 {
-                    Color = Color.Red,
+                    FontColor = Color.Red,
                     Text = "Hello"
                 }
                 .SetPosition(new Vec3(2f, -2f, 0))

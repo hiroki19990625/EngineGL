@@ -15,34 +15,35 @@ namespace EngineGL.Impl.Drawable
         private Rectangle _rectangle;
         private string _text;
 
-        public Color Color { get; set; }
+        public float FontSize { get; set; } = 16f;
+        public Color FontColor { get; set; }
+
+        public int Width { get; set; }
+        public int Height { get; set; }
 
         public string Text
         {
             get => _text;
-            set
-            {
-                DrawString(value, new Font(FontFamily.GenericSansSerif, 24), new SolidBrush(Color), new PointF());
-                UploadBitmap();
-                _text = value;
-            }
+            set => SetText(value);
+        }
+
+        public TextRenderer()
+        {
         }
 
         public TextRenderer(int width, int height)
         {
-            _bitmap = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            _graphics = Graphics.FromImage(_bitmap);
-            _graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
-            _texture = GL.GenTexture();
-            GL.BindTexture(TextureTarget.Texture2D, _texture);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
-                (int) TextureMinFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
-                (int) TextureMagFilter.Linear);
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0,
-                PixelFormat.Rgba, PixelType.UnsignedByte, IntPtr.Zero);
+            Init(width, height);
 
-            GL.BindTexture(TextureTarget.Texture2D, 0);
+            Width = width;
+            Height = height;
+        }
+
+        public override void OnInitialze()
+        {
+            base.OnInitialze();
+
+            SetText(Text);
         }
 
         public override void OnDestroy()
@@ -72,6 +73,34 @@ namespace EngineGL.Impl.Drawable
             GL.Vertex3(Transform.Position + new Vec3(Transform.Bounds.X, 0, Transform.Bounds.Z));
 
             GL.End();
+        }
+
+        private void SetText(string text)
+        {
+            if (_bitmap == null && _graphics == null)
+                Init(Width, Height);
+
+            DrawString(text, new Font(FontFamily.GenericSansSerif, FontSize), new SolidBrush(FontColor),
+                new PointF());
+            UploadBitmap();
+            _text = text;
+        }
+
+        private void Init(int width, int height)
+        {
+            _bitmap = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            _graphics = Graphics.FromImage(_bitmap);
+            _graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            _texture = GL.GenTexture();
+            GL.BindTexture(TextureTarget.Texture2D, _texture);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
+                (int) TextureMinFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
+                (int) TextureMagFilter.Linear);
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0,
+                PixelFormat.Rgba, PixelType.UnsignedByte, IntPtr.Zero);
+
+            GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
 
