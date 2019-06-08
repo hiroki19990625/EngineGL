@@ -3,7 +3,7 @@ using EngineGL.Impl.Resource;
 using EngineGL.Structs.Math;
 using OpenTK.Graphics.OpenGL;
 
-namespace EngineGL.Impl.Drawable.Shape2D
+namespace EngineGL.Impl.Drawable
 {
     public class RawTexture2D : DrawableObject
     {

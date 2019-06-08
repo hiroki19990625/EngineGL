@@ -1,0 +1,134 @@
+using System;
+using System.Drawing;
+using EngineGL.Structs.Math;
+using OpenTK;
+using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
+
+namespace EngineGL.Impl.Drawable
+{
+    public class TextRenderer : DrawableObject
+    {
+        private Bitmap _bitmap;
+        private Graphics _graphics;
+        private int _texture;
+        private Rectangle _rectangle;
+        private string _text;
+
+        public float FontSize { get; set; } = 16f;
+        public Color FontColor { get; set; }
+
+        public int Width { get; set; }
+        public int Height { get; set; }
+
+        public string Text
+        {
+            get => _text;
+            set => SetText(value);
+        }
+
+        public TextRenderer()
+        {
+        }
+
+        public TextRenderer(int width, int height)
+        {
+            Init(width, height);
+
+            Width = width;
+            Height = height;
+        }
+
+        public override void OnInitialze()
+        {
+            base.OnInitialze();
+
+            SetText(Text);
+        }
+
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            _bitmap.Dispose();
+            _graphics.Dispose();
+            GL.DeleteTexture(_texture);
+        }
+
+        public override void OnDraw(double deltaTime)
+        {
+            base.OnDraw(deltaTime);
+
+            GL.BindTexture(TextureTarget.Texture2D, _texture);
+
+            GL.Begin(PrimitiveType.Quads);
+
+            GL.TexCoord3(0.0f, 0.0f, 0.0f);
+            GL.Vertex3(Transform.Position);
+            GL.TexCoord3(0.0f, -1.0f, 1.0f);
+            GL.Vertex3(Transform.Position + new Vec3(0, Transform.Bounds.Y, Transform.Bounds.Z));
+            GL.TexCoord3(1.0f, -1.0f, 1.0f);
+            GL.Vertex3(Transform.Position + new Vec3(Transform.Bounds.X, Transform.Bounds.Y, Transform.Bounds.Z));
+            GL.TexCoord3(1.0f, 0.0f, 1.0f);
+            GL.Vertex3(Transform.Position + new Vec3(Transform.Bounds.X, 0, Transform.Bounds.Z));
+
+            GL.End();
+        }
+
+        private void SetText(string text)
+        {
+            if (_bitmap == null && _graphics == null)
+                Init(Width, Height);
+
+            DrawString(text, new Font(FontFamily.GenericSansSerif, FontSize), new SolidBrush(FontColor),
+                new PointF());
+            UploadBitmap();
+            _text = text;
+        }
+
+        private void Init(int width, int height)
+        {
+            _bitmap = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            _graphics = Graphics.FromImage(_bitmap);
+            _graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            _texture = GL.GenTexture();
+            GL.BindTexture(TextureTarget.Texture2D, _texture);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
+                (int) TextureMinFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
+                (int) TextureMagFilter.Linear);
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0,
+                PixelFormat.Rgba, PixelType.UnsignedByte, IntPtr.Zero);
+
+            GL.BindTexture(TextureTarget.Texture2D, 0);
+        }
+
+
+        private void DrawString(string text, Font font, Brush brush, PointF point)
+        {
+            _graphics.Clear(Color.FromArgb(0));
+            _rectangle = new Rectangle(0, 0, _bitmap.Width, _bitmap.Height);
+            _graphics.DrawString(text, font, brush, point);
+            SizeF size = _graphics.MeasureString(text, font);
+            _rectangle = Rectangle.Round(RectangleF.Union(_rectangle, new RectangleF(point, size)));
+            _rectangle = Rectangle.Intersect(_rectangle, new Rectangle(0, 0, _bitmap.Width, _bitmap.Height));
+        }
+
+        private void UploadBitmap()
+        {
+            System.Drawing.Imaging.BitmapData data = _bitmap.LockBits(_rectangle,
+                System.Drawing.Imaging.ImageLockMode.ReadOnly,
+                System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+            GL.BindTexture(TextureTarget.Texture2D, _texture);
+            GL.TexSubImage2D(TextureTarget.Texture2D,
+                0, _rectangle.X, _rectangle.Y, _rectangle.Width, _rectangle.Height,
+                PixelFormat.Bgra,
+                PixelType.UnsignedByte,
+                data.Scan0);
+            _bitmap.UnlockBits(data);
+            _rectangle = Rectangle.Empty;
+            GL.BindTexture(TextureTarget.Texture2D, 0);
+        }
+    }
+}

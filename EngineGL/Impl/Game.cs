@@ -102,6 +102,9 @@ namespace EngineGL.Impl
             GL.ClearColor(Color4.Black);
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.Texture2D);
+            GL.Enable(EnableCap.Blend);
+
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
         }
 
         public virtual void DrawDefaultFunc(FrameEventArgs ev)
