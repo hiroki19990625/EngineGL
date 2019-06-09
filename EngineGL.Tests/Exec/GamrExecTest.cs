@@ -124,7 +124,6 @@ namespace EngineGL.Tests.Exec
                     FontColor = Color.Red,
                     Text = "Hello"
                 }
-                .SetPosition(new Vec3(2f, -2f, 0))
                 .SetBounds(new Vec3(1, 1, 0))
             );
 

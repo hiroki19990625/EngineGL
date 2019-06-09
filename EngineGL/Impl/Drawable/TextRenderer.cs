@@ -1,9 +1,10 @@
 using System;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.Drawing.Text;
 using EngineGL.Structs.Math;
-using OpenTK;
-using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
 namespace EngineGL.Impl.Drawable
 {
@@ -88,9 +89,9 @@ namespace EngineGL.Impl.Drawable
 
         private void Init(int width, int height)
         {
-            _bitmap = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            _bitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
             _graphics = Graphics.FromImage(_bitmap);
-            _graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            _graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
             _texture = GL.GenTexture();
             GL.BindTexture(TextureTarget.Texture2D, _texture);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
@@ -98,7 +99,7 @@ namespace EngineGL.Impl.Drawable
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
                 (int) TextureMagFilter.Linear);
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0,
-                PixelFormat.Rgba, PixelType.UnsignedByte, IntPtr.Zero);
+                OpenTK.Graphics.OpenGL.PixelFormat.Rgba, PixelType.UnsignedByte, IntPtr.Zero);
 
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
@@ -116,14 +117,14 @@ namespace EngineGL.Impl.Drawable
 
         private void UploadBitmap()
         {
-            System.Drawing.Imaging.BitmapData data = _bitmap.LockBits(_rectangle,
-                System.Drawing.Imaging.ImageLockMode.ReadOnly,
-                System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            BitmapData data = _bitmap.LockBits(_rectangle,
+                ImageLockMode.ReadOnly,
+                PixelFormat.Format32bppArgb);
 
             GL.BindTexture(TextureTarget.Texture2D, _texture);
             GL.TexSubImage2D(TextureTarget.Texture2D,
                 0, _rectangle.X, _rectangle.Y, _rectangle.Width, _rectangle.Height,
-                PixelFormat.Bgra,
+                OpenTK.Graphics.OpenGL.PixelFormat.Bgra,
                 PixelType.UnsignedByte,
                 data.Scan0);
             _bitmap.UnlockBits(data);
