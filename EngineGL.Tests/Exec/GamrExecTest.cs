@@ -5,6 +5,7 @@ using System.Text;
 using EngineGL.Impl;
 using EngineGL.Impl.Drawable;
 using EngineGL.Impl.Drawable.Shape2D;
+using EngineGL.Impl.Drawable.Sharpe3D;
 using EngineGL.Impl.Objects;
 using EngineGL.Structs.Math;
 using EngineGL.Tests.Exec.TestComponents;
@@ -87,6 +88,14 @@ namespace EngineGL.Tests.Exec
                 }
                 .SetPosition(new Vec3(3f, 3f, 0f))
                 .SetBounds(new Vec3(1f, 1f, 0f))
+            );
+
+            scene.AddObject(new SolidBoxObject3D
+                {
+                    BoxColor = Color4.White,
+                }
+                .SetPosition(new Vec3(-2f, -2f, -2f))
+                .SetBounds(new Vec3(2f, 2f, 5f))
             );
 
             SolidPolygonObject2D poly = new SolidPolygonObject2D
