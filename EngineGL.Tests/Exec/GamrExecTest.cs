@@ -8,7 +8,6 @@ using EngineGL.Impl.Drawable.Shape2D;
 using EngineGL.Impl.Objects;
 using EngineGL.Structs.Math;
 using EngineGL.Tests.Exec.TestComponents;
-using EngineGL.Tests.Exec.TextObjects;
 using NLog.Config;
 using NLog.Targets;
 using NUnit.Framework;
@@ -118,13 +117,16 @@ namespace EngineGL.Tests.Exec
                 .SetBounds(new Vec3(1, 1, 0))
             );
             scene.AddObject(new RawTexture2D("Images/download.png")
-                .SetBounds(new Vec3(1, 1, 0)));
+                .SetBounds(new Vec3(3, 3, 0))
+                .SetPosition(new Vec3(-2, -2, 0)));
             scene.AddObject(new TextRenderer(100, 100)
                 {
                     FontColor = Color.Red,
-                    Text = "Hello"
+                    Text = "Hello",
+                    Tag = "Text"
                 }
                 .SetBounds(new Vec3(1, 1, 0))
+                .SetPosition(new Vec3(0.5f, 0, 0))
             );
 
             StaticCamera camera = new StaticCamera();

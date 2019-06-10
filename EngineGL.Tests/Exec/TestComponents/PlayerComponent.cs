@@ -1,6 +1,9 @@
+using System;
 using EngineGL.Core;
 using EngineGL.Impl.Components;
+using EngineGL.Impl.Drawable.Shape2D;
 using EngineGL.Structs.Math;
+using OpenTK.Graphics;
 using OpenTK.Input;
 
 namespace EngineGL.Tests.Exec.TestComponents
@@ -44,6 +47,8 @@ namespace EngineGL.Tests.Exec.TestComponents
 
         public override void OnCollisionEnter(IGameObject gameObject)
         {
+            if (gameObject.Tag == "Text")
+                ((SolidPolygonObject2D) GameObject).PoligonColor = Color4.Red;
         }
 
         public override void OnCollisionStay(IGameObject gameObject)
@@ -52,6 +57,8 @@ namespace EngineGL.Tests.Exec.TestComponents
 
         public override void OnCollisionLeave(IGameObject gameObject)
         {
+            if (gameObject.Tag == "Text")
+                ((SolidPolygonObject2D) GameObject).PoligonColor = Color4.Yellow;
         }
     }
 }
