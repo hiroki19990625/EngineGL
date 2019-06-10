@@ -2,7 +2,7 @@ using EngineGL.Structs.Math;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
-namespace EngineGL.Impl.Drawable.Sharpe3D
+namespace EngineGL.Impl.Drawable.Shape3D
 {
     public class SolidBoxObject3D : DrawableObject
     {
