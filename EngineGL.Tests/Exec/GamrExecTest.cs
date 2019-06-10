@@ -5,7 +5,7 @@ using System.Text;
 using EngineGL.Impl;
 using EngineGL.Impl.Drawable;
 using EngineGL.Impl.Drawable.Shape2D;
-using EngineGL.Impl.Drawable.Sharpe3D;
+using EngineGL.Impl.Drawable.Shape3D;
 using EngineGL.Impl.Objects;
 using EngineGL.Structs.Math;
 using EngineGL.Tests.Exec.TestComponents;
