@@ -1,15 +1,14 @@
 using System;
+using System.Collections.Concurrent;
 using EngineGL.Core;
-using EngineGL.Event.LifeCycle;
 using EngineGL.Structs.Math;
-using EngineGL.Utils;
 
 namespace EngineGL.Impl.Components
 {
     public class Collision3D : Component, ICollision
     {
-        public bool Entered { get; private set; }
-        public IGameObject HitGameObject { get; private set; }
+        private ConcurrentDictionary<Guid, CollisionData3D> _collisionDatas =
+            new ConcurrentDictionary<Guid, CollisionData3D>();
 
         public virtual void OnCollisionEnter(IGameObject gameObject)
         {
@@ -47,29 +46,32 @@ namespace EngineGL.Impl.Components
                         obj1.Z < obj2.Z + bound2.Z &&
                         obj1.Z + bound1.Z > obj2.Z)
                     {
-                        if (Entered && HitGameObject.GetHashCode() == gameObject.GetHashCode())
+                        if (_collisionDatas.ContainsKey(gameObject.InstanceGuid))
                         {
                             OnCollisionStay(gameObject);
                         }
-                        else if (!Entered && HitGameObject == null)
+                        else
                         {
-                            Entered = true;
-                            HitGameObject = gameObject;
+                            _collisionDatas.TryAdd(gameObject.InstanceGuid, new CollisionData3D
+                            {
+                                Entered = true
+                            });
                             OnCollisionEnter(gameObject);
                         }
-
-                        break;
                     }
 
-                    if (Entered && HitGameObject.GetHashCode() == gameObject.GetHashCode())
+                    if (_collisionDatas.ContainsKey(gameObject.InstanceGuid))
                     {
-                        Entered = false;
-                        HitGameObject = null;
+                        _collisionDatas.TryRemove(gameObject.InstanceGuid, out _);
                         OnCollisionLeave(gameObject);
-                        break;
                     }
                 }
             }
+        }
+
+        class CollisionData3D
+        {
+            public bool Entered { get; set; }
         }
     }
 }

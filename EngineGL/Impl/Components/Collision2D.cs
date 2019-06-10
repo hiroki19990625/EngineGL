@@ -1,14 +1,14 @@
 using System;
+using System.Collections.Concurrent;
 using EngineGL.Core;
 using EngineGL.Structs.Math;
-using EngineGL.Utils;
 
 namespace EngineGL.Impl.Components
 {
     public class Collision2D : Component, ICollision
     {
-        public bool Entered { get; private set; }
-        public IGameObject HitGameObject { get; private set; }
+        private ConcurrentDictionary<Guid, CollisionData2D> _collisionDatas =
+            new ConcurrentDictionary<Guid, CollisionData2D>();
 
         public virtual void OnCollisionEnter(IGameObject gameObject)
         {
@@ -44,29 +44,34 @@ namespace EngineGL.Impl.Components
                         obj1.Y < obj2.Y + bound2.Y &&
                         obj1.Y + bound1.Y > obj2.Y)
                     {
-                        if (Entered && HitGameObject.GetHashCode() == gameObject.GetHashCode())
+                        if (_collisionDatas.ContainsKey(gameObject.InstanceGuid))
                         {
                             OnCollisionStay(gameObject);
                         }
-                        else if (!Entered && HitGameObject == null)
+                        else
                         {
-                            Entered = true;
-                            HitGameObject = gameObject;
+                            _collisionDatas.TryAdd(gameObject.InstanceGuid, new CollisionData2D
+                            {
+                                Entered = true
+                            });
                             OnCollisionEnter(gameObject);
                         }
-
-                        break;
                     }
-
-                    if (Entered && HitGameObject.GetHashCode() == gameObject.GetHashCode())
+                    else
                     {
-                        Entered = false;
-                        HitGameObject = null;
-                        OnCollisionLeave(gameObject);
-                        break;
+                        if (_collisionDatas.ContainsKey(gameObject.InstanceGuid))
+                        {
+                            _collisionDatas.TryRemove(gameObject.InstanceGuid, out _);
+                            OnCollisionLeave(gameObject);
+                        }
                     }
                 }
             }
+        }
+
+        class CollisionData2D
+        {
+            public bool Entered { get; set; }
         }
     }
 }
