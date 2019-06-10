@@ -28,15 +28,13 @@ namespace EngineGL.Tests.Exec
         [Test, Order(1)]
         public void ExecGame()
         {
-            Game game = new Game();
-            //game.WindowState = WindowState.Fullscreen;
-            game.Title = "Engine Test";
-            game.ExceptionDialog = true;
-            game.DebugLogging = true;
-            game.LoggingConfiguration = GetLoggingConfiguration();
-            game.Load += (sender, args) => game.LoadDefaultFunc();
-            game.Resize += (sender, args) => game.AdjustResize();
-            game.RenderFrame += (sender, args) => game.DrawDefaultFunc(args);
+            Game game = new GameBuilder()
+                .SetTitle("Engine Test")
+                .SetExceptinDialog(true)
+                .SetDebugLogging(true)
+                .SetLoggingConfiguration(GetLoggingConfiguration())
+                .SetDefaultEvents()
+                .Build();
 
             game.LoadScene(GetInitScene());
             game.LoadScene(new Scene());
@@ -47,15 +45,13 @@ namespace EngineGL.Tests.Exec
         [Test, Order(2)]
         public void ExecGame2()
         {
-            Game game = new Game();
-            //game.WindowState = WindowState.Fullscreen;
-            game.Title = "Engine Test";
-            game.ExceptionDialog = true;
-            game.DebugLogging = true;
-            game.LoggingConfiguration = GetLoggingConfiguration();
-            game.Load += (sender, args) => game.LoadDefaultFunc();
-            game.Resize += (sender, args) => game.AdjustResize();
-            game.RenderFrame += (sender, args) => game.DrawDefaultFunc(args);
+            Game game = new GameBuilder()
+                .SetTitle("Engine Test")
+                .SetExceptinDialog(true)
+                .SetDebugLogging(true)
+                .SetLoggingConfiguration(GetLoggingConfiguration())
+                .SetDefaultEvents()
+                .Build();
 
             int hash = game.PreLoadScene<Scene>("scene.json").Value;
             game.LoadScene(hash).Value.Save("scene.json");

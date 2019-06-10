@@ -80,21 +80,11 @@ namespace EngineGL.Impl
             return this;
         }
 
-        public GameBuilder AddLoadEvent(EventHandler<EventArgs> action)
+        public GameBuilder SetDefaultEvents()
         {
-            _game.Load += action;
-            return this;
-        }
-
-        public GameBuilder AddResizeEvent(EventHandler<EventArgs> action)
-        {
-            _game.Resize += action;
-            return this;
-        }
-
-        public GameBuilder AddRenderFrameEvent(EventHandler<FrameEventArgs> action)
-        {
-            _game.RenderFrame += action;
+            _game.Load += (sender, args) => _game.LoadDefaultFunc();
+            _game.Resize += (sender, args) => _game.AdjustResize();
+            _game.RenderFrame += (sender, args) => _game.DrawDefaultFunc(args);
             return this;
         }
 
