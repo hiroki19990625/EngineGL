@@ -26,5 +26,15 @@ namespace EngineGL.Core
         /// オブジェクトのスケール
         /// </summary>
         Vec3 Scale { get; set; }
+
+        /// <summary>
+        /// 親オブジェクト
+        /// </summary>
+        ITransform Parent { get; set; }
+
+        /// <summary>
+        /// 子オブジェクトの追加
+        /// </summary>
+        void AddChild(ITransform transform);
     }
 }

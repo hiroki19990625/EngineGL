@@ -305,5 +305,11 @@ namespace EngineGL.Impl
 
             return Result<IComponent>.Fail();
         }
+
+        public void AddChild(IGameObject gameObject)
+        {
+            Scene.AddObject(gameObject);
+            Transform.AddChild(gameObject.Transform);
+        }
     }
 }
