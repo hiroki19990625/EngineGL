@@ -1,4 +1,6 @@
-﻿using EngineGL.Core;
+﻿using System;
+using EngineGL.Core;
+using EngineGL.Event.LifeCycle;
 using EngineGL.Structs.Math;
 
 namespace EngineGL.Impl
@@ -6,7 +8,7 @@ namespace EngineGL.Impl
     /// <summary>
     /// ITransformを実装するクラス
     /// </summary>
-    class Transform : ITransform
+    class Transform : Component, ITransform
     {
         public Vec3 Position { get; set; }
         public Vec3 Rotation { get; set; }

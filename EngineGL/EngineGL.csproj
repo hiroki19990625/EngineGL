@@ -140,7 +140,7 @@
     <Compile Include="Impl\Scene.cs" />
     <Compile Include="Impl\SceneManager.cs" />
     <Compile Include="Impl\SceneManagerEvents.cs" />
-    <Compile Include="Impl\Transform.cs" />
+    <Compile Include="Impl\Components\Transform.cs" />
     <Compile Include="Impl\UI\Button.cs" />
     <Compile Include="Impl\UI\CheckBox.cs" />
     <Compile Include="Impl\UI\CombBox.cs" />

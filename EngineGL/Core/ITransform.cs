@@ -1,30 +1,29 @@
-using EngineGL.Structs;
-using EngineGL.Structs.Math;
+ï»¿using EngineGL.Structs.Math;
 
 namespace EngineGL.Core
 {
     /// <summary>
-    /// ƒIƒuƒWƒFƒNƒg‚Ì‹óŠÔÀ•W‚ÆA‰ñ“]AƒXƒP[ƒ‹‚ğÀ‘•‚µ‚Ü‚·B
+    /// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç©ºé–“åº§æ¨™ã¨ã€å›è»¢ã€ã‚¹ã‚±ãƒ¼ãƒ«ã‚’å®Ÿè£…ã—ã¾ã™ã€‚
     /// </summary>
-    public interface ITransform
+    public interface ITransform : IComponent
     {
         /// <summary>
-        /// ƒIƒuƒWƒFƒNƒg‚Ì‹óŠÔÀ•W
+        /// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç©ºé–“åº§æ¨™
         /// </summary>
         Vec3 Position { get; set; }
 
         /// <summary>
-        /// ƒIƒuƒWƒFƒNƒg‚Ì‰ñ“]
+        /// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å›è»¢
         /// </summary>
         Vec3 Rotation { get; set; }
 
         /// <summary>
-        /// ƒIƒuƒWƒFƒNƒg‚Ì‹«ŠE
+        /// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å¢ƒç•Œ
         /// </summary>
         Vec3 Bounds { get; set; }
 
         /// <summary>
-        /// ƒIƒuƒWƒFƒNƒg‚ÌƒXƒP[ƒ‹
+        /// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¹ã‚±ãƒ¼ãƒ«
         /// </summary>
         Vec3 Scale { get; set; }
     }

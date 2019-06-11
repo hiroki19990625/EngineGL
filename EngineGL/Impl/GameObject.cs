@@ -17,9 +17,13 @@ namespace EngineGL.Impl
 
         public ITransform Transform { get; } = new Transform();
 
-
         public event EventHandler<AddComponentEventArgs> AddComponentEvent;
         public event EventHandler<RemoveComponentEventArgs> RemoveComponentEvent;
+
+        public GameObject()
+        {
+            AddComponent(Transform);
+        }
 
         /// <summary>
         /// transformのPositionに値をセットする
