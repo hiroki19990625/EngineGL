@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using EngineGL.Core.Resource;
 using Newtonsoft.Json;
+using OpenTK.Graphics.OpenGL;
 
 namespace EngineGL.Impl.Resource
 {
@@ -21,6 +22,7 @@ namespace EngineGL.Impl.Resource
 
         public void Dispose()
         {
+            GL.DeleteTexture(TextureHash);
             Bitmap?.Dispose();
         }
     }

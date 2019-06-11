@@ -42,6 +42,9 @@
     <Reference Include="MessagePack, Version=1.7.3.7, Culture=neutral, PublicKeyToken=b4a0369545f0a1be, processorArchitecture=MSIL">
       <HintPath>..\packages\MessagePack.1.7.3.7\lib\net47\MessagePack.dll</HintPath>
     </Reference>
+    <Reference Include="NAudio, Version=1.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.1.9.0\lib\net35\NAudio.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -66,6 +69,7 @@
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.3.0\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -93,6 +97,7 @@
     <Compile Include="Core\LifeCycle\IGuiRenderable.cs" />
     <Compile Include="Core\LifeCycle\Initialzeable.cs" />
     <Compile Include="Core\LifeCycle\IUpdateable.cs" />
+    <Compile Include="Core\Resource\IAudio.cs" />
     <Compile Include="Core\Resource\ITexture.cs" />
     <Compile Include="Event\CancelableEvent.cs" />
     <Compile Include="Event\ComponentAttachable\AddComponentEventArgs.cs" />
@@ -136,6 +141,7 @@
     <Compile Include="Impl\Objects\StaticCamera.cs" />
     <Compile Include="Impl\Resource\ResourceManager.cs" />
     <Compile Include="Impl\Resource\Texture2D.cs" />
+    <Compile Include="Impl\Resource\WaveAudio.cs" />
     <Compile Include="Impl\Scene.cs" />
     <Compile Include="Impl\SceneManager.cs" />
     <Compile Include="Impl\SceneManagerEvents.cs" />
@@ -173,7 +179,9 @@
     <EmbeddedResource Include="Resources\Lang\Resources.resx" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="OpenTK.dll.config" />
+    <Content Include="OpenTK.dll.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -184,4 +192,8 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\AssimpNet.4.1.0\build\AssimpNet.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\AssimpNet.4.1.0\build\AssimpNet.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
 </Project>
