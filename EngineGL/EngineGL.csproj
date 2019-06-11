@@ -127,6 +127,7 @@
     <Compile Include="Impl\Drawable\Shape2D\SolidBoxObject2D.cs" />
     <Compile Include="Impl\Drawable\Shape2D\SolidPolygonObject2D.cs" />
     <Compile Include="Impl\Drawable\Shape2D\StippleLineObject2D.cs" />
+    <Compile Include="Impl\Drawable\Shape3D\SolidBoxObject3D.cs" />
     <Compile Include="Impl\Drawable\TextRenderer.cs" />
     <Compile Include="Impl\Game.cs" />
     <Compile Include="Impl\GameBuilder.cs" />
