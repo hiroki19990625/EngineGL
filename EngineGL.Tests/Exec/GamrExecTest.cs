@@ -85,13 +85,14 @@ namespace EngineGL.Tests.Exec
                 .SetBounds(new Vec3(1f, 1f, 0f))
             );
 
-            scene.AddObject(new SolidBoxObject3D
-                {
-                    BoxColor = Color4.White,
-                }
-                .SetPosition(new Vec3(-2f, -2f, -2f))
-                .SetBounds(new Vec3(2f, 2f, 5f))
-            );
+            SolidBoxObject3D boxObject3D = new SolidBoxObject3D
+            {
+                BoxColor = Color4.Pink
+            };
+            boxObject3D.SetPosition(new Vec3(-1f, -1f, 0f));
+            boxObject3D.SetBounds(new Vec3(2f, 2f, 5f));
+            boxObject3D.AddComponentUnsafe<SolidBoxObject3DComponet>();
+            scene.AddObject(boxObject3D);
 
             SolidPolygonObject2D poly = new SolidPolygonObject2D
             {
@@ -138,7 +139,7 @@ namespace EngineGL.Tests.Exec
             camera.Transform.Position = new Vec3(0, 0, -10f);
             // camera.AddComponent(new ExceptionComponent());
             scene.AddObject(camera);
-
+            camera.AddComponentUnsafe<CameraComponent>();
             scene.Save("scene.json");
 
             return scene;
