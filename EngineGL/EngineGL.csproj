@@ -127,6 +127,7 @@
     <Compile Include="Impl\Drawable\Shape2D\SolidBoxObject2D.cs" />
     <Compile Include="Impl\Drawable\Shape2D\SolidPolygonObject2D.cs" />
     <Compile Include="Impl\Drawable\Shape2D\StippleLineObject2D.cs" />
+    <Compile Include="Impl\Drawable\Shape3D\SolidBoxObject3D.cs" />
     <Compile Include="Impl\Drawable\TextRenderer.cs" />
     <Compile Include="Impl\Game.cs" />
     <Compile Include="Impl\GameBuilder.cs" />
@@ -139,7 +140,7 @@
     <Compile Include="Impl\Scene.cs" />
     <Compile Include="Impl\SceneManager.cs" />
     <Compile Include="Impl\SceneManagerEvents.cs" />
-    <Compile Include="Impl\Transform.cs" />
+    <Compile Include="Impl\Components\Transform.cs" />
     <Compile Include="Impl\UI\Button.cs" />
     <Compile Include="Impl\UI\CheckBox.cs" />
     <Compile Include="Impl\UI\CombBox.cs" />

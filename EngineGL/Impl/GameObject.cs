@@ -17,9 +17,13 @@ namespace EngineGL.Impl
 
         public ITransform Transform { get; } = new Transform();
 
-
         public event EventHandler<AddComponentEventArgs> AddComponentEvent;
         public event EventHandler<RemoveComponentEventArgs> RemoveComponentEvent;
+
+        public GameObject()
+        {
+            AddComponent(Transform);
+        }
 
         /// <summary>
         /// transformのPositionに値をセットする
@@ -300,6 +304,12 @@ namespace EngineGL.Impl
                     return Result<IComponent>.Success(component);
 
             return Result<IComponent>.Fail();
+        }
+
+        public void AddChild(IGameObject gameObject)
+        {
+            Scene.AddObject(gameObject);
+            Transform.AddChild(gameObject.Transform);
         }
     }
 }

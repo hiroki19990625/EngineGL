@@ -9,5 +9,14 @@ namespace EngineGL.Core
         /// ゲームオブジェクトが持つITransformを返します
         /// </summary>
         ITransform Transform { get; }
+
+        /// <summary>
+        /// ゲームオブジェクトをTransformの子として追加
+        /// Sceneにも登録してくれます
+        /// </summary>
+        /// <param name="gameObject">
+        /// 子として追加するゲームオブジェクト
+        /// </param>
+        void AddChild(IGameObject gameObject);
     }
 }
