@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using EngineGL.Core.LifeCycle;
 using EngineGL.Event.Scene;
+using EngineGL.Serializations.Resulter;
 using EngineGL.Utils;
 
 namespace EngineGL.Core
@@ -10,7 +11,7 @@ namespace EngineGL.Core
     /// <summary>
     /// <see cref="IGame"/> で利用されるゲームのシーンを実装します。
     /// </summary>
-    public interface IScene : INameable, IUpdateable, IDrawable, IGuiRenderable
+    public interface IScene : INameable, IUpdateable, IDrawable, IGuiRenderable, ISerializeResultJson
     {
         /// <summary>
         /// オブジェクトが追加された時に発火するイベント。

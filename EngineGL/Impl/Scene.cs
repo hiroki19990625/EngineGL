@@ -11,6 +11,7 @@ using EngineGL.Event.Scene;
 using EngineGL.Serializations;
 using EngineGL.Utils;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using OpenTK.Graphics.OpenGL;
 
 namespace EngineGL.Impl
@@ -264,6 +265,26 @@ namespace EngineGL.Impl
         public async Task SaveAsync(FileInfo fileInfo)
         {
             await SaveAsync(fileInfo.FullName);
+        }
+
+        public void OnSerialize()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnDeserialize<T>(T data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public JObject OnSerializeJson()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnDeserializeJson()
+        {
+            throw new NotImplementedException();
         }
     }
 }
