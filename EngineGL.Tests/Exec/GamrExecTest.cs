@@ -2,16 +2,20 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Text;
+using System.Threading;
+using EngineGL.Core.Resource;
 using EngineGL.Impl;
 using EngineGL.Impl.Drawable;
 using EngineGL.Impl.Drawable.Shape2D;
 using EngineGL.Impl.Drawable.Shape3D;
 using EngineGL.Impl.Objects;
+using EngineGL.Impl.Resource;
 using EngineGL.Structs.Math;
 using EngineGL.Tests.Exec.TestComponents;
 using NLog.Config;
 using NLog.Targets;
 using NUnit.Framework;
+using OpenTK.Audio.OpenAL;
 using OpenTK.Graphics;
 
 namespace EngineGL.Tests.Exec
@@ -135,6 +139,10 @@ namespace EngineGL.Tests.Exec
                 .SetBounds(new Vec3(1, 1, 0))
                 .SetPosition(new Vec3(0.5f, 0, 0))
             );
+
+            IAudio audio = ResourceManager.LoadWave("Sounds/Mixdown2.wav");
+            audio.SetLoop(true);
+            audio.Play();
 
             StaticCamera camera = new StaticCamera();
             camera.Transform.Position = new Vec3(0, 0, -10f);

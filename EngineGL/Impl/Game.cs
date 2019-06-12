@@ -30,6 +30,11 @@ namespace EngineGL.Impl
         public event EventHandler<DestroyEventArgs> Destroy;
         public ISceneManagerEvents SceneEvents => sceneManager.Events;
 
+        public Game()
+        {
+            InteropUtils.SwitchPlatform();
+        }
+
         public virtual void OnInitialze()
         {
             Initialze?.Invoke(this, new InitialzeEventArgs(this));
