@@ -108,7 +108,7 @@ namespace EngineGL.Impl
                 {
                     args.AddObject.OnInitialze();
                     if (args.AddObject is IDrawable)
-                        _drawables.Add(args.AddObject.InstanceGuid, (IDrawable)args.AddObject);
+                        _drawables.Add(args.AddObject.InstanceGuid, (IDrawable) args.AddObject);
                     return Result<IObject>.Success(args.AddObject);
                 }
                 else
@@ -282,7 +282,7 @@ namespace EngineGL.Impl
             throw new NotImplementedException();
         }
 
-        public void OnDeserializeJson()
+        public void OnDeserializeJson(JObject obj)
         {
             throw new NotImplementedException();
         }
