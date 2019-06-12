@@ -9,7 +9,7 @@ jobs:
 
       - run:
           name: Build
-          command: xbuild EngineGL
+          command: xbuild EngineGL.sln
 
       - run:
           name: Test
