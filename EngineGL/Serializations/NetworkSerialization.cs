@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
 using MessagePack;
 
-namespace EngineGL.FormatMessage
+namespace EngineGL.Serializations
 {
-    public static class NetworkMessage
+    public static class NetworkSerialization
     {
         public static byte[] ToBinary<T>(this T obj)
         {
