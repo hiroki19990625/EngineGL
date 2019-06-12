@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Text;
+using System.Threading;
 using EngineGL.Core.Resource;
 using EngineGL.Impl;
 using EngineGL.Impl.Drawable;
@@ -128,10 +129,9 @@ namespace EngineGL.Tests.Exec
                 .SetPosition(new Vec3(0.5f, 0, 0))
             );
 
-            //IAudio audio = ResourceManager.LoadWave("Sounds/Mixdown2.wav");
-            //audio.Play();
-
-            AL.GenSource();
+            IAudio audio = ResourceManager.LoadWave("Sounds/Mixdown2.wav");
+            audio.SetLoop(true);
+            audio.Play();
 
             StaticCamera camera = new StaticCamera();
             camera.Transform.Position = new Vec3(0, 0, -10f);

@@ -6,11 +6,15 @@ namespace EngineGL.Core.Resource
     public interface IAudio : IDisposable
     {
         string FileName { get; }
-        WaveFileReader Reader { get; }
+        int SourceHash { get; }
+        int BufferHash { get; }
 
         void Play();
         void Parse();
         void Stop();
-        PlaybackState GetState();
+
+        void SetLoop(bool loop);
+        void SetVolume(float volume);
+        int GetState();
     }
 }
