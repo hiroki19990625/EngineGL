@@ -8,6 +8,10 @@ jobs:
       - checkout
 
       - run:
+          name: Nuget Restore
+          command: nuget restore
+
+      - run:
           name: Build
           command: xbuild EngineGL.sln
 
