@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace EngineGL.FormatMessage
+namespace EngineGL.Serializations
 {
-    public static class JsonMessage
+    public static class JsonSerialization
     {
         public static string ToJson<T>(this T obj, bool indented = false)
         {

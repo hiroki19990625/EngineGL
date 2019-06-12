@@ -112,9 +112,9 @@
     <Compile Include="Event\Scene\AddObjectEventArgs.cs" />
     <Compile Include="Event\Scene\RemoveObjectEventArgs.cs" />
     <Compile Include="Event\Scene\SceneEventArgs.cs" />
-    <Compile Include="FormatMessage\JsonMessage.cs" />
-    <Compile Include="FormatMessage\NetworkMessage.cs" />
-    <Compile Include="FormatMessage\YamlMessage.cs" />
+    <Compile Include="Serializations\JsonSerialization.cs" />
+    <Compile Include="Serializations\NetworkSerialization.cs" />
+    <Compile Include="Serializations\YamlSerialization.cs" />
     <Compile Include="Impl\Component.cs" />
     <Compile Include="Impl\Components\Collision2D.cs" />
     <Compile Include="Impl\Components\Collision3D.cs" />

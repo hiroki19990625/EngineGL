@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
 using YamlDotNet.Serialization;
 
-namespace EngineGL.FormatMessage
+namespace EngineGL.Serializations
 {
-    public static class YamlMessage
+    public static class YamlSerialization
     {
         public static string ToYaml<T>(this T obj)
         {
