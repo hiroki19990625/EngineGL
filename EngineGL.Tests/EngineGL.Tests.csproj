@@ -72,6 +72,7 @@
     <Compile Include="Exec\GamrExecTest.cs" />
     <Compile Include="Exec\TestComponents\ExceptionComponent.cs" />
     <Compile Include="Exec\TestComponents\PlayerComponent.cs" />
+    <Compile Include="Exec\TestComponents\RotateComponent.cs" />
     <Compile Include="Exec\TextObjects\TextureRender.cs" />
     <Compile Include="FormatMessage\MessageTests.cs" />
     <Compile Include="Impl\Componets\TransformTest.cs" />
