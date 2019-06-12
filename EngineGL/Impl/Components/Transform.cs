@@ -1,8 +1,8 @@
-﻿using EngineGL.Core;
+﻿using System.Collections.Concurrent;
+using EngineGL.Core;
 using EngineGL.Structs.Math;
-using System.Collections.Concurrent;
 
-namespace EngineGL.Impl
+namespace EngineGL.Impl.Components
 {
     /// <summary>
     /// ITransformを実装するクラス
