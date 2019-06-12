@@ -52,6 +52,11 @@ namespace EngineGL.Structs.Drawing
             return new Colour4(ToByte(color.R), ToByte(color.G), ToByte(color.B), ToByte(color.A));
         }
 
+        public static implicit operator Color(Colour4 color)
+        {
+            return Color.FromArgb(color.A, color.R, color.G, color.B);
+        }
+
         public static implicit operator OpenTK.Graphics.Color4(Colour4 color)
         {
             return new OpenTK.Graphics.Color4(ToFloat(color.R), ToFloat(color.G), ToFloat(color.B), ToFloat(color.A));
@@ -72,9 +77,79 @@ namespace EngineGL.Structs.Drawing
             return !a.Equals(b);
         }
 
+        public static Colour3 FromRgbInt24(int val)
+        {
+            return new Colour3((byte) (val >> 16), (byte) (val >> 8), (byte) val);
+        }
+
+        public static Colour3 FromBgrInt24(int val)
+        {
+            return new Colour3((byte) val, (byte) (val >> 8), (byte) (val >> 16));
+        }
+
+        public static Colour4 FromRgbaInt32(int val)
+        {
+            return new Colour4((byte) (val >> 24), (byte) (val >> 16), (byte) (val >> 8), (byte) val);
+        }
+
+        public static Colour4 FromArgbInt32(int val)
+        {
+            return new Colour4((byte) (val >> 16), (byte) (val >> 8), (byte) val, (byte) (val >> 24));
+        }
+
+        public static Colour4 FromBgraInt32(int val)
+        {
+            return new Colour4((byte) val, (byte) (val >> 8), (byte) (val >> 16), (byte) (val >> 24));
+        }
+
         public bool Equals(Colour4 other)
         {
-            return R.Equals(other.R) && G.Equals(other.G) && B.Equals(other.B);
+            return R.Equals(other.R) && G.Equals(other.G) && B.Equals(other.B) && A.Equals(other.A);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Colour4))
+                return false;
+
+            return this.Equals((Colour4) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = R.GetHashCode();
+                hashCode = (hashCode * 397) ^ G.GetHashCode();
+                hashCode = (hashCode * 397) ^ B.GetHashCode();
+                hashCode = (hashCode * 397) ^ A.GetHashCode();
+                return hashCode;
+            }
+        }
+
+        public int ToRgbInt24()
+        {
+            return this.R << 16 | G << 8 | B;
+        }
+
+        public int ToBgrInt24()
+        {
+            return this.B << 16 | G << 8 | R;
+        }
+
+        public int ToRgba32()
+        {
+            return this.R << 24 | this.G << 24 | this.B << 8 | this.A;
+        }
+
+        public int ToArgbInt32()
+        {
+            return this.R << 16 | this.G << 8 | this.B | this.A << 24;
+        }
+
+        public int ToBgraInt32()
+        {
+            return this.B << 24 | this.G << 16 | this.R << 8 | this.A;
         }
 
         private static byte ToByte(float f)
