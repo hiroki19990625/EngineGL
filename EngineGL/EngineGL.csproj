@@ -171,6 +171,7 @@
     <Compile Include="Structs\Secure\SecureVec4.cs" />
     <Compile Include="Utils\BoolHelper.cs" />
     <Compile Include="Utils\EventManager.cs" />
+    <Compile Include="Utils\InteropUtils.cs" />
     <Compile Include="Utils\JsonConverters.cs" />
     <Compile Include="Utils\LocalThreadRandom.cs" />
     <Compile Include="Utils\Result.cs" />
@@ -179,6 +180,12 @@
     <EmbeddedResource Include="Resources\Lang\Resources.resx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Dlls\x64\openal32.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dlls\x86\openal32.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="OpenTK.dll.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

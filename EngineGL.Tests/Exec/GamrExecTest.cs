@@ -13,6 +13,7 @@ using EngineGL.Tests.Exec.TestComponents;
 using NLog.Config;
 using NLog.Targets;
 using NUnit.Framework;
+using OpenTK.Audio.OpenAL;
 using OpenTK.Graphics;
 
 namespace EngineGL.Tests.Exec
@@ -127,8 +128,10 @@ namespace EngineGL.Tests.Exec
                 .SetPosition(new Vec3(0.5f, 0, 0))
             );
 
-            IAudio audio = ResourceManager.LoadWave("Sounds/Mixdown2.wav");
-            audio.Play();
+            //IAudio audio = ResourceManager.LoadWave("Sounds/Mixdown2.wav");
+            //audio.Play();
+
+            AL.GenSource();
 
             StaticCamera camera = new StaticCamera();
             camera.Transform.Position = new Vec3(0, 0, -10f);

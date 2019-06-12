@@ -92,9 +92,7 @@
     <Content Include="Images\TestImage.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sounds\Mixdown2.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Sounds\Mixdown2.wav" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EngineGL\EngineGL.csproj">
