@@ -36,6 +36,30 @@
     <Reference Include="AssimpNet, Version=4.1.0.0, Culture=neutral, PublicKeyToken=0d51b391f59f42a6, processorArchitecture=MSIL">
       <HintPath>..\packages\AssimpNet.4.1.0\lib\net40\AssimpNet.dll</HintPath>
     </Reference>
+    <Reference Include="AtkSharp, Version=3.22.24.37, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\AtkSharp.3.22.24.37\lib\netstandard2.0\AtkSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CairoSharp, Version=3.22.24.37, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\CairoSharp.3.22.24.37\lib\netstandard2.0\CairoSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GdkSharp, Version=3.22.24.37, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\GdkSharp.3.22.24.37\lib\netstandard2.0\GdkSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GioSharp, Version=3.22.24.37, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\GioSharp.3.22.24.37\lib\netstandard2.0\GioSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GLibSharp, Version=3.22.24.37, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\GLibSharp.3.22.24.37\lib\netstandard2.0\GLibSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GtkSharp, Version=3.22.24.37, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\GtkSharp.3.22.24.37\lib\netstandard2.0\GtkSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=1.1.0.145, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpZipLib.1.1.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
@@ -50,6 +74,10 @@
     </Reference>
     <Reference Include="OpenTK, Version=3.0.1.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <HintPath>..\packages\OpenTK.3.0.1\lib\net20\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="PangoSharp, Version=3.22.24.37, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\PangoSharp.3.22.24.37\lib\netstandard2.0\PangoSharp.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="SharpNoise, Version=0.12.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpNoise.0.12.0\lib\netstandard2.0\SharpNoise.dll</HintPath>
@@ -112,6 +140,7 @@
     <Compile Include="Event\Scene\AddObjectEventArgs.cs" />
     <Compile Include="Event\Scene\RemoveObjectEventArgs.cs" />
     <Compile Include="Event\Scene\SceneEventArgs.cs" />
+    <Compile Include="Impl\Resource\DialogWindow.cs" />
     <Compile Include="Serializations\JsonSerialization.cs" />
     <Compile Include="Serializations\NetworkSerialization.cs" />
     <Compile Include="Serializations\Resulter\ISerializeResult.cs" />

@@ -7,6 +7,7 @@ using EngineGL.Impl.Drawable;
 using EngineGL.Impl.Drawable.Shape2D;
 using EngineGL.Impl.Drawable.Shape3D;
 using EngineGL.Impl.Objects;
+using EngineGL.Impl.Resource;
 using EngineGL.Structs.Math;
 using EngineGL.Tests.Exec.TestComponents;
 using NLog.Config;
@@ -59,6 +60,8 @@ namespace EngineGL.Tests.Exec
 
             game.Run(60.0d);
         }
+
+        private WindowDialog windowDialog = new WindowDialog("fejgae");
 
         private LoggingConfiguration GetLoggingConfiguration()
         {
