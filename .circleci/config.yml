@@ -1,0 +1,16 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: mono
+
+    steps:
+      - checkout
+
+      - run:
+          name: Build
+          command: xbuild EngineGL
+
+      - run:
+          name: Test
+          command: date
