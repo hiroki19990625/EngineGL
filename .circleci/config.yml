@@ -7,11 +7,6 @@ jobs:
     steps:
       - checkout
 
-      - save_cache:
-          key: source-v1-{{ .Branch }}-{{ .Revision }}
-          paths:
-            - ".git"
-
       - restore_cache:
           keys:
             - nuget-v1-{{ checksum "EngineGL/EngineGL/packages.config" }}-{{ checksum "EngineGL/EngineGL.Editor/packages.config" }}-{{ checksum "EngineGL/EngineGL.Tests/packages.config" }}
