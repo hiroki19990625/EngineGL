@@ -13,6 +13,7 @@ using EngineGL.Impl.Objects;
 using EngineGL.Impl.Resource;
 using EngineGL.Structs.Math;
 using EngineGL.Tests.Exec.TestComponents;
+using EngineGL.Utils;
 using NLog.Config;
 using NLog.Targets;
 using NUnit.Framework;
@@ -81,9 +82,8 @@ namespace EngineGL.Tests.Exec
 
         private Scene GetInitScene()
         {
-            Dialog dialog = new Dialog();
-            dialog.OpenDialog("test");
-            
+            Dialog.Show("Test");
+
             Scene scene = new Scene();
             scene.AddObject(new SolidBoxObject2D
                 {

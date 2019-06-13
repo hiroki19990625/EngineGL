@@ -117,7 +117,6 @@
     <Compile Include="Event\Scene\AddObjectEventArgs.cs" />
     <Compile Include="Event\Scene\RemoveObjectEventArgs.cs" />
     <Compile Include="Event\Scene\SceneEventArgs.cs" />
-    <Compile Include="Impl\Resource\Dialog.cs" />
     <Compile Include="Serializations\JsonSerialization.cs" />
     <Compile Include="Serializations\NetworkSerialization.cs" />
     <Compile Include="Serializations\Resulter\ISerializeResult.cs" />
@@ -174,6 +173,7 @@
     <Compile Include="Structs\Secure\SecureVec3.cs" />
     <Compile Include="Structs\Secure\SecureVec4.cs" />
     <Compile Include="Utils\BoolHelper.cs" />
+    <Compile Include="Utils\Dialog.cs" />
     <Compile Include="Utils\EventManager.cs" />
     <Compile Include="Utils\InteropUtils.cs" />
     <Compile Include="Utils\JsonConverters.cs" />
