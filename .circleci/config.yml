@@ -9,9 +9,9 @@ jobs:
 
       - restore_cache:
           keys:
-            - nuget-v1-{{ checksum "EngineGL/EngineGL/packages.config" }}-{{ checksum "EngineGL/EngineGL.Editor/packages.config" }}-{{ checksum "EngineGL/EngineGL.Tests/packages.config" }}
-            - nuget-v1-{{ checksum "EngineGL/EngineGL/packages.config" }}-{{ checksum "EngineGL/EngineGL.Editor/packages.config" }}-
-            - nuget-v1-{{ checksum "EngineGL/EngineGL/packages.config" }}-
+            - nuget-v1-{{ checksum "EngineGL/packages.config" }}-{{ checksum "EngineGL.Editor/packages.config" }}-{{ checksum "EngineGL.Tests/packages.config" }}
+            - nuget-v1-{{ checksum "EngineGL/packages.config" }}-{{ checksum "EngineGL.Editor/packages.config" }}-
+            - nuget-v1-{{ checksum "EngineGL/packages.config" }}-
             - nuget-v1-
 
       - run:
@@ -19,7 +19,7 @@ jobs:
           command: nuget restore
 
       - save_cache:
-          key: nuget-v1-{{ checksum "EngineGL/EngineGL/packages.config" }}-{{ checksum "EngineGL/EngineGL.Editor/packages.config" }}-{{ checksum "EngineGL/EngineGL.Tests/packages.config" }}
+          key: nuget-v1-{{ checksum "EngineGL/packages.config" }}-{{ checksum "EngineGL.Editor/packages.config" }}-{{ checksum "EngineGL.Tests/packages.config" }}
           paths:
             - "packages"
 
