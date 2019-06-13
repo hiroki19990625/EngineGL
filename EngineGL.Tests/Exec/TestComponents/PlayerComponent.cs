@@ -8,7 +8,7 @@ using OpenTK.Input;
 
 namespace EngineGL.Tests.Exec.TestComponents
 {
-    public class PlayerComponent : Collision2D
+    public class PlayerComponent : Collider2D
     {
         public override void OnUpdate(double deltaTime)
         {
@@ -47,8 +47,7 @@ namespace EngineGL.Tests.Exec.TestComponents
 
         public override void OnCollisionEnter(IGameObject gameObject)
         {
-            if (gameObject.Tag == "Text")
-                ((SolidPolygonObject2D) GameObject).PoligonColor = Color4.Red;
+            ((SolidBoxObject2D) GameObject).BoxColor = Color4.Red;
         }
 
         public override void OnCollisionStay(IGameObject gameObject)
@@ -57,8 +56,7 @@ namespace EngineGL.Tests.Exec.TestComponents
 
         public override void OnCollisionLeave(IGameObject gameObject)
         {
-            if (gameObject.Tag == "Text")
-                ((SolidPolygonObject2D) GameObject).PoligonColor = Color4.Yellow;
+            ((SolidBoxObject2D) GameObject).BoxColor = Color4.Yellow;
         }
     }
 }
