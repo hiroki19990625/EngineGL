@@ -5,12 +5,6 @@ jobs:
       - image: mono
 
     steps:
-      - restore_cache:
-          keys:
-            - source-v1-{{ .Branch }}-{{ .Revision }}
-            - source-v1-{{ .Branch }}-
-            - source-v1-
-
       - checkout
 
       - save_cache:
