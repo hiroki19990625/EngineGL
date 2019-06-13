@@ -60,8 +60,7 @@ namespace EngineGL.Tests.Exec
 
             game.Run(60.0d);
         }
-
-        private WindowDialog windowDialog = new WindowDialog("fejgae");
+        
 
         private LoggingConfiguration GetLoggingConfiguration()
         {
@@ -87,6 +86,9 @@ namespace EngineGL.Tests.Exec
                 .SetPosition(new Vec3(3f, 3f, 0f))
                 .SetBounds(new Vec3(1f, 1f, 0f))
             );
+            
+            WindowDialog windowDialog = new WindowDialog();
+            windowDialog.OpenDialog("aaa");
 
             scene.AddObject(new SolidBoxObject3D
                 {
