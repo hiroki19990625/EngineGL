@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.IO;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading;
 using EngineGL.Core.Resource;
@@ -80,6 +81,9 @@ namespace EngineGL.Tests.Exec
 
         private Scene GetInitScene()
         {
+            Dialog dialog = new Dialog();
+            dialog.OpenDialog("test");
+            
             Scene scene = new Scene();
             scene.AddObject(new SolidBoxObject2D
                 {
