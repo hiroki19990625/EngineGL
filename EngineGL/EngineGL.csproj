@@ -117,6 +117,7 @@
     <Compile Include="Event\Scene\AddObjectEventArgs.cs" />
     <Compile Include="Event\Scene\RemoveObjectEventArgs.cs" />
     <Compile Include="Event\Scene\SceneEventArgs.cs" />
+    <Compile Include="Impl\Resource\Dialog.cs" />
     <Compile Include="Serializations\JsonSerialization.cs" />
     <Compile Include="Serializations\NetworkSerialization.cs" />
     <Compile Include="Serializations\Resulter\ISerializeResult.cs" />
