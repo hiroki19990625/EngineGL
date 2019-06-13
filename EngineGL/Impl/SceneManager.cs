@@ -39,10 +39,17 @@ namespace EngineGL.Impl
             {
                 if (s is IComponentAttachable)
                 {
-                    IComponentAttachable attachable = (IComponentAttachable)s;
+                    IComponentAttachable attachable = (IComponentAttachable) s;
                     foreach (IComponent component in attachable.GetComponents().Value)
                     {
-                        component.ParentObject = attachable;
+                        try
+                        {
+                            component.ParentObject = attachable;
+                        }
+                        catch (Exception e)
+                        {
+                            logger.Warn(e);
+                        }
                     }
                 }
 
@@ -100,7 +107,7 @@ namespace EngineGL.Impl
         {
             if (_loadedScenes.TryGetValue(hash, out IScene scene))
             {
-                return Result<T>.Success((T)scene);
+                return Result<T>.Success((T) scene);
             }
 
             return Result<T>.Fail();
@@ -148,7 +155,7 @@ namespace EngineGL.Impl
         {
             try
             {
-                return Result<T>.Success((T)LoadScene(hash, game).Value);
+                return Result<T>.Success((T) LoadScene(hash, game).Value);
             }
             catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
             {
@@ -161,7 +168,7 @@ namespace EngineGL.Impl
         {
             try
             {
-                return Result<T>.Success((T)LoadScene(scene, game).Value);
+                return Result<T>.Success((T) LoadScene(scene, game).Value);
             }
             catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
             {
@@ -197,7 +204,7 @@ namespace EngineGL.Impl
         {
             try
             {
-                return Result<T>.Success((T)UnloadScene(hash, game).Value);
+                return Result<T>.Success((T) UnloadScene(hash, game).Value);
             }
             catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
             {
@@ -210,7 +217,7 @@ namespace EngineGL.Impl
         {
             try
             {
-                return Result<T>.Success((T)UnloadScene(scene, game).Value);
+                return Result<T>.Success((T) UnloadScene(scene, game).Value);
             }
             catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
             {
@@ -248,7 +255,7 @@ namespace EngineGL.Impl
             UnloadScenes(game);
             try
             {
-                return Result<T>.Success((T)LoadScene(hash, game).Value);
+                return Result<T>.Success((T) LoadScene(hash, game).Value);
             }
             catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
             {
@@ -262,7 +269,7 @@ namespace EngineGL.Impl
             UnloadScenes(game);
             try
             {
-                return Result<T>.Success((T)LoadScene(scene, game).Value);
+                return Result<T>.Success((T) LoadScene(scene, game).Value);
             }
             catch (Exception e) when (e is InvalidCastException || e is InvalidOperationException)
             {
