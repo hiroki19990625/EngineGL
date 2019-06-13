@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace EngineGL.Structs.Drawing
 {
-    public class Colour4 : IEquatable<Colour4>
+    public struct Colour4 : IEquatable<Colour4>
     {
         public byte R { get; set; }
         public byte G { get; set; }
@@ -109,10 +109,8 @@ namespace EngineGL.Structs.Drawing
 
         public override bool Equals(object obj)
         {
-            if (!(obj is Colour4))
-                return false;
-
-            return this.Equals((Colour4) obj);
+            if (ReferenceEquals(null, obj)) return false;
+            return obj is Colour4 other && Equals(other);
         }
 
         public override int GetHashCode()

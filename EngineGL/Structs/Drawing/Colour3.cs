@@ -4,7 +4,7 @@ using OpenTK.Graphics;
 
 namespace EngineGL.Structs.Drawing
 {
-    public class Colour3 : IEquatable<Colour3>
+    public struct Colour3 : IEquatable<Colour3>
     {
         public byte R { get; set; }
         public byte G { get; set; }
@@ -45,6 +45,11 @@ namespace EngineGL.Structs.Drawing
             return Color.FromArgb(0xff, color.R, color.G, color.B);
         }
 
+        public static explicit operator Colour3(Colour4 color)
+        {
+            return new Colour3(color);
+        }
+
         public static Colour3 FromRgbInt24(int val)
         {
             return new Colour3((byte) (val >> 16), (byte) (val >> 8), (byte) val);
@@ -72,10 +77,8 @@ namespace EngineGL.Structs.Drawing
 
         public override bool Equals(object obj)
         {
-            if (!(obj is Colour3))
-                return false;
-
-            return this.Equals((Colour3) obj);
+            if (ReferenceEquals(null, obj)) return false;
+            return obj is Colour3 other && Equals(other);
         }
 
         public int ToRgbInt24()
