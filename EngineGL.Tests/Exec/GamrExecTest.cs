@@ -1,10 +1,12 @@
 using System;
 using System.Drawing;
 using System.IO;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading;
 using EngineGL.Core.Resource;
 using EngineGL.Impl;
+using EngineGL.Impl.Components;
 using EngineGL.Impl.Drawable;
 using EngineGL.Impl.Drawable.Shape2D;
 using EngineGL.Impl.Drawable.Shape3D;
@@ -12,6 +14,7 @@ using EngineGL.Impl.Objects;
 using EngineGL.Impl.Resource;
 using EngineGL.Structs.Math;
 using EngineGL.Tests.Exec.TestComponents;
+using EngineGL.Utils;
 using NLog.Config;
 using NLog.Targets;
 using NUnit.Framework;
@@ -80,14 +83,20 @@ namespace EngineGL.Tests.Exec
 
         private Scene GetInitScene()
         {
+            Dialog.Show("Test");
+
             Scene scene = new Scene();
-            scene.AddObject(new SolidBoxObject2D
-                {
-                    BoxColor = Color4.White,
-                }
+            SolidBoxObject2D box = new SolidBoxObject2D();
+            box.BoxColor = Color4.White;
+            box
                 .SetPosition(new Vec3(3f, 3f, 0f))
-                .SetBounds(new Vec3(1f, 1f, 0f))
-            );
+                .SetBounds(new Vec3(1f, 1f, 0f));
+            box.AddComponent(new PlayerComponent()
+            {
+                Bounds = new Vec3(1, 1)
+            });
+            scene.AddObject(box);
+
 
             SolidBoxObject3D boxObject3D = new SolidBoxObject3D
             {
@@ -103,13 +112,11 @@ namespace EngineGL.Tests.Exec
             {
                 PoligonColor = Color4.Gold,
             };
-
             poly.SetPosition(new Vec3(-3f, -3f, 0f));
             poly.Layer = 1;
             poly.Points.Add(new Vec3(1f, 1.5f, 0));
             poly.Points.Add(new Vec3(0f, 0, 0));
             poly.Points.Add(new Vec3(2f, 0, 0));
-            poly.AddComponentUnsafe<PlayerComponent>();
             scene.AddObject(poly);
             
             SolidPolygonObject3D poly3 = new SolidPolygonObject3D
@@ -136,14 +143,21 @@ namespace EngineGL.Tests.Exec
                 }
                 .SetPosition(new Vec3(2, 2, 0))
             );
-            scene.AddObject(new CircleObject2D
-                {
-                    Radius = 0.5f,
-                    CircleColor = Color4.Red
-                }
+            CircleObject2D circle = new CircleObject2D()
+            {
+                Radius = 0.5f,
+                CircleColor = Color4.Red
+            };
+            circle.AddComponent(new Collision2D
+            {
+                Bounds = new Vec3(1, 1),
+                Offset = new Vec3(-0.5f, -0.5f)
+            });
+            circle
                 .SetPosition(new Vec3(3.5f, 1f, 0))
-                .SetBounds(new Vec3(1, 1, 0))
-            );
+                .SetBounds(new Vec3(1, 1, 0));
+            scene.AddObject(circle);
+
             scene.AddObject(new RawTexture2D("Images/download.png")
                 .SetBounds(new Vec3(3, 3, 0))
                 .SetPosition(new Vec3(-2, -2, 0)));

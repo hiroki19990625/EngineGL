@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\ICamera.cs" />
+    <Compile Include="Core\ICollider.cs" />
     <Compile Include="Core\ICollision.cs" />
     <Compile Include="Core\IComponent.cs" />
     <Compile Include="Core\IComponentAttachable.cs" />
@@ -118,14 +119,16 @@
     <Compile Include="Event\Scene\RemoveObjectEventArgs.cs" />
     <Compile Include="Event\Scene\SceneEventArgs.cs" />
     <Compile Include="Impl\Drawable\Shape3D\SolidPolygonObject3D.cs" />
+    <Compile Include="Impl\Components\Collision2D.cs" />
+    <Compile Include="Impl\Components\Collision3D.cs" />
     <Compile Include="Serializations\JsonSerialization.cs" />
     <Compile Include="Serializations\NetworkSerialization.cs" />
     <Compile Include="Serializations\Resulter\ISerializeResult.cs" />
     <Compile Include="Serializations\Resulter\ISerializeResultJson.cs" />
     <Compile Include="Serializations\YamlSerialization.cs" />
     <Compile Include="Impl\Component.cs" />
-    <Compile Include="Impl\Components\Collision2D.cs" />
-    <Compile Include="Impl\Components\Collision3D.cs" />
+    <Compile Include="Impl\Components\Collider2D.cs" />
+    <Compile Include="Impl\Components\Collider3D.cs" />
     <Compile Include="Impl\DrawableList.cs" />
     <Compile Include="Impl\Drawable\DrawableObject.cs" />
     <Compile Include="Impl\Drawable\RawTexture2D.cs" />
@@ -174,6 +177,7 @@
     <Compile Include="Structs\Secure\SecureVec3.cs" />
     <Compile Include="Structs\Secure\SecureVec4.cs" />
     <Compile Include="Utils\BoolHelper.cs" />
+    <Compile Include="Utils\Dialog.cs" />
     <Compile Include="Utils\EventManager.cs" />
     <Compile Include="Utils\InteropUtils.cs" />
     <Compile Include="Utils\JsonConverters.cs" />
