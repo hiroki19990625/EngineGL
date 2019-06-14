@@ -114,7 +114,7 @@ namespace EngineGL.Tests.Exec
             
             SolidPolygonObject3D poly3 = new SolidPolygonObject3D
             {
-                PoligonColor = Color4.Pink,
+                PoligonColor = Color4.Gray,
             };
 
             poly3.SetPosition(new Vec3(1f, 1f, 0f));
