@@ -12,7 +12,17 @@ namespace EngineGL.Impl.Components
         private ConcurrentBag<ITransform> childList = new ConcurrentBag<ITransform>();
         public ITransform parent;
 
-        public Vec3 Position { get; set; }
+        public Vec3 Position {
+            get {
+                if (parent == null) return LocalPosition;
+                return parent.Position + LocalPosition;
+            }
+            set {
+                if (parent == null) LocalPosition = value;
+                else LocalPosition = value - parent.Position;
+            }
+        }
+        public Vec3 LocalPosition { get; set; }
         public Vec3 Rotation { get; set; }
         public Vec3 Bounds { get; set; }
         public Vec3 Scale { get; set; } = Vec3.One;

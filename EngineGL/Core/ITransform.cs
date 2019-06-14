@@ -8,9 +8,15 @@ namespace EngineGL.Core
     public interface ITransform : IComponent
     {
         /// <summary>
-        /// オブジェクトの空間座標
+        /// オブジェクトのグローバル空間座標
         /// </summary>
         Vec3 Position { get; set; }
+
+        /// <summary>
+        /// オブジェクトのローカル空間座標
+        /// </summary>
+        Vec3 LocalPosition { get; set; }
+
 
         /// <summary>
         /// オブジェクトの回転
