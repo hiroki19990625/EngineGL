@@ -1,9 +1,8 @@
 using System;
 using System.Drawing;
 using System.IO;
-using System.Security.Permissions;
 using System.Text;
-using System.Threading;
+using EngineGL.Core;
 using EngineGL.Core.Resource;
 using EngineGL.Impl;
 using EngineGL.Impl.Components;
@@ -18,7 +17,6 @@ using EngineGL.Utils;
 using NLog.Config;
 using NLog.Targets;
 using NUnit.Framework;
-using OpenTK.Audio.OpenAL;
 using OpenTK.Graphics;
 
 namespace EngineGL.Tests.Exec
@@ -36,7 +34,7 @@ namespace EngineGL.Tests.Exec
         [Test, Order(1)]
         public void ExecGame()
         {
-            Game game = new GameBuilder()
+            IGame game = new GameBuilder()
                 .SetTitle("Engine Test")
                 .SetExceptinDialog(true)
                 .SetDebugLogging(true)
@@ -53,7 +51,7 @@ namespace EngineGL.Tests.Exec
         [Test, Order(2)]
         public void ExecGame2()
         {
-            Game game = new GameBuilder()
+            IGame game = new GameBuilder()
                 .SetTitle("Engine Test")
                 .SetExceptinDialog(true)
                 .SetDebugLogging(true)

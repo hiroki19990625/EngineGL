@@ -1,5 +1,5 @@
-using System;
 using System.Drawing;
+using EngineGL.Core;
 using NLog.Config;
 using OpenTK;
 
@@ -88,7 +88,7 @@ namespace EngineGL.Impl
             return this;
         }
 
-        public Game Build()
+        public IGame Build()
         {
             return _game;
         }

@@ -1,7 +1,5 @@
-using System;
-using System.IO;
+﻿using System.IO;
 using EngineGL.Core.LifeCycle;
-using EngineGL.Event.Game;
 using EngineGL.Impl;
 using EngineGL.Utils;
 
@@ -35,5 +33,16 @@ namespace EngineGL.Core
         Result<IScene> LoadNextScene(IScene scene);
         Result<T> LoadNextSceneUnsafe<T>(int hash) where T : IScene;
         Result<T> LoadNextSceneUnsafe<T>(T scene) where T : IScene;
+
+        /// <summary>
+        /// フレームレートを指定して世界を開始する
+        /// </summary>
+        /// <param name="updateRate">設定するフレームレート</param>
+         void Run(double updateRate);
+
+        /// <summary>
+        /// Maxフレームレートで世界を開始する
+        /// </summary>
+        void Run();
     }
 }

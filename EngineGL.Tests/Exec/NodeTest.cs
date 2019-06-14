@@ -1,4 +1,5 @@
-﻿using EngineGL.Impl;
+﻿using EngineGL.Core;
+using EngineGL.Impl;
 using EngineGL.Impl.Components;
 using EngineGL.Impl.Drawable.Shape2D;
 using EngineGL.Impl.Objects;
@@ -15,7 +16,7 @@ namespace EngineGL.Tests.Exec
         [Test]
         public void PositionTest()
         {
-            Game game = new GameBuilder()
+            IGame game = new GameBuilder()
                .SetTitle("Engine Test")
                .SetExceptinDialog(true)
                .SetDebugLogging(true)
