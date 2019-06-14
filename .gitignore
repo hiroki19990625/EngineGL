@@ -31,3 +31,4 @@ packages/*
 # NUGET PACKAGE
 *.nupkg
 EngineGL.Editor/freetype6.dll
+/doc/html
