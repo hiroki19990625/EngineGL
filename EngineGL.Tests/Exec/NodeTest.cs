@@ -34,7 +34,7 @@ namespace EngineGL.Tests.Exec
             SolidBoxObject2D box = new SolidBoxObject2D();
             box.BoxColor = Color4.White;
             box
-                .SetPosition(new Vec3(3f, 3f, 0f))
+                .SetPosition(new Vec3(0f, 0f, 0f))
                 .SetBounds(new Vec3(1f, 1f, 0f));
             box.AddComponent(new PlayerComponent()
             {
@@ -50,12 +50,11 @@ namespace EngineGL.Tests.Exec
             circle.AddComponent(new Collision2D
             {
                 Bounds = new Vec3(1, 1),
-                Offset = new Vec3(-0.5f, -0.5f)
             });
             circle
-                .SetPosition(new Vec3(0, 0, 0))
+                .SetPosition(new Vec3(2, 0, 0))
                 .SetBounds(new Vec3(1, 1, 0));
-            box.AddChild(circle);
+           box.AddChild(circle);
 
             StaticCamera camera = new StaticCamera();
             camera.Transform.Position = new Vec3(0, 0, -10f);
