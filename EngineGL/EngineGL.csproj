@@ -118,6 +118,7 @@
     <Compile Include="Event\Scene\AddObjectEventArgs.cs" />
     <Compile Include="Event\Scene\RemoveObjectEventArgs.cs" />
     <Compile Include="Event\Scene\SceneEventArgs.cs" />
+    <Compile Include="Impl\Drawable\Shape3D\SolidPolygonObject3D.cs" />
     <Compile Include="Impl\Components\Collision2D.cs" />
     <Compile Include="Impl\Components\Collision3D.cs" />
     <Compile Include="Serializations\JsonSerialization.cs" />

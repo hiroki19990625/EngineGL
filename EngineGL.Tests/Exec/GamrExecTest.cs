@@ -118,6 +118,23 @@ namespace EngineGL.Tests.Exec
             poly.Points.Add(new Vec3(0f, 0, 0));
             poly.Points.Add(new Vec3(2f, 0, 0));
             scene.AddObject(poly);
+            
+            SolidPolygonObject3D poly3 = new SolidPolygonObject3D
+            {
+                PoligonColor = Color4.Gray,
+            };
+
+            poly3.SetPosition(new Vec3(1f, 1f, 0f));
+            poly3.SetBounds(new Vec3(0, 0, 3f));
+            poly3.Layer = 1;
+            poly3.Points.Add(new Vec3(0,0));
+            poly3.Points.Add(new Vec3(1f  ,  0));
+            poly3.Points.Add(new Vec3(1.5f,0.86f));
+            poly3.Points.Add(new Vec3(1.0f,1.72f));
+            poly3.Points.Add(new Vec3(0,1.72f));
+            poly3.Points.Add(new Vec3(-0.5f,0.87f));
+            poly3.AddComponent(new RotateComponent());
+            scene.AddObject(poly3);
 
             scene.AddObject(new PointsObject2D
                 {
