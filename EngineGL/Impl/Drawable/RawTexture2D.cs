@@ -1,4 +1,5 @@
 ﻿using EngineGL.Core.Resource;
+using EngineGL.GraphicAdapter;
 using EngineGL.Impl.Resource;
 using EngineGL.Structs.Math;
 using OpenTK.Graphics.OpenGL;
@@ -10,17 +11,17 @@ namespace EngineGL.Impl.Drawable
         public ITexture Texture { get; set; }
         public bool AutoDispose { get; set; }
 
-        public RawTexture2D()
+        public RawTexture2D() : base(GraphicAdapterFactory.OpenGL1.CreateQuads())
         {
         }
 
-        public RawTexture2D(ITexture texture, bool autoDispose = false)
+        public RawTexture2D(ITexture texture, bool autoDispose = false) : this()
         {
             Texture = texture;
             AutoDispose = autoDispose;
         }
 
-        public RawTexture2D(string fileName, bool autoDispose = false)
+        public RawTexture2D(string fileName, bool autoDispose = false) : this()
         {
             Texture = ResourceManager.LoadTexture2D(fileName);
             AutoDispose = autoDispose;
@@ -34,13 +35,15 @@ namespace EngineGL.Impl.Drawable
             }
         }
 
-        public override void OnDraw(double deltaTime)
+        public override void OnPreprocessVertex(double deltaTime, IPreprocessVertexHandler preprocessVertexHandler)
         {
-            base.OnDraw(deltaTime);
-
+            base.OnPreprocessVertex(deltaTime, preprocessVertexHandler);
             GL.BindTexture(TextureTarget.Texture2D, Texture.TextureHash);
+        }
 
-            GL.Begin(PrimitiveType.Quads);
+        public override void OnVertexWrite(double deltaTime, IVertexHandler vertexHandler)
+        {
+            base.OnVertexWrite(deltaTime, vertexHandler);
 
             GL.TexCoord3(0.0f, 0.0f, 0.0f);
             GL.Vertex3(Transform.Position);
@@ -51,7 +54,6 @@ namespace EngineGL.Impl.Drawable
             GL.TexCoord3(1.0f, 0.0f, 1.0f);
             GL.Vertex3(Transform.Position + new Vec3(Transform.Bounds.X, 0, Transform.Bounds.Z));
 
-            GL.End();
         }
 
         public override void OnDestroy()

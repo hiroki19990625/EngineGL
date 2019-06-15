@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using EngineGL.GraphicAdapter;
 using EngineGL.Structs.Math;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -11,11 +12,12 @@ namespace EngineGL.Impl.Drawable.Shape2D
         public List<Vec3> Points { get; } = new List<Vec3>();
         public Color4 PoligonColor { get; set; }
 
-        public override void OnDraw(double deltaTime)
-        {
-            base.OnDraw(deltaTime);
+        public SolidPolygonObject2D() : base(GraphicAdapterFactory.OpenGL1.CreatePolygon()) { }
 
-            GL.Begin(PrimitiveType.Polygon);
+        public override void OnVertexWrite(double deltaTime, IVertexHandler vertexHandler)
+        {
+            base.OnVertexWrite(deltaTime, vertexHandler);
+
             GL.Color4(PoligonColor);
 
             Vec3 bou = new Vec3();
@@ -33,7 +35,6 @@ namespace EngineGL.Impl.Drawable.Shape2D
 
             Transform.Bounds = bou;
 
-            GL.End();
         }
     }
 }

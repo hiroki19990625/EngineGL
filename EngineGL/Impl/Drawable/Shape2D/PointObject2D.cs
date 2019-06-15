@@ -1,3 +1,4 @@
+using EngineGL.GraphicAdapter;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
@@ -8,16 +9,20 @@ namespace EngineGL.Impl.Drawable.Shape2D
         public Color4 PointColor { get; set; }
         public float PointSize { get; set; } = 1;
 
-        public override void OnDraw(double deltaTime)
+        public PointsObject2D() : base(GraphicAdapterFactory.OpenGL1.CreatePoints()) { }
+
+        public override void OnPreprocessVertex(double deltaTime, IPreprocessVertexHandler preprocessVertexHandler)
         {
-            base.OnDraw(deltaTime);
-
+            base.OnPreprocessVertex(deltaTime, preprocessVertexHandler);
             GL.PointSize(PointSize);
+        }
 
-            GL.Begin(PrimitiveType.Points);
+        public override void OnVertexWrite(double deltaTime, IVertexHandler vertexHandler)
+        {
+            base.OnVertexWrite(deltaTime, vertexHandler);
+
             GL.Color4(PointColor);
             GL.Vertex3(Transform.Position);
-            GL.End();
         }
     }
 }

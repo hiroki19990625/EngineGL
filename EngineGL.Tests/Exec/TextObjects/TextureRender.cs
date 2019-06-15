@@ -1,5 +1,6 @@
 ﻿using System;
 using EngineGL.Core.Resource;
+using EngineGL.GraphicAdapter;
 using EngineGL.Impl.Drawable;
 using EngineGL.Impl.Resource;
 using OpenTK.Graphics;
@@ -11,6 +12,7 @@ namespace EngineGL.Tests.Exec.TextObjects
     {
         public ITexture Texture { get; private set; }
 
+        public TextureRender() : base(GraphicAdapterFactory.OpenGL1.CreateQuads()) { }
         public override void OnInitialze()
         {
             base.OnInitialze();
@@ -18,13 +20,13 @@ namespace EngineGL.Tests.Exec.TextObjects
             Texture = ResourceManager.LoadTexture2D("Images/download.png");
         }
 
-        public override void OnDraw(double deltaTime)
+
+        public override void OnVertexWrite(double deltaTime, IVertexHandler vertexHandler)
         {
-            CallDrawEvent(deltaTime);
+            base.OnVertexWrite(deltaTime, vertexHandler);
 
             GL.Enable(EnableCap.Texture2D);
 
-            GL.Begin(PrimitiveType.Quads);
 
             GL.TexCoord2(0.0f, 1.0f);
             GL.Vertex2(-1f, -1f);
@@ -35,7 +37,6 @@ namespace EngineGL.Tests.Exec.TextObjects
             GL.TexCoord2(0.0f, 0.0f);
             GL.Vertex2(-1f, 1f);
 
-            GL.End();
         }
     }
 }
