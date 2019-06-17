@@ -2,6 +2,7 @@ using System;
 using EngineGL.Core;
 using EngineGL.Event.LifeCycle;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using YamlDotNet.Serialization;
 
 namespace EngineGL.Impl
@@ -31,6 +32,34 @@ namespace EngineGL.Impl
         public virtual void OnUpdate(double deltaTime)
         {
             Update?.Invoke(this, new UpdateEventArgs(this, deltaTime));
+        }
+
+        public void OnSerialize()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnDeserialize<T>(T data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual JObject OnSerializeJson()
+        {
+            JObject cls = new JObject();
+            cls["name"] = new JValue(Name);
+            cls["tag"] = new JValue(Tag);
+            cls["guid"] = new JValue(InstanceGuid);
+            cls["type"] = new JValue(this.GetType().FullName);
+
+            return cls;
+        }
+
+        public virtual void OnDeserializeJson(JObject obj)
+        {
+            Name = obj["name"].Value<string>();
+            Tag = obj["tag"].Value<string>();
+            InstanceGuid = obj["guid"].Value<Guid>();
         }
     }
 }

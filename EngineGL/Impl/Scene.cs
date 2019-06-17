@@ -279,12 +279,33 @@ namespace EngineGL.Impl
 
         public JObject OnSerializeJson()
         {
-            throw new NotImplementedException();
+            JObject cls = new JObject();
+            JArray array = new JArray();
+            foreach (IObject obj in _sceneObjects.Values)
+            {
+                array.Add(obj.OnSerializeJson());
+            }
+
+            cls["sceneObjects"] = array;
+            cls["name"] = new JValue(Name);
+
+            return cls;
         }
 
         public void OnDeserializeJson(JObject obj)
         {
-            throw new NotImplementedException();
+            JArray array = (JArray) obj["sceneObjects"];
+            foreach (JToken token in array)
+            {
+                if (token is JObject jObj)
+                {
+                    IObject ins = (IObject) Activator.CreateInstance(Type.GetType(jObj["type"].Value<string>()));
+                    ins.OnDeserializeJson(jObj);
+                    _sceneObjects.TryAdd(jObj["guid"].Value<Guid>(), ins);
+                }
+            }
+
+            Name = obj["name"].Value<string>();
         }
     }
 }
