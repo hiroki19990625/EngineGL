@@ -1,6 +1,9 @@
 using System;
+using System.Globalization;
+using System.Reflection;
 using EngineGL.Core;
 using EngineGL.Event.LifeCycle;
+using EngineGL.Serializations.Resulter;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using YamlDotNet.Serialization;
@@ -51,6 +54,25 @@ namespace EngineGL.Impl
             cls["tag"] = new JValue(Tag);
             cls["guid"] = new JValue(InstanceGuid);
             cls["type"] = new JValue(this.GetType().FullName);
+            cls["assembly"] = new JValue(this.GetType().Assembly.GetName().Name);
+
+            foreach (PropertyInfo property in GetType().GetProperties())
+            {
+                if (property.GetCustomAttribute<SerializeIgnoreAttribute>() == null)
+                {
+                    if (property.Name == nameof(InstanceGuid) || property.Name == nameof(Name) ||
+                        property.Name == nameof(Tag))
+                        continue;
+
+                    object data = property.GetValue(this);
+                    if (data != null)
+                    {
+                        cls[property.Name] = JToken.FromObject(data);
+                        cls[property.Name + "_type"] = new JValue(data.GetType().FullName);
+                        cls[property.Name + "_assembly"] = new JValue(data.GetType().Assembly.GetName().Name);
+                    }
+                }
+            }
 
             return cls;
         }
@@ -59,7 +81,33 @@ namespace EngineGL.Impl
         {
             Name = obj["name"].Value<string>();
             Tag = obj["tag"].Value<string>();
-            InstanceGuid = obj["guid"].Value<Guid>();
+            InstanceGuid = new Guid(obj["guid"].Value<string>());
+
+            foreach (PropertyInfo property in GetType().GetProperties())
+            {
+                if (property.GetCustomAttribute<SerializeIgnoreAttribute>() == null)
+                {
+                    if (property.Name == nameof(InstanceGuid))
+                        continue;
+
+                    if (obj.ContainsKey(property.Name))
+                    {
+                        try
+                        {
+                            Type type = Type.GetType(Assembly.CreateQualifiedName(
+                                obj[property.Name + "_assembly"].Value<string>(),
+                                obj[property.Name + "_type"].Value<string>()));
+                            property.SetValue(this, obj[property.Name].ToObject(type),
+                                BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.Public |
+                                BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, new object[0],
+                                CultureInfo.CurrentCulture);
+                        }
+                        catch
+                        {
+                        }
+                    }
+                }
+            }
         }
     }
 }

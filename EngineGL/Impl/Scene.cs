@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using EngineGL.Core;
 using EngineGL.Core.LifeCycle;
@@ -18,7 +19,7 @@ namespace EngineGL.Impl
 {
     public class Scene : IScene
     {
-        [JsonProperty("SceneObjects")] private readonly ConcurrentDictionary<Guid, IObject> _sceneObjects =
+        private readonly ConcurrentDictionary<Guid, IObject> _sceneObjects =
             new ConcurrentDictionary<Guid, IObject>();
 
         private readonly DrawableList _drawables = new DrawableList();
@@ -239,7 +240,7 @@ namespace EngineGL.Impl
 
         public void Save(string filePath)
         {
-            string json = this.ToDeserializableJson(true);
+            string json = this.OnSerializeJson().ToString();
 
             if (!File.Exists(filePath))
                 File.Create(filePath).Close();
@@ -254,7 +255,7 @@ namespace EngineGL.Impl
 
         public async Task SaveAsync(string filePath)
         {
-            string json = await this.ToDeserializableJsonAsync(true);
+            string json = this.OnSerializeJson().ToString();
 
             if (!File.Exists(filePath))
                 File.Create(filePath).Close();
@@ -299,9 +300,10 @@ namespace EngineGL.Impl
             {
                 if (token is JObject jObj)
                 {
-                    IObject ins = (IObject) Activator.CreateInstance(Type.GetType(jObj["type"].Value<string>()));
+                    IObject ins = (IObject) Activator.CreateInstance(Type.GetType(
+                        Assembly.CreateQualifiedName(jObj["assembly"].Value<string>(), jObj["type"].Value<string>())));
                     ins.OnDeserializeJson(jObj);
-                    _sceneObjects.TryAdd(jObj["guid"].Value<Guid>(), ins);
+                    AddObject(ins);
                 }
             }
 

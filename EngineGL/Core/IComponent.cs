@@ -1,12 +1,13 @@
 using System;
 using EngineGL.Core.LifeCycle;
+using EngineGL.Serializations.Resulter;
 
 namespace EngineGL.Core
 {
     /// <summary>
     /// <see cref="IComponentAttachable"/> にアタッチ可能なコンポーネントを実装します。
     /// </summary>
-    public interface IComponent : Initialzeable, IUpdateable, IDestroyable
+    public interface IComponent : Initialzeable, IUpdateable, IDestroyable, ISerializeResultJson
     {
         /// <summary>
         /// コンポーネントがアタッチしているオブジェクト
