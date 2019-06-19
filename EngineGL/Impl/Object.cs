@@ -1,9 +1,12 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using EngineGL.Core;
 using EngineGL.Event.LifeCycle;
 using EngineGL.Serializations.Resulter;
+using EngineGL.Structs.Math;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using YamlDotNet.Serialization;
@@ -92,18 +95,26 @@ namespace EngineGL.Impl
 
                     if (obj.ContainsKey(property.Name))
                     {
+                        Type type = Type.GetType(Assembly.CreateQualifiedName(
+                            obj[property.Name + "_assembly"].Value<string>(),
+                            obj[property.Name + "_type"].Value<string>()));
+
+                        if (type == null)
+                            continue;
+
+                        object data = obj[property.Name].ToObject(type);
+                        if (data == null)
+                            continue;
+
                         try
                         {
-                            Type type = Type.GetType(Assembly.CreateQualifiedName(
-                                obj[property.Name + "_assembly"].Value<string>(),
-                                obj[property.Name + "_type"].Value<string>()));
-                            property.SetValue(this, obj[property.Name].ToObject(type),
-                                BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.Public |
-                                BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, new object[0],
-                                CultureInfo.CurrentCulture);
+                            property.SetValue(this, data);
                         }
                         catch
                         {
+                            this.GetType().GetField($"<{property.Name}>k__BackingField",
+                                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)?
+                                .SetValue(this, data);
                         }
                     }
                 }
