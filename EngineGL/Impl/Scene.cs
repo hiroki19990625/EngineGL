@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using EngineGL.Core;
 using EngineGL.Core.LifeCycle;
@@ -18,7 +19,7 @@ namespace EngineGL.Impl
 {
     public class Scene : IScene
     {
-        [JsonProperty("SceneObjects")] private readonly ConcurrentDictionary<Guid, IObject> _sceneObjects =
+        private readonly ConcurrentDictionary<Guid, IObject> _sceneObjects =
             new ConcurrentDictionary<Guid, IObject>();
 
         private readonly DrawableList _drawables = new DrawableList();
@@ -239,7 +240,7 @@ namespace EngineGL.Impl
 
         public void Save(string filePath)
         {
-            string json = this.ToDeserializableJson(true);
+            string json = this.OnSerializeJson().ToString();
 
             if (!File.Exists(filePath))
                 File.Create(filePath).Close();
@@ -254,7 +255,7 @@ namespace EngineGL.Impl
 
         public async Task SaveAsync(string filePath)
         {
-            string json = await this.ToDeserializableJsonAsync(true);
+            string json = this.OnSerializeJson().ToString();
 
             if (!File.Exists(filePath))
                 File.Create(filePath).Close();
@@ -279,12 +280,34 @@ namespace EngineGL.Impl
 
         public JObject OnSerializeJson()
         {
-            throw new NotImplementedException();
+            JObject cls = new JObject();
+            JArray array = new JArray();
+            foreach (IObject obj in _sceneObjects.Values)
+            {
+                array.Add(obj.OnSerializeJson());
+            }
+
+            cls["sceneObjects"] = array;
+            cls["name"] = new JValue(Name);
+
+            return cls;
         }
 
         public void OnDeserializeJson(JObject obj)
         {
-            throw new NotImplementedException();
+            JArray array = (JArray) obj["sceneObjects"];
+            foreach (JToken token in array)
+            {
+                if (token is JObject jObj)
+                {
+                    IObject ins = (IObject) Activator.CreateInstance(Type.GetType(
+                        Assembly.CreateQualifiedName(jObj["assembly"].Value<string>(), jObj["type"].Value<string>())));
+                    ins.OnDeserializeJson(jObj);
+                    AddObject(ins);
+                }
+            }
+
+            Name = obj["name"].Value<string>();
         }
     }
 }

@@ -125,6 +125,7 @@
     <Compile Include="Serializations\NetworkSerialization.cs" />
     <Compile Include="Serializations\Resulter\ISerializeResult.cs" />
     <Compile Include="Serializations\Resulter\ISerializeResultJson.cs" />
+    <Compile Include="Serializations\Resulter\SerializeIgnoreAttribute.cs" />
     <Compile Include="Serializations\YamlSerialization.cs" />
     <Compile Include="Impl\Component.cs" />
     <Compile Include="Impl\Components\Collider2D.cs" />

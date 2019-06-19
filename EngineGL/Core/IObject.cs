@@ -1,12 +1,13 @@
 using System;
 using EngineGL.Core.LifeCycle;
+using EngineGL.Serializations.Resulter;
 
 namespace EngineGL.Core
 {
     /// <summary>
     /// <see cref="IScene"/>に追加できるオブジェクトを実装します。
     /// </summary>
-    public interface IObject : Initialzeable, IDestroyable, IUpdateable, INameable
+    public interface IObject : Initialzeable, IDestroyable, IUpdateable, INameable, ISerializeResultJson
     {
         /// <summary>
         /// このオブジェクトが存在するシーン。
