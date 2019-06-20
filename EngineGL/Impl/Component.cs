@@ -1,7 +1,11 @@
 using System;
+using System.Globalization;
+using System.Reflection;
 using EngineGL.Core;
 using EngineGL.Event.LifeCycle;
+using EngineGL.Serializations.Resulter;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using YamlDotNet.Serialization;
 
 namespace EngineGL.Impl
@@ -14,7 +18,7 @@ namespace EngineGL.Impl
 
         private IComponentAttachable _parentObject;
 
-        [JsonIgnore, YamlIgnore]
+        [SerializeIgnore, JsonIgnore]
         public virtual IComponentAttachable ParentObject
         {
             get => _parentObject;
@@ -27,7 +31,7 @@ namespace EngineGL.Impl
             }
         }
 
-        [JsonIgnore, YamlIgnore]
+        [SerializeIgnore, JsonIgnore]
         public virtual IGameObject GameObject
         {
             get => (IGameObject) _parentObject;
@@ -48,6 +52,65 @@ namespace EngineGL.Impl
         public virtual void OnDestroy()
         {
             Destroy?.Invoke(this, new DestroyEventArgs(this));
+        }
+
+        public void OnSerialize()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnDeserialize<T>(T data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual JObject OnSerializeJson()
+        {
+            JObject cls = new JObject();
+            cls["guid"] = new JValue(InstanceGuid);
+            cls["type"] = new JValue(this.GetType().FullName);
+            cls["assembly"] = new JValue(this.GetType().Assembly.GetName().Name);
+
+            foreach (PropertyInfo property in GetType().GetProperties())
+            {
+                if (property.GetCustomAttribute<SerializeIgnoreAttribute>() == null)
+                {
+                    if (property.Name == nameof(InstanceGuid))
+                        continue;
+
+                    object data = property.GetValue(this);
+                    if (data != null)
+                    {
+                        cls[property.Name] = JToken.FromObject(data);
+                        cls[property.Name + "_type"] = new JValue(data.GetType().FullName);
+                        cls[property.Name + "_assembly"] = new JValue(data.GetType().Assembly.GetName().Name);
+                    }
+                }
+            }
+
+            return cls;
+        }
+
+        public virtual void OnDeserializeJson(JObject obj)
+        {
+            InstanceGuid = new Guid(obj["guid"].Value<string>());
+
+            foreach (PropertyInfo property in GetType().GetProperties())
+            {
+                if (property.GetCustomAttribute<SerializeIgnoreAttribute>() == null)
+                {
+                    if (property.Name == nameof(InstanceGuid))
+                        continue;
+
+                    if (obj.ContainsKey(property.Name))
+                    {
+                        Type type = Type.GetType(Assembly.CreateQualifiedName(
+                            obj[property.Name + "_assembly"].Value<string>(),
+                            obj[property.Name + "_type"].Value<string>()));
+                        property.SetValue(this, obj[property.Name].ToObject(type));
+                    }
+                }
+            }
         }
     }
 }

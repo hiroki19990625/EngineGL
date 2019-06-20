@@ -2,21 +2,23 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using EngineGL.Core;
 using EngineGL.Event.ComponentAttachable;
 using EngineGL.Impl.Components;
 using EngineGL.Structs.Math;
 using EngineGL.Utils;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace EngineGL.Impl
 {
     public class GameObject : Object, IGameObject
     {
-        [JsonProperty("Components")] private readonly ConcurrentDictionary<Guid, IComponent> _attachedComponents =
+        private readonly ConcurrentDictionary<Guid, IComponent> _attachedComponents =
             new ConcurrentDictionary<Guid, IComponent>();
 
-        public ITransform Transform { get; } = new Transform();
+        public ITransform Transform { get; private set; } = new Transform();
 
         public event EventHandler<AddComponentEventArgs> AddComponentEvent;
         public event EventHandler<RemoveComponentEventArgs> RemoveComponentEvent;
@@ -46,7 +48,7 @@ namespace EngineGL.Impl
         /// </returns>
         public GameObject SetRotation(Vec3 pos)
         {
-            Transform.Rotation= pos;
+            Transform.Rotation = pos;
             return this;
         }
 
@@ -311,6 +313,44 @@ namespace EngineGL.Impl
         {
             Scene.AddObject(gameObject);
             Transform.AddChild(gameObject.Transform);
+        }
+
+        public override JObject OnSerializeJson()
+        {
+            JObject base_data = base.OnSerializeJson();
+            base_data["transform"] = new JValue(Transform.InstanceGuid);
+
+            JArray array = new JArray();
+            foreach (IComponent attachedComponent in _attachedComponents.Values)
+            {
+                array.Add(attachedComponent.OnSerializeJson());
+            }
+
+            base_data["components"] = array;
+
+            return base_data;
+        }
+
+        public override void OnDeserializeJson(JObject obj)
+        {
+            base.OnDeserializeJson(obj);
+
+            JArray array = (JArray) obj["components"];
+            foreach (JToken token in array)
+            {
+                if (token is JObject jObj)
+                {
+                    IComponent ins =
+                        (IComponent) Activator.CreateInstance(
+                            Type.GetType(Assembly.CreateQualifiedName(jObj["assembly"].Value<string>(),
+                                jObj["type"].Value<string>()), true));
+                    ins.OnDeserializeJson(jObj);
+                    ins.ParentObject = this;
+                    _attachedComponents.TryAdd(ins.InstanceGuid, ins);
+                }
+            }
+
+            Transform = GetComponentUnsafe<ITransform>(new Guid(obj["transform"].Value<string>())).Or(new Transform());
         }
     }
 }

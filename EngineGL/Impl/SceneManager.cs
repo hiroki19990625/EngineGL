@@ -6,6 +6,7 @@ using System;
 using System.Collections.Concurrent;
 using System.IO;
 using EngineGL.Serializations;
+using Newtonsoft.Json.Linq;
 
 namespace EngineGL.Impl
 {
@@ -32,29 +33,10 @@ namespace EngineGL.Impl
         public virtual Result<int> PreLoadScene<T>(FileInfo file, IGame game) where T : IScene
         {
             StreamReader reader = file.OpenText();
-            IScene old = reader.ReadToEnd().FromDeserializableJson<T>();
+            string json = reader.ReadToEnd();
             T scene = Activator.CreateInstance<T>();
             reader.Close();
-            foreach (IObject s in old.GetObjects().Value)
-            {
-                if (s is IComponentAttachable)
-                {
-                    IComponentAttachable attachable = (IComponentAttachable) s;
-                    foreach (IComponent component in attachable.GetComponents().Value)
-                    {
-                        try
-                        {
-                            component.ParentObject = attachable;
-                        }
-                        catch (Exception e)
-                        {
-                            logger.Warn(e);
-                        }
-                    }
-                }
-
-                scene.AddObject(s);
-            }
+            scene.OnDeserializeJson(JObject.Parse(json));
 
             PreLoadSceneEventArgs args = new PreLoadSceneEventArgs(game, file, scene);
             EventManager<PreLoadSceneEventArgs> manager
