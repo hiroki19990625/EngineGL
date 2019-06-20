@@ -9,7 +9,7 @@ namespace EngineGL.Impl.Drawable.Shape2D
         public Color4 LineColor { get; set; }
         public float LineWidth { get; set; } = 1;
 
-        public LineObject2D() : base(GraphicAdapterFactory.OpenGL1.CreateLines()) { }
+        public LineObject2D() : base(GraphicAdapterFactory.OpenGL2.CreateLines()) { }
 
         public override void OnPreprocessVertex(double deltaTime, IPreprocessVertexHandler preprocessVertexHandler)
         {

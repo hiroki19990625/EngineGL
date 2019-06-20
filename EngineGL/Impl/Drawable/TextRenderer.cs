@@ -29,7 +29,7 @@ namespace EngineGL.Impl.Drawable
             set => SetText(value);
         }
 
-        public TextRenderer() : base(GraphicAdapterFactory.OpenGL1.CreateQuads())
+        public TextRenderer() : base(GraphicAdapterFactory.OpenGL2.CreateTriangles())
         {
         }
 
@@ -67,8 +67,7 @@ namespace EngineGL.Impl.Drawable
         {
             base.OnVertexWrite(deltaTime, vertexHandler);
 
-
-
+            GL.Begin(PrimitiveType.Quads);
             GL.TexCoord3(0.0f, 0.0f, 0.0f);
             GL.Vertex3(Transform.Position);
             GL.TexCoord3(0.0f, -1.0f, 1.0f);
@@ -77,7 +76,7 @@ namespace EngineGL.Impl.Drawable
             GL.Vertex3(Transform.Position + new Vec3(Transform.Bounds.X, Transform.Bounds.Y, Transform.Bounds.Z));
             GL.TexCoord3(1.0f, 0.0f, 1.0f);
             GL.Vertex3(Transform.Position + new Vec3(Transform.Bounds.X, 0, Transform.Bounds.Z));
-
+            GL.End();
         }
 
         private void SetText(string text)

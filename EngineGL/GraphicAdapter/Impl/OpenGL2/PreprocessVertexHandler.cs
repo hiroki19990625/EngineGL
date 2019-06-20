@@ -1,5 +1,5 @@
 ﻿
-namespace EngineGL.GraphicAdapter.Impl.OpenGL1
+namespace EngineGL.GraphicAdapter.Impl.OpenGL2
 {
     class PreprocessVertexHandler:IPreprocessVertexHandler
     {

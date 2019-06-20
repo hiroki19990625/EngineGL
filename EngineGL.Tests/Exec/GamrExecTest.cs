@@ -85,10 +85,11 @@ namespace EngineGL.Tests.Exec
 
             Scene scene = new Scene();
             SolidBoxObject2D box = new SolidBoxObject2D();
-            box.BoxColor = Color4.White;
+            box.Colour = Color4.White;
             box
-                .SetPosition(new Vec3(3f, 3f, 0f))
+                .SetPosition(new Vec3(0f, 0f, 0f))
                 .SetBounds(new Vec3(1f, 1f, 0f));
+
             box.AddComponent(new PlayerComponent()
             {
                 Bounds = new Vec3(1, 1)
@@ -98,7 +99,7 @@ namespace EngineGL.Tests.Exec
 
             SolidBoxObject3D boxObject3D = new SolidBoxObject3D
             {
-                BoxColor = Color4.Pink
+                Colour = Color4.Pink
             };
             boxObject3D.Layer = 99;
             boxObject3D.SetPosition(new Vec3(-2f, -1f, 0f));
@@ -108,7 +109,7 @@ namespace EngineGL.Tests.Exec
 
             SolidPolygonObject2D poly = new SolidPolygonObject2D
             {
-                PoligonColor = Color4.Gold,
+                Colour = Color4.Gold,
             };
             poly.SetPosition(new Vec3(-3f, -3f, 0f));
             poly.Layer = 1;
@@ -119,7 +120,7 @@ namespace EngineGL.Tests.Exec
             
             SolidPolygonObject3D poly3 = new SolidPolygonObject3D
             {
-                PoligonColor = Color4.Gray,
+                Colour = Color4.Gray,
             };
 
             poly3.SetPosition(new Vec3(1f, 1f, 0f));
@@ -134,9 +135,9 @@ namespace EngineGL.Tests.Exec
             poly3.AddComponent(new RotateComponent());
             scene.AddObject(poly3);
 
-            scene.AddObject(new PointsObject2D
+           scene.AddObject(new PointsObject2D
                 {
-                    PointColor = Color4.White,
+                    Colour = Color4.White,
                     PointSize = 10
                 }
                 .SetPosition(new Vec3(2, 2, 0))
@@ -144,12 +145,12 @@ namespace EngineGL.Tests.Exec
             CircleObject2D circle = new CircleObject2D()
             {
                 Radius = 0.5f,
-                CircleColor = Color4.Red
+                Colour = Color4.Red
             };
             circle.AddComponent(new Collision2D
             {
                 Bounds = new Vec3(1, 1),
-                Offset = new Vec3(-0.5f, -0.5f)
+                Offset = new Vec3(0, 0)
             });
             circle
                 .SetPosition(new Vec3(3.5f, 1f, 0))

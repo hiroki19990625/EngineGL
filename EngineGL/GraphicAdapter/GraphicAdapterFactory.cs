@@ -8,16 +8,18 @@ namespace EngineGL.GraphicAdapter
     /// </summary>
     public static class GraphicAdapterFactory
     {
-        public static class OpenGL1
+        public static class OpenGL2
         {
-            public static IGraphicAdapter CreateQuads()
-                => new Impl.OpenGL1.GraphicAdapter(PrimitiveType.Quads);
+            public static IGraphicAdapter CreateTriangles()
+                => new Impl.OpenGL2.GraphicAdapter(PrimitiveType.Triangles, 3);
             public static IGraphicAdapter CreateLines()
-                => new Impl.OpenGL1.GraphicAdapter(PrimitiveType.Lines);
+                => new Impl.OpenGL2.GraphicAdapter(PrimitiveType.Lines, 2);
+            public static IGraphicAdapter CreateLinesStrip()
+                => new Impl.OpenGL2.GraphicAdapter(PrimitiveType.LineStrip, 2);
             public static IGraphicAdapter CreatePolygon()
-                => new Impl.OpenGL1.GraphicAdapter(PrimitiveType.Polygon);
+                => new Impl.OpenGL2.GraphicAdapter(PrimitiveType.Polygon, 3);
             public static IGraphicAdapter CreatePoints()
-                => new Impl.OpenGL1.GraphicAdapter(PrimitiveType.Points);
+                => new Impl.OpenGL2.GraphicAdapter(PrimitiveType.Points, 1);
         }
     }
 }

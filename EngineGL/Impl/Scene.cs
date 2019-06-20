@@ -9,10 +9,10 @@ using EngineGL.Core.LifeCycle;
 using EngineGL.Event.LifeCycle;
 using EngineGL.Event.Scene;
 using EngineGL.Serializations;
+using EngineGL.Structs.Drawing;
 using EngineGL.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using OpenTK.Graphics.OpenGL;
 
 namespace EngineGL.Impl
 {
@@ -35,6 +35,9 @@ namespace EngineGL.Impl
         /// 描画レイヤー
         /// </summary>
         public uint Layer { get; set; } = 0;
+
+        //いずれこのプロパティは削除する
+        public Colour4 Colour { get ; set ; }
 
         public void OnUpdate(double deltaTime)
         {

@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AssimpNet, Version=4.1.0.0, Culture=neutral, PublicKeyToken=0d51b391f59f42a6, processorArchitecture=MSIL">
@@ -101,9 +103,9 @@
     <Compile Include="Core\Resource\IAudio.cs" />
     <Compile Include="Core\Resource\ITexture.cs" />
     <Compile Include="GraphicAdapter\GraphicAdapterFactory.cs" />
-    <Compile Include="GraphicAdapter\Impl\OpenGL1\GraphicAdapter.cs" />
-    <Compile Include="GraphicAdapter\Impl\OpenGL1\PreprocessVertexHandler.cs" />
-    <Compile Include="GraphicAdapter\Impl\OpenGL1\VertexHandler.cs" />
+    <Compile Include="GraphicAdapter\Impl\OpenGL2\GraphicAdapter.cs" />
+    <Compile Include="GraphicAdapter\Impl\OpenGL2\PreprocessVertexHandler.cs" />
+    <Compile Include="GraphicAdapter\Impl\OpenGL2\VertexHandler.cs" />
     <Compile Include="GraphicAdapter\Interface\IGraphicAdapter.cs" />
     <Compile Include="GraphicAdapter\Interface\IVertexHandler.cs" />
     <Compile Include="Event\CancelableEvent.cs" />

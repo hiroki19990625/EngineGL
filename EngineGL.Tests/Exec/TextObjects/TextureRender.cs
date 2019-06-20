@@ -12,7 +12,7 @@ namespace EngineGL.Tests.Exec.TextObjects
     {
         public ITexture Texture { get; private set; }
 
-        public TextureRender() : base(GraphicAdapterFactory.OpenGL1.CreateQuads()) { }
+        public TextureRender() : base(GraphicAdapterFactory.OpenGL2.CreateTriangles()) { }
         public override void OnInitialze()
         {
             base.OnInitialze();

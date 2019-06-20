@@ -1,5 +1,6 @@
 using System;
 using EngineGL.Event.LifeCycle;
+using EngineGL.Structs.Drawing;
 
 namespace EngineGL.Core.LifeCycle
 {
@@ -24,5 +25,7 @@ namespace EngineGL.Core.LifeCycle
         /// 描画レイヤー
         /// </summary>
         uint Layer { get; }
+
+        Colour4 Colour { get; set; }
     }
 }
