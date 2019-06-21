@@ -57,7 +57,7 @@ namespace EngineGL.Impl.Drawable
             GL.Rotate(Transform.Rotation.Z, 0, 0, 1);
             GL.Rotate(Transform.Rotation.X, 1, 0, 0);
             GL.Translate((Transform.Position + Transform.Bounds / 2) * -1);
-            GL.Translate(Transform.Position);
+            GL.Translate(Transform.Position );
         }
 
         protected void CallDrawEvent(double deltaTime)

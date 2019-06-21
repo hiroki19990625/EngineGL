@@ -2,7 +2,6 @@
 using EngineGL.GraphicAdapter;
 using EngineGL.Impl.Resource;
 using EngineGL.Structs.Math;
-using OpenTK.Graphics.OpenGL;
 
 namespace EngineGL.Impl.Drawable
 {
@@ -11,7 +10,7 @@ namespace EngineGL.Impl.Drawable
         public ITexture Texture { get; set; }
         public bool AutoDispose { get; set; }
 
-        public RawTexture2D() : base(GraphicAdapterFactory.OpenGL2.CreateTriangles())
+        public RawTexture2D() : base(GraphicAdapterFactory.OpenGL2.CreateQuads())
         {
         }
 
@@ -35,24 +34,22 @@ namespace EngineGL.Impl.Drawable
             }
         }
 
-        public override void OnPreprocessVertex(double deltaTime, IPreprocessVertexHandler preprocessVertexHandler)
-        {
-            base.OnPreprocessVertex(deltaTime, preprocessVertexHandler);
-            GL.BindTexture(TextureTarget.Texture2D, Texture.TextureHash);
-        }
-
         public override void OnVertexWrite(double deltaTime, IVertexHandler vertexHandler)
         {
             base.OnVertexWrite(deltaTime, vertexHandler);
-
-            GL.TexCoord3(0.0f, 0.0f, 0.0f);
-            GL.Vertex3(Transform.Position);
-            GL.TexCoord3(0.0f, 1.0f, 1.0f);
-            GL.Vertex3(Transform.Position + new Vec3(0, Transform.Bounds.Y, Transform.Bounds.Z));
-            GL.TexCoord3(1.0f, 1.0f, 1.0f);
-            GL.Vertex3(Transform.Position + new Vec3(Transform.Bounds.X, Transform.Bounds.Y, Transform.Bounds.Z));
-            GL.TexCoord3(1.0f, 0.0f, 1.0f);
-            GL.Vertex3(Transform.Position + new Vec3(Transform.Bounds.X, 0, Transform.Bounds.Z));
+            vertexHandler.SetTexture(Texture);
+            vertexHandler.Vertces3(new Vec3[] {
+                Vec3.Zero,
+                new Vec3(0, Transform.Bounds.Y, Transform.Bounds.Z),
+                new Vec3(Transform.Bounds.X, Transform.Bounds.Y, Transform.Bounds.Z),
+                new Vec3(Transform.Bounds.X, 0, Transform.Bounds.Z)
+            });
+            vertexHandler.Uv(new Vec2[] {
+                new Vec2(0.0f, 0.0f),
+                new Vec2(0.0f, 1.0f),
+                new Vec2(1.0f, 1.0f),
+                new Vec2(1.0f, 0.0f)
+            });
 
         }
 

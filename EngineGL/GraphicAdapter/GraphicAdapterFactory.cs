@@ -12,6 +12,8 @@ namespace EngineGL.GraphicAdapter
         {
             public static IGraphicAdapter CreateTriangles()
                 => new Impl.OpenGL2.GraphicAdapter(PrimitiveType.Triangles, 3);
+            public static IGraphicAdapter CreateQuads()
+                => new Impl.OpenGL2.GraphicAdapter(PrimitiveType.Quads, 3);
             public static IGraphicAdapter CreateLines()
                 => new Impl.OpenGL2.GraphicAdapter(PrimitiveType.Lines, 2);
             public static IGraphicAdapter CreateLinesStrip()
