@@ -17,49 +17,53 @@ namespace EngineGL.Tests.Exec
         public void PositionTest()
         {
             IGame game = new GameBuilder()
-               .SetTitle("Engine Test")
-               .SetExceptinDialog(true)
-               .SetDebugLogging(true)
-               .SetDefaultEvents()
-               .Build();
+                .SetTitle("Engine Test")
+                .SetExceptinDialog(true)
+                .SetDebugLogging(true)
+                .SetDefaultEvents()
+                .Build();
 
             game.LoadScene(GetPositionScene());
 
             game.Run(60.0d);
         }
+
         private Scene GetPositionScene()
         {
-
             Scene scene = new Scene();
 
-            SolidBoxObject2D box = new SolidBoxObject2D();
-            box.Colour = Color4.White;
-            box
+            GameObject gameObject = new GameObject();
+            gameObject
                 .SetPosition(new Vec3(0f, 0f, 0f))
                 .SetBounds(new Vec3(1f, 1f, 0f));
-            box.AddComponent(new PlayerComponent()
+            gameObject.AddComponent(new PlayerComponent
             {
                 Bounds = new Vec3(1, 1)
             });
-            scene.AddObject(box);
 
-            CircleObject2D circle = new CircleObject2D()
-            {
-                Radius = 0.5f,
-                Colour = Color4.Red
-            };
-            circle.AddComponent(new Collision2D
+            SolidBoxObject2D box = gameObject.AddComponentUnsafe<SolidBoxObject2D>().Value;
+            box.Colour = Color4.White;
+
+            scene.AddObject(gameObject);
+
+            GameObject parent = new GameObject();
+            parent
+                .SetPosition(new Vec3(2, 0, 0))
+                .SetBounds(new Vec3(1, 1, 0));
+            parent.AddComponent(new Collision2D
             {
                 Bounds = new Vec3(1, 1),
             });
-            circle
-                .SetPosition(new Vec3(2, 0, 0))
-                .SetBounds(new Vec3(1, 1, 0));
-           box.AddChild(circle);
 
-            StaticCamera camera = new StaticCamera();
-            camera.Transform.Position = new Vec3(0, 0, -10f);
-            scene.AddObject(camera);
+            CircleObject2D circle = parent.AddComponentUnsafe<CircleObject2D>().Value;
+            circle.Radius = 0.5f;
+            circle.Colour = Color4.Red;
+            gameObject.AddChild(parent);
+
+            GameObject cm = new GameObject();
+            cm.AddComponent(new StaticCamera());
+            cm.Transform.Position = new Vec3(0, 0, -10f);
+            scene.AddObject(cm);
             return scene;
         }
     }

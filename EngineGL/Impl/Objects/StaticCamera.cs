@@ -1,5 +1,3 @@
-using EngineGL.GraphicAdapter;
-using EngineGL.GraphicAdapter.Interface;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -7,11 +5,8 @@ namespace EngineGL.Impl.Objects
 {
     public class StaticCamera : Camera
     {
-        public StaticCamera(IGraphicAdapter graphicAdapter) : base(graphicAdapter)
-        {
-        }
-
-        public override void OnDraw(double deltaTime)
+        // TODO: Support Adapter
+        public new void OnDraw(double deltaTime)
         {
             base.OnDraw(deltaTime);
 

@@ -1,30 +1,11 @@
-using System;
-using System.Drawing;
-using System.IO;
-using System.Text;
-using EngineGL.Core;
-using EngineGL.Core.Resource;
-using EngineGL.Impl;
-using EngineGL.Impl.Components;
-using EngineGL.Impl.DrawableComponents;
-using EngineGL.Impl.DrawableComponents.Shape2D;
-using EngineGL.Impl.DrawableComponents.Shape3D;
-using EngineGL.Impl.Objects;
-using EngineGL.Impl.Resource;
-using EngineGL.Structs.Math;
-using EngineGL.Tests.Exec.TestComponents;
-using EngineGL.Utils;
-using NLog.Config;
-using NLog.Targets;
 using NUnit.Framework;
-using OpenTK.Graphics;
 
 namespace EngineGL.Tests.Exec
 {
     [TestFixture]
     public class GamrExecTest
     {
-        [OneTimeSetUp]
+        /*[OneTimeSetUp]
         public void RunBeforeAnyTests()
         {
             var dir = Path.GetDirectoryName(typeof(GamrExecTest).Assembly.Location);
@@ -183,6 +164,6 @@ namespace EngineGL.Tests.Exec
             scene.Save("scene.json");
 
             return scene;
-        }
+        }*/
     }
 }
