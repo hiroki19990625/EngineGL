@@ -14,7 +14,7 @@ namespace EngineGL.Impl.Drawable.Shape2D
         public override void OnVertexWrite(double deltaTime, IVertexHandler vertexHandler)
         {
             base.OnVertexWrite(deltaTime, vertexHandler);
-            vertexHandler.Vertces3(GetVec3s());
+            vertexHandler.SetVertces3(GetVec3s());
         }
         private IEnumerable<Vec3> GetVec3s()
         {

@@ -20,7 +20,7 @@ namespace EngineGL.GraphicAdapter.Impl.OpenGL2
         private int _vbo = 0;
         private int _idxbo = 0;
         private int _uvbo = 0;
-        private int _count = 0;
+        private int _vertexCount = 0;
         private int _idxCount = 0;
         private int _groupCount;
         private PrimitiveType _primitiveType;
@@ -58,7 +58,7 @@ namespace EngineGL.GraphicAdapter.Impl.OpenGL2
             GL.Color4(_color4);
             if (_texture != null) GL.BindTexture(TextureTarget.Texture2D, _texture.TextureHash);
             if (_idxCount == 0)
-                GL.DrawArrays(_primitiveType, 0, _count);
+                GL.DrawArrays(_primitiveType, 0, _vertexCount);
             else
                 GL.DrawElements(_primitiveType, _idxCount, DrawElementsType.UnsignedInt, 0);
 
@@ -76,7 +76,7 @@ namespace EngineGL.GraphicAdapter.Impl.OpenGL2
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
         }
 
-        public void Indices(IEnumerable<uint> indices)
+        public void SetIndices(IEnumerable<uint> indices)
         {
             uint[] indicesArray = indices.ToArray();
 
@@ -91,7 +91,7 @@ namespace EngineGL.GraphicAdapter.Impl.OpenGL2
             _idxCount = indicesArray.Length;
         }
 
-        public void Vertces3(IEnumerable<Vec3> vecs)
+        public void SetVertces3(IEnumerable<Vec3> vecs)
         {
             Vector3[] vecArray = vecs.Select<Vec3, Vector3>(x => x).ToArray();
 
@@ -103,10 +103,10 @@ namespace EngineGL.GraphicAdapter.Impl.OpenGL2
             GL.BindBuffer(BufferTarget.ArrayBuffer, _vbo);
             GL.BufferData(BufferTarget.ArrayBuffer, Vector3Size * vecArray.Length, vecArray, BufferUsageHint.StaticDraw);
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-            _count = vecArray.Length;
+            _vertexCount = vecArray.Length;
         }
 
-        public void Vertces2(IEnumerable<Vec2> vecs)
+        public void SetVertces2(IEnumerable<Vec2> vecs)
         {
             Vector2[] vecArray = vecs.Select<Vec2, Vector2>(x => x).ToArray();
 
@@ -118,11 +118,11 @@ namespace EngineGL.GraphicAdapter.Impl.OpenGL2
             //頂点データバッファー設定
             GL.BindBuffer(BufferTarget.ArrayBuffer, _vbo);
             GL.BufferData(BufferTarget.ArrayBuffer, Vector2Size * vecArray.Length, vecArray, BufferUsageHint.StaticDraw);
-            _count = vecArray.Length;
+            _vertexCount = vecArray.Length;
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
         }
 
-        public void Uv(IEnumerable<Vec2> vecs)
+        public void SetUv(IEnumerable<Vec2> vecs)
         {
             Vector2[] vecArray = vecs.Select<Vec2, Vector2>(x => x).ToArray();
 

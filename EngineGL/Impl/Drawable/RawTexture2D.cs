@@ -38,13 +38,13 @@ namespace EngineGL.Impl.Drawable
         {
             base.OnVertexWrite(deltaTime, vertexHandler);
             vertexHandler.SetTexture(Texture);
-            vertexHandler.Vertces3(new Vec3[] {
+            vertexHandler.SetVertces3(new Vec3[] {
                 Vec3.Zero,
                 new Vec3(0, Transform.Bounds.Y, Transform.Bounds.Z),
                 new Vec3(Transform.Bounds.X, Transform.Bounds.Y, Transform.Bounds.Z),
                 new Vec3(Transform.Bounds.X, 0, Transform.Bounds.Z)
             });
-            vertexHandler.Uv(new Vec2[] {
+            vertexHandler.SetUv(new Vec2[] {
                 new Vec2(0.0f, 0.0f),
                 new Vec2(0.0f, 1.0f),
                 new Vec2(1.0f, 1.0f),

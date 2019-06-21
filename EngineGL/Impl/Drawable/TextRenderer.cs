@@ -66,14 +66,14 @@ namespace EngineGL.Impl.Drawable
         public override void OnVertexWrite(double deltaTime, IVertexHandler vertexHandler)
         {
             base.OnVertexWrite(deltaTime, vertexHandler);
-            vertexHandler.Vertces3(new Vec3[] {
+            vertexHandler.SetVertces3(new Vec3[] {
                 Vec3.Zero,
                 new Vec3(0, Transform.Bounds.Y, Transform.Bounds.Z),
                 new Vec3(Transform.Bounds.X, Transform.Bounds.Y, Transform.Bounds.Z),
                 new Vec3(Transform.Bounds.X, 0, Transform.Bounds.Z)
             });
-            vertexHandler.Indices(new uint[] { 0, 1, 2, 2, 3, 0 });
-            vertexHandler.Uv(new Vec2[] {
+            vertexHandler.SetIndices(new uint[] { 0, 1, 2, 2, 3, 0 });
+            vertexHandler.SetUv(new Vec2[] {
                 new Vec2(0.0f, 0.0f),
                 new Vec2(0.0f, -1.0f),
                 new Vec2(1.0f, -1.0f),

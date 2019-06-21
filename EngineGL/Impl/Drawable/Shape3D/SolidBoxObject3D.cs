@@ -20,7 +20,7 @@ namespace EngineGL.Impl.Drawable.Shape3D
             float BY = Transform.Bounds.Y;
             float BZ = Transform.Bounds.Z;
 
-            vertexHandler.Indices(new uint[] {
+            vertexHandler.SetIndices(new uint[] {
             //正面
                 0,1,2,3,
             //背面
@@ -35,7 +35,7 @@ namespace EngineGL.Impl.Drawable.Shape3D
                 0,3,7,4
             });
 
-            vertexHandler.Vertces3(new Vec3[] {
+            vertexHandler.SetVertces3(new Vec3[] {
                 Vec3.Zero,
                 new Vec3(0, BY, 0),
                 new Vec3(BX, BY, 0),

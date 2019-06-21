@@ -20,7 +20,7 @@ namespace EngineGL.Impl.Drawable.Shape2D
         {
             base.OnVertexWrite(deltaTime, vertexHandler);
 
-            vertexHandler.Vertces3(new Vec3[] { Vec3.Zero });
+            vertexHandler.SetVertces3(new Vec3[] { Vec3.Zero });
         }
     }
 }

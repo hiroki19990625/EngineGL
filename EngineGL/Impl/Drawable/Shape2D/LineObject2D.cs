@@ -19,7 +19,7 @@ namespace EngineGL.Impl.Drawable.Shape2D
         public override void OnVertexWrite(double deltaTime, IVertexHandler vertexHandler)
         {
             base.OnVertexWrite(deltaTime, vertexHandler);
-            vertexHandler.Vertces3(new Vec3[] {
+            vertexHandler.SetVertces3(new Vec3[] {
                 Vec3.Zero,
                 Transform.Bounds
             });
