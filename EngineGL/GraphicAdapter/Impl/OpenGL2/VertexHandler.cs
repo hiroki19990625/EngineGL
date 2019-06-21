@@ -10,6 +10,9 @@ using EngineGL.Core.Resource;
 
 namespace EngineGL.GraphicAdapter.Impl.OpenGL2
 {
+    /// <summary>
+    /// OpenGL2によるIVertexHandlerの実装
+    /// </summary>
     class VertexHandler : IVertexHandler
     {
         private static int Vector2Size = System.Runtime.InteropServices.Marshal.SizeOf(default(Vector2));

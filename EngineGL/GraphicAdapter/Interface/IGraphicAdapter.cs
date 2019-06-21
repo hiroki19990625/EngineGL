@@ -25,6 +25,10 @@ namespace EngineGL.GraphicAdapter
         /// <param name="deltaTime"></param>
         void Draw(double deltaTime);
 
+        /// <summary>
+        /// カラーをセットする
+        /// </summary>
+        /// <param name="colour4"></param>
         void SetColour4(Colour4 colour4);
 
     }
