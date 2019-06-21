@@ -1,3 +1,5 @@
+using EngineGL.Core.Components;
+
 namespace EngineGL.Core
 {
     /// <summary>

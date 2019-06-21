@@ -1,4 +1,4 @@
-using EngineGL.Core.LifeCycle;
+using EngineGL.Core.Components;
 using OpenTK;
 
 namespace EngineGL.Core
@@ -6,7 +6,7 @@ namespace EngineGL.Core
     /// <summary>
     /// ゲームで使用するカメラを実装します。
     /// </summary>
-    public interface ICamera : IUpdateable
+    public interface ICamera : IDrawableComponent
     {
         /// <summary>
         /// カメラがターゲットしている行列

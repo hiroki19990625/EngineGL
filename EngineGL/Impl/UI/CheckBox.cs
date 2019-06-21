@@ -1,8 +1,6 @@
-using EngineGL.Core;
-
 namespace EngineGL.Impl.UI
 {
-    public class CheckBox : IElement
+    public class CheckBox : Element
     {
         public bool Enable { get; set; }
 

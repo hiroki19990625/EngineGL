@@ -1,7 +1,7 @@
 using System;
 using EngineGL.Core;
 using EngineGL.Impl.Components;
-using EngineGL.Impl.Drawable.Shape2D;
+using EngineGL.Impl.DrawableComponents.Shape2D;
 using EngineGL.Structs.Math;
 using OpenTK.Graphics;
 using OpenTK.Input;

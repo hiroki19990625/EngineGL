@@ -83,18 +83,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Components\ICollider.cs" />
+    <Compile Include="Core\Components\ICollision.cs" />
+    <Compile Include="Core\Components\IComponent.cs" />
+    <Compile Include="Core\Components\IDrawableComponent.cs" />
+    <Compile Include="Core\Components\IElement.cs" />
+    <Compile Include="Core\Components\ITransform.cs" />
     <Compile Include="Core\ICamera.cs" />
-    <Compile Include="Core\ICollider.cs" />
-    <Compile Include="Core\ICollision.cs" />
-    <Compile Include="Core\IComponent.cs" />
     <Compile Include="Core\IComponentAttachable.cs" />
-    <Compile Include="Core\IElement.cs" />
     <Compile Include="Core\IGame.cs" />
     <Compile Include="Core\IGameObject.cs" />
     <Compile Include="Core\INameable.cs" />
     <Compile Include="Core\IObject.cs" />
     <Compile Include="Core\IScene.cs" />
-    <Compile Include="Core\ITransform.cs" />
     <Compile Include="Core\LifeCycle\IDestroyable.cs" />
     <Compile Include="Core\LifeCycle\IDrawable.cs" />
     <Compile Include="Core\LifeCycle\IGuiRenderable.cs" />
@@ -127,29 +128,30 @@
     <Compile Include="Event\Scene\RemoveObjectEventArgs.cs" />
     <Compile Include="Event\Scene\SceneEventArgs.cs" />
     <Compile Include="GraphicAdapter\Interface\IPreprocessVertexHandler.cs" />
-    <Compile Include="Impl\Drawable\Shape3D\SolidPolygonObject3D.cs" />
+    <Compile Include="Impl\Components\Component.cs" />
+    <Compile Include="Impl\DrawableComponents\DrawableComponent.cs" />
+    <Compile Include="Impl\DrawableComponents\Shape3D\SolidPolygonObject3D.cs" />
     <Compile Include="Impl\Components\Collision2D.cs" />
     <Compile Include="Impl\Components\Collision3D.cs" />
+    <Compile Include="Impl\UI\Element.cs" />
     <Compile Include="Serializations\JsonSerialization.cs" />
     <Compile Include="Serializations\NetworkSerialization.cs" />
     <Compile Include="Serializations\Resulter\ISerializeResult.cs" />
     <Compile Include="Serializations\Resulter\ISerializeResultJson.cs" />
     <Compile Include="Serializations\Resulter\SerializeIgnoreAttribute.cs" />
     <Compile Include="Serializations\YamlSerialization.cs" />
-    <Compile Include="Impl\Component.cs" />
     <Compile Include="Impl\Components\Collider2D.cs" />
     <Compile Include="Impl\Components\Collider3D.cs" />
     <Compile Include="Impl\DrawableList.cs" />
-    <Compile Include="Impl\Drawable\DrawableObject.cs" />
-    <Compile Include="Impl\Drawable\RawTexture2D.cs" />
-    <Compile Include="Impl\Drawable\Shape2D\CircleObject2D.cs" />
-    <Compile Include="Impl\Drawable\Shape2D\LineObject2D.cs" />
-    <Compile Include="Impl\Drawable\Shape2D\PointObject2D.cs" />
-    <Compile Include="Impl\Drawable\Shape2D\SolidBoxObject2D.cs" />
-    <Compile Include="Impl\Drawable\Shape2D\SolidPolygonObject2D.cs" />
-    <Compile Include="Impl\Drawable\Shape2D\StippleLineObject2D.cs" />
-    <Compile Include="Impl\Drawable\Shape3D\SolidBoxObject3D.cs" />
-    <Compile Include="Impl\Drawable\TextRenderer.cs" />
+    <Compile Include="Impl\DrawableComponents\RawTexture2D.cs" />
+    <Compile Include="Impl\DrawableComponents\Shape2D\CircleObject2D.cs" />
+    <Compile Include="Impl\DrawableComponents\Shape2D\LineObject2D.cs" />
+    <Compile Include="Impl\DrawableComponents\Shape2D\PointObject2D.cs" />
+    <Compile Include="Impl\DrawableComponents\Shape2D\SolidBoxObject2D.cs" />
+    <Compile Include="Impl\DrawableComponents\Shape2D\SolidPolygonObject2D.cs" />
+    <Compile Include="Impl\DrawableComponents\Shape2D\StippleLineObject2D.cs" />
+    <Compile Include="Impl\DrawableComponents\Shape3D\SolidBoxObject3D.cs" />
+    <Compile Include="Impl\DrawableComponents\TextRenderer.cs" />
     <Compile Include="Impl\Game.cs" />
     <Compile Include="Impl\GameBuilder.cs" />
     <Compile Include="Impl\GameObject.cs" />
@@ -209,7 +211,6 @@
     </Content>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AssimpNet.4.1.0\build\AssimpNet.targets" Condition="Exists('..\packages\AssimpNet.4.1.0\build\AssimpNet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

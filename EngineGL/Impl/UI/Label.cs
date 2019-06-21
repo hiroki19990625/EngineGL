@@ -1,10 +1,9 @@
 using System.Drawing;
-using EngineGL.Core;
 using EngineGL.Structs.Drawing;
 
 namespace EngineGL.Impl.UI
 {
-    public class Label : IElement
+    public class Label : Element
     {
         public string Text { get; set; }
         public int FontSize { get; set; }

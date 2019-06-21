@@ -1,16 +1,16 @@
 ﻿using System;
-using EngineGL.Core;
-using EngineGL.Core.LifeCycle;
 using EngineGL.Event.LifeCycle;
-using EngineGL.Structs.Drawing;
+using EngineGL.GraphicAdapter;
+using EngineGL.GraphicAdapter.Interface;
+using EngineGL.Impl.DrawableComponents;
 using EngineGL.Serializations.Resulter;
+using EngineGL.Structs.Drawing;
 using Newtonsoft.Json;
 using OpenTK;
-using YamlDotNet.Serialization;
 
 namespace EngineGL.Impl.Objects
 {
-    public abstract class Camera : GameObject, ICamera, IDrawable
+    public abstract class Camera : DrawableComponent
     {
         /// <summary>
         /// 描画レイヤー
@@ -24,6 +24,10 @@ namespace EngineGL.Impl.Objects
         public Colour4 Colour { get; set; }
 
         public event EventHandler<DrawEventArgs> Draw;
+
+        protected Camera(IGraphicAdapter graphicAdapter) : base(graphicAdapter)
+        {
+        }
 
         public virtual void OnDraw(double deltaTime)
         {

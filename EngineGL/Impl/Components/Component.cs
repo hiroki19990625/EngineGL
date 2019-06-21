@@ -1,14 +1,13 @@
 using System;
-using System.Globalization;
 using System.Reflection;
 using EngineGL.Core;
+using EngineGL.Core.Components;
 using EngineGL.Event.LifeCycle;
 using EngineGL.Serializations.Resulter;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using YamlDotNet.Serialization;
 
-namespace EngineGL.Impl
+namespace EngineGL.Impl.Components
 {
     public class Component : IComponent
     {

@@ -1,7 +1,7 @@
 ﻿using EngineGL.Core;
 using EngineGL.Impl;
 using EngineGL.Impl.Components;
-using EngineGL.Impl.Drawable.Shape2D;
+using EngineGL.Impl.DrawableComponents.Shape2D;
 using EngineGL.Impl.Objects;
 using EngineGL.Structs.Math;
 using EngineGL.Tests.Exec.TestComponents;

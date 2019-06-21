@@ -7,6 +7,7 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using EngineGL.Structs.Drawing;
 using EngineGL.Core.Resource;
+using EngineGL.GraphicAdapter.Interface;
 
 namespace EngineGL.GraphicAdapter.Impl.OpenGL2
 {
