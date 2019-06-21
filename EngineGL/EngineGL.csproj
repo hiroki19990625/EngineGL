@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AssimpNet, Version=4.1.0.0, Culture=neutral, PublicKeyToken=0d51b391f59f42a6, processorArchitecture=MSIL">
@@ -100,6 +102,12 @@
     <Compile Include="Core\LifeCycle\IUpdateable.cs" />
     <Compile Include="Core\Resource\IAudio.cs" />
     <Compile Include="Core\Resource\ITexture.cs" />
+    <Compile Include="GraphicAdapter\GraphicAdapterFactory.cs" />
+    <Compile Include="GraphicAdapter\Impl\OpenGL2\GraphicAdapter.cs" />
+    <Compile Include="GraphicAdapter\Impl\OpenGL2\PreprocessVertexHandler.cs" />
+    <Compile Include="GraphicAdapter\Impl\OpenGL2\VertexHandler.cs" />
+    <Compile Include="GraphicAdapter\Interface\IGraphicAdapter.cs" />
+    <Compile Include="GraphicAdapter\Interface\IVertexHandler.cs" />
     <Compile Include="Event\CancelableEvent.cs" />
     <Compile Include="Event\ComponentAttachable\AddComponentEventArgs.cs" />
     <Compile Include="Event\ComponentAttachable\ComponentAttachableEventArgs.cs" />
@@ -118,6 +126,7 @@
     <Compile Include="Event\Scene\AddObjectEventArgs.cs" />
     <Compile Include="Event\Scene\RemoveObjectEventArgs.cs" />
     <Compile Include="Event\Scene\SceneEventArgs.cs" />
+    <Compile Include="GraphicAdapter\Interface\IPreprocessVertexHandler.cs" />
     <Compile Include="Impl\Drawable\Shape3D\SolidPolygonObject3D.cs" />
     <Compile Include="Impl\Components\Collision2D.cs" />
     <Compile Include="Impl\Components\Collision3D.cs" />
@@ -200,6 +209,7 @@
     </Content>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AssimpNet.4.1.0\build\AssimpNet.targets" Condition="Exists('..\packages\AssimpNet.4.1.0\build\AssimpNet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

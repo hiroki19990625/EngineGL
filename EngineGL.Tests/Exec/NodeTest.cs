@@ -1,4 +1,5 @@
-﻿using EngineGL.Impl;
+﻿using EngineGL.Core;
+using EngineGL.Impl;
 using EngineGL.Impl.Components;
 using EngineGL.Impl.Drawable.Shape2D;
 using EngineGL.Impl.Objects;
@@ -15,7 +16,7 @@ namespace EngineGL.Tests.Exec
         [Test]
         public void PositionTest()
         {
-            Game game = new GameBuilder()
+            IGame game = new GameBuilder()
                .SetTitle("Engine Test")
                .SetExceptinDialog(true)
                .SetDebugLogging(true)
@@ -32,7 +33,7 @@ namespace EngineGL.Tests.Exec
             Scene scene = new Scene();
 
             SolidBoxObject2D box = new SolidBoxObject2D();
-            box.BoxColor = Color4.White;
+            box.Colour = Color4.White;
             box
                 .SetPosition(new Vec3(0f, 0f, 0f))
                 .SetBounds(new Vec3(1f, 1f, 0f));
@@ -45,7 +46,7 @@ namespace EngineGL.Tests.Exec
             CircleObject2D circle = new CircleObject2D()
             {
                 Radius = 0.5f,
-                CircleColor = Color4.Red
+                Colour = Color4.Red
             };
             circle.AddComponent(new Collision2D
             {

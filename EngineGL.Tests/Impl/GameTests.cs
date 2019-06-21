@@ -1,3 +1,4 @@
+using EngineGL.Core;
 using EngineGL.Impl;
 using NUnit.Framework;
 
@@ -9,7 +10,7 @@ namespace EngineGL.Tests.Impl
         [Test]
         public void SceneTest()
         {
-            Game game = new Game();
+            IGame game = new GameBuilder().Build();
             Scene loadCancel = new Scene();
             Scene unloadCancel = new Scene();
 
@@ -72,7 +73,7 @@ namespace EngineGL.Tests.Impl
         [Test]
         public void SceneUnsafeTest()
         {
-            Game game = new Game();
+            IGame game = new GameBuilder().Build();
             Scene scene = new Scene();
 
             // ロードに成功

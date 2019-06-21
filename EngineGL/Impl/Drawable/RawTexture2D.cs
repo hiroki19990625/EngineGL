@@ -1,7 +1,7 @@
 ﻿using EngineGL.Core.Resource;
+using EngineGL.GraphicAdapter;
 using EngineGL.Impl.Resource;
 using EngineGL.Structs.Math;
-using OpenTK.Graphics.OpenGL;
 
 namespace EngineGL.Impl.Drawable
 {
@@ -10,17 +10,17 @@ namespace EngineGL.Impl.Drawable
         public ITexture Texture { get; set; }
         public bool AutoDispose { get; set; }
 
-        public RawTexture2D()
+        public RawTexture2D() : base(GraphicAdapterFactory.OpenGL2.CreateQuads())
         {
         }
 
-        public RawTexture2D(ITexture texture, bool autoDispose = false)
+        public RawTexture2D(ITexture texture, bool autoDispose = false) : this()
         {
             Texture = texture;
             AutoDispose = autoDispose;
         }
 
-        public RawTexture2D(string fileName, bool autoDispose = false)
+        public RawTexture2D(string fileName, bool autoDispose = false) : this()
         {
             Texture = ResourceManager.LoadTexture2D(fileName);
             AutoDispose = autoDispose;
@@ -34,24 +34,23 @@ namespace EngineGL.Impl.Drawable
             }
         }
 
-        public override void OnDraw(double deltaTime)
+        public override void OnVertexWrite(double deltaTime, IVertexHandler vertexHandler)
         {
-            base.OnDraw(deltaTime);
+            base.OnVertexWrite(deltaTime, vertexHandler);
+            vertexHandler.SetTexture(Texture);
+            vertexHandler.SetVertces3(new Vec3[] {
+                Vec3.Zero,
+                new Vec3(0, Transform.Bounds.Y, Transform.Bounds.Z),
+                new Vec3(Transform.Bounds.X, Transform.Bounds.Y, Transform.Bounds.Z),
+                new Vec3(Transform.Bounds.X, 0, Transform.Bounds.Z)
+            });
+            vertexHandler.SetUv(new Vec2[] {
+                new Vec2(0.0f, 0.0f),
+                new Vec2(0.0f, 1.0f),
+                new Vec2(1.0f, 1.0f),
+                new Vec2(1.0f, 0.0f)
+            });
 
-            GL.BindTexture(TextureTarget.Texture2D, Texture.TextureHash);
-
-            GL.Begin(PrimitiveType.Quads);
-
-            GL.TexCoord3(0.0f, 0.0f, 0.0f);
-            GL.Vertex3(Transform.Position);
-            GL.TexCoord3(0.0f, 1.0f, 1.0f);
-            GL.Vertex3(Transform.Position + new Vec3(0, Transform.Bounds.Y, Transform.Bounds.Z));
-            GL.TexCoord3(1.0f, 1.0f, 1.0f);
-            GL.Vertex3(Transform.Position + new Vec3(Transform.Bounds.X, Transform.Bounds.Y, Transform.Bounds.Z));
-            GL.TexCoord3(1.0f, 0.0f, 1.0f);
-            GL.Vertex3(Transform.Position + new Vec3(Transform.Bounds.X, 0, Transform.Bounds.Z));
-
-            GL.End();
         }
 
         public override void OnDestroy()

@@ -1,3 +1,4 @@
+using EngineGL.GraphicAdapter;
 using OpenTK.Graphics.OpenGL;
 
 namespace EngineGL.Impl.Drawable.Shape2D
@@ -7,19 +8,13 @@ namespace EngineGL.Impl.Drawable.Shape2D
         public byte Factor { get; set; }
         public ushort Pattern { get; set; }
 
-        public override void OnDraw(double deltaTime)
+        public override void OnPreprocessVertex(double deltaTime, IPreprocessVertexHandler preprocessVertexHandler)
         {
-            CallDrawEvent(deltaTime);
+            base.OnPreprocessVertex(deltaTime, preprocessVertexHandler);
 
             GL.LineWidth(LineWidth);
             GL.LineStipple(Factor, Pattern);
-
             GL.Enable(EnableCap.LineStipple);
-            GL.Begin(PrimitiveType.Lines);
-            GL.Color4(LineColor);
-            GL.Vertex3(Transform.Position);
-            GL.Vertex3(Transform.Position + Transform.Bounds);
-            GL.End();
         }
     }
 }

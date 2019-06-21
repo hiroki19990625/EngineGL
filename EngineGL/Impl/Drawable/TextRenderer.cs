@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
+using EngineGL.GraphicAdapter;
 using EngineGL.Structs.Math;
 using OpenTK.Graphics.OpenGL;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
@@ -28,11 +29,11 @@ namespace EngineGL.Impl.Drawable
             set => SetText(value);
         }
 
-        public TextRenderer()
+        public TextRenderer() : base(GraphicAdapterFactory.OpenGL2.CreateTriangles())
         {
         }
 
-        public TextRenderer(int width, int height)
+        public TextRenderer(int width, int height) : this()
         {
             Init(width, height);
 
@@ -56,24 +57,28 @@ namespace EngineGL.Impl.Drawable
             GL.DeleteTexture(_texture);
         }
 
-        public override void OnDraw(double deltaTime)
+        public override void OnPreprocessVertex(double deltaTime, IPreprocessVertexHandler preprocessVertexHandler)
         {
-            base.OnDraw(deltaTime);
-
+            base.OnPreprocessVertex(deltaTime, preprocessVertexHandler);
             GL.BindTexture(TextureTarget.Texture2D, _texture);
+        }
 
-            GL.Begin(PrimitiveType.Quads);
-
-            GL.TexCoord3(0.0f, 0.0f, 0.0f);
-            GL.Vertex3(Transform.Position);
-            GL.TexCoord3(0.0f, -1.0f, 1.0f);
-            GL.Vertex3(Transform.Position + new Vec3(0, Transform.Bounds.Y, Transform.Bounds.Z));
-            GL.TexCoord3(1.0f, -1.0f, 1.0f);
-            GL.Vertex3(Transform.Position + new Vec3(Transform.Bounds.X, Transform.Bounds.Y, Transform.Bounds.Z));
-            GL.TexCoord3(1.0f, 0.0f, 1.0f);
-            GL.Vertex3(Transform.Position + new Vec3(Transform.Bounds.X, 0, Transform.Bounds.Z));
-
-            GL.End();
+        public override void OnVertexWrite(double deltaTime, IVertexHandler vertexHandler)
+        {
+            base.OnVertexWrite(deltaTime, vertexHandler);
+            vertexHandler.SetVertces3(new Vec3[] {
+                Vec3.Zero,
+                new Vec3(0, Transform.Bounds.Y, Transform.Bounds.Z),
+                new Vec3(Transform.Bounds.X, Transform.Bounds.Y, Transform.Bounds.Z),
+                new Vec3(Transform.Bounds.X, 0, Transform.Bounds.Z)
+            });
+            vertexHandler.SetIndices(new uint[] { 0, 1, 2, 2, 3, 0 });
+            vertexHandler.SetUv(new Vec2[] {
+                new Vec2(0.0f, 0.0f),
+                new Vec2(0.0f, -1.0f),
+                new Vec2(1.0f, -1.0f),
+                new Vec2(1.0f, 0.0f)
+            });
         }
 
         private void SetText(string text)
@@ -95,9 +100,9 @@ namespace EngineGL.Impl.Drawable
             _texture = GL.GenTexture();
             GL.BindTexture(TextureTarget.Texture2D, _texture);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
-                (int) TextureMinFilter.Linear);
+                (int)TextureMinFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
-                (int) TextureMagFilter.Linear);
+                (int)TextureMagFilter.Linear);
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0,
                 OpenTK.Graphics.OpenGL.PixelFormat.Rgba, PixelType.UnsignedByte, IntPtr.Zero);
 
