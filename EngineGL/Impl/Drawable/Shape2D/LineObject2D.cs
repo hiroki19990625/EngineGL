@@ -1,12 +1,11 @@
 using EngineGL.GraphicAdapter;
-using OpenTK.Graphics;
+using EngineGL.Structs.Math;
 using OpenTK.Graphics.OpenGL;
 
 namespace EngineGL.Impl.Drawable.Shape2D
 {
     public class LineObject2D : DrawableObject
     {
-        public Color4 LineColor { get; set; }
         public float LineWidth { get; set; } = 1;
 
         public LineObject2D() : base(GraphicAdapterFactory.OpenGL2.CreateLines()) { }
@@ -20,10 +19,10 @@ namespace EngineGL.Impl.Drawable.Shape2D
         public override void OnVertexWrite(double deltaTime, IVertexHandler vertexHandler)
         {
             base.OnVertexWrite(deltaTime, vertexHandler);
-
-            GL.Color4(LineColor);
-            GL.Vertex3(Transform.Position);
-            GL.Vertex3(Transform.Position + Transform.Bounds);
+            vertexHandler.Vertces3(new Vec3[] {
+                Vec3.Zero,
+                Transform.Bounds
+            });
         }
     }
 }

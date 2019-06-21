@@ -16,14 +16,5 @@ namespace EngineGL.Impl.Drawable.Shape2D
             GL.LineStipple(Factor, Pattern);
             GL.Enable(EnableCap.LineStipple);
         }
-
-        public override void OnVertexWrite(double deltaTime, IVertexHandler vertexHandler)
-        {
-            base.OnVertexWrite(deltaTime, vertexHandler);
-
-            GL.Color4(LineColor);
-            GL.Vertex3(Transform.Position);
-            GL.Vertex3(Transform.Position + Transform.Bounds);
-        }
     }
 }
