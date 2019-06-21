@@ -37,7 +37,7 @@ namespace EngineGL.Impl.DrawableComponents
             _graphicAdapter.VertexWriteFunc = OnVertexWrite;
         }
 
-        public void OnDraw(double deltaTime)
+        public virtual void OnDraw(double deltaTime)
         {
             CallDrawEvent(deltaTime);
             _graphicAdapter.Draw(deltaTime);

@@ -1,6 +1,6 @@
-﻿using EngineGL.Core.LifeCycle;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using EngineGL.Core.LifeCycle;
 using OpenTK.Graphics.OpenGL;
 
 namespace EngineGL.Impl
@@ -10,7 +10,6 @@ namespace EngineGL.Impl
     /// </summary>
     class DrawableList
     {
-
         private SortedList<uint, Dictionary<Guid, IDrawable>> drawables
             = new SortedList<uint, Dictionary<Guid, IDrawable>>();
 
@@ -43,7 +42,7 @@ namespace EngineGL.Impl
         {
             foreach (var drawables in drawables.Values)
             {
-                foreach(var drawable in drawables.Values)
+                foreach (var drawable in drawables.Values)
                 {
                     GL.PushAttrib(AttribMask.AllAttribBits);
                     drawable.OnDraw(deltaTime);
@@ -51,6 +50,5 @@ namespace EngineGL.Impl
                 }
             }
         }
-
     }
 }

@@ -6,7 +6,7 @@ namespace EngineGL.Impl.Objects
     public class StaticCamera : Camera
     {
         // TODO: Support Adapter
-        public new void OnDraw(double deltaTime)
+        public override void OnDraw(double deltaTime)
         {
             base.OnDraw(deltaTime);
 
