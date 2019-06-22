@@ -114,14 +114,9 @@ namespace EngineGL.Impl
                     {
                         foreach (IComponent component in componentAttachable.GetComponents().Value)
                         {
-                            if (component is IDrawableComponent drawableComponent)
+                            if (component is IDrawable drawable)
                             {
-                                _drawables.Add(drawableComponent.InstanceGuid, drawableComponent);
-                            }
-                            else if (component is IDrawable drawable)
-                            {
-                                // TODO 削除予定
-                                _drawables.Add(args.AddObject.InstanceGuid, drawable);
+                                _drawables.Add(component.InstanceGuid, drawable);
                             }
                         }
                     }
@@ -206,7 +201,7 @@ namespace EngineGL.Impl
                     {
                         foreach (IComponent component in componentAttachable.GetComponents().Value)
                         {
-                            if (component is IDrawableComponent)
+                            if (component is IDrawable)
                             {
                                 _drawables.Remove(component.InstanceGuid);
                             }
