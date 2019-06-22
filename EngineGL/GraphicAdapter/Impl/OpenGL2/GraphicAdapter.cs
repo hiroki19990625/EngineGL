@@ -1,5 +1,4 @@
 ﻿using System;
-using EngineGL.Structs.Drawing;
 using OpenTK.Graphics.OpenGL;
 
 namespace EngineGL.GraphicAdapter.Impl.OpenGL2
@@ -36,11 +35,6 @@ namespace EngineGL.GraphicAdapter.Impl.OpenGL2
             PreprocessVertexFunc(deltaTime, _preprocessVertexHandler);
             _vertexHandler.Draw();
             GL.PopMatrix();
-        }
-
-        public void SetColour4(Colour4 colour4)
-        {
-            _vertexHandler.SetColour4(colour4);
         }
     }
 }

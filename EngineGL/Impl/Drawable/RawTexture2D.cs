@@ -34,10 +34,15 @@ namespace EngineGL.Impl.Drawable
             }
         }
 
+        public override void OnPreprocessVertex(double deltaTime, IPreprocessVertexHandler preprocessVertexHandler)
+        {
+            base.OnPreprocessVertex(deltaTime, preprocessVertexHandler);
+            preprocessVertexHandler.SetTexture(Texture);
+        }
+
         public override void OnVertexWrite(double deltaTime, IVertexHandler vertexHandler)
         {
             base.OnVertexWrite(deltaTime, vertexHandler);
-            vertexHandler.SetTexture(Texture);
             vertexHandler.SetVertces3(new Vec3[] {
                 Vec3.Zero,
                 new Vec3(0, Transform.Bounds.Y, Transform.Bounds.Z),

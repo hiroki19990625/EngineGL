@@ -12,7 +12,7 @@ namespace EngineGL.Impl.Drawable.Shape2D
         {
             base.OnPreprocessVertex(deltaTime, preprocessVertexHandler);
 
-            GL.LineWidth(LineWidth);
+            preprocessVertexHandler.SetLineWidth(LineWidth);
             GL.LineStipple(Factor, Pattern);
             GL.Enable(EnableCap.LineStipple);
         }

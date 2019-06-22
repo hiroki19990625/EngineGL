@@ -2,11 +2,8 @@
 using EngineGL.Structs.Math;
 using System.Collections.Generic;
 using System.Linq;
-using OpenTK.Graphics;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using EngineGL.Structs.Drawing;
-using EngineGL.Core.Resource;
 
 namespace EngineGL.GraphicAdapter.Impl.OpenGL2
 {
@@ -24,8 +21,6 @@ namespace EngineGL.GraphicAdapter.Impl.OpenGL2
         private int _idxCount = 0;
         private int _groupCount;
         private PrimitiveType _primitiveType;
-        private Color4 _color4 = Color4.White;
-        private ITexture _texture;
 
         public VertexHandler(PrimitiveType primitiveType, int groupCount)
         {
@@ -55,8 +50,6 @@ namespace EngineGL.GraphicAdapter.Impl.OpenGL2
             }
 
             // 描画
-            GL.Color4(_color4);
-            if (_texture != null) GL.BindTexture(TextureTarget.Texture2D, _texture.TextureHash);
             if (_idxCount == 0)
                 GL.DrawArrays(_primitiveType, 0, _vertexCount);
             else
@@ -135,16 +128,6 @@ namespace EngineGL.GraphicAdapter.Impl.OpenGL2
             GL.BufferData(BufferTarget.ArrayBuffer, Vector2Size * vecArray.Length, vecArray, BufferUsageHint.DynamicDraw);
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 
-        }
-
-        public void SetTexture(ITexture texture)
-        {
-            _texture = texture;
-        }
-
-        public void SetColour4(Colour4 colour4)
-        {
-            _color4 = colour4;
         }
     }
 }

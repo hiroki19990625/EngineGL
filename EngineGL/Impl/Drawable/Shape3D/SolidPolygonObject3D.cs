@@ -8,12 +8,7 @@ namespace EngineGL.Impl.Drawable.Shape3D
     public class SolidPolygonObject3D : DrawableObject
     {
         public List<Vec3> Points { get; } = new List<Vec3>();
-        public SolidPolygonObject3D() : base(GraphicAdapter.GraphicAdapterFactory.OpenGL2.CreatePolygon()) { }
-
-        public override void OnPreprocessVertex(double deltaTime, IPreprocessVertexHandler preprocessVertexHandler)
-        {
-            base.OnPreprocessVertex(deltaTime, preprocessVertexHandler);
-        }
+        public SolidPolygonObject3D() : base(GraphicAdapterFactory.OpenGL2.CreatePolygon()) { }
 
         public override void OnVertexWrite(double deltaTime, IVertexHandler vertexHandler)
         {

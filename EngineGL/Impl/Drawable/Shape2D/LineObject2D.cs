@@ -1,6 +1,5 @@
 using EngineGL.GraphicAdapter;
 using EngineGL.Structs.Math;
-using OpenTK.Graphics.OpenGL;
 
 namespace EngineGL.Impl.Drawable.Shape2D
 {
@@ -13,7 +12,7 @@ namespace EngineGL.Impl.Drawable.Shape2D
         public override void OnPreprocessVertex(double deltaTime, IPreprocessVertexHandler preprocessVertexHandler)
         {
             base.OnPreprocessVertex(deltaTime, preprocessVertexHandler);
-            GL.LineWidth(LineWidth);
+            preprocessVertexHandler.SetLineWidth(LineWidth);
         }
 
         public override void OnVertexWrite(double deltaTime, IVertexHandler vertexHandler)
