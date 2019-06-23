@@ -1,5 +1,4 @@
-﻿using System;
-using EngineGL.Core.Resource;
+﻿using EngineGL.Core.Resource;
 using EngineGL.GraphicAdapter;
 using EngineGL.GraphicAdapter.Interface;
 using EngineGL.Impl.Resource;
@@ -36,10 +35,15 @@ namespace EngineGL.Impl.DrawableComponents
             }
         }
 
+        public override void OnPreprocessVertex(double deltaTime, IPreprocessVertexHandler preprocessVertexHandler)
+        {
+            base.OnPreprocessVertex(deltaTime, preprocessVertexHandler);
+            preprocessVertexHandler.SetTexture(Texture);
+        }
+
         public override void OnVertexWrite(double deltaTime, IVertexHandler vertexHandler)
         {
             base.OnVertexWrite(deltaTime, vertexHandler);
-            vertexHandler.SetTexture(Texture);
             vertexHandler.SetVertces3(new Vec3[]
             {
                 Vec3.Zero,

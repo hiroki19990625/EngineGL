@@ -1,5 +1,4 @@
 ﻿using System;
-using EngineGL.Structs.Drawing;
 
 namespace EngineGL.GraphicAdapter.Interface
 {
@@ -24,13 +23,6 @@ namespace EngineGL.GraphicAdapter.Interface
         /// </summary>
         /// <param name="deltaTime"></param>
         void Draw(double deltaTime);
-
-        /// <summary>
-        /// カラーをセットする
-        /// </summary>
-        /// <param name="colour4"></param>
-        void SetColour4(Colour4 colour4);
-
     }
 
 }

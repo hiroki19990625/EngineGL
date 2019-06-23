@@ -1,17 +1,10 @@
 ﻿using System.Collections.Generic;
-using EngineGL.Core.Resource;
 using EngineGL.Structs.Math;
 
 namespace EngineGL.GraphicAdapter.Interface
 {
     public interface IVertexHandler
     {
-        /// <summary>
-        /// テクスチャをセットする
-        /// </summary>
-        /// <param name="texture"></param>
-        void SetTexture(ITexture texture);
-
         /// <summary>
         /// 3D頂点データをセットする
         /// </summary>
