@@ -1,11 +1,29 @@
+using System;
+using System.Drawing;
+using System.IO;
+using System.Text;
+using EngineGL.Core;
+using EngineGL.Core.Resource;
+using EngineGL.Impl;
+using EngineGL.Impl.DrawableComponents;
+using EngineGL.Impl.DrawableComponents.Shape2D;
+using EngineGL.Impl.DrawableComponents.Shape3D;
+using EngineGL.Impl.Objects;
+using EngineGL.Impl.Resource;
+using EngineGL.Structs.Math;
+using EngineGL.Tests.Exec.TestComponents;
+using EngineGL.Utils;
+using NLog.Config;
+using NLog.Targets;
 using NUnit.Framework;
+using OpenTK.Graphics;
 
 namespace EngineGL.Tests.Exec
 {
     [TestFixture]
     public class GamrExecTest
     {
-        /*[OneTimeSetUp]
+        [OneTimeSetUp]
         public void RunBeforeAnyTests()
         {
             var dir = Path.GetDirectoryName(typeof(GamrExecTest).Assembly.Location);
@@ -41,7 +59,7 @@ namespace EngineGL.Tests.Exec
                 .Build();
 
             int hash = game.PreLoadScene<Scene>("scene.json").Value;
-            game.LoadScene(hash).Value.Save("scene.json");
+            game.LoadScene(hash);
 
             game.Run(60.0d);
         }
@@ -65,49 +83,50 @@ namespace EngineGL.Tests.Exec
             Dialog.Show("Test");
 
             Scene scene = new Scene();
-            SolidBoxObject2D box = new SolidBoxObject2D();
-            box.Colour = Color4.White;
-            box
-                .SetPosition(new Vec3(0f, 0f, 0f))
+
+            GameObject g1 = new GameObject();
+            g1.SetPosition(new Vec3(0f, 0f, 0f))
                 .SetBounds(new Vec3(1f, 1f, 0f));
 
-            box.AddComponent(new PlayerComponent()
+            g1.AddComponent(new SolidBoxObject2D
             {
-                Bounds = new Vec3(1, 1)
+                Colour = Color4.White
             });
-            box.AddComponent(new RotateComponent());
-            scene.AddObject(box);
+            g1.AddComponent(new RotateComponent());
+            scene.AddObject(g1);
 
-
-            SolidBoxObject3D boxObject3D = new SolidBoxObject3D
+            GameObject g2 = new GameObject();
+            g2.SetPosition(new Vec3(-2f, -1f, 0f))
+                .SetBounds(new Vec3(2f, 2f, 5f));
+            g2.AddComponent(new SolidBoxObject3D
             {
-                Colour = Color4.Pink
-            };
-            boxObject3D.Layer = 99;
-            boxObject3D.SetPosition(new Vec3(-2f, -1f, 0f));
-            boxObject3D.SetBounds(new Vec3(2f, 2f, 5f));
-            boxObject3D.AddComponent(new RotateComponent());
-            scene.AddObject(boxObject3D);
+                Colour = Color4.Pink,
+                Layer = 99
+            });
+            g2.AddComponent(new RotateComponent());
+            scene.AddObject(g2);
 
+            GameObject g3 = new GameObject();
             SolidPolygonObject2D poly = new SolidPolygonObject2D
             {
                 Colour = Color4.Gold,
             };
-            poly.SetPosition(new Vec3(-3f, -3f, 0f));
+            g3.SetPosition(new Vec3(-3f, -3f, 0f));
             poly.Layer = 1;
             poly.Points.Add(new Vec3(1f, 1.5f, 0));
             poly.Points.Add(new Vec3(0f, 0, 0));
             poly.Points.Add(new Vec3(2f, 0, 0));
-            poly.AddComponent(new RotateComponent());
-            scene.AddObject(poly);
+            g3.AddComponent(poly);
+            g3.AddComponent(new RotateComponent());
+            scene.AddObject(g3);
 
+            GameObject g4 = new GameObject();
             SolidPolygonObject3D poly3 = new SolidPolygonObject3D
             {
                 Colour = Color4.Gray,
             };
-
-            poly3.SetPosition(new Vec3(1f, 1f, 0f));
-            poly3.SetBounds(new Vec3(0, 0, 3f));
+            g4.SetPosition(new Vec3(1f, 1f, 0f))
+                .SetBounds(new Vec3(0, 0, 3f));
             poly3.Layer = 1;
             poly3.Points.Add(new Vec3(0, 0));
             poly3.Points.Add(new Vec3(1f, 0));
@@ -115,55 +134,57 @@ namespace EngineGL.Tests.Exec
             poly3.Points.Add(new Vec3(1.0f, 1.72f));
             poly3.Points.Add(new Vec3(0, 1.72f));
             poly3.Points.Add(new Vec3(-0.5f, 0.87f));
-            poly3.AddComponent(new RotateComponent());
-            scene.AddObject(poly3);
+            g4.AddComponent(poly3);
+            g4.AddComponent(new RotateComponent());
+            scene.AddObject(g4);
 
-           scene.AddObject(new PointsObject2D
+            GameObject g5 = new GameObject();
+            g5.SetPosition(new Vec3(2, 2, 0));
+            g5.AddComponent(new PointsObject2D
                 {
                     Colour = Color4.White,
                     PointSize = 10
                 }
-                .SetPosition(new Vec3(2, 2, 0))
             );
-            CircleObject2D circle = new CircleObject2D()
+            scene.AddObject(g5);
+
+            GameObject g6 = new GameObject();
+            g6.AddComponent(new CircleObject2D
             {
                 Radius = 0.5f,
                 Colour = Color4.Red
-            };
-            circle.AddComponent(new Collision2D
-            {
-                Bounds = new Vec3(1, 1),
-                Offset = new Vec3(0, 0)
             });
-            circle
-                .SetPosition(new Vec3(3.5f, 1f, 0))
+            g6.SetPosition(new Vec3(3.5f, 1f, 0))
                 .SetBounds(new Vec3(1, 1, 0));
-            scene.AddObject(circle);
+            scene.AddObject(g6);
 
-            scene.AddObject(new RawTexture2D("Images/download.png")
-                .SetBounds(new Vec3(3, 3, 0))
-                .SetPosition(new Vec3(-2, -2, 0)));
-            scene.AddObject(new TextRenderer(100, 100)
-                {
-                    FontColor = Color.Red,
-                    Text = "Hello",
-                    Tag = "Text"
-                }
-                .SetBounds(new Vec3(1, 1, 0))
-                .SetPosition(new Vec3(0.5f, 0, 0))
-            );
+            GameObject g7 = new GameObject();
+            g7.SetBounds(new Vec3(3, 3, 0))
+                .SetPosition(new Vec3(-2, -2, 0));
+            g7.AddComponent(new RawTexture2D("Images/download.png"));
+            scene.AddObject(g7);
+
+            GameObject g8 = new GameObject();
+            g8.SetBounds(new Vec3(1, 1, 0))
+                .SetPosition(new Vec3(0.5f, 0, 0));
+            g8.AddComponent(new TextRenderer(100, 100)
+            {
+                FontColor = Color.Red,
+                Text = "Hello"
+            });
+            scene.AddObject(g8);
 
             IAudio audio = ResourceManager.LoadWave("Sounds/Mixdown2.wav");
             audio.SetLoop(true);
             audio.Play();
 
-            StaticCamera camera = new StaticCamera();
-            camera.Transform.Position = new Vec3(0, 0, -10f);
-            // camera.AddComponent(new ExceptionComponent());
+            GameObject camera = new GameObject();
+            camera.SetPosition(new Vec3(0, 0, -10f));
+            camera.AddComponent(new StaticCamera());
             scene.AddObject(camera);
             scene.Save("scene.json");
 
             return scene;
-        }*/
+        }
     }
 }

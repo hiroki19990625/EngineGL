@@ -106,7 +106,24 @@ namespace EngineGL.Impl.Components
                         Type type = Type.GetType(Assembly.CreateQualifiedName(
                             obj[property.Name + "_assembly"].Value<string>(),
                             obj[property.Name + "_type"].Value<string>()));
-                        property.SetValue(this, obj[property.Name].ToObject(type));
+
+                        if (type == null)
+                            continue;
+
+                        object data = obj[property.Name].ToObject(type);
+                        if (data == null)
+                            continue;
+
+                        try
+                        {
+                            property.SetValue(this, data);
+                        }
+                        catch
+                        {
+                            this.GetType().GetField($"<{property.Name}>k__BackingField",
+                                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)?
+                                .SetValue(this, data);
+                        }
                     }
                 }
             }

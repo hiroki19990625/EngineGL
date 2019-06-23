@@ -46,19 +46,29 @@ namespace EngineGL.Tests.Exec
 
             scene.AddObject(gameObject);
 
-            GameObject parent = new GameObject();
-            parent
+            GameObject child = new GameObject();
+            child
                 .SetPosition(new Vec3(2, 0, 0))
                 .SetBounds(new Vec3(1, 1, 0));
-            parent.AddComponent(new Collision2D
+            child.AddComponent(new Collision2D
             {
                 Bounds = new Vec3(1, 1),
             });
-
-            CircleObject2D circle = parent.AddComponentUnsafe<CircleObject2D>().Value;
+            CircleObject2D circle = child.AddComponentUnsafe<CircleObject2D>().Value;
             circle.Radius = 0.5f;
             circle.Colour = Color4.Red;
-            gameObject.AddChild(parent);
+            gameObject.AddChild(child);
+
+            GameObject obj = new GameObject();
+            obj
+                .SetPosition(new Vec3(-2, 0, 0))
+                .SetBounds(new Vec3(1, 1, 0));
+            obj.AddComponent(new Collision2D
+            {
+                Bounds = new Vec3(1, 1),
+            });
+            obj.AddComponent(new SolidBoxObject2D());
+            scene.AddObject(obj);
 
             GameObject cm = new GameObject();
             cm.AddComponent(new StaticCamera());
