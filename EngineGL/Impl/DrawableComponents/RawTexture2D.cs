@@ -1,4 +1,5 @@
-﻿using EngineGL.Core.Resource;
+﻿using System;
+using EngineGL.Core.Resource;
 using EngineGL.GraphicAdapter;
 using EngineGL.GraphicAdapter.Interface;
 using EngineGL.Impl.Resource;
