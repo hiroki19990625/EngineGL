@@ -59,7 +59,7 @@ namespace EngineGL.Tests.Exec
                 .Build();
 
             int hash = game.PreLoadScene<Scene>("scene.json").Value;
-            game.LoadScene(hash);
+            game.LoadScene(hash).Value.Save("scene.json");
 
             game.Run(60.0d);
         }
