@@ -1,7 +1,6 @@
-using System;
 using EngineGL.Core;
+using EngineGL.Core.Components;
 using EngineGL.Impl.Components;
-using EngineGL.Impl.DrawableComponents.Shape2D;
 using EngineGL.Structs.Math;
 using OpenTK.Graphics;
 using OpenTK.Input;
@@ -47,7 +46,8 @@ namespace EngineGL.Tests.Exec.TestComponents
 
         public override void OnCollisionEnter(IGameObject gameObject)
         {
-            ((SolidBoxObject2D) GameObject).Colour = Color4.Red;
+            IDrawableComponent component = gameObject.GetComponentUnsafe<IDrawableComponent>().Value;
+            component.Colour = Color4.Red;
         }
 
         public override void OnCollisionStay(IGameObject gameObject)
@@ -56,7 +56,8 @@ namespace EngineGL.Tests.Exec.TestComponents
 
         public override void OnCollisionLeave(IGameObject gameObject)
         {
-            ((SolidBoxObject2D) GameObject).Colour = Color4.Yellow;
+            IDrawableComponent component = gameObject.GetComponentUnsafe<IDrawableComponent>().Value;
+            component.Colour = Color4.White;
         }
     }
 }
