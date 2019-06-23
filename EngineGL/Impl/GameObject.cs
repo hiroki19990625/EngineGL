@@ -351,6 +351,11 @@ namespace EngineGL.Impl
                 }
             }
 
+            if (Transform != null)
+            {
+                RemoveComponent(Transform);
+            }
+
             Transform = GetComponentUnsafe<ITransform>(new Guid(obj["transform"].Value<string>())).Or(new Transform());
         }
     }
