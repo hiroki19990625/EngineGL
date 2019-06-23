@@ -6,6 +6,7 @@ using System.Reflection;
 using EngineGL.Core;
 using EngineGL.Event.ComponentAttachable;
 using EngineGL.Impl.Components;
+using EngineGL.Serializations.Resulter;
 using EngineGL.Structs.Math;
 using EngineGL.Utils;
 using Newtonsoft.Json;
@@ -18,7 +19,7 @@ namespace EngineGL.Impl
         private readonly ConcurrentDictionary<Guid, IComponent> _attachedComponents =
             new ConcurrentDictionary<Guid, IComponent>();
 
-        public ITransform Transform { get; private set; } = new Transform();
+        [SerializeIgnore, JsonIgnore] public ITransform Transform { get; private set; } = new Transform();
 
         public event EventHandler<AddComponentEventArgs> AddComponentEvent;
         public event EventHandler<RemoveComponentEventArgs> RemoveComponentEvent;
@@ -345,8 +346,7 @@ namespace EngineGL.Impl
                             Type.GetType(Assembly.CreateQualifiedName(jObj["assembly"].Value<string>(),
                                 jObj["type"].Value<string>()), true));
                     ins.OnDeserializeJson(jObj);
-                    ins.ParentObject = this;
-                    _attachedComponents.TryAdd(ins.InstanceGuid, ins);
+                    AddComponent(ins);
                 }
             }
 
