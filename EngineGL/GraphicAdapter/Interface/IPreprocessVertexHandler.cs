@@ -2,7 +2,7 @@
 using EngineGL.Structs.Drawing;
 using EngineGL.Structs.Math;
 
-namespace EngineGL.GraphicAdapter
+namespace EngineGL.GraphicAdapter.Interface
 {
     public interface IPreprocessVertexHandler
     {

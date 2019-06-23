@@ -1,5 +1,6 @@
 ﻿using EngineGL.Impl;
 using EngineGL.Structs.Math;
+using Component = EngineGL.Impl.Components.Component;
 
 namespace EngineGL.Tests.Exec.TestComponents
 {

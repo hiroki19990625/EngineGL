@@ -1,13 +1,16 @@
 using EngineGL.GraphicAdapter;
+using EngineGL.GraphicAdapter.Interface;
 using EngineGL.Structs.Math;
 
-namespace EngineGL.Impl.Drawable.Shape2D
+namespace EngineGL.Impl.DrawableComponents.Shape2D
 {
-    public class PointsObject2D : DrawableObject
+    public class PointsObject2D : DrawableComponent
     {
         public float PointSize { get; set; } = 1;
 
-        public PointsObject2D() : base(GraphicAdapterFactory.OpenGL2.CreatePoints()) { }
+        public PointsObject2D() : base(GraphicAdapterFactory.OpenGL2.CreatePoints())
+        {
+        }
 
         public override void OnPreprocessVertex(double deltaTime, IPreprocessVertexHandler preprocessVertexHandler)
         {
@@ -19,7 +22,7 @@ namespace EngineGL.Impl.Drawable.Shape2D
         {
             base.OnVertexWrite(deltaTime, vertexHandler);
 
-            vertexHandler.SetVertces3(new Vec3[] { Vec3.Zero });
+            vertexHandler.SetVertces3(new Vec3[] {Vec3.Zero});
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EngineGL.GraphicAdapter
+namespace EngineGL.GraphicAdapter.Interface
 {
     /// <summary>
     /// 各種描画系ライブラリと依存を分離するためのアダプタークラス

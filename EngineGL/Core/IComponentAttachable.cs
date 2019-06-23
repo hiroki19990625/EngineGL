@@ -1,4 +1,5 @@
 using System;
+using EngineGL.Core.Components;
 using EngineGL.Event.ComponentAttachable;
 using EngineGL.Utils;
 

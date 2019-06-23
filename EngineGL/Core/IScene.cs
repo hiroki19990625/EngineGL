@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using EngineGL.Core.Components;
 using EngineGL.Core.LifeCycle;
 using EngineGL.Event.Scene;
 using EngineGL.Serializations.Resulter;

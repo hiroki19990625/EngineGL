@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using EngineGL.GraphicAdapter.Interface;
 
 namespace EngineGL.GraphicAdapter.Impl.OpenGL2
 {

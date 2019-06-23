@@ -1,4 +1,5 @@
 ﻿using System;
+using EngineGL.GraphicAdapter.Interface;
 using OpenTK.Graphics.OpenGL;
 
 namespace EngineGL.GraphicAdapter.Impl.OpenGL2

@@ -1,7 +1,7 @@
-using EngineGL.GraphicAdapter;
+using EngineGL.GraphicAdapter.Interface;
 using OpenTK.Graphics.OpenGL;
 
-namespace EngineGL.Impl.Drawable.Shape2D
+namespace EngineGL.Impl.DrawableComponents.Shape2D
 {
     public class StippleLineObject2D : LineObject2D
     {

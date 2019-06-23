@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using EngineGL.Structs.Math;
 
-
-namespace EngineGL.GraphicAdapter
+namespace EngineGL.GraphicAdapter.Interface
 {
     public interface IVertexHandler
     {
