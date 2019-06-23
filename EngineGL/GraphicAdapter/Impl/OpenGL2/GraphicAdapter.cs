@@ -1,4 +1,5 @@
 ﻿using System;
+using EngineGL.GraphicAdapter.Interface;
 using EngineGL.Structs.Drawing;
 using OpenTK.Graphics.OpenGL;
 

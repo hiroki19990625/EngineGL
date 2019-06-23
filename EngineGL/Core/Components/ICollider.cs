@@ -1,4 +1,4 @@
-namespace EngineGL.Core
+namespace EngineGL.Core.Components
 {
     /// <summary>
     /// ゲームオブジェクト同士の当たり判定を実装します。

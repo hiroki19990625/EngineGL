@@ -1,12 +1,13 @@
 ﻿using System;
 using EngineGL.Core.Resource;
 using EngineGL.GraphicAdapter;
+using EngineGL.GraphicAdapter.Interface;
 using EngineGL.Impl.Resource;
 using EngineGL.Structs.Math;
 
-namespace EngineGL.Impl.Drawable
+namespace EngineGL.Impl.DrawableComponents
 {
-    public class RawTexture2D : DrawableObject
+    public class RawTexture2D : DrawableComponent
     {
         public ITexture Texture { get; set; }
         public bool AutoDispose { get; set; }
@@ -42,9 +43,9 @@ namespace EngineGL.Impl.Drawable
             vertexHandler.SetVertces3(new Vec3[]
             {
                 Vec3.Zero,
-                new Vec3(0, Transform.Bounds.Y, Transform.Bounds.Z),
-                new Vec3(Transform.Bounds.X, Transform.Bounds.Y, Transform.Bounds.Z),
-                new Vec3(Transform.Bounds.X, 0, Transform.Bounds.Z)
+                new Vec3(0, GameObject.Transform.Bounds.Y, GameObject.Transform.Bounds.Z),
+                new Vec3(GameObject.Transform.Bounds.X, GameObject.Transform.Bounds.Y, GameObject.Transform.Bounds.Z),
+                new Vec3(GameObject.Transform.Bounds.X, 0, GameObject.Transform.Bounds.Z)
             });
             vertexHandler.SetUv(new Vec2[]
             {

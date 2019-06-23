@@ -2,7 +2,7 @@ using System;
 using EngineGL.Core.LifeCycle;
 using EngineGL.Serializations.Resulter;
 
-namespace EngineGL.Core
+namespace EngineGL.Core.Components
 {
     /// <summary>
     /// <see cref="IComponentAttachable"/> にアタッチ可能なコンポーネントを実装します。

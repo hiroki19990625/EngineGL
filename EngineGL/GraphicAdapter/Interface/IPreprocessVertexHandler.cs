@@ -1,4 +1,4 @@
-﻿namespace EngineGL.GraphicAdapter
+﻿namespace EngineGL.GraphicAdapter.Interface
 {
     public interface IPreprocessVertexHandler
     {

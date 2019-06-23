@@ -1,4 +1,5 @@
 using EngineGL.Core;
+using EngineGL.Core.Components;
 
 namespace EngineGL.Event.ComponentAttachable
 {

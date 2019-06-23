@@ -3,13 +3,14 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
 using EngineGL.GraphicAdapter;
+using EngineGL.GraphicAdapter.Interface;
 using EngineGL.Structs.Math;
 using OpenTK.Graphics.OpenGL;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
-namespace EngineGL.Impl.Drawable
+namespace EngineGL.Impl.DrawableComponents
 {
-    public class TextRenderer : DrawableObject
+    public class TextRenderer : DrawableComponent
     {
         private Bitmap _bitmap;
         private Graphics _graphics;
@@ -66,14 +67,16 @@ namespace EngineGL.Impl.Drawable
         public override void OnVertexWrite(double deltaTime, IVertexHandler vertexHandler)
         {
             base.OnVertexWrite(deltaTime, vertexHandler);
-            vertexHandler.SetVertces3(new Vec3[] {
+            vertexHandler.SetVertces3(new Vec3[]
+            {
                 Vec3.Zero,
-                new Vec3(0, Transform.Bounds.Y, Transform.Bounds.Z),
-                new Vec3(Transform.Bounds.X, Transform.Bounds.Y, Transform.Bounds.Z),
-                new Vec3(Transform.Bounds.X, 0, Transform.Bounds.Z)
+                new Vec3(0, GameObject.Transform.Bounds.Y, GameObject.Transform.Bounds.Z),
+                new Vec3(GameObject.Transform.Bounds.X, GameObject.Transform.Bounds.Y, GameObject.Transform.Bounds.Z),
+                new Vec3(GameObject.Transform.Bounds.X, 0, GameObject.Transform.Bounds.Z)
             });
-            vertexHandler.SetIndices(new uint[] { 0, 1, 2, 2, 3, 0 });
-            vertexHandler.SetUv(new Vec2[] {
+            vertexHandler.SetIndices(new uint[] {0, 1, 2, 2, 3, 0});
+            vertexHandler.SetUv(new Vec2[]
+            {
                 new Vec2(0.0f, 0.0f),
                 new Vec2(0.0f, -1.0f),
                 new Vec2(1.0f, -1.0f),
@@ -100,9 +103,9 @@ namespace EngineGL.Impl.Drawable
             _texture = GL.GenTexture();
             GL.BindTexture(TextureTarget.Texture2D, _texture);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
-                (int)TextureMinFilter.Linear);
+                (int) TextureMinFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
-                (int)TextureMagFilter.Linear);
+                (int) TextureMagFilter.Linear);
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0,
                 OpenTK.Graphics.OpenGL.PixelFormat.Rgba, PixelType.UnsignedByte, IntPtr.Zero);
 

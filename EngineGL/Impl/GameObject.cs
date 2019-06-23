@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using EngineGL.Core;
+using EngineGL.Core.Components;
 using EngineGL.Event.ComponentAttachable;
 using EngineGL.Impl.Components;
 using EngineGL.Serializations.Resulter;

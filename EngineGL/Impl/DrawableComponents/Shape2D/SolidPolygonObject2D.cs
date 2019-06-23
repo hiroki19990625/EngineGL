@@ -1,21 +1,25 @@
 using System;
 using System.Collections.Generic;
 using EngineGL.GraphicAdapter;
+using EngineGL.GraphicAdapter.Interface;
 using EngineGL.Structs.Math;
 
-namespace EngineGL.Impl.Drawable.Shape2D
+namespace EngineGL.Impl.DrawableComponents.Shape2D
 {
-    public class SolidPolygonObject2D : DrawableObject
+    public class SolidPolygonObject2D : DrawableComponent
     {
         public List<Vec3> Points { get; } = new List<Vec3>();
 
-        public SolidPolygonObject2D() : base(GraphicAdapterFactory.OpenGL2.CreatePolygon()) { }
+        public SolidPolygonObject2D() : base(GraphicAdapterFactory.OpenGL2.CreatePolygon())
+        {
+        }
 
         public override void OnVertexWrite(double deltaTime, IVertexHandler vertexHandler)
         {
             base.OnVertexWrite(deltaTime, vertexHandler);
             vertexHandler.SetVertces3(GetVec3s());
         }
+
         private IEnumerable<Vec3> GetVec3s()
         {
             Vec3 bou = new Vec3();
@@ -31,7 +35,7 @@ namespace EngineGL.Impl.Drawable.Shape2D
                 bou.Z = Math.Max(Points[i].Z, bou.Z);
             }
 
-            Transform.Bounds = bou;
+            GameObject.Transform.Bounds = bou;
         }
     }
 }

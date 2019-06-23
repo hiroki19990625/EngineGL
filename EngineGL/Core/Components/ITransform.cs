@@ -1,6 +1,6 @@
 ﻿using EngineGL.Structs.Math;
 
-namespace EngineGL.Core
+namespace EngineGL.Core.Components
 {
     /// <summary>
     /// オブジェクトの空間座標と、回転、スケールを実装します。

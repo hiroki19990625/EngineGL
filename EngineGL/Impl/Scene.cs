@@ -6,13 +6,12 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using EngineGL.Core;
+using EngineGL.Core.Components;
 using EngineGL.Core.LifeCycle;
 using EngineGL.Event.LifeCycle;
 using EngineGL.Event.Scene;
-using EngineGL.Serializations;
 using EngineGL.Structs.Drawing;
 using EngineGL.Utils;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace EngineGL.Impl
@@ -38,7 +37,7 @@ namespace EngineGL.Impl
         public uint Layer { get; set; } = 0;
 
         //いずれこのプロパティは削除する
-        public Colour4 Colour { get ; set ; }
+        public Colour4 Colour { get; set; }
 
         public void OnUpdate(double deltaTime)
         {
@@ -111,8 +110,17 @@ namespace EngineGL.Impl
                 if (manager.Call())
                 {
                     args.AddObject.OnInitialze();
-                    if (args.AddObject is IDrawable)
-                        _drawables.Add(args.AddObject.InstanceGuid, (IDrawable) args.AddObject);
+                    if (args.AddObject is IComponentAttachable componentAttachable)
+                    {
+                        foreach (IComponent component in componentAttachable.GetComponents().Value)
+                        {
+                            if (component is IDrawable drawable)
+                            {
+                                _drawables.Add(component.InstanceGuid, drawable);
+                            }
+                        }
+                    }
+
                     return Result<IObject>.Success(args.AddObject);
                 }
                 else
@@ -188,7 +196,18 @@ namespace EngineGL.Impl
                 if (manager.Call())
                 {
                     args.RemoveObject.OnDestroy();
-                    _drawables.Remove(args.RemoveObject.InstanceGuid);
+
+                    if (args.RemoveObject is IComponentAttachable componentAttachable)
+                    {
+                        foreach (IComponent component in componentAttachable.GetComponents().Value)
+                        {
+                            if (component is IDrawable)
+                            {
+                                _drawables.Remove(component.InstanceGuid);
+                            }
+                        }
+                    }
+
                     return Result<IObject>.Success(args.RemoveObject);
                 }
                 else

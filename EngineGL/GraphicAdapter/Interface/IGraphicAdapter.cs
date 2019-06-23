@@ -1,7 +1,7 @@
-﻿using EngineGL.Structs.Drawing;
-using System;
+﻿using System;
+using EngineGL.Structs.Drawing;
 
-namespace EngineGL.GraphicAdapter
+namespace EngineGL.GraphicAdapter.Interface
 {
     /// <summary>
     /// 各種描画系ライブラリと依存を分離するためのアダプタークラス
