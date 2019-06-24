@@ -13,12 +13,12 @@ namespace EngineGL.Core.Resource
         string FileName { get; }
 
         /// <summary>
-        /// 音ソースのメモリーハッシュ。
+        /// 音ソースのメモリハッシュ。
         /// </summary>
         int SourceHash { get; }
 
         /// <summary>
-        /// 音バッファーのメモリーハッシュ。
+        /// 音バッファーのメモリハッシュ。
         /// </summary>
         int BufferHash { get; }
 

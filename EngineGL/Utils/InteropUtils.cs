@@ -3,9 +3,12 @@ using System.Runtime.InteropServices;
 
 namespace EngineGL.Utils
 {
+    /// <summary>
+    /// 相互運用機能のプラットフォーム切り替えを提供します。
+    /// </summary>
     public static class InteropUtils
     {
-        public static void SwitchPlatform()
+        internal static void SwitchPlatform()
         {
             if (Environment.OSVersion.Platform == PlatformID.Win32NT)
             {

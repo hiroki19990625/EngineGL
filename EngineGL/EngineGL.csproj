@@ -192,7 +192,6 @@
     <Compile Include="Utils\Dialog.cs" />
     <Compile Include="Utils\EventManager.cs" />
     <Compile Include="Utils\InteropUtils.cs" />
-    <Compile Include="Utils\JsonConverters.cs" />
     <Compile Include="Utils\LocalThreadRandom.cs" />
     <Compile Include="Utils\Result.cs" />
   </ItemGroup>

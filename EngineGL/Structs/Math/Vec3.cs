@@ -6,6 +6,9 @@ using Newtonsoft.Json;
 
 namespace EngineGL.Structs.Math
 {
+    /// <summary>
+    /// 3つの <see cref="float"/> を持つベクトルを表します。
+    /// </summary>
     [Serializable]
     public struct Vec3 : IEquatable<Vec3>
     {

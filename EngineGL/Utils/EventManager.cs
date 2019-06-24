@@ -3,6 +3,7 @@ using EngineGL.Event;
 
 namespace EngineGL.Utils
 {
+    [Obsolete]
     public class EventManager<T> where T : CancelableEvent
     {
         public EventHandler<T> Handler { get; }

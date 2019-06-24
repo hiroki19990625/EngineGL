@@ -13,7 +13,7 @@ namespace EngineGL.Core.Resource
         string FileName { get; }
 
         /// <summary>
-        /// テクスチャのメモリーハッシュ。
+        /// テクスチャのメモリハッシュ。
         /// </summary>
         int TextureHash { get; }
     }
