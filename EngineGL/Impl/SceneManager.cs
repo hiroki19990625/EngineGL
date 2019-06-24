@@ -1,12 +1,11 @@
-﻿using EngineGL.Core;
-using EngineGL.Event.Game;
-using EngineGL.Utils;
-using NLog;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.IO;
-using EngineGL.Serializations;
+using EngineGL.Core;
+using EngineGL.Event.Game;
+using EngineGL.Utils;
 using Newtonsoft.Json.Linq;
+using NLog;
 
 namespace EngineGL.Impl
 {
@@ -41,12 +40,10 @@ namespace EngineGL.Impl
             PreLoadSceneEventArgs args = new PreLoadSceneEventArgs(game, file, scene);
             EventManager<PreLoadSceneEventArgs> manager
                 = new EventManager<PreLoadSceneEventArgs>(events.PreLoadSceneDelegate, game, args);
-            manager.OnSuccess = ev => _preLoadedScenes.TryAdd(ev.PreLoadScene.GetHashCode(), ev.PreLoadScene);
+            _preLoadedScenes.TryAdd(scene.GetHashCode(), scene);
 
-            if (manager.Call())
-                return Result<int>.Success(args.PreLoadScene.GetHashCode());
-            else
-                return Result<int>.Fail();
+            manager.Call();
+            return Result<int>.Success(args.PreLoadScene.GetHashCode());
         }
 
         public virtual bool PreUnloadScene(int hash, IGame game)
@@ -56,8 +53,10 @@ namespace EngineGL.Impl
                 PreUnloadSceneEventArgs args = new PreUnloadSceneEventArgs(game, scene);
                 EventManager<PreUnloadSceneEventArgs> manager
                     = new EventManager<PreUnloadSceneEventArgs>(events.PreUnloadSceneDelegate, game, args);
-                manager.OnSuccess = ev => _preLoadedScenes.TryRemove(ev.PreUnloadScene.GetHashCode(), out scene);
-                return manager.Call();
+                _preLoadedScenes.TryRemove(scene.GetHashCode(), out scene);
+                manager.Call();
+
+                return true;
             }
 
             return false;
@@ -103,12 +102,10 @@ namespace EngineGL.Impl
                 LoadSceneEventArgs args = new LoadSceneEventArgs(game, scene);
                 EventManager<LoadSceneEventArgs> manager
                     = new EventManager<LoadSceneEventArgs>(events.LoadSceneDelegate, game, args);
-                manager.OnSuccess = ev => _loadedScenes.TryAdd(ev.LoadScene.GetHashCode(), ev.LoadScene);
+                _loadedScenes.TryAdd(scene.GetHashCode(), scene);
 
-                if (manager.Call())
-                    return Result<IScene>.Success(args.LoadScene);
-                else
-                    return Result<IScene>.Fail();
+                manager.Call();
+                return Result<IScene>.Success(args.LoadScene);
             }
 
             return Result<IScene>.Fail();
@@ -122,12 +119,10 @@ namespace EngineGL.Impl
                 LoadSceneEventArgs args = new LoadSceneEventArgs(game, scene);
                 EventManager<LoadSceneEventArgs> manager
                     = new EventManager<LoadSceneEventArgs>(events.LoadSceneDelegate, game, args);
-                manager.OnSuccess = ev => _loadedScenes.TryAdd(ev.LoadScene.GetHashCode(), ev.LoadScene);
+                _loadedScenes.TryAdd(scene.GetHashCode(), scene);
 
-                if (manager.Call())
-                    return Result<IScene>.Success(args.LoadScene);
-                else
-                    return Result<IScene>.Fail();
+                manager.Call();
+                return Result<IScene>.Success(args.LoadScene);
             }
 
             return Result<IScene>.Fail();
@@ -166,12 +161,9 @@ namespace EngineGL.Impl
                 UnloadSceneEventArgs args = new UnloadSceneEventArgs(game, scene);
                 EventManager<UnloadSceneEventArgs> manager
                     = new EventManager<UnloadSceneEventArgs>(events.UnloadSceneDelegate, game, args);
-                manager.OnSuccess = ev => _loadedScenes.TryRemove(args.UnloadScene.GetHashCode(), out scene);
-
-                if (manager.Call())
-                    return Result<IScene>.Success(args.UnloadScene);
-                else
-                    return Result<IScene>.Fail();
+                _loadedScenes.TryRemove(args.UnloadScene.GetHashCode(), out scene);
+                manager.Call();
+                return Result<IScene>.Success(args.UnloadScene);
             }
 
             return Result<IScene>.Fail();

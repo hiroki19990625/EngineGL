@@ -3,9 +3,8 @@ using EngineGL.Core.Components;
 
 namespace EngineGL.Event.ComponentAttachable
 {
-    public class RemoveComponentEventArgs : ComponentAttachableEventArgs, CancelableEvent
+    public class RemoveComponentEventArgs : ComponentAttachableEventArgs
     {
-        public bool IsCanceled { get; set; }
         public IComponent RemoveComponent { get; }
 
         public RemoveComponentEventArgs(IComponentAttachable componentAttachable, IComponent removeComponent)

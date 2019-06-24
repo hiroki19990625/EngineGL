@@ -3,11 +3,10 @@ using EngineGL.Core;
 
 namespace EngineGL.Event.Game
 {
-    public class PreLoadSceneEventArgs : GameEventArgs, CancelableEvent
+    public class PreLoadSceneEventArgs : GameEventArgs
     {
-        public bool IsCanceled { get; set; }
-        public FileInfo SceneFile { get; set; }
-        public IScene PreLoadScene { get; set; }
+        public FileInfo SceneFile { get; }
+        public IScene PreLoadScene { get; }
 
         public PreLoadSceneEventArgs(IGame game, FileInfo file, IScene preLoadScene) : base(game)
         {
