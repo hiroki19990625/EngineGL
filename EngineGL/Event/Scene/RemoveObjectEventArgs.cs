@@ -2,10 +2,9 @@ using EngineGL.Core;
 
 namespace EngineGL.Event.Scene
 {
-    public class RemoveObjectEventArgs : SceneEventArgs, CancelableEvent
+    public class RemoveObjectEventArgs : SceneEventArgs
     {
-        public bool IsCanceled { get; set; }
-        public IObject RemoveObject { get; set; }
+        public IObject RemoveObject { get; }
 
         public RemoveObjectEventArgs(IScene scene, IObject removeObject) : base(scene)
         {

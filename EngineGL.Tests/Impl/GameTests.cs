@@ -11,35 +11,20 @@ namespace EngineGL.Tests.Impl
         public void SceneTest()
         {
             IGame game = new GameBuilder().Build();
-            Scene loadCancel = new Scene();
-            Scene unloadCancel = new Scene();
+            Scene sce = new Scene();
 
-            game.SceneEvents.LoadSceneEvent += (sender, args) =>
-            {
-                if (args.LoadScene.GetHashCode() == loadCancel.GetHashCode())
-                {
-                    args.IsCanceled = true;
-                }
-            };
+            int count = 0;
             game.SceneEvents.UnloadSceneEvent += (sender, args) =>
             {
-                if (args.UnloadScene.GetHashCode() == unloadCancel.GetHashCode())
+                if (args.UnloadScene.GetHashCode() == sce.GetHashCode())
                 {
-                    args.IsCanceled = true;
+                    count++;
                 }
             };
-            // キャンセル対象なので失敗
-            Assert.False(game.LoadScene(loadCancel).IsSuccess);
-            // キャンセルの対象なので取得に失敗
-            Assert.False(game.GetScene(loadCancel.GetHashCode()).IsSuccess);
-            // キャンセル対象のシーンではないのでロードには成功
-            Assert.True(game.LoadScene(unloadCancel).IsSuccess);
+            // ロードに成功
+            Assert.True(game.LoadScene(sce).IsSuccess);
             // ロードに成功しているので取得に成功
-            Assert.True(game.GetScene(unloadCancel.GetHashCode()).IsSuccess);
-            // キャンセルの対象なのでアンロードに失敗
-            Assert.False(game.UnloadScene(unloadCancel).IsSuccess);
-            // アンロードがキャンセルされているので取得に成功
-            Assert.True(game.GetScene(unloadCancel.GetHashCode()).IsSuccess);
+            Assert.True(game.GetScene(sce.GetHashCode()).IsSuccess);
 
             Scene scene = new Scene();
             Scene scene2 = new Scene();
@@ -68,6 +53,9 @@ namespace EngineGL.Tests.Impl
             Assert.False(game.GetScene(scene.GetHashCode()).IsSuccess);
             // 新しくロードしたシーンの取得に成功
             Assert.True(game.GetScene(scene2.GetHashCode()).IsSuccess);
+
+            // イベントの呼び出しチェック
+            Assert.True(count == 1);
         }
 
         [Test]

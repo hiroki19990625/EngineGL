@@ -189,19 +189,15 @@ namespace EngineGL.Impl
                     new AddComponentEventArgs(this, component);
                 EventManager<AddComponentEventArgs> manager =
                     new EventManager<AddComponentEventArgs>(AddComponentEvent, this, args);
-                manager.OnSuccess = ev => _attachedComponents.TryAdd(ev.AddComponent.InstanceGuid, ev.AddComponent);
+                _attachedComponents.TryAdd(hash, component);
 
-                if (manager.Call())
-                {
-                    component.ParentObject = this;
-                    component.OnInitialze();
-                    return Result<IComponent>.Success(args.AddComponent);
-                }
-                else
-                    return Result<IComponent>.Fail();
+                manager.Call();
+                component.ParentObject = this;
+                component.OnInitialze();
+                return Result<IComponent>.Success(args.AddComponent);
             }
-
-            return Result<IComponent>.Fail();
+            else
+                return Result<IComponent>.Fail();
         }
 
         public Result<T> AddComponentUnsafe<T>(T component) where T : IComponent
@@ -243,19 +239,14 @@ namespace EngineGL.Impl
                     new RemoveComponentEventArgs(this, component);
                 EventManager<RemoveComponentEventArgs> manager =
                     new EventManager<RemoveComponentEventArgs>(RemoveComponentEvent, this, args);
-                manager.OnSuccess = ev =>
-                    _attachedComponents.TryRemove(ev.RemoveComponent.InstanceGuid, out component);
+                _attachedComponents.TryRemove(hash, out component);
 
-                if (manager.Call())
-                {
-                    args.RemoveComponent.OnDestroy();
-                    return Result<IComponent>.Success(args.RemoveComponent);
-                }
-                else
-                    return Result<IComponent>.Fail();
+                manager.Call();
+                args.RemoveComponent.OnDestroy();
+                return Result<IComponent>.Success(args.RemoveComponent);
             }
-
-            return Result<IComponent>.Fail();
+            else
+                return Result<IComponent>.Fail();
         }
 
         public Result<IComponent> RemoveComponent(IComponent component)
@@ -280,7 +271,6 @@ namespace EngineGL.Impl
             foreach (IComponent component in _attachedComponents.Values)
                 if (component is T)
                     return RemoveComponentUnsafe((T) component);
-
             return Result<T>.Fail();
         }
 
@@ -289,7 +279,6 @@ namespace EngineGL.Impl
             if (_attachedComponents.TryGetValue(hash, out IComponent component))
                 if (component is T)
                     return RemoveComponentUnsafe((T) component);
-
             return Result<T>.Fail();
         }
 
@@ -298,7 +287,6 @@ namespace EngineGL.Impl
             foreach (IComponent component in _attachedComponents.Values)
                 if (component.GetType().FullName == type.FullName)
                     return Result<IComponent>.Success(component);
-
             return Result<IComponent>.Fail();
         }
 
@@ -307,7 +295,6 @@ namespace EngineGL.Impl
             if (_attachedComponents.TryGetValue(hash, out IComponent component))
                 if (component.GetType().FullName == type.FullName)
                     return Result<IComponent>.Success(component);
-
             return Result<IComponent>.Fail();
         }
 
@@ -329,7 +316,6 @@ namespace EngineGL.Impl
             }
 
             base_data["components"] = array;
-
             return base_data;
         }
 

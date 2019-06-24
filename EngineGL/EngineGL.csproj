@@ -109,7 +109,6 @@
     <Compile Include="GraphicAdapter\Impl\OpenGL2\VertexHandler.cs" />
     <Compile Include="GraphicAdapter\Interface\IGraphicAdapter.cs" />
     <Compile Include="GraphicAdapter\Interface\IVertexHandler.cs" />
-    <Compile Include="Event\CancelableEvent.cs" />
     <Compile Include="Event\ComponentAttachable\AddComponentEventArgs.cs" />
     <Compile Include="Event\ComponentAttachable\ComponentAttachableEventArgs.cs" />
     <Compile Include="Event\ComponentAttachable\RemoveComponentEventArgs.cs" />

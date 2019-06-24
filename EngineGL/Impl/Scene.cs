@@ -101,33 +101,26 @@ namespace EngineGL.Impl
                 AddObjectEventArgs args = new AddObjectEventArgs(this, obj);
                 EventManager<AddObjectEventArgs> manager
                     = new EventManager<AddObjectEventArgs>(AddObjectEvent, this, args);
-                manager.OnSuccess = ev =>
-                {
-                    ev.AddObject.Scene = this;
-                    return _sceneObjects.TryAdd(ev.AddObject.InstanceGuid, ev.AddObject);
-                };
+                obj.Scene = this;
+                _sceneObjects.TryAdd(obj.InstanceGuid, obj);
 
-                if (manager.Call())
+                manager.Call();
+                args.AddObject.OnInitialze();
+                if (args.AddObject is IComponentAttachable componentAttachable)
                 {
-                    args.AddObject.OnInitialze();
-                    if (args.AddObject is IComponentAttachable componentAttachable)
+                    foreach (IComponent component in componentAttachable.GetComponents().Value)
                     {
-                        foreach (IComponent component in componentAttachable.GetComponents().Value)
+                        if (component is IDrawable drawable)
                         {
-                            if (component is IDrawable drawable)
-                            {
-                                _drawables.Add(component.InstanceGuid, drawable);
-                            }
+                            _drawables.Add(component.InstanceGuid, drawable);
                         }
                     }
-
-                    return Result<IObject>.Success(args.AddObject);
                 }
-                else
-                    return Result<IObject>.Fail();
-            }
 
-            return Result<IObject>.Fail();
+                return Result<IObject>.Success(args.AddObject);
+            }
+            else
+                return Result<IObject>.Fail();
         }
 
         public Result<T> AddObjectUnsafe<T>(T obj) where T : IObject
@@ -191,30 +184,26 @@ namespace EngineGL.Impl
                 RemoveObjectEventArgs args = new RemoveObjectEventArgs(this, obj);
                 EventManager<RemoveObjectEventArgs> manager
                     = new EventManager<RemoveObjectEventArgs>(RemoveObjectEvent, this, args);
-                manager.OnSuccess = ev => _sceneObjects.TryRemove(hash, out obj);
+                _sceneObjects.TryRemove(hash, out obj);
 
-                if (manager.Call())
+                manager.Call();
+                args.RemoveObject.OnDestroy();
+
+                if (args.RemoveObject is IComponentAttachable componentAttachable)
                 {
-                    args.RemoveObject.OnDestroy();
-
-                    if (args.RemoveObject is IComponentAttachable componentAttachable)
+                    foreach (IComponent component in componentAttachable.GetComponents().Value)
                     {
-                        foreach (IComponent component in componentAttachable.GetComponents().Value)
+                        if (component is IDrawable)
                         {
-                            if (component is IDrawable)
-                            {
-                                _drawables.Remove(component.InstanceGuid);
-                            }
+                            _drawables.Remove(component.InstanceGuid);
                         }
                     }
-
-                    return Result<IObject>.Success(args.RemoveObject);
                 }
-                else
-                    return Result<IObject>.Fail();
-            }
 
-            return Result<IObject>.Fail();
+                return Result<IObject>.Success(args.RemoveObject);
+            }
+            else
+                return Result<IObject>.Fail();
         }
 
         public Result<IObject> RemoveObject(IObject obj)
@@ -263,10 +252,8 @@ namespace EngineGL.Impl
         public void Save(string filePath)
         {
             string json = this.OnSerializeJson().ToString();
-
             if (!File.Exists(filePath))
                 File.Create(filePath).Close();
-
             File.WriteAllText(filePath, json);
         }
 
@@ -278,10 +265,8 @@ namespace EngineGL.Impl
         public async Task SaveAsync(string filePath)
         {
             string json = this.OnSerializeJson().ToString();
-
             if (!File.Exists(filePath))
                 File.Create(filePath).Close();
-
             File.WriteAllText(filePath, json);
         }
 
@@ -303,6 +288,7 @@ namespace EngineGL.Impl
         public JObject OnSerializeJson()
         {
             JObject cls = new JObject();
+
             JArray array = new JArray();
             foreach (IObject obj in _sceneObjects.Values)
             {
@@ -311,7 +297,6 @@ namespace EngineGL.Impl
 
             cls["sceneObjects"] = array;
             cls["name"] = new JValue(Name);
-
             return cls;
         }
 

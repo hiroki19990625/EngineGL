@@ -2,10 +2,9 @@ using EngineGL.Core;
 
 namespace EngineGL.Event.Game
 {
-    public class LoadSceneEventArgs : GameEventArgs, CancelableEvent
+    public class LoadSceneEventArgs : GameEventArgs
     {
-        public bool IsCanceled { get; set; }
-        public IScene LoadScene { get; set; }
+        public IScene LoadScene { get; }
 
         public LoadSceneEventArgs(IGame game, IScene scene) : base(game)
         {
