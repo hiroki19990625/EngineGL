@@ -42,42 +42,42 @@ namespace EngineGL.Utils
         }
 
         /// <summary>
-        /// Result‚ªSuccess‚Ìó‘Ô‚È‚ç‚ÎAˆø”‚Åó‚¯æ‚Á‚½ŠÖ”‚Évalue‚ğ“n‚µA•ÏŠ·‚µ‚½Result‚ğ•Ô‚µ‚Ü‚·
-        /// Result‚ªFail‚Ìó‘Ô‚È‚ç‚ÎA‚»‚Ì‚Ü‚ÜFail‚ÌResult‚ğ•Ô‚µ‚Ü‚·
+        /// ResultãŒSuccessã®çŠ¶æ…‹ãªã‚‰ã°ã€å¼•æ•°ã§å—ã‘å–ã£ãŸé–¢æ•°ã«valueã‚’æ¸¡ã—ã€å¤‰æ›ã—ãŸResultã‚’è¿”ã—ã¾ã™
+        /// ResultãŒFailã®çŠ¶æ…‹ãªã‚‰ã°ã€ãã®ã¾ã¾Failã®Resultã‚’è¿”ã—ã¾ã™
         /// </summary>
         /// <returns>
-        /// ˆø”f‚Å•ÏŠ·Œã‚ÌResult‚ğ•Ô‚µ‚Ü‚·
+        /// å¼•æ•°fã§å¤‰æ›å¾Œã®Resultã‚’è¿”ã—ã¾ã™
         /// </returns>
         public Result<R> Then<R>(Func<T, Result<R>> f)
             => IsSuccess ? f(_value) : Result<R>.Fail();
 
         /// <summary>
-        /// Result‚ªFail‚Ìó‘Ô‚È‚ç‚ÎAˆø”‚Åó‚¯æ‚Á‚½ŠÖ”‚ğŒÄ‚Ño‚µAŒÄ‚Ño‚µŒ‹‰Ê‚ÌResult‚ğ•Ô‚µ‚Ü‚·
-        /// Result‚ªSuccess‚Ìó‘Ô‚È‚ç‚ÎA‚»‚Ì‚Ü‚ÜSuccess‚ÌResult‚ğ•Ô‚µ‚Ü‚·
+        /// ResultãŒFailã®çŠ¶æ…‹ãªã‚‰ã°ã€å¼•æ•°ã§å—ã‘å–ã£ãŸé–¢æ•°ã‚’å‘¼ã³å‡ºã—ã€å‘¼ã³å‡ºã—çµæœã®Resultã‚’è¿”ã—ã¾ã™
+        /// ResultãŒSuccessã®çŠ¶æ…‹ãªã‚‰ã°ã€ãã®ã¾ã¾Successã®Resultã‚’è¿”ã—ã¾ã™
         /// </summary>
         /// <returns>
-        /// ˆø”f‚Å•ÏŠ·Œã‚ÌResult‚ğ•Ô‚µ‚Ü‚·
+        /// å¼•æ•°fã§å¤‰æ›å¾Œã®Resultã‚’è¿”ã—ã¾ã™
         /// </returns>
         public Result<T> Catch<R>(Func<Result<T>> f)
             => IsSuccess ? this : f();
 
         /// <summary>
-        /// Result‚ğ•ÏŠ·‚µ‚Ü‚·
-        /// Result‚ªSuccess‚Ìó‘Ô‚È‚ç‚ÎAsuccessFunc‚Å•ÏŠ·‚µ‚Ü‚·
-        /// Result‚ªFail‚Ìó‘Ô‚È‚ç‚ÎAfailFunc‚Å•ÏŠ·‚µ‚Ü‚·
+        /// Resultã‚’å¤‰æ›ã—ã¾ã™
+        /// ResultãŒSuccessã®çŠ¶æ…‹ãªã‚‰ã°ã€successFuncã§å¤‰æ›ã—ã¾ã™
+        /// ResultãŒFailã®çŠ¶æ…‹ãªã‚‰ã°ã€failFuncã§å¤‰æ›ã—ã¾ã™
         /// </summary>
         /// <returns>
-        /// •ÏŠ·‚µ‚½’l‚ğ•Ô‚µ‚Ü‚·
+        /// å¤‰æ›ã—ãŸå€¤ã‚’è¿”ã—ã¾ã™
         /// </returns>
         public R Match<R>(Func<T, R> successFunc, Func<R> failFunc)
             => IsSuccess ? successFunc(_value) : failFunc();
 
         /// <summary>
-        /// Result‚ªSuccess‚Ìó‘Ô‚È‚ç‚ÎA“à•”‚Ìvalue‚ğ•Ô‚µ
-        /// Result‚ªFail‚Ìó‘Ô‚È‚ç‚ÎAˆø”‚Åó‚¯æ‚Á‚½’l‚ğ‚»‚Ì‚Ü‚Ü•Ô‚µ‚Ü‚·
+        /// ResultãŒSuccessã®çŠ¶æ…‹ãªã‚‰ã°ã€å†…éƒ¨ã®valueã‚’è¿”ã—
+        /// ResultãŒFailã®çŠ¶æ…‹ãªã‚‰ã°ã€å¼•æ•°ã§å—ã‘å–ã£ãŸå€¤ã‚’ãã®ã¾ã¾è¿”ã—ã¾ã™
         /// </summary>
         /// <returns>
-        /// “à•”‚Ìvalue‚à‚µ‚­‚Íˆø”‚Åó‚¯æ‚Á‚½’l
+        /// å†…éƒ¨ã®valueã‚‚ã—ãã¯å¼•æ•°ã§å—ã‘å–ã£ãŸå€¤
         /// </returns>
         public T Or(T t)
             => IsSuccess ? _value : t;

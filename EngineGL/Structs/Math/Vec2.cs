@@ -2,11 +2,14 @@ using System;
 using System.Drawing;
 using System.Runtime.CompilerServices;
 using Assimp;
-using OpenTK;
 using Newtonsoft.Json;
+using OpenTK;
 
 namespace EngineGL.Structs.Math
 {
+    /// <summary>
+    /// 2つの <see cref="float"/> を持つベクトルを表します。
+    /// </summary>
     [Serializable]
     public struct Vec2 : IEquatable<Vec2>
     {

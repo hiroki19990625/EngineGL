@@ -2,6 +2,9 @@
 
 namespace EngineGL.Utils
 {
+    /// <summary>
+    /// マルチプラットフォームなダイアログをを提供します。
+    /// </summary>
     public static class Dialog
     {
         public static DialogResult Show(string msg)

@@ -1,7 +1,7 @@
 namespace EngineGL.Core.Components
 {
     /// <summary>
-    /// ゲームオブジェクト同士の当たり判定を実装します。
+    /// ゲームオブジェクト同士の当たり判定の通知を実装します。
     /// </summary>
     public interface ICollider : IComponent
     {

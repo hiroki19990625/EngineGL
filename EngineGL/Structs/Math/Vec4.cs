@@ -5,6 +5,10 @@ using OpenTK;
 
 namespace EngineGL.Structs.Math
 {
+    /// <summary>
+    /// 4つの <see cref="float"/> を持つベクトルを表します。
+    /// </summary>
+    [Serializable]
     public struct Vec4 : IEquatable<Vec4>
     {
         public float X { get; set; }
@@ -112,7 +116,7 @@ namespace EngineGL.Structs.Math
 
         public override string ToString()
         {
-            return $"EngineGL.Structs.Math.Vec3: <X: {X}, Y: {Y}, Z: {Z}>";
+            return $"EngineGL.Structs.Math.Vec4: <X: {X}, Y: {Y}, Z: {Z}, W: {W}>";
         }
 
         public static Vec4 operator +(Vec4 a, Vec4 b)
