@@ -96,6 +96,7 @@
     <Compile Include="Core\INameable.cs" />
     <Compile Include="Core\IObject.cs" />
     <Compile Include="Core\IScene.cs" />
+    <Compile Include="Core\LifeCycle\IClickable.cs" />
     <Compile Include="Core\LifeCycle\IDestroyable.cs" />
     <Compile Include="Core\LifeCycle\IDrawable.cs" />
     <Compile Include="Core\LifeCycle\IGuiRenderable.cs" />

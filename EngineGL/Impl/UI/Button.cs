@@ -1,7 +1,6 @@
 using System.Drawing;
 using EngineGL.GraphicAdapter;
 using EngineGL.GraphicAdapter.Interface;
-using EngineGL.Structs.Drawing;
 using EngineGL.Impl.DrawableComponents;
 using EngineGL.Structs.Math;
 
@@ -32,8 +31,9 @@ namespace EngineGL.Impl.UI
             });
         }
 
-        public void OnClick()
+        public override void OnClick()
         {
+            
         }
     }
 }
