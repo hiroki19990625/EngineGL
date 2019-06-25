@@ -5,7 +5,8 @@ jobs:
       - image: mono
 
     steps:
-      - apt:
+      - run:
+          name: Apt Install
           command: apt-get install libglu1-mesa-dev mesa-common-dev freeglut3-dev
 
       - checkout
