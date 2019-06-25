@@ -19,9 +19,9 @@ namespace EngineGL.GraphicAdapter.Impl.OpenGL2
         public Action<double, IVertexHandler> VertexWriteFunc { set; private get; }
         public Action<double, IPreprocessVertexHandler> PreprocessVertexFunc { set; private get; }
 
-        public GraphicAdapter(PrimitiveType primitiveType, int groupCount)
+        public GraphicAdapter(PrimitiveType primitiveType)
         {
-            _vertexHandler = new VertexHandler(primitiveType, groupCount);
+            _vertexHandler = new VertexHandler(primitiveType);
         }
 
         public void Draw(double deltaTime)

@@ -5,6 +5,7 @@ using System.Linq;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using EngineGL.GraphicAdapter.Interface;
+using System;
 
 namespace EngineGL.GraphicAdapter.Impl.OpenGL2
 {
@@ -13,34 +14,56 @@ namespace EngineGL.GraphicAdapter.Impl.OpenGL2
     /// </summary>
     class VertexHandler : IVertexHandler
     {
-        private static int Vector2Size = System.Runtime.InteropServices.Marshal.SizeOf(default(Vector2));
-        private static int Vector3Size = System.Runtime.InteropServices.Marshal.SizeOf(default(Vector3));
         private int _vbo = 0;
         private int _idxbo = 0;
         private int _uvbo = 0;
         private int _vertexCount = 0;
         private int _idxCount = 0;
-        private int _groupCount;
+        private int _dimension = 3;
         private PrimitiveType _primitiveType;
 
-        public VertexHandler(PrimitiveType primitiveType, int groupCount)
+        public VertexHandler(PrimitiveType primitiveType)
         {
             _primitiveType = primitiveType;
-            _groupCount = groupCount;
         }
 
         public void Draw()
         {
             //インデックスバッファーのバインド
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, _idxbo);
+            if(_idxbo!=0)
+                GL.BindBuffer(BufferTarget.ElementArrayBuffer, _idxbo);
+
+            ErrorCode errorCode = GL.GetError();
+            if (errorCode != ErrorCode.NoError)
+                throw new Exception("OpenGL:" + Enum.GetName(typeof(ErrorCode), errorCode));
+
             //頂点データバッファーのバインド
-            GL.BindBuffer(BufferTarget.ArrayBuffer, _vbo);
-            //vertexの設定
-            GL.VertexPointer(_groupCount, VertexPointerType.Float, 0, 0);
-            //uvバッファーのバインド
-            GL.BindBuffer(BufferTarget.ArrayBuffer, _uvbo);
-            //uvの設定
-            GL.TexCoordPointer(2, TexCoordPointerType.Float, 0, 0);
+            if (_vbo != 0)
+            {
+                GL.BindBuffer(BufferTarget.ArrayBuffer, _vbo);
+                errorCode = GL.GetError();
+                if (errorCode != ErrorCode.NoError)
+                    throw new Exception("OpenGL:" + Enum.GetName(typeof(ErrorCode), errorCode));
+
+                //vertexの設定
+               GL.VertexPointer(_dimension, VertexPointerType.Float, 0, 0);
+            }
+
+             errorCode = GL.GetError();
+            if (errorCode != ErrorCode.NoError)
+                throw new Exception("OpenGL:" + Enum.GetName(typeof(ErrorCode), errorCode));
+
+            if (_uvbo!=0)
+            {
+                //uvバッファーのバインド
+                GL.BindBuffer(BufferTarget.ArrayBuffer, _uvbo);
+                //uvの設定
+                GL.TexCoordPointer(2, TexCoordPointerType.Float, 0, 0);
+            }
+
+             errorCode = GL.GetError();
+            if (errorCode != ErrorCode.NoError)
+                throw new Exception("OpenGL:" + Enum.GetName(typeof(ErrorCode), errorCode));
 
             //設定の有効化
             if (_vbo != 0) GL.EnableClientState(ArrayCap.VertexArray);
@@ -87,6 +110,7 @@ namespace EngineGL.GraphicAdapter.Impl.OpenGL2
 
         public void SetVertces3(IEnumerable<Vec3> vecs)
         {
+            _dimension = 3;
             Vector3[] vecArray = vecs.Select<Vec3, Vector3>(x => x).ToArray();
 
             //頂点データバッファー生成
@@ -95,13 +119,14 @@ namespace EngineGL.GraphicAdapter.Impl.OpenGL2
 
             //頂点データバッファー設定
             GL.BindBuffer(BufferTarget.ArrayBuffer, _vbo);
-            GL.BufferData(BufferTarget.ArrayBuffer, Vector3Size * vecArray.Length, vecArray, BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ArrayBuffer, Vector3.SizeInBytes * vecArray.Length, vecArray, BufferUsageHint.StaticDraw);
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
             _vertexCount = vecArray.Length;
         }
 
         public void SetVertces2(IEnumerable<Vec2> vecs)
         {
+            _dimension = 2;
             Vector2[] vecArray = vecs.Select<Vec2, Vector2>(x => x).ToArray();
 
             //頂点データバッファー生成
@@ -111,7 +136,7 @@ namespace EngineGL.GraphicAdapter.Impl.OpenGL2
 
             //頂点データバッファー設定
             GL.BindBuffer(BufferTarget.ArrayBuffer, _vbo);
-            GL.BufferData(BufferTarget.ArrayBuffer, Vector2Size * vecArray.Length, vecArray, BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ArrayBuffer, Vector2.SizeInBytes * vecArray.Length, vecArray, BufferUsageHint.StaticDraw);
             _vertexCount = vecArray.Length;
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
         }
@@ -126,7 +151,7 @@ namespace EngineGL.GraphicAdapter.Impl.OpenGL2
 
             //UVバッファー設定
             GL.BindBuffer(BufferTarget.ArrayBuffer, _uvbo);
-            GL.BufferData(BufferTarget.ArrayBuffer, Vector2Size * vecArray.Length, vecArray, BufferUsageHint.DynamicDraw);
+            GL.BufferData(BufferTarget.ArrayBuffer, Vector2.SizeInBytes * vecArray.Length, vecArray, BufferUsageHint.DynamicDraw);
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 
         }
