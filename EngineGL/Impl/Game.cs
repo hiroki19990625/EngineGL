@@ -151,6 +151,7 @@ namespace EngineGL.Impl
             }
             catch (Exception exception)
             {
+                Dialog.Show(exception.Message+" :"+exception.StackTrace);
                 Logger.Error(exception);
                 Exit(exception);
             }
