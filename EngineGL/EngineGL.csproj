@@ -103,6 +103,7 @@
     <Compile Include="Core\LifeCycle\IUpdateable.cs" />
     <Compile Include="Core\Resource\IAudio.cs" />
     <Compile Include="Core\Resource\ITexture.cs" />
+    <Compile Include="Event\LifeCycle\ClickEventArgs.cs" />
     <Compile Include="GraphicAdapter\GraphicAdapterFactory.cs" />
     <Compile Include="GraphicAdapter\Impl\OpenGL2\GraphicAdapter.cs" />
     <Compile Include="GraphicAdapter\Impl\OpenGL2\PreprocessVertexHandler.cs" />

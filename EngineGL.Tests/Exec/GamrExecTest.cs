@@ -10,6 +10,8 @@ using EngineGL.Impl.DrawableComponents.Shape2D;
 using EngineGL.Impl.DrawableComponents.Shape3D;
 using EngineGL.Impl.Objects;
 using EngineGL.Impl.Resource;
+using EngineGL.Impl.UI;
+using EngineGL.Structs.Drawing;
 using EngineGL.Structs.Math;
 using EngineGL.Tests.Exec.TestComponents;
 using EngineGL.Utils;
@@ -173,6 +175,15 @@ namespace EngineGL.Tests.Exec
                 Text = "Hello"
             });
             scene.AddObject(g8);
+
+            GameObject g9 = new GameObject();
+            g9.SetBounds(new Vec3(5, 5, 0))
+                .SetPosition(new Vec3(-3, -2, 0));
+            g9.AddComponent(new Button()
+            {
+                Colour = Color4.Red
+            });
+            scene.AddObject(g9);
 
             IAudio audio = ResourceManager.LoadWave("Sounds/Mixdown2.wav");
             audio.SetLoop(true);
