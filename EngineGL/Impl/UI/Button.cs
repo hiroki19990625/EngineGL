@@ -1,12 +1,16 @@
+using System;
 using System.Drawing;
+using EngineGL.Core.LifeCycle;
+using EngineGL.Event.LifeCycle;
 using EngineGL.GraphicAdapter;
 using EngineGL.GraphicAdapter.Interface;
 using EngineGL.Impl.DrawableComponents;
+using EngineGL.Structs.Drawing;
 using EngineGL.Structs.Math;
 
 namespace EngineGL.Impl.UI
 {
-    public class Button : DrawableComponent
+    public class Button : DrawableComponent, IClickable
     {
         public string Text { get; set; }
         public Font Font { get; set; }
@@ -14,6 +18,7 @@ namespace EngineGL.Impl.UI
         public Color FontColor { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
+        public event EventHandler<ClickEventArgs> Click;
 
         public Button() : base(GraphicAdapterFactory.OpenGL2.CreateQuads())
         {
@@ -31,9 +36,9 @@ namespace EngineGL.Impl.UI
             });
         }
 
-        public override void OnClick()
+        public void OnClick()
         {
-            
+            Colour = Color.Blue;
         }
     }
 }

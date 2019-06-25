@@ -6,7 +6,7 @@ namespace EngineGL.Core.LifeCycle
 {
     public interface IClickable
     {
-        event EventHandler<ClickEventArgs> Draw;
+        event EventHandler<ClickEventArgs> Click;
 
         /// <summary>
         /// オブジェクトを描画するメソッド
