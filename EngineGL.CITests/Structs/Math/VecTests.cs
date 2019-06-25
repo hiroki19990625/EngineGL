@@ -1,7 +1,7 @@
 ﻿using EngineGL.Structs.Math;
 using NUnit.Framework;
 
-namespace EngineGL.Tests.Structs.Math
+namespace EngineGL.CITests.Structs.Math
 {
     [TestFixture]
     public class VecTests

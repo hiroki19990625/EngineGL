@@ -4,7 +4,7 @@ using EngineGL.Serializations;
 using MessagePack;
 using NUnit.Framework;
 
-namespace EngineGL.Tests.FormatMessage
+namespace EngineGL.CITests.FormatMessage
 {
     [TestFixture]
     public class MessageTests
