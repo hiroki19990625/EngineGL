@@ -1,9 +1,8 @@
-﻿using System;
-using EngineGL.Impl;
+﻿using EngineGL.Impl;
 using EngineGL.Structs.Math;
 using NUnit.Framework;
 
-namespace EngineGL.Tests.Impl.Componets
+namespace EngineGL.CITests.Impl.Componets
 {
     [TestFixture]
     public class TransformTest

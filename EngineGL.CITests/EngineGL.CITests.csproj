@@ -71,7 +71,6 @@
   <ItemGroup>
     <Compile Include="FormatMessage\MessageTests.cs" />
     <Compile Include="Impl\Componets\TransformTest.cs" />
-    <Compile Include="Impl\GameTests.cs" />
     <Compile Include="Performance\ScenePerformance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Structs\Drawing\ColourTests.cs" />

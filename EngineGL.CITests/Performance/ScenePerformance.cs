@@ -4,7 +4,7 @@ using EngineGL.Impl;
 using EngineGL.Impl.DrawableComponents.Shape3D;
 using NUnit.Framework;
 
-namespace EngineGL.Tests.Performance
+namespace EngineGL.CITests.Performance
 {
     [TestFixture]
     public class ScenePerformance

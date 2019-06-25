@@ -1,8 +1,7 @@
-﻿using EngineGL.Structs.Math;
-using EngineGL.Utils;
+﻿using EngineGL.Utils;
 using NUnit.Framework;
 
-namespace EngineGL.Tests.Utils
+namespace EngineGL.CITests.Utils
 {
     [TestFixture]
     class ResultTests

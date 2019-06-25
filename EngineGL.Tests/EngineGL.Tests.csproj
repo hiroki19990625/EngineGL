@@ -79,6 +79,7 @@
     <Compile Include="Exec\TestComponents\ExceptionComponent.cs" />
     <Compile Include="Exec\TestComponents\PlayerComponent.cs" />
     <Compile Include="Exec\TestComponents\RotateComponent.cs" />
+    <Compile Include="Impl\GameTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
