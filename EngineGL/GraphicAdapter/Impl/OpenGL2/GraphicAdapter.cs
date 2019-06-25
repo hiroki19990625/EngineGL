@@ -36,6 +36,9 @@ namespace EngineGL.GraphicAdapter.Impl.OpenGL2
             PreprocessVertexFunc(deltaTime, _preprocessVertexHandler);
             _vertexHandler.Draw();
             GL.PopMatrix();
+            ErrorCode errorCode = GL.GetError();
+            if (errorCode!= ErrorCode.NoError)
+                throw new Exception("OpenGL:"+ Enum.GetName(typeof(ErrorCode), errorCode));
         }
     }
 }
