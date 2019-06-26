@@ -1,9 +1,8 @@
-using System;
 using EngineGL.Structs.Math;
 using EngineGL.Structs.Secure;
 using NUnit.Framework;
 
-namespace EngineGL.Tests.Structs.Secure
+namespace EngineGL.CITests.Structs.Secure
 {
     [TestFixture]
     public class SecureTests

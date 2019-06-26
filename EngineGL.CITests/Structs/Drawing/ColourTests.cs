@@ -1,9 +1,7 @@
-using System;
 using EngineGL.Structs.Drawing;
-using EngineGL.Structs.Math;
 using NUnit.Framework;
 
-namespace EngineGL.Tests.Structs.Drawing
+namespace EngineGL.CITests.Structs.Drawing
 {
     public class ColourTests
     {
