@@ -12,7 +12,7 @@ namespace EngineGL.GraphicAdapter.Impl.OpenGL2
     /// <summary>
     /// OpenGL2によるIVertexHandlerの実装
     /// </summary>
-    class VertexHandler : IVertexHandler
+    class VertexHandler : IVertexHandler,IDisposable
     {
         private int _vbo = 0;
         private int _idxbo = 0;
@@ -139,6 +139,20 @@ namespace EngineGL.GraphicAdapter.Impl.OpenGL2
             GL.BufferData(BufferTarget.ArrayBuffer, Vector2.SizeInBytes * vecArray.Length, vecArray, BufferUsageHint.DynamicDraw);
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 
+        }
+
+        /// <summary>
+        /// 終了処理です。
+        /// 主に、bufferの解放処理を行います
+        /// </summary>
+        public void Dispose()
+        {
+            if (_vbo != 0)
+                GL.DeleteBuffer(_vbo);
+            if (_idxbo != 0)
+                GL.DeleteBuffer(_idxbo);
+            if (_uvbo != 0)
+                GL.DeleteBuffer(_uvbo);
         }
     }
 }

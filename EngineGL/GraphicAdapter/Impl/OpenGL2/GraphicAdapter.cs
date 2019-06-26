@@ -39,5 +39,10 @@ namespace EngineGL.GraphicAdapter.Impl.OpenGL2
             if (errorCode!= ErrorCode.NoError)
                 throw new Exception("OpenGL:"+ Enum.GetName(typeof(ErrorCode), errorCode));
         }
+
+        public void Dispose()
+        {
+            _vertexHandler.Dispose();
+        }
     }
 }

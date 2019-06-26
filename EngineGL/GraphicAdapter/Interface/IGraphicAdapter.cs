@@ -5,7 +5,7 @@ namespace EngineGL.GraphicAdapter.Interface
     /// <summary>
     /// 各種描画系ライブラリと依存を分離するためのアダプタークラス
     /// </summary>
-    public interface IGraphicAdapter
+    public interface IGraphicAdapter : IDisposable
     {
 
         /// <summary>

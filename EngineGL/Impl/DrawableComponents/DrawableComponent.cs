@@ -1,7 +1,6 @@
 using System;
 using EngineGL.Core.Components;
 using EngineGL.Event.LifeCycle;
-using EngineGL.GraphicAdapter;
 using EngineGL.GraphicAdapter.Interface;
 using EngineGL.Impl.Components;
 using EngineGL.Structs.Drawing;
@@ -65,6 +64,12 @@ namespace EngineGL.Impl.DrawableComponents
         protected void CallDrawEvent(double deltaTime)
         {
             Draw?.Invoke(this, new DrawEventArgs(this, deltaTime));
+        }
+
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            _graphicAdapter.Dispose();
         }
     }
 }
