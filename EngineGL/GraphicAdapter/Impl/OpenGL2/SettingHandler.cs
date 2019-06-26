@@ -6,7 +6,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace EngineGL.GraphicAdapter.Impl.OpenGL2
 {
-    class PreprocessVertexHandler : IPreprocessVertexHandler
+    class SettingHandler : ISettingHandler
     {
         public void Euler(Vec3 angles)
         {

@@ -8,11 +8,11 @@ namespace EngineGL.Impl.DrawableComponents.Shape2D
         public byte Factor { get; set; }
         public ushort Pattern { get; set; }
 
-        public override void OnPreprocessVertex(double deltaTime, IPreprocessVertexHandler preprocessVertexHandler)
+        public override void OnGraphicSetting(double deltaTime, ISettingHandler settingHandler)
         {
-            base.OnPreprocessVertex(deltaTime, preprocessVertexHandler);
+            base.OnGraphicSetting(deltaTime, settingHandler);
 
-            preprocessVertexHandler.SetLineWidth(LineWidth);
+            settingHandler.SetLineWidth(LineWidth);
             GL.LineStipple(Factor, Pattern);
             GL.Enable(EnableCap.LineStipple);
         }

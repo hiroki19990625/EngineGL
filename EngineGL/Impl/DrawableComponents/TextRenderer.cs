@@ -58,9 +58,9 @@ namespace EngineGL.Impl.DrawableComponents
             GL.DeleteTexture(_texture);
         }
 
-        public override void OnPreprocessVertex(double deltaTime, IPreprocessVertexHandler preprocessVertexHandler)
+        public override void OnGraphicSetting(double deltaTime, ISettingHandler settingHandler)
         {
-            base.OnPreprocessVertex(deltaTime, preprocessVertexHandler);
+            base.OnGraphicSetting(deltaTime, settingHandler);
             GL.BindTexture(TextureTarget.Texture2D, _texture);
         }
 

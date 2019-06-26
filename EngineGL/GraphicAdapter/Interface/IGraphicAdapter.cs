@@ -16,7 +16,7 @@ namespace EngineGL.GraphicAdapter.Interface
         /// <summary>
         /// 頂点書き込み前処理をする関数
         /// </summary>
-        Action<double, IPreprocessVertexHandler> PreprocessVertexFunc { set; }
+        Action<double, ISettingHandler> SettingFunc { set; }
 
         /// <summary>
         /// 描画処理を実行する関数

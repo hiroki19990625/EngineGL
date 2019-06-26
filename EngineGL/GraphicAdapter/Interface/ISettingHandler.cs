@@ -4,7 +4,7 @@ using EngineGL.Structs.Math;
 
 namespace EngineGL.GraphicAdapter.Interface
 {
-    public interface IPreprocessVertexHandler
+    public interface ISettingHandler
     {
         /// <summary>
         /// 行列に加算して平行移動する

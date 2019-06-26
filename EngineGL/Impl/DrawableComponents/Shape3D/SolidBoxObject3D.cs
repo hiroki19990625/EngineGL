@@ -10,9 +10,9 @@ namespace EngineGL.Impl.DrawableComponents.Shape3D
         {
         }
 
-        public override void OnPreprocessVertex(double deltaTime, IPreprocessVertexHandler preprocessVertexHandler)
+        public override void OnGraphicSetting(double deltaTime, ISettingHandler settingHandler)
         {
-            base.OnPreprocessVertex(deltaTime, preprocessVertexHandler);
+            base.OnGraphicSetting(deltaTime, settingHandler);
         }
 
         public override void OnVertexWrite(double deltaTime, IVertexHandler vertexHandler)

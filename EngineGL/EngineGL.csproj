@@ -105,7 +105,7 @@
     <Compile Include="Core\Resource\ITexture.cs" />
     <Compile Include="GraphicAdapter\GraphicAdapterFactory.cs" />
     <Compile Include="GraphicAdapter\Impl\OpenGL2\GraphicAdapter.cs" />
-    <Compile Include="GraphicAdapter\Impl\OpenGL2\PreprocessVertexHandler.cs" />
+    <Compile Include="GraphicAdapter\Impl\OpenGL2\SettingHandler.cs" />
     <Compile Include="GraphicAdapter\Impl\OpenGL2\VertexHandler.cs" />
     <Compile Include="GraphicAdapter\Interface\IGraphicAdapter.cs" />
     <Compile Include="GraphicAdapter\Interface\IVertexHandler.cs" />
@@ -126,7 +126,7 @@
     <Compile Include="Event\Scene\AddObjectEventArgs.cs" />
     <Compile Include="Event\Scene\RemoveObjectEventArgs.cs" />
     <Compile Include="Event\Scene\SceneEventArgs.cs" />
-    <Compile Include="GraphicAdapter\Interface\IPreprocessVertexHandler.cs" />
+    <Compile Include="GraphicAdapter\Interface\ISettingHandler.cs" />
     <Compile Include="Impl\Components\Component.cs" />
     <Compile Include="Impl\DrawableComponents\DrawableComponent.cs" />
     <Compile Include="Impl\DrawableComponents\Shape3D\SolidPolygonObject3D.cs" />
