@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using EngineGL.Editor.Core.Control.Window;
+using EngineGL.Editor.Impl.Controls.Dialog;
 using Microsoft.Build.Construction;
 using Microsoft.Build.Definition;
 using Microsoft.Build.Evaluation;
@@ -214,7 +215,7 @@ namespace EngineGL.Editor.Impl.Controls.Window
             this.toolStripButton1.Image = global::EngineGL.Editor.Properties.Resources.Refresh;
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(24, 24);
+            this.toolStripButton1.Size = new System.Drawing.Size(29, 24);
             this.toolStripButton1.Text = "toolStripButton1";
             this.toolStripButton1.ToolTipText = "Tree Update";
             this.toolStripButton1.Click += new System.EventHandler(this.ToolStripButton1_Click);
@@ -225,7 +226,7 @@ namespace EngineGL.Editor.Impl.Controls.Window
             this.toolStripButton2.Image = global::EngineGL.Editor.Properties.Resources.ExpandAll;
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(24, 24);
+            this.toolStripButton2.Size = new System.Drawing.Size(29, 24);
             this.toolStripButton2.Text = "toolStripButton2";
             this.toolStripButton2.ToolTipText = "Expand All";
             this.toolStripButton2.Click += new System.EventHandler(this.ToolStripButton2_Click);
@@ -241,8 +242,9 @@ namespace EngineGL.Editor.Impl.Controls.Window
             this.toolStripButton3.Image = global::EngineGL.Editor.Properties.Resources.NewSolutionFolder;
             this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(24, 24);
+            this.toolStripButton3.Size = new System.Drawing.Size(29, 24);
             this.toolStripButton3.Text = "toolStripButton3";
+            this.toolStripButton3.Click += new System.EventHandler(this.ToolStripButton3_Click);
             // 
             // toolStripSeparator2
             // 
@@ -255,8 +257,9 @@ namespace EngineGL.Editor.Impl.Controls.Window
             this.toolStripButton4.Image = global::EngineGL.Editor.Properties.Resources.NewItem;
             this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(24, 24);
+            this.toolStripButton4.Size = new System.Drawing.Size(29, 24);
             this.toolStripButton4.Text = "toolStripButton4";
+            this.toolStripButton4.Click += new System.EventHandler(this.ToolStripButton4_Click);
             // 
             // toolStripButton5
             // 
@@ -264,8 +267,9 @@ namespace EngineGL.Editor.Impl.Controls.Window
             this.toolStripButton5.Image = global::EngineGL.Editor.Properties.Resources.AddItem;
             this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(24, 24);
+            this.toolStripButton5.Size = new System.Drawing.Size(29, 24);
             this.toolStripButton5.Text = "toolStripButton5";
+            this.toolStripButton5.Click += new System.EventHandler(this.ToolStripButton5_Click);
             // 
             // treeView1
             // 
@@ -333,6 +337,30 @@ namespace EngineGL.Editor.Impl.Controls.Window
             {
                 FileOpenWindowList[ext].Invoke(filePath);
             }
+        }
+
+        private void ToolStripButton3_Click(object sender, EventArgs e)
+        {
+            TreeNode node = treeView1.SelectedNode;
+            if (node.ImageIndex == PROJECT || node.ImageIndex == FOLDER || node.ImageIndex == FOLDER_OPEN)
+            {
+                string path = _filePath.Replace('\\' + Path.GetFileName(_filePath) ?? string.Empty, "");
+                string replace = node.FullPath?.Replace(Path.GetFileName(_filePath) ?? string.Empty, "");
+                string target = path + replace;
+                if (Directory.Exists(target))
+                {
+                    StringDialog dialog = new StringDialog();
+                    dialog.ShowDialog();
+                }
+            }
+        }
+
+        private void ToolStripButton4_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void ToolStripButton5_Click(object sender, EventArgs e)
+        {
         }
     }
 }

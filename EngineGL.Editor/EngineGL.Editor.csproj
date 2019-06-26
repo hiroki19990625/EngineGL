@@ -135,7 +135,16 @@
     <Compile Include="Core\Control\Window\IMainWindow.cs" />
     <Compile Include="Core\Control\Window\IWindow.cs" />
     <Compile Include="Impl\CodeBuilder\CSharpCodeDomBuilder.cs" />
+    <Compile Include="Impl\Controls\Dialog\StringDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Impl\Controls\Dialog\StringDialog.Designer.cs">
+      <DependentUpon>StringDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Impl\Controls\Window\CodeParseTreeContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Impl\Controls\Window\GamePreviewContent.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Impl\Controls\Window\MainWindow.cs">
@@ -153,6 +162,9 @@
     <Compile Include="Impl\TreeWalker\CSharpCodeWalker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Impl\Controls\Dialog\StringDialog.resx">
+      <DependentUpon>StringDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Impl\Controls\Window\CodeParseTreeContent.resx">
       <DependentUpon>CodeParseTreeContent.cs</DependentUpon>
     </EmbeddedResource>
