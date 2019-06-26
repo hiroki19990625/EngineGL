@@ -31,7 +31,6 @@ namespace EngineGL.GraphicAdapter.Impl.OpenGL2
                 VertexWriteFunc(deltaTime, _vertexHandler);
                 vertexFlag = false;
             }
-            GL.MatrixMode(MatrixMode.Modelview);
             GL.PushMatrix();
             PreprocessVertexFunc(deltaTime, _preprocessVertexHandler);
             _vertexHandler.Draw();

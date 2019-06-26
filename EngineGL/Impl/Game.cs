@@ -124,6 +124,7 @@ namespace EngineGL.Impl
                     1.0f,
                     64.0f);
             GL.LoadMatrix(ref projection);
+            GL.MatrixMode(MatrixMode.Modelview);
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e)

@@ -18,7 +18,6 @@ namespace EngineGL.Impl.Objects
 
             Matrix4 mat = LookAtMatrix * pos * rotX * rotY * rotZ * scale;
 
-            GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref mat);
         }
 
