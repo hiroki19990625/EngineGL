@@ -8,7 +8,7 @@ namespace EngineGL.Impl.DrawableComponents.Shape2D
     {
         public float PointSize { get; set; } = 1;
 
-        public PointsObject2D() : base(GraphicAdapterFactory.OpenGL2.CreatePoints())
+        public PointsObject2D() : base(GraphicAdapterFactory.CreatePoints())
         {
         }
 

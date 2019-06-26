@@ -11,7 +11,7 @@ namespace EngineGL.Impl.DrawableComponents
         public ITexture Texture { get; set; }
         public bool AutoDispose { get; set; }
 
-        public RawTexture2D() : base(GraphicAdapterFactory.OpenGL2.CreateQuads())
+        public RawTexture2D() : base(GraphicAdapterFactory.CreateQuads())
         {
         }
 

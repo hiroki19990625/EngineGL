@@ -30,7 +30,7 @@ namespace EngineGL.Impl.DrawableComponents
             set => SetText(value);
         }
 
-        public TextRenderer() : base(GraphicAdapterFactory.OpenGL2.CreateTriangles())
+        public TextRenderer() : base(GraphicAdapterFactory.CreateTriangles())
         {
         }
 

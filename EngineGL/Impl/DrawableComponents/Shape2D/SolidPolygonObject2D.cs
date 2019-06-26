@@ -10,7 +10,7 @@ namespace EngineGL.Impl.DrawableComponents.Shape2D
     {
         public List<Vec3> Points { get; } = new List<Vec3>();
 
-        public SolidPolygonObject2D() : base(GraphicAdapterFactory.OpenGL2.CreatePolygon())
+        public SolidPolygonObject2D() : base(GraphicAdapterFactory.CreatePolygon())
         {
         }
 

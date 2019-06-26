@@ -8,7 +8,7 @@ namespace EngineGL.Impl.DrawableComponents.Shape2D
     {
         public float LineWidth { get; set; } = 1;
 
-        public LineObject2D() : base(GraphicAdapterFactory.OpenGL2.CreateLines())
+        public LineObject2D() : base(GraphicAdapterFactory.CreateLines())
         {
         }
 
