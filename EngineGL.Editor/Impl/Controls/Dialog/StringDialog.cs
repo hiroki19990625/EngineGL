@@ -12,9 +12,32 @@ namespace EngineGL.Editor.Impl.Controls.Dialog
 {
     public partial class StringDialog : Form
     {
-        public StringDialog()
+        private Func<string, bool> _func;
+        private bool _result;
+
+        public string ResultString { get; private set; }
+
+        public StringDialog(Func<string, bool> func)
         {
+            _func = func;
             InitializeComponent();
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            _result = _func(textBox1.Text);
+            if (_result)
+            {
+                ResultString = textBox1.Text;
+                DialogResult = DialogResult.OK;
+                Close();
+            }
+        }
+
+        private void StringDialog_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (!_result)
+                DialogResult = DialogResult.Cancel;
         }
     }
 }

@@ -349,7 +349,7 @@ namespace EngineGL.Editor.Impl.Controls.Window
                 string target = path + replace;
                 if (Directory.Exists(target))
                 {
-                    StringDialog dialog = new StringDialog();
+                    StringDialog dialog = new StringDialog((text) => !string.IsNullOrEmpty(text));
                     dialog.ShowDialog();
                 }
             }
