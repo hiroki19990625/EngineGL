@@ -33,25 +33,14 @@ namespace EngineGL.GraphicAdapter.Impl.OpenGL2
             if(_idxbo!=0)
                 GL.BindBuffer(BufferTarget.ElementArrayBuffer, _idxbo);
 
-            ErrorCode errorCode = GL.GetError();
-            if (errorCode != ErrorCode.NoError)
-                throw new Exception("OpenGL:" + Enum.GetName(typeof(ErrorCode), errorCode));
-
             //頂点データバッファーのバインド
             if (_vbo != 0)
             {
                 GL.BindBuffer(BufferTarget.ArrayBuffer, _vbo);
-                errorCode = GL.GetError();
-                if (errorCode != ErrorCode.NoError)
-                    throw new Exception("OpenGL:" + Enum.GetName(typeof(ErrorCode), errorCode));
 
                 //vertexの設定
                GL.VertexPointer(_dimension, VertexPointerType.Float, 0, 0);
             }
-
-             errorCode = GL.GetError();
-            if (errorCode != ErrorCode.NoError)
-                throw new Exception("OpenGL:" + Enum.GetName(typeof(ErrorCode), errorCode));
 
             if (_uvbo!=0)
             {
@@ -60,10 +49,6 @@ namespace EngineGL.GraphicAdapter.Impl.OpenGL2
                 //uvの設定
                 GL.TexCoordPointer(2, TexCoordPointerType.Float, 0, 0);
             }
-
-             errorCode = GL.GetError();
-            if (errorCode != ErrorCode.NoError)
-                throw new Exception("OpenGL:" + Enum.GetName(typeof(ErrorCode), errorCode));
 
             //設定の有効化
             if (_vbo != 0) GL.EnableClientState(ArrayCap.VertexArray);
