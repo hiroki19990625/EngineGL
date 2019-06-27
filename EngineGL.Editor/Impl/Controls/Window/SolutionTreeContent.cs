@@ -37,7 +37,7 @@ namespace EngineGL.Editor.Impl.Controls.Window
 
         private SolutionFile _solution;
         private string _filePath;
-        private List<Project> _projects = new List<Project>();
+        private Dictionary<string, Project> _projects = new Dictionary<string, Project>();
 
         public Dictionary<string, Action<string>> FileOpenWindowList = new Dictionary<string, Action<string>>();
 
@@ -72,7 +72,7 @@ namespace EngineGL.Editor.Impl.Controls.Window
             foreach (ProjectInSolution projectSolution in solution.ProjectsInOrder)
             {
                 Project project = Project.FromFile(projectSolution.AbsolutePath, new ProjectOptions());
-                _projects.Add(project);
+                _projects.Add(projectSolution.ProjectName, project);
 
                 LoadProject(project, projectSolution.ProjectName, node);
             }
@@ -99,6 +99,24 @@ namespace EngineGL.Editor.Impl.Controls.Window
                             docs.Add(path);
 
                         string[] folders = Path.GetDirectoryName(path).Split('\\');
+                        foreach (string folder in folders)
+                        {
+                            if (!docFolders.Contains(folder))
+                                docFolders.Add(folder);
+                        }
+                    }
+                }
+
+                if (item.ItemType == "Folder")
+                {
+                    string path = directory.FullName + "\\" +
+                                  item.EvaluatedInclude.Remove(item.EvaluatedInclude.Length - 1, 1);
+                    if (Directory.Exists(path))
+                    {
+                        if (!docs.Contains(path))
+                            docs.Add(path);
+
+                        string[] folders = path.Split('\\');
                         foreach (string folder in folders)
                         {
                             if (!docFolders.Contains(folder))
@@ -344,13 +362,33 @@ namespace EngineGL.Editor.Impl.Controls.Window
             TreeNode node = treeView1.SelectedNode;
             if (node.ImageIndex == PROJECT || node.ImageIndex == FOLDER || node.ImageIndex == FOLDER_OPEN)
             {
-                string path = _filePath.Replace('\\' + Path.GetFileName(_filePath) ?? string.Empty, "");
+                string path =
+                    _filePath.Replace(Path.DirectorySeparatorChar + Path.GetFileName(_filePath) ?? string.Empty, "");
                 string replace = node.FullPath?.Replace(Path.GetFileName(_filePath) ?? string.Empty, "");
-                string target = path + replace;
+                string target = path + replace.Replace("\\", Path.DirectorySeparatorChar.ToString());
                 if (Directory.Exists(target))
                 {
                     StringDialog dialog = new StringDialog((text) => !string.IsNullOrEmpty(text));
+                    dialog.Description = "Create Directory Name";
                     dialog.ShowDialog();
+                    if (dialog.DialogResult == DialogResult.OK)
+                    {
+                        string newDir = target + Path.DirectorySeparatorChar + dialog.ResultString;
+                        if (!Directory.Exists(newDir))
+                        {
+                            Directory.CreateDirectory(newDir);
+                            string name = replace.Split(Path.DirectorySeparatorChar)[1];
+                            Project proj = _projects[name];
+                            proj.AddItem("Folder", newDir.Replace(path + "\\" + name + "\\", "") + "\\");
+                            proj.Save();
+
+                            LoadSolution(_solution, _filePath);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Created Directory");
+                        }
+                    }
                 }
             }
         }

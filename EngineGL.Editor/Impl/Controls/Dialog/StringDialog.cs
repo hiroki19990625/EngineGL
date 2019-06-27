@@ -15,6 +15,12 @@ namespace EngineGL.Editor.Impl.Controls.Dialog
         private Func<string, bool> _func;
         private bool _result;
 
+        public string Description
+        {
+            get => label1.Text;
+            set => label1.Text = value;
+        }
+
         public string ResultString { get; private set; }
 
         public StringDialog(Func<string, bool> func)
