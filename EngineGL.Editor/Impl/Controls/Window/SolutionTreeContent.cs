@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using EngineGL.Editor.Core.Control.Window;
+using EngineGL.Editor.Impl.Controls.Dialog;
+using Microsoft.Build.BuildEngine;
 using Microsoft.Build.Construction;
 using Microsoft.Build.Definition;
 using Microsoft.Build.Evaluation;
+using Microsoft.Build.Framework;
+using Microsoft.Build.Utilities;
 using WeifenLuo.WinFormsUI.Docking;
+using Project = Microsoft.Build.Evaluation.Project;
 
 namespace EngineGL.Editor.Impl.Controls.Window
 {
@@ -36,7 +42,7 @@ namespace EngineGL.Editor.Impl.Controls.Window
 
         private SolutionFile _solution;
         private string _filePath;
-        private List<Project> _projects = new List<Project>();
+        private Dictionary<string, Project> _projects = new Dictionary<string, Project>();
 
         public Dictionary<string, Action<string>> FileOpenWindowList = new Dictionary<string, Action<string>>();
 
@@ -46,11 +52,77 @@ namespace EngineGL.Editor.Impl.Controls.Window
 
             FileOpenWindowList.Add(".cs", filePath =>
             {
-                CodeParseTreeContent codeParseTree = new CodeParseTreeContent(hostWindow);
-                codeParseTree.OpenFile(filePath);
+                /*CodeParseTreeContent codeParseTree = new CodeParseTreeContent(hostWindow);
+                codeParseTree.OpenFile(filePath);*/
             });
 
             Show(hostWindow.DockPanel, DockState.DockLeft);
+        }
+
+        public bool Build()
+        {
+            ToolStripProgressBar bar = new ToolStripProgressBar();
+            bar.Maximum = _projects.Count;
+
+            ToolStripLabel label = new ToolStripLabel();
+
+            _hostWindow.StatusStrip.Items.Add(bar);
+            _hostWindow.StatusStrip.Items.Add(label);
+            foreach (KeyValuePair<string, Project> project in _projects)
+            {
+                ILogger logger = new ConsoleLogger();
+                label.Text = "Building... " + project.Key;
+                if (!project.Value.Build(logger))
+                {
+                    MessageBox.Show("Build Failed");
+                    _hostWindow.StatusStrip.Items.Remove(bar);
+                    _hostWindow.StatusStrip.Items.Remove(label);
+                    bar.Dispose();
+                    label.Dispose();
+                    return false;
+                }
+
+                ++bar.Value;
+            }
+
+            _hostWindow.StatusStrip.Items.Remove(bar);
+            _hostWindow.StatusStrip.Items.Remove(label);
+            bar.Dispose();
+            label.Dispose();
+
+            return true;
+        }
+
+        public bool Exec()
+        {
+            int result = 0;
+            foreach (KeyValuePair<string, Project> project in _projects)
+            {
+                Project proj = project.Value;
+                ProjectProperty property = proj.GetProperty("OutputType");
+                if (property.EvaluatedValue == "Exe")
+                {
+                    ProjectProperty output = proj.GetProperty("OutputPath");
+                    ProjectProperty asm = proj.GetProperty("AssemblyName");
+                    string exe = proj.DirectoryPath + Path.DirectorySeparatorChar + output.EvaluatedValue +
+                                 asm.EvaluatedValue + ".exe";
+
+                    Process.Start(new ProcessStartInfo(exe)
+                    {
+                        WorkingDirectory = Path.GetDirectoryName(exe)
+                    });
+
+                    result++;
+                }
+            }
+
+            if (result == 0)
+            {
+                MessageBox.Show("Not Found Exe Project");
+                return false;
+            }
+
+            return true;
         }
 
         public void LoadSolution(SolutionFile solution, string path)
@@ -71,7 +143,7 @@ namespace EngineGL.Editor.Impl.Controls.Window
             foreach (ProjectInSolution projectSolution in solution.ProjectsInOrder)
             {
                 Project project = Project.FromFile(projectSolution.AbsolutePath, new ProjectOptions());
-                _projects.Add(project);
+                _projects.Add(projectSolution.ProjectName, project);
 
                 LoadProject(project, projectSolution.ProjectName, node);
             }
@@ -98,6 +170,24 @@ namespace EngineGL.Editor.Impl.Controls.Window
                             docs.Add(path);
 
                         string[] folders = Path.GetDirectoryName(path).Split('\\');
+                        foreach (string folder in folders)
+                        {
+                            if (!docFolders.Contains(folder))
+                                docFolders.Add(folder);
+                        }
+                    }
+                }
+
+                if (item.ItemType == "Folder")
+                {
+                    string path = directory.FullName + "\\" +
+                                  item.EvaluatedInclude.Remove(item.EvaluatedInclude.Length - 1, 1);
+                    if (Directory.Exists(path))
+                    {
+                        if (!docs.Contains(path))
+                            docs.Add(path);
+
+                        string[] folders = path.Split('\\');
                         foreach (string folder in folders)
                         {
                             if (!docFolders.Contains(folder))
@@ -214,7 +304,7 @@ namespace EngineGL.Editor.Impl.Controls.Window
             this.toolStripButton1.Image = global::EngineGL.Editor.Properties.Resources.Refresh;
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(24, 24);
+            this.toolStripButton1.Size = new System.Drawing.Size(29, 24);
             this.toolStripButton1.Text = "toolStripButton1";
             this.toolStripButton1.ToolTipText = "Tree Update";
             this.toolStripButton1.Click += new System.EventHandler(this.ToolStripButton1_Click);
@@ -225,7 +315,7 @@ namespace EngineGL.Editor.Impl.Controls.Window
             this.toolStripButton2.Image = global::EngineGL.Editor.Properties.Resources.ExpandAll;
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(24, 24);
+            this.toolStripButton2.Size = new System.Drawing.Size(29, 24);
             this.toolStripButton2.Text = "toolStripButton2";
             this.toolStripButton2.ToolTipText = "Expand All";
             this.toolStripButton2.Click += new System.EventHandler(this.ToolStripButton2_Click);
@@ -241,8 +331,9 @@ namespace EngineGL.Editor.Impl.Controls.Window
             this.toolStripButton3.Image = global::EngineGL.Editor.Properties.Resources.NewSolutionFolder;
             this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(24, 24);
+            this.toolStripButton3.Size = new System.Drawing.Size(29, 24);
             this.toolStripButton3.Text = "toolStripButton3";
+            this.toolStripButton3.Click += new System.EventHandler(this.ToolStripButton3_Click);
             // 
             // toolStripSeparator2
             // 
@@ -255,8 +346,9 @@ namespace EngineGL.Editor.Impl.Controls.Window
             this.toolStripButton4.Image = global::EngineGL.Editor.Properties.Resources.NewItem;
             this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(24, 24);
+            this.toolStripButton4.Size = new System.Drawing.Size(29, 24);
             this.toolStripButton4.Text = "toolStripButton4";
+            this.toolStripButton4.Click += new System.EventHandler(this.ToolStripButton4_Click);
             // 
             // toolStripButton5
             // 
@@ -264,8 +356,9 @@ namespace EngineGL.Editor.Impl.Controls.Window
             this.toolStripButton5.Image = global::EngineGL.Editor.Properties.Resources.AddItem;
             this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(24, 24);
+            this.toolStripButton5.Size = new System.Drawing.Size(29, 24);
             this.toolStripButton5.Text = "toolStripButton5";
+            this.toolStripButton5.Click += new System.EventHandler(this.ToolStripButton5_Click);
             // 
             // treeView1
             // 
@@ -333,6 +426,50 @@ namespace EngineGL.Editor.Impl.Controls.Window
             {
                 FileOpenWindowList[ext].Invoke(filePath);
             }
+        }
+
+        private void ToolStripButton3_Click(object sender, EventArgs e)
+        {
+            TreeNode node = treeView1.SelectedNode;
+            if (node.ImageIndex == PROJECT || node.ImageIndex == FOLDER || node.ImageIndex == FOLDER_OPEN)
+            {
+                string path =
+                    _filePath.Replace(Path.DirectorySeparatorChar + Path.GetFileName(_filePath) ?? string.Empty, "");
+                string replace = node.FullPath?.Replace(Path.GetFileName(_filePath) ?? string.Empty, "");
+                string target = path + replace.Replace("\\", Path.DirectorySeparatorChar.ToString());
+                if (Directory.Exists(target))
+                {
+                    StringDialog dialog = new StringDialog((text) => !string.IsNullOrEmpty(text));
+                    dialog.Description = "Create Directory Name";
+                    dialog.ShowDialog();
+                    if (dialog.DialogResult == DialogResult.OK)
+                    {
+                        string newDir = target + Path.DirectorySeparatorChar + dialog.ResultString;
+                        if (!Directory.Exists(newDir))
+                        {
+                            Directory.CreateDirectory(newDir);
+                            string name = replace.Split(Path.DirectorySeparatorChar)[1];
+                            Project proj = _projects[name];
+                            proj.AddItem("Folder", newDir.Replace(path + "\\" + name + "\\", "") + "\\");
+                            proj.Save();
+
+                            LoadSolution(_solution, _filePath);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Created Directory");
+                        }
+                    }
+                }
+            }
+        }
+
+        private void ToolStripButton4_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void ToolStripButton5_Click(object sender, EventArgs e)
+        {
         }
     }
 }
