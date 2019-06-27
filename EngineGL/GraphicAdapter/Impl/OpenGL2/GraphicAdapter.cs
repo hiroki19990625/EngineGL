@@ -9,7 +9,7 @@ namespace EngineGL.GraphicAdapter.Impl.OpenGL2
     /// </summary>
     class GraphicAdapter : IGraphicAdapter
     {
-        private IPreprocessVertexHandler _preprocessVertexHandler = new PreprocessVertexHandler();
+        private ISettingHandler _settingHandler = new SettingHandler();
 
         private VertexHandler _vertexHandler;
 
@@ -17,7 +17,7 @@ namespace EngineGL.GraphicAdapter.Impl.OpenGL2
         private bool vertexFlag = true;
 
         public Action<double, IVertexHandler> VertexWriteFunc { set; private get; }
-        public Action<double, IPreprocessVertexHandler> PreprocessVertexFunc { set; private get; }
+        public Action<double, ISettingHandler> SettingFunc { set; private get; }
 
         public GraphicAdapter(PrimitiveType primitiveType)
         {
@@ -32,12 +32,17 @@ namespace EngineGL.GraphicAdapter.Impl.OpenGL2
                 vertexFlag = false;
             }
             GL.PushMatrix();
-            PreprocessVertexFunc(deltaTime, _preprocessVertexHandler);
+            SettingFunc(deltaTime, _settingHandler);
             _vertexHandler.Draw();
             GL.PopMatrix();
             ErrorCode errorCode = GL.GetError();
             if (errorCode!= ErrorCode.NoError)
                 throw new Exception("OpenGL:"+ Enum.GetName(typeof(ErrorCode), errorCode));
+        }
+
+        public void Dispose()
+        {
+            _vertexHandler.Dispose();
         }
     }
 }

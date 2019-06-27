@@ -8,14 +8,14 @@ namespace EngineGL.Impl.DrawableComponents.Shape2D
     {
         public float LineWidth { get; set; } = 1;
 
-        public LineObject2D() : base(GraphicAdapterFactory.OpenGL2.CreateLines())
+        public LineObject2D() : base(GraphicAdapterFactory.CreateLines())
         {
         }
 
-        public override void OnPreprocessVertex(double deltaTime, IPreprocessVertexHandler preprocessVertexHandler)
+        public override void OnGraphicSetting(double deltaTime, ISettingHandler settingHandler)
         {
-            base.OnPreprocessVertex(deltaTime, preprocessVertexHandler);
-            preprocessVertexHandler.SetLineWidth(LineWidth);
+            base.OnGraphicSetting(deltaTime, settingHandler);
+            settingHandler.SetLineWidth(LineWidth);
         }
 
         public override void OnVertexWrite(double deltaTime, IVertexHandler vertexHandler)

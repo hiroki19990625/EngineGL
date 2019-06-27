@@ -12,7 +12,7 @@ namespace EngineGL.Impl.DrawableComponents.Shape2D
     {
         public float Radius { get; set; }
 
-        public CircleObject2D() : base(GraphicAdapterFactory.OpenGL2.CreateLinesStrip())
+        public CircleObject2D() : base(GraphicAdapterFactory.CreateLinesStrip())
         {
         }
 

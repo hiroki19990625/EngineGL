@@ -1,7 +1,6 @@
 using System;
 using EngineGL.Core.Components;
 using EngineGL.Event.LifeCycle;
-using EngineGL.GraphicAdapter;
 using EngineGL.GraphicAdapter.Interface;
 using EngineGL.Impl.Components;
 using EngineGL.Structs.Drawing;
@@ -24,7 +23,7 @@ namespace EngineGL.Impl.DrawableComponents
         public DrawableComponent(IGraphicAdapter graphicAdapter)
         {
             _graphicAdapter = graphicAdapter;
-            _graphicAdapter.PreprocessVertexFunc = OnPreprocessVertex;
+            _graphicAdapter.SettingFunc = OnGraphicSetting;
             _graphicAdapter.VertexWriteFunc = OnVertexWrite;
         }
 
@@ -48,23 +47,29 @@ namespace EngineGL.Impl.DrawableComponents
         /// 頂点書き込み前処理をする関数
         /// </summary>
         /// <param name="deltaTime"></param>
-        /// <param name="preprocessVertexHandler"></param>
-        public virtual void OnPreprocessVertex(double deltaTime, IPreprocessVertexHandler preprocessVertexHandler)
+        /// <param name="settingHandler"></param>
+        public virtual void OnGraphicSetting(double deltaTime, ISettingHandler settingHandler)
         {
             //オイラー回転
             //Translateを使ってオブジェクトの原点に平行移動してから回転し、再び平行移動で元の位置に戻す
-            preprocessVertexHandler.Translate(GameObject.Transform.Position + GameObject.Transform.Bounds / 2);
-            preprocessVertexHandler.Euler(GameObject.Transform.Rotation);
-            preprocessVertexHandler.Translate((GameObject.Transform.Position + GameObject.Transform.Bounds / 2) * -1);
-            preprocessVertexHandler.Translate(GameObject.Transform.Position);
+            settingHandler.Translate(GameObject.Transform.Position + GameObject.Transform.Bounds / 2);
+            settingHandler.Euler(GameObject.Transform.Rotation);
+            settingHandler.Translate((GameObject.Transform.Position + GameObject.Transform.Bounds / 2) * -1);
+            settingHandler.Translate(GameObject.Transform.Position);
 
             //カラーセット
-            preprocessVertexHandler.SetColour(Colour);
+            settingHandler.SetColour(Colour);
         }
 
         protected void CallDrawEvent(double deltaTime)
         {
             Draw?.Invoke(this, new DrawEventArgs(this, deltaTime));
+        }
+
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            _graphicAdapter.Dispose();
         }
     }
 }

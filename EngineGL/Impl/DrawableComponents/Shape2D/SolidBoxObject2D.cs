@@ -7,7 +7,7 @@ namespace EngineGL.Impl.DrawableComponents.Shape2D
     public class SolidBoxObject2D : DrawableComponent
     {
         public SolidBoxObject2D()
-            : base(GraphicAdapterFactory.OpenGL2.CreateQuads())
+            : base(GraphicAdapterFactory.CreateQuads())
         {
         }
 
