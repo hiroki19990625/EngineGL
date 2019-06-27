@@ -24,6 +24,7 @@ namespace EngineGL.Editor.Impl.Controls.Window
         protected override void OnClosed(EventArgs e)
         {
             _hostWindow.RemoveWindow(this);
+            base.OnClosed(e);
         }
     }
 }

@@ -96,5 +96,21 @@ namespace EngineGL.Editor.Impl.Controls.Window
                 }
             }
         }
+
+        private void NoDebugStartNToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Result<SolutionTreeContent> content = GetWindow<SolutionTreeContent>(_solutionTreeGuid);
+            if (content.IsSuccess)
+            {
+                if (!content.Value.Build() &&
+                    MessageBox.Show("Old Exe Execute?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error) ==
+                    DialogResult.No)
+                {
+                    return;
+                }
+
+                content.Value.Exec();
+            }
+        }
     }
 }

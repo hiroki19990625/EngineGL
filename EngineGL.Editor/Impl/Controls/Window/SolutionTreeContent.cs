@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using EngineGL.Editor.Core.Control.Window;
 using EngineGL.Editor.Impl.Controls.Dialog;
+using Microsoft.Build.BuildEngine;
 using Microsoft.Build.Construction;
 using Microsoft.Build.Definition;
 using Microsoft.Build.Evaluation;
+using Microsoft.Build.Framework;
+using Microsoft.Build.Utilities;
 using WeifenLuo.WinFormsUI.Docking;
+using Project = Microsoft.Build.Evaluation.Project;
 
 namespace EngineGL.Editor.Impl.Controls.Window
 {
@@ -47,11 +52,77 @@ namespace EngineGL.Editor.Impl.Controls.Window
 
             FileOpenWindowList.Add(".cs", filePath =>
             {
-                CodeParseTreeContent codeParseTree = new CodeParseTreeContent(hostWindow);
-                codeParseTree.OpenFile(filePath);
+                /*CodeParseTreeContent codeParseTree = new CodeParseTreeContent(hostWindow);
+                codeParseTree.OpenFile(filePath);*/
             });
 
             Show(hostWindow.DockPanel, DockState.DockLeft);
+        }
+
+        public bool Build()
+        {
+            ToolStripProgressBar bar = new ToolStripProgressBar();
+            bar.Maximum = _projects.Count;
+
+            ToolStripLabel label = new ToolStripLabel();
+
+            _hostWindow.StatusStrip.Items.Add(bar);
+            _hostWindow.StatusStrip.Items.Add(label);
+            foreach (KeyValuePair<string, Project> project in _projects)
+            {
+                ILogger logger = new ConsoleLogger();
+                label.Text = "Building... " + project.Key;
+                if (!project.Value.Build(logger))
+                {
+                    MessageBox.Show("Build Failed");
+                    _hostWindow.StatusStrip.Items.Remove(bar);
+                    _hostWindow.StatusStrip.Items.Remove(label);
+                    bar.Dispose();
+                    label.Dispose();
+                    return false;
+                }
+
+                ++bar.Value;
+            }
+
+            _hostWindow.StatusStrip.Items.Remove(bar);
+            _hostWindow.StatusStrip.Items.Remove(label);
+            bar.Dispose();
+            label.Dispose();
+
+            return true;
+        }
+
+        public bool Exec()
+        {
+            int result = 0;
+            foreach (KeyValuePair<string, Project> project in _projects)
+            {
+                Project proj = project.Value;
+                ProjectProperty property = proj.GetProperty("OutputType");
+                if (property.EvaluatedValue == "Exe")
+                {
+                    ProjectProperty output = proj.GetProperty("OutputPath");
+                    ProjectProperty asm = proj.GetProperty("AssemblyName");
+                    string exe = proj.DirectoryPath + Path.DirectorySeparatorChar + output.EvaluatedValue +
+                                 asm.EvaluatedValue + ".exe";
+
+                    Process.Start(new ProcessStartInfo(exe)
+                    {
+                        WorkingDirectory = Path.GetDirectoryName(exe)
+                    });
+
+                    result++;
+                }
+            }
+
+            if (result == 0)
+            {
+                MessageBox.Show("Not Found Exe Project");
+                return false;
+            }
+
+            return true;
         }
 
         public void LoadSolution(SolutionFile solution, string path)
