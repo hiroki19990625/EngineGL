@@ -193,6 +193,7 @@
     <Compile Include="Utils\InteropUtils.cs" />
     <Compile Include="Utils\LocalThreadRandom.cs" />
     <Compile Include="Utils\Result.cs" />
+    <Compile Include="Utils\Rsa.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Lang\Resources.resx" />
