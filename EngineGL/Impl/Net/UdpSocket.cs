@@ -53,12 +53,11 @@ namespace EngineGL.Impl.Net
                 _token = new CancellationTokenSource();
                 _task = Task.Factory.StartNew(Receive, _token.Token, TaskCreationOptions.LongRunning,
                     TaskScheduler.Default);
+                State = SocketState.Running;
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
                 _logger.Error(e);
-                Console.WriteLine(e.ToString());
                 return false;
             }
 
@@ -93,8 +92,6 @@ namespace EngineGL.Impl.Net
 
         private void Receive()
         {
-            State = SocketState.Running;
-
             IPEndPoint endPoint = null;
             while (State == SocketState.Running)
             {
