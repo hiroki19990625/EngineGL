@@ -101,6 +101,8 @@
     <Compile Include="Core\LifeCycle\IGuiRenderable.cs" />
     <Compile Include="Core\LifeCycle\Initialzeable.cs" />
     <Compile Include="Core\LifeCycle\IUpdateable.cs" />
+    <Compile Include="Core\Net\ISocket.cs" />
+    <Compile Include="Core\Net\SocketState.cs" />
     <Compile Include="Core\Resource\IAudio.cs" />
     <Compile Include="Core\Resource\ITexture.cs" />
     <Compile Include="GraphicAdapter\GraphicAdapterFactory.cs" />
@@ -132,6 +134,8 @@
     <Compile Include="Impl\DrawableComponents\Shape3D\SolidPolygonObject3D.cs" />
     <Compile Include="Impl\Components\Collision2D.cs" />
     <Compile Include="Impl\Components\Collision3D.cs" />
+    <Compile Include="Impl\Net\UdpSocketBuilder.cs" />
+    <Compile Include="Impl\Net\UdpSocket.cs" />
     <Compile Include="Impl\UI\Element.cs" />
     <Compile Include="Serializations\JsonSerialization.cs" />
     <Compile Include="Serializations\NetworkSerialization.cs" />
