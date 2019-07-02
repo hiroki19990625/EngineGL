@@ -56,6 +56,7 @@ namespace EngineGL.Impl.Net
             }
             catch (Exception e)
             {
+                Console.WriteLine(e);
                 _logger.Error(e);
                 return false;
             }
