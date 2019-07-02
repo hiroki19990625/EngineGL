@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="Exec\GamrExecTest.cs" />
     <Compile Include="Exec\NodeTest.cs" />
+    <Compile Include="Exec\RsaExec.Test.cs" />
     <Compile Include="Exec\TestComponents\ExceptionComponent.cs" />
     <Compile Include="Exec\TestComponents\PlayerComponent.cs" />
     <Compile Include="Exec\TestComponents\RotateComponent.cs" />
