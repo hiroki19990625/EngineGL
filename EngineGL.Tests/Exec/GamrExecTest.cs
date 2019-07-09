@@ -101,7 +101,7 @@ namespace EngineGL.Tests.Exec
                 Colour = Color4.Pink,
                 Layer = 99
             });
-            //g2.AddComponent(new RotateComponent());
+            g2.AddComponent(new RotateComponent());
             g2.AddComponent(new BoxCollider());
             g2.AddComponent(new RigidBody3D());
             scene.AddObject(g2);

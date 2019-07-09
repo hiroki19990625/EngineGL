@@ -1,14 +1,15 @@
 using EngineGL.Core.Components;
 using EngineGL.Core.Components.Physics;
+using EngineGL.Serializations.Resulter;
 using EngineGL.Structs.Math;
 using Jitter.Collision.Shapes;
-using Jitter.LinearMath;
+using Newtonsoft.Json;
 
 namespace EngineGL.Impl.Components.Physics
 {
     public class BoxCollider : Component, ICollider
     {
-        public Shape ColliderShape { get; private set; }
+        [SerializeIgnore, JsonIgnore] public Shape ColliderShape { get; private set; }
 
         public Vec3 Offset { get; set; }
 
@@ -16,13 +17,6 @@ namespace EngineGL.Impl.Components.Physics
         {
             ITransform t = GameObject.Transform;
             ColliderShape = new BoxShape(t.Bounds);
-        }
-
-        public override void OnUpdate(double deltaTime)
-        {
-            JBBox box = ColliderShape.BoundingBox;
-            box.Min = Offset;
-            box.Max = GameObject.Transform.Bounds;
         }
     }
 }

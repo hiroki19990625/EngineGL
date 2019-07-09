@@ -23,5 +23,7 @@ namespace EngineGL.Core.Components
         /// コンポーネントのインスタンスID
         /// </summary>
         Guid InstanceGuid { get; }
+
+        void OnComponentInitialized();
     }
 }
