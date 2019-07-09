@@ -1,13 +1,10 @@
-using EngineGL.Core;
-using EngineGL.Core.Components;
 using EngineGL.Impl.Components;
 using EngineGL.Structs.Math;
-using OpenTK.Graphics;
 using OpenTK.Input;
 
 namespace EngineGL.Tests.Exec.TestComponents
 {
-    public class PlayerComponent : Collider2D
+    public class PlayerComponent : Component
     {
         public override void OnUpdate(double deltaTime)
         {
@@ -42,22 +39,6 @@ namespace EngineGL.Tests.Exec.TestComponents
             }
 
             GameObject.Transform.Position += new Vec3(x, y, 0) * (float) deltaTime;
-        }
-
-        public override void OnCollisionEnter(IGameObject gameObject)
-        {
-            IDrawableComponent component = gameObject.GetComponentUnsafe<IDrawableComponent>().Value;
-            component.Colour = Color4.Red;
-        }
-
-        public override void OnCollisionStay(IGameObject gameObject)
-        {
-        }
-
-        public override void OnCollisionLeave(IGameObject gameObject)
-        {
-            IDrawableComponent component = gameObject.GetComponentUnsafe<IDrawableComponent>().Value;
-            component.Colour = Color4.White;
         }
     }
 }

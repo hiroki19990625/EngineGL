@@ -41,6 +41,10 @@
     <Reference Include="ICSharpCode.SharpZipLib, Version=1.1.0.145, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpZipLib.1.1.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="Jitter, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\JitterPhysics.0.2.0.20\lib\net4\Jitter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MessagePack, Version=1.7.3.7, Culture=neutral, PublicKeyToken=b4a0369545f0a1be, processorArchitecture=MSIL">
       <HintPath>..\packages\MessagePack.1.7.3.7\lib\net47\MessagePack.dll</HintPath>
     </Reference>
@@ -83,12 +87,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Components\ICollider.cs" />
-    <Compile Include="Core\Components\ICollision.cs" />
     <Compile Include="Core\Components\IComponent.cs" />
     <Compile Include="Core\Components\IDrawableComponent.cs" />
     <Compile Include="Core\Components\IElement.cs" />
     <Compile Include="Core\Components\ITransform.cs" />
+    <Compile Include="Core\Components\Physics\ICollider.cs" />
+    <Compile Include="Core\Components\Physics\IRigidBody3D.cs" />
     <Compile Include="Core\ICamera.cs" />
     <Compile Include="Core\IComponentAttachable.cs" />
     <Compile Include="Core\IGame.cs" />
@@ -130,10 +134,11 @@
     <Compile Include="Event\Scene\SceneEventArgs.cs" />
     <Compile Include="GraphicAdapter\Interface\ISettingHandler.cs" />
     <Compile Include="Impl\Components\Component.cs" />
+    <Compile Include="Impl\Components\Physics\BoxCollider.cs" />
+    <Compile Include="Impl\Components\Physics\GlobalPhysicsComponent3D.cs" />
+    <Compile Include="Impl\Components\Physics\RigidBody3D.cs" />
     <Compile Include="Impl\DrawableComponents\DrawableComponent.cs" />
     <Compile Include="Impl\DrawableComponents\Shape3D\SolidPolygonObject3D.cs" />
-    <Compile Include="Impl\Components\Collision2D.cs" />
-    <Compile Include="Impl\Components\Collision3D.cs" />
     <Compile Include="Impl\Net\UdpSocketBuilder.cs" />
     <Compile Include="Impl\Net\UdpSocket.cs" />
     <Compile Include="Impl\UI\Element.cs" />
@@ -143,8 +148,6 @@
     <Compile Include="Serializations\Resulter\ISerializeResultJson.cs" />
     <Compile Include="Serializations\Resulter\SerializeIgnoreAttribute.cs" />
     <Compile Include="Serializations\YamlSerialization.cs" />
-    <Compile Include="Impl\Components\Collider2D.cs" />
-    <Compile Include="Impl\Components\Collider3D.cs" />
     <Compile Include="Impl\DrawableList.cs" />
     <Compile Include="Impl\DrawableComponents\RawTexture2D.cs" />
     <Compile Include="Impl\DrawableComponents\Shape2D\CircleObject2D.cs" />
