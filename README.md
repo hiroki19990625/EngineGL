@@ -19,15 +19,15 @@
 - Unity風のプログラム構造
 - カメラ
 - 各種シリアライザ
-- GUI機能
 - Textureの読み込み
 - 画像の表示
+- Sound
 
 ### TODO
 
 - 3DModelの読み込み
 - ネイティブ実装
-- Sound (Windowsのみ<他のOSでは今後サポート>)
+- GUI機能
 
 ### リリースノート
 
