@@ -43,6 +43,10 @@
     <Reference Include="ICSharpCode.SharpZipLib, Version=1.1.0.145, Culture=neutral, PublicKeyToken=1b03e6acf1164f73">
       <HintPath>..\packages\SharpZipLib.1.1.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="Jitter, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\JitterPhysics.0.2.0.20\lib\net4\Jitter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MessagePack, Version=1.7.3.7, Culture=neutral, PublicKeyToken=b4a0369545f0a1be">
       <HintPath>..\packages\MessagePack.1.7.3.7\lib\net47\MessagePack.dll</HintPath>
     </Reference>
@@ -76,6 +80,7 @@
   <ItemGroup>
     <Compile Include="Exec\GamrExecTest.cs" />
     <Compile Include="Exec\NodeTest.cs" />
+    <Compile Include="Exec\PhysicsExecTests.cs" />
     <Compile Include="Exec\RsaExec.Test.cs" />
     <Compile Include="Exec\TestComponents\ExceptionComponent.cs" />
     <Compile Include="Exec\TestComponents\PlayerComponent.cs" />
