@@ -1,6 +1,5 @@
 ﻿using EngineGL.Core;
 using EngineGL.Impl;
-using EngineGL.Impl.Components;
 using EngineGL.Impl.DrawableComponents.Shape2D;
 using EngineGL.Impl.Objects;
 using EngineGL.Structs.Math;
@@ -36,10 +35,7 @@ namespace EngineGL.Tests.Exec
             gameObject
                 .SetPosition(new Vec3(0f, 0f, 0f))
                 .SetBounds(new Vec3(1f, 1f, 0f));
-            gameObject.AddComponent(new PlayerComponent
-            {
-                Bounds = new Vec3(1, 1)
-            });
+            gameObject.AddComponent(new PlayerComponent());
 
             SolidBoxObject2D box = gameObject.AddComponentUnsafe<SolidBoxObject2D>().Value;
             box.Colour = Color4.White;
@@ -50,10 +46,6 @@ namespace EngineGL.Tests.Exec
             child
                 .SetPosition(new Vec3(2, 0, 0))
                 .SetBounds(new Vec3(1, 1, 0));
-            child.AddComponent(new Collision2D
-            {
-                Bounds = new Vec3(1, 1),
-            });
             CircleObject2D circle = child.AddComponentUnsafe<CircleObject2D>().Value;
             circle.Radius = 0.5f;
             circle.Colour = Color4.Red;
@@ -63,10 +55,6 @@ namespace EngineGL.Tests.Exec
             obj
                 .SetPosition(new Vec3(-2, 0, 0))
                 .SetBounds(new Vec3(1, 1, 0));
-            obj.AddComponent(new Collision2D
-            {
-                Bounds = new Vec3(1, 1),
-            });
             obj.AddComponent(new SolidBoxObject2D());
             scene.AddObject(obj);
 

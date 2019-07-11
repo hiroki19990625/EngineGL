@@ -1,5 +1,6 @@
 using System;
 using Assimp;
+using Jitter.LinearMath;
 using OpenTK;
 using Newtonsoft.Json;
 
@@ -173,6 +174,11 @@ namespace EngineGL.Structs.Math
             return new Vec3(a.X, a.Y, a.Z);
         }
 
+        public static implicit operator Vec3(JVector a)
+        {
+            return new Vec3(a.X, a.Y, a.Z);
+        }
+
         public static implicit operator Vector3(Vec3 a)
         {
             return new Vector3(a.X, a.Y, a.Z);
@@ -186,6 +192,11 @@ namespace EngineGL.Structs.Math
         public static implicit operator Vector3D(Vec3 a)
         {
             return new Vector3D(a.X, a.Y, a.Z);
+        }
+
+        public static implicit operator JVector(Vec3 a)
+        {
+            return new JVector(a.X, a.Y, a.Z);
         }
     }
 }

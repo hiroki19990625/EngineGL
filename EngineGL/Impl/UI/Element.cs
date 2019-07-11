@@ -10,19 +10,27 @@ namespace EngineGL.Impl.UI
     public class Element : IElement
     {
         public event EventHandler<InitialzeEventArgs> Initialze;
+
         public void OnInitialze()
         {
             throw new NotImplementedException();
         }
 
         public event EventHandler<UpdateEventArgs> Update;
+
         public void OnUpdate(double deltaTime)
         {
             throw new NotImplementedException();
         }
 
         public event EventHandler<DestroyEventArgs> Destroy;
+
         public void OnDestroy()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnComponentInitialized()
         {
             throw new NotImplementedException();
         }
@@ -51,6 +59,7 @@ namespace EngineGL.Impl.UI
         public IGameObject GameObject { get; }
         public Guid InstanceGuid { get; }
         public event EventHandler<DrawEventArgs> Draw;
+
         public void OnDraw(double deltaTime)
         {
             throw new NotImplementedException();
