@@ -18,6 +18,7 @@ namespace EngineGL.Impl.Components.Physics
         {
             _collision = new CollisionSystemSAP();
             _world = new World(_collision);
+            _world.Clear();
         }
 
         public override void OnUpdate(double deltaTime)

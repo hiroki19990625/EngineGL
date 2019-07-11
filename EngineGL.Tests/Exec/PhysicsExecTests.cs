@@ -22,7 +22,7 @@ namespace EngineGL.Tests.Exec
             scene.AddObject(g1);
 
             GameObject ground = new GameObject();
-            ground.SetPosition(new Vec3(-5f, -3f, -10f))
+            ground.SetPosition(new Vec3(-5f, -3f, -5f))
                 .SetBounds(new Vec3(10f, 1f, 10f));
             ground.AddComponent(new SolidBoxObject3D
             {
@@ -31,12 +31,12 @@ namespace EngineGL.Tests.Exec
             RigidBody3D rig1 = new RigidBody3D();
             ground.AddComponent(new BoxCollider());
             ground.AddComponent(rig1);
-            rig1.RigidBody.IsStatic = true;
             scene.AddObject(ground);
             physics.AddRigidBody(rig1);
+            rig1.RigidBody.IsStatic = true;
 
             GameObject player = new GameObject();
-            player.SetPosition(new Vec3(0, 0f, -5))
+            player.SetPosition(new Vec3(0, 0, 0))
                 .SetBounds(Vec3.One);
             player.AddComponent(new SolidBoxObject3D
             {
