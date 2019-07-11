@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Concurrent;
+using EngineGL.Core.Attributes;
 using EngineGL.Core.Components.Physics;
 using Jitter;
 using Jitter.Collision;
 
 namespace EngineGL.Impl.Components.Physics
 {
+    [Experimental]
     public class GlobalPhysicsComponent3D : Component
     {
         private CollisionSystem _collision;

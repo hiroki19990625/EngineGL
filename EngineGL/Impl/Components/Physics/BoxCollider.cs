@@ -1,3 +1,4 @@
+using EngineGL.Core.Attributes;
 using EngineGL.Core.Components;
 using EngineGL.Core.Components.Physics;
 using EngineGL.Serializations.Resulter;
@@ -7,6 +8,7 @@ using Newtonsoft.Json;
 
 namespace EngineGL.Impl.Components.Physics
 {
+    [Experimental]
     public class BoxCollider : Component, ICollider
     {
         [SerializeIgnore, JsonIgnore] public Shape ColliderShape { get; private set; }

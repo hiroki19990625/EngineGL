@@ -1,4 +1,5 @@
 using System;
+using EngineGL.Core.Attributes;
 using EngineGL.Core.Components.Physics;
 using EngineGL.Serializations.Resulter;
 using EngineGL.Structs.Math;
@@ -10,6 +11,7 @@ using OpenTK;
 
 namespace EngineGL.Impl.Components.Physics
 {
+    [Experimental]
     public class RigidBody3D : Component, IRigidBody3D
     {
         private ICollider _collider;
