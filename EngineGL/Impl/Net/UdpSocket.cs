@@ -8,7 +8,7 @@ using NLog;
 
 namespace EngineGL.Impl.Net
 {
-    public class UdpSocket : ISocket
+    public class UdpSocket : IUdpSocket
     {
         private UdpClient _client;
         private Task _task;
@@ -24,8 +24,6 @@ namespace EngineGL.Impl.Net
         public bool DontFragment { get; set; } = true;
 
         public bool MulticastLoopback { get; set; }
-
-        // public bool ExclusiveAddressUse { get; set; }
 
         public short Ttl { get; set; } = 128;
 
