@@ -11,7 +11,7 @@ namespace EngineGL.CITests.Impl.Net
         [Test]
         public void Tests()
         {
-            ISocket socket = new UdpSocketBuilder(new IPEndPoint(IPAddress.Any, 19132))
+            IUdpSocket socket = new UdpSocketBuilder(new IPEndPoint(IPAddress.Any, 19132))
                 .Broadcast(true)
                 .Build();
 

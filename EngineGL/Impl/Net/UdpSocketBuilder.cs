@@ -30,12 +30,6 @@ namespace EngineGL.Impl.Net
             return this;
         }
 
-        /*public UdpSocketBuilder ExclusiveAddressUse(bool val)
-        {
-            _socket.ExclusiveAddressUse = val;
-            return this;
-        }*/
-
         public UdpSocketBuilder Ttl(short val)
         {
             _socket.Ttl = val;
@@ -54,7 +48,7 @@ namespace EngineGL.Impl.Net
             return this;
         }
 
-        public ISocket Build()
+        public IUdpSocket Build()
         {
             return _socket;
         }

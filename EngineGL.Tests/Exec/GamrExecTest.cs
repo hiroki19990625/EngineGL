@@ -5,6 +5,7 @@ using System.Text;
 using EngineGL.Core;
 using EngineGL.Core.Resource;
 using EngineGL.Impl;
+using EngineGL.Impl.Components.Physics;
 using EngineGL.Impl.DrawableComponents;
 using EngineGL.Impl.DrawableComponents.Shape2D;
 using EngineGL.Impl.DrawableComponents.Shape3D;
@@ -12,7 +13,6 @@ using EngineGL.Impl.Objects;
 using EngineGL.Impl.Resource;
 using EngineGL.Structs.Math;
 using EngineGL.Tests.Exec.TestComponents;
-using EngineGL.Utils;
 using NLog.Config;
 using NLog.Targets;
 using NUnit.Framework;
@@ -80,8 +80,6 @@ namespace EngineGL.Tests.Exec
 
         private Scene GetInitScene()
         {
-            Dialog.Show("Test");
-
             Scene scene = new Scene();
 
             GameObject g1 = new GameObject();
@@ -103,8 +101,29 @@ namespace EngineGL.Tests.Exec
                 Colour = Color4.Pink,
                 Layer = 99
             });
-            g2.AddComponent(new RotateComponent());
+            //g2.AddComponent(new RotateComponent());
+            g2.AddComponent(new BoxCollider());
+            RigidBody3D body3D = new RigidBody3D();
+            g2.AddComponent(body3D);
+            body3D.RigidBody.Material.Restitution = 0;
+            body3D.RigidBody.Mass = 100;
             scene.AddObject(g2);
+
+            GameObject plane = new GameObject();
+            plane.SetPosition(new Vec3(-5f, -4f, 0f))
+                .SetBounds(new Vec3(8f, 2f, 8f));
+            plane.AddComponent(new SolidBoxObject3D
+            {
+                Colour = Color4.Green,
+                Layer = 99
+            });
+            plane.AddComponent(new BoxCollider());
+            RigidBody3D body3D1 = new RigidBody3D();
+            plane.AddComponent(body3D1);
+            body3D1.RigidBody.Material.Restitution = 0;
+            body3D1.RigidBody.IsStatic = true;
+            body3D1.RigidBody.Mass = 10;
+            scene.AddObject(plane);
 
             GameObject g3 = new GameObject();
             SolidPolygonObject2D poly = new SolidPolygonObject2D
@@ -176,7 +195,14 @@ namespace EngineGL.Tests.Exec
 
             IAudio audio = ResourceManager.LoadWave("Sounds/Mixdown2.wav");
             audio.SetLoop(true);
-            audio.Play();
+            //audio.Play();
+
+            GameObject physics = new GameObject();
+            GlobalPhysicsComponent3D physicsComponent3D = new GlobalPhysicsComponent3D();
+            physicsComponent3D.AddRigidBody(g2.GetComponentUnsafe<RigidBody3D>().Value);
+            physicsComponent3D.AddRigidBody(plane.GetComponentUnsafe<RigidBody3D>().Value);
+            physics.AddComponent(physicsComponent3D);
+            scene.AddObject(physics);
 
             GameObject camera = new GameObject();
             camera.SetPosition(new Vec3(0, 0, -10f));

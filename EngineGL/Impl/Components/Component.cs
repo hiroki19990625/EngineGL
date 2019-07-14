@@ -53,6 +53,10 @@ namespace EngineGL.Impl.Components
             Destroy?.Invoke(this, new DestroyEventArgs(this));
         }
 
+        public virtual void OnComponentInitialized()
+        {
+        }
+
         public void OnSerialize()
         {
             throw new NotImplementedException();
