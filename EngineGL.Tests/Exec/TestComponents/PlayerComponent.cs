@@ -37,6 +37,11 @@ namespace EngineGL.Tests.Exec.TestComponents
             {
                 x = 1f;
             }
+            if (state[Key.Q])
+            {
+                Vec3 rotation = GameObject.Transform.LocalRotation;
+                GameObject.Transform.LocalRotation = new Vec3(rotation.X, rotation.Y, rotation.Z + 1);
+            }
 
             GameObject.Transform.Position += new Vec3(x, y, 0) * (float) deltaTime;
         }

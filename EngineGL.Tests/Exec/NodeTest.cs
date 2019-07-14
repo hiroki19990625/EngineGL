@@ -49,6 +49,7 @@ namespace EngineGL.Tests.Exec
             CircleObject2D circle = child.AddComponentUnsafe<CircleObject2D>().Value;
             circle.Radius = 0.5f;
             circle.Colour = Color4.Red;
+            child.AddComponent(new RotateComponent());
             gameObject.AddChild(child);
 
             GameObject obj = new GameObject();

@@ -17,11 +17,15 @@ namespace EngineGL.Core.Components
         /// </summary>
         Vec3 LocalPosition { get; set; }
 
-
         /// <summary>
-        /// オブジェクトの回転
+        /// オブジェクトのグローバルな回転角度
         /// </summary>
         Vec3 Rotation { get; set; }
+
+        /// <summary>
+        /// オブジェクトのローカルな回転角度
+        /// </summary>
+        Vec3 LocalRotation { get; set; }
 
         /// <summary>
         /// オブジェクトの境界
