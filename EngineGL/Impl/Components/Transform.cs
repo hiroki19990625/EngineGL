@@ -39,7 +39,7 @@ namespace EngineGL.Impl.Components
             set
             {
                 if (parent == null) LocalRotation = value;
-                else LocalRotation = EulerMatrix3.Inverse() * value - parent.Rotation;
+                else LocalRotation =value - parent.Rotation;
             }
         }
 
