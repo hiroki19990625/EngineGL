@@ -41,6 +41,9 @@
     <Reference Include="ICSharpCode.SharpZipLib, Version=1.1.0.145, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpZipLib.1.1.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="MathNet.Numerics, Version=4.8.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.4.8.1\lib\net461\MathNet.Numerics.dll</HintPath>
+    </Reference>
     <Reference Include="MessagePack, Version=1.7.3.7, Culture=neutral, PublicKeyToken=b4a0369545f0a1be, processorArchitecture=MSIL">
       <HintPath>..\packages\MessagePack.1.7.3.7\lib\net47\MessagePack.dll</HintPath>
     </Reference>
@@ -176,6 +179,7 @@
     <Compile Include="Resources\Lang\Resources.Designer.cs" />
     <Compile Include="Structs\Drawing\Colour3.cs" />
     <Compile Include="Structs\Drawing\Colour4.cs" />
+    <Compile Include="Structs\Math\Matrix3.cs" />
     <Compile Include="Structs\Math\Vec2.cs" />
     <Compile Include="Structs\Math\Vec3.cs" />
     <Compile Include="Structs\Math\Vec4.cs" />

@@ -52,9 +52,9 @@ namespace EngineGL.Impl.DrawableComponents
         {
             //オイラー回転
             //Translateを使ってオブジェクトの原点に平行移動してから回転し、再び平行移動で元の位置に戻す
-            settingHandler.Translate(GameObject.Transform.Position + GameObject.Transform.Bounds / 2);
-            settingHandler.Euler(GameObject.Transform.Rotation);
-            settingHandler.Translate((GameObject.Transform.Position + GameObject.Transform.Bounds / 2) * -1);
+            settingHandler.Translate(GameObject.Transform.Position);
+            settingHandler.Euler(GameObject.Transform.LocalRotation);
+            settingHandler.Translate((GameObject.Transform.Position) * -1);
             settingHandler.Translate(GameObject.Transform.Position);
 
             //カラーセット
