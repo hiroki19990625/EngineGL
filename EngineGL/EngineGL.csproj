@@ -104,6 +104,7 @@
     <Compile Include="Core\INameable.cs" />
     <Compile Include="Core\IObject.cs" />
     <Compile Include="Core\IScene.cs" />
+    <Compile Include="Core\LifeCycle\IClickable.cs" />
     <Compile Include="Core\LifeCycle\IDestroyable.cs" />
     <Compile Include="Core\LifeCycle\IDrawable.cs" />
     <Compile Include="Core\LifeCycle\IGuiRenderable.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Core\Net\SocketState.cs" />
     <Compile Include="Core\Resource\IAudio.cs" />
     <Compile Include="Core\Resource\ITexture.cs" />
+    <Compile Include="Event\LifeCycle\ClickEventArgs.cs" />
     <Compile Include="GraphicAdapter\GraphicAdapterFactory.cs" />
     <Compile Include="GraphicAdapter\Impl\OpenGL2\GraphicAdapter.cs" />
     <Compile Include="GraphicAdapter\Impl\OpenGL2\SettingHandler.cs" />
