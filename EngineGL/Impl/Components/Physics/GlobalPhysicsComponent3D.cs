@@ -25,7 +25,7 @@ namespace EngineGL.Impl.Components.Physics
 
         public override void OnUpdate(double deltaTime)
         {
-            _world.Step((float) deltaTime, true);
+            _world.Step(1 / 60f, true);
         }
 
         public void AddRigidBody(IRigidBody3D rigidBody)

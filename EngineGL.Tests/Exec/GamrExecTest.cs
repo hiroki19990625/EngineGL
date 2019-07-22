@@ -95,7 +95,7 @@ namespace EngineGL.Tests.Exec
 
             GameObject g2 = new GameObject();
             g2.SetPosition(new Vec3(-2f, -1f, 0f))
-                .SetBounds(new Vec3(2f, 2f, 5f));
+                .SetBounds(new Vec3(2f, 2f, 2f));
             g2.AddComponent(new SolidBoxObject3D
             {
                 Colour = Color4.Pink,
@@ -105,8 +105,6 @@ namespace EngineGL.Tests.Exec
             g2.AddComponent(new BoxCollider());
             RigidBody3D body3D = new RigidBody3D();
             g2.AddComponent(body3D);
-            body3D.RigidBody.Material.Restitution = 0;
-            body3D.RigidBody.Mass = 100;
             scene.AddObject(g2);
 
             GameObject plane = new GameObject();
@@ -120,9 +118,7 @@ namespace EngineGL.Tests.Exec
             plane.AddComponent(new BoxCollider());
             RigidBody3D body3D1 = new RigidBody3D();
             plane.AddComponent(body3D1);
-            body3D1.RigidBody.Material.Restitution = 0;
             body3D1.RigidBody.IsStatic = true;
-            body3D1.RigidBody.Mass = 10;
             scene.AddObject(plane);
 
             GameObject g3 = new GameObject();

@@ -8,6 +8,7 @@ using Jitter.Dynamics;
 using Jitter.LinearMath;
 using Newtonsoft.Json;
 using OpenTK;
+using Matrix3 = OpenTK.Matrix3;
 
 namespace EngineGL.Impl.Components.Physics
 {
@@ -50,10 +51,10 @@ namespace EngineGL.Impl.Components.Physics
 
         public override void OnUpdate(double deltaTime)
         {
-            JMatrix m = RigidBody.Inertia;
+            JMatrix m = RigidBody.Orientation;
             GameObject.Transform.Position = (Vec3) RigidBody.Position + _collider.Offset;
             GameObject.Transform.Rotation = Quaternion
-                .FromMatrix(new OpenTK.Matrix3(m.M11, m.M12, m.M13, m.M21, m.M22, m.M23, m.M31, m.M32, m.M33)).Xyz;
+                .FromMatrix(new Matrix3(m.M11, m.M12, m.M13, m.M21, m.M22, m.M23, m.M31, m.M32, m.M33)).Xyz;
         }
     }
 }
