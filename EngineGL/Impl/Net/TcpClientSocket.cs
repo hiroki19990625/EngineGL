@@ -12,8 +12,6 @@ namespace EngineGL.Impl.Net
     public class TcpClientSocket : ITcpClientSocket
     {
         private TcpClient _client;
-        private Task _task;
-        private CancellationTokenSource _token;
         private ILogger _logger = LogManager.GetCurrentClassLogger();
 
         public IPEndPoint EndPoint { get; }
@@ -59,7 +57,6 @@ namespace EngineGL.Impl.Net
         {
             try
             {
-                _token?.Cancel();
                 _client?.Close();
             }
             catch (Exception e)
