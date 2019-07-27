@@ -52,7 +52,7 @@ namespace EngineGL.Impl.Components.Physics
         public override void OnUpdate(double deltaTime)
         {
             JMatrix m = RigidBody.Orientation;
-            GameObject.Transform.Position = (Vec3) RigidBody.Position + _collider.Offset;
+            GameObject.Transform.Position = (Vec3) RigidBody.Position;
             GameObject.Transform.Rotation = Quaternion
                 .FromMatrix(new Matrix3(m.M11, m.M12, m.M13, m.M21, m.M22, m.M23, m.M31, m.M32, m.M33)).Xyz;
         }

@@ -4,6 +4,7 @@ using EngineGL.Impl.Components.Physics;
 using EngineGL.Impl.DrawableComponents.Shape3D;
 using EngineGL.Impl.Objects;
 using EngineGL.Structs.Math;
+using EngineGL.Tests.Exec.TestComponents;
 using NUnit.Framework;
 using OpenTK.Graphics;
 
@@ -24,7 +25,11 @@ namespace EngineGL.Tests.Exec
             {
                 Colour = Color4.Red
             });
-            ground.AddComponent(new BoxCollider());
+            Vec3 p1 = ground.Transform.Position;
+            ground.AddComponent(new BoxCollider
+            {
+                Offset = new Vec3(-p1.X, -p1.Y, -p1.Z) / 2
+            });
             RigidBody3D rig1 = new RigidBody3D();
             ground.AddComponent(rig1);
             rig1.RigidBody.IsStatic = true;
@@ -37,9 +42,14 @@ namespace EngineGL.Tests.Exec
             {
                 Colour = Color4.Green
             });
-            player.AddComponent(new BoxCollider());
+            Vec3 p2 = player.Transform.Position;
+            player.AddComponent(new BoxCollider
+            {
+                Offset = new Vec3(-p2.X, -p2.Y, -p2.Z) / 2
+            });
             RigidBody3D rig2 = new RigidBody3D();
             player.AddComponent(rig2);
+            player.AddComponent(new PlayerComponent());
             scene.AddObject(player);
 
             GameObject camera = new GameObject();

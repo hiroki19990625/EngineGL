@@ -35,7 +35,6 @@ namespace EngineGL.Tests.Exec
             gameObject
                 .SetPosition(new Vec3(0f, 0f, 0f))
                 .SetBounds(new Vec3(1f, 1f, 0f));
-            gameObject.AddComponent(new PlayerComponent());
 
             SolidBoxObject2D box = gameObject.AddComponentUnsafe<SolidBoxObject2D>().Value;
             box.Colour = Color4.White;
