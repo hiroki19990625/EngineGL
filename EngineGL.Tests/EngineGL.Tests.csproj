@@ -78,7 +78,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Exec\GamrExecTest.cs" />
+    <Compile Include="Exec\GameExecTest.cs" />
     <Compile Include="Exec\NodeTest.cs" />
     <Compile Include="Exec\PhysicsExecTests.cs" />
     <Compile Include="Exec\RsaExec.Test.cs" />

@@ -31,6 +31,8 @@ namespace EngineGL.Impl
         public event EventHandler<DrawEventArgs> Draw;
         public event EventHandler<GuiRenderEventArgs> GuiRender;
 
+        public Guid InstanceGuid { get; private set; } = Guid.NewGuid();
+
         /// <summary>
         /// 描画レイヤー
         /// </summary>
@@ -275,6 +277,52 @@ namespace EngineGL.Impl
             await SaveAsync(fileInfo.FullName);
         }
 
+        public T Find<T>(string name) where T : IObject
+        {
+            return (T) _sceneObjects.First(pair => pair.Value.Name == name).Value;
+        }
+
+        public T FindWithTag<T>(string tag) where T : IObject
+        {
+            return (T) _sceneObjects.First(pair => pair.Value.Tag == tag).Value;
+        }
+
+        public T FindWithComponent<T>(Guid guid) where T : IObject
+        {
+            return (T) _sceneObjects.Select(pair =>
+            {
+                if (pair.Value is IComponentAttachable attachable)
+                {
+                    return attachable.GetComponent(guid);
+                }
+
+                return null;
+            }).First().Value;
+        }
+
+        public IObject FindObject(string name)
+        {
+            return _sceneObjects.First(pair => pair.Value.Name == name).Value;
+        }
+
+        public IObject FindObjectWithTag(string tag)
+        {
+            return _sceneObjects.First(pair => pair.Value.Tag == tag).Value;
+        }
+
+        public IComponent FindWithComponent(Guid guid)
+        {
+            return _sceneObjects.Select(pair =>
+            {
+                if (pair.Value is IComponentAttachable attachable)
+                {
+                    return attachable.GetComponent(guid);
+                }
+
+                return null;
+            }).First().Value;
+        }
+
         public void OnSerialize()
         {
             throw new NotImplementedException();
@@ -297,6 +345,7 @@ namespace EngineGL.Impl
 
             cls["sceneObjects"] = array;
             cls["name"] = new JValue(Name);
+            cls["guid"] = new JValue(InstanceGuid);
             return cls;
         }
 
@@ -314,6 +363,7 @@ namespace EngineGL.Impl
                 }
             }
 
+            InstanceGuid = Guid.Parse(obj["guid"].Value<string>());
             Name = obj["name"].Value<string>();
         }
     }

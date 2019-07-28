@@ -21,12 +21,12 @@ using OpenTK.Graphics;
 namespace EngineGL.Tests.Exec
 {
     [TestFixture]
-    public class GamrExecTest
+    public class GameExecTest
     {
         [OneTimeSetUp]
         public void RunBeforeAnyTests()
         {
-            var dir = Path.GetDirectoryName(typeof(GamrExecTest).Assembly.Location);
+            var dir = Path.GetDirectoryName(typeof(GameExecTest).Assembly.Location);
             Environment.CurrentDirectory = dir;
         }
 
@@ -58,7 +58,7 @@ namespace EngineGL.Tests.Exec
                 .SetDefaultEvents()
                 .Build();
 
-            int hash = game.PreLoadScene<Scene>("scene.json").Value;
+            Guid hash = game.PreLoadScene<Scene>("scene.json").Value;
             game.LoadScene(hash).Value.Save("scene.json");
 
             game.Run(60.0d);
