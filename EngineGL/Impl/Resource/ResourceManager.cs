@@ -1,8 +1,7 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
-using System.Threading;
 using EngineGL.Core.Resource;
 using NAudio.Wave;
 using OpenTK;
@@ -14,12 +13,21 @@ namespace EngineGL.Impl.Resource
 {
     public static class ResourceManager
     {
+        private static ConcurrentDictionary<string, IDisposable> _disposables =
+            new ConcurrentDictionary<string, IDisposable>();
+
         public static ITexture LoadTexture2D(string filePath)
         {
+            if (_disposables.ContainsKey(filePath))
+            {
+                return (ITexture) _disposables[filePath];
+            }
+
             Bitmap bitmap = new Bitmap(filePath);
             bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
-            BitmapData data = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly,
+            BitmapData data = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height),
+                ImageLockMode.ReadOnly,
                 PixelFormat.Format32bppArgb);
 
             int ptr = GL.GenTexture();
@@ -35,16 +43,24 @@ namespace EngineGL.Impl.Resource
 
             GL.BindTexture(TextureTarget.Texture2D, 0);
 
-            return new Texture2D(filePath, bitmap, ptr);
+            ITexture texture = new Texture2D(filePath, bitmap, ptr);
+            _disposables.TryAdd(filePath, texture);
+            return texture;
         }
 
         public static void UnloadTexture(ITexture texture)
         {
+            _disposables.TryRemove(texture.FileName, out _);
             texture.Dispose();
         }
 
         public static IAudio LoadWave(string filePath)
         {
+            if (_disposables.ContainsKey(filePath))
+            {
+                return (IAudio) _disposables[filePath];
+            }
+
             IntPtr device = Alc.OpenDevice(null);
             ContextHandle handle = Alc.CreateContext(device, (int[]) null);
             Alc.MakeContextCurrent(handle);
@@ -60,7 +76,9 @@ namespace EngineGL.Impl.Resource
                 data.Length, reader.WaveFormat.SampleRate);
             AL.Source(source, ALSourcei.Buffer, buffer);
 
-            return new WaveAudio(filePath, source, buffer, handle);
+            IAudio audio = new WaveAudio(filePath, source, buffer, handle);
+            _disposables.TryAdd(filePath, audio);
+            return audio;
         }
 
         private static ALFormat GetSoundFormat(int channels, int bits)
@@ -75,6 +93,7 @@ namespace EngineGL.Impl.Resource
 
         public static void UnloadWave(IAudio audio)
         {
+            _disposables.TryRemove(audio.FileName, out _);
             audio.Dispose();
         }
     }
