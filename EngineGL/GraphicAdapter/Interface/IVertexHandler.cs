@@ -24,6 +24,12 @@ namespace EngineGL.GraphicAdapter.Interface
         void SetIndices(IEnumerable<uint> indices);
 
         /// <summary>
+        /// 法線データをセットする
+        /// </summary>
+        /// <param name="normals"></param>
+        void SetNormals(IEnumerable<Vec3> normals);
+
+        /// <summary>
         /// UVデータをセットする
         /// </summary>
         /// <param name="vecs"></param>

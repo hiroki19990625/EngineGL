@@ -1,6 +1,7 @@
 using EngineGL.GraphicAdapter;
 using EngineGL.GraphicAdapter.Interface;
 using EngineGL.Structs.Math;
+using OpenTK;
 
 namespace EngineGL.Impl.DrawableComponents.Shape3D
 {
@@ -23,7 +24,18 @@ namespace EngineGL.Impl.DrawableComponents.Shape3D
             float BY = GameObject.Transform.Bounds.Y;
             float BZ = GameObject.Transform.Bounds.Z;
 
-            vertexHandler.SetIndices(new uint[]
+            Vec3[] verts = new Vec3[]
+            {
+                Vec3.Zero,
+                new Vec3(0, BY, 0),
+                new Vec3(BX, BY, 0),
+                new Vec3(BX, 0, 0),
+                new Vec3(0, 0, BZ),
+                new Vec3(0, BY, BZ),
+                new Vec3(BX, BY, BZ),
+                new Vec3(BX, 0, BZ),
+            };
+            uint[] inds = new uint[]
             {
                 //正面
                 0, 1, 2, 3,
@@ -37,19 +49,30 @@ namespace EngineGL.Impl.DrawableComponents.Shape3D
                 1, 2, 6, 5,
                 //下側面
                 0, 3, 7, 4
-            });
+            };
+            Vec3[] normals = new Vec3[verts.Length];
 
-            vertexHandler.SetVertces3(new Vec3[]
+            // Compute normals for each face
+            for (int i = 0; i < inds.Length; i += 3)
             {
-                Vec3.Zero,
-                new Vec3(0, BY, 0),
-                new Vec3(BX, BY, 0),
-                new Vec3(BX, 0, 0),
-                new Vec3(0, 0, BZ),
-                new Vec3(0, BY, BZ),
-                new Vec3(BX, BY, BZ),
-                new Vec3(BX, 0, BZ),
-            });
+                Vector3 v1 = verts[inds[i]];
+                Vector3 v2 = verts[inds[i + 1]];
+                Vector3 v3 = verts[inds[i + 2]];
+
+                // The normal is the cross product of two sides of the triangle
+                normals[inds[i]] += (Vec3) Vector3.Cross(v2 - v1, v3 - v1);
+                normals[inds[i + 1]] += (Vec3) Vector3.Cross(v2 - v1, v3 - v1);
+                normals[inds[i + 2]] += (Vec3) Vector3.Cross(v2 - v1, v3 - v1);
+            }
+
+            for (int i = 0; i < normals.Length; i++)
+            {
+                normals[i] = ((Vector3) normals[i]).Normalized();
+            }
+
+            vertexHandler.SetNormals(normals);
+            vertexHandler.SetIndices(inds);
+            vertexHandler.SetVertces3(verts);
         }
     }
 }
