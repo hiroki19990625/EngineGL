@@ -24,6 +24,8 @@ namespace EngineGL.Core
         /// </summary>
         event EventHandler<RemoveObjectEventArgs> RemoveObjectEvent;
 
+        Guid InstanceGuid { get; }
+
         /// <summary>
         /// このシーン上の全てのオブジェクトを取得します。
         /// </summary>
@@ -192,5 +194,17 @@ namespace EngineGL.Core
         /// <param name="fileInfo">ファイル情報</param>
         /// <returns></returns>
         Task SaveAsync(FileInfo fileInfo);
+
+        T Find<T>(string name) where T : IObject;
+
+        T FindWithTag<T>(string tag) where T : IObject;
+
+        T FindWithComponent<T>(Guid guid) where T : IObject;
+
+        IObject FindObject(string name);
+
+        IObject FindObjectWithTag(string tag);
+
+        IComponent FindWithComponent(Guid guid);
     }
 }

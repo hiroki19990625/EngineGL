@@ -15,7 +15,6 @@ namespace EngineGL.Impl
     {
         public static Logger Logger { get; } = LogManager.GetCurrentClassLogger();
 
-
         private readonly SceneManager sceneManager = new SceneManager(Logger);
 
         public bool ShowExitErrorDialog { get; set; } = true;
@@ -45,43 +44,43 @@ namespace EngineGL.Impl
             Destroy?.Invoke(this, new DestroyEventArgs(this));
         }
 
-        public virtual Result<int> PreLoadScene<T>(string file) where T : IScene
+        public virtual Result<Guid> PreLoadScene<T>(string file) where T : IScene
             => sceneManager.PreLoadScene<T>(file, this);
 
-        public virtual Result<int> PreLoadScene<T>(FileInfo file) where T : IScene
+        public virtual Result<Guid> PreLoadScene<T>(FileInfo file) where T : IScene
             => sceneManager.PreLoadScene<T>(file, this);
 
-        public virtual bool PreUnloadScene(int hash)
+        public virtual bool PreUnloadScene(Guid hash)
             => sceneManager.PreUnloadScene(hash, this);
 
         public virtual bool PreUnloadScenes()
             => sceneManager.PreUnloadScenes(this);
 
-        public virtual Result<IScene> GetScene(int hash)
+        public virtual Result<IScene> GetScene(Guid hash)
             => sceneManager.GetScene(hash);
 
-        public virtual Result<T> GetSceneUnsafe<T>(int hash) where T : IScene
+        public virtual Result<T> GetSceneUnsafe<T>(Guid hash) where T : IScene
             => sceneManager.GetSceneUnsafe<T>(hash);
 
-        public virtual Result<IScene> LoadScene(int hash)
+        public virtual Result<IScene> LoadScene(Guid hash)
             => sceneManager.LoadScene(hash, this);
 
         public virtual Result<IScene> LoadScene(IScene scene)
             => sceneManager.LoadScene(scene, this);
 
-        public virtual Result<T> LoadSceneUnsafe<T>(int hash) where T : IScene
+        public virtual Result<T> LoadSceneUnsafe<T>(Guid hash) where T : IScene
             => sceneManager.LoadSceneUnsafe<T>(hash, this);
 
         public virtual Result<T> LoadSceneUnsafe<T>(T scene) where T : IScene
             => sceneManager.LoadSceneUnsafe(scene, this);
 
-        public virtual Result<IScene> UnloadScene(int hash)
+        public virtual Result<IScene> UnloadScene(Guid hash)
             => sceneManager.UnloadScene(hash, this);
 
         public virtual Result<IScene> UnloadScene(IScene scene)
             => sceneManager.UnloadScene(scene, this);
 
-        public virtual Result<T> UnloadSceneUnsafe<T>(int hash) where T : IScene
+        public virtual Result<T> UnloadSceneUnsafe<T>(Guid hash) where T : IScene
             => sceneManager.UnloadSceneUnsafe<T>(hash, this);
 
         public virtual Result<T> UnloadSceneUnsafe<T>(T scene) where T : IScene
@@ -90,13 +89,13 @@ namespace EngineGL.Impl
         public virtual bool UnloadScenes()
             => sceneManager.UnloadScenes(this);
 
-        public virtual Result<IScene> LoadNextScene(int hash)
+        public virtual Result<IScene> LoadNextScene(Guid hash)
             => sceneManager.LoadNextScene(hash, this);
 
         public virtual Result<IScene> LoadNextScene(IScene scene)
             => sceneManager.LoadNextScene(scene, this);
 
-        public virtual Result<T> LoadNextSceneUnsafe<T>(int hash) where T : IScene
+        public virtual Result<T> LoadNextSceneUnsafe<T>(Guid hash) where T : IScene
             => sceneManager.LoadNextSceneUnsafe<T>(hash, this);
 
         public virtual Result<T> LoadNextSceneUnsafe<T>(T scene) where T : IScene
@@ -152,7 +151,7 @@ namespace EngineGL.Impl
             }
             catch (Exception exception)
             {
-                Dialog.Show(exception.Message+" :"+exception.StackTrace);
+                Dialog.Show(exception.Message + " :" + exception.StackTrace);
                 Logger.Error(exception);
                 Exit(exception);
             }
