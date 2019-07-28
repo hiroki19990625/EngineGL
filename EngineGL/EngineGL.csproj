@@ -205,6 +205,7 @@
     <Compile Include="Structs\Secure\SecureVec4.cs" />
     <Compile Include="Utils\BoolHelper.cs" />
     <Compile Include="Utils\Dialog.cs" />
+    <Compile Include="Utils\Dsa.cs" />
     <Compile Include="Utils\EventManager.cs" />
     <Compile Include="Utils\InteropUtils.cs" />
     <Compile Include="Utils\LocalThreadRandom.cs" />
