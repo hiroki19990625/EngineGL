@@ -1,13 +1,11 @@
-using System;
-using System.Diagnostics;
 using System.Text;
 using EngineGL.Utils;
 using NUnit.Framework;
 
-namespace EngineGL.Tests.Exec
+namespace EngineGL.CITests.Utils
 {
     [TestFixture]
-    public class RsaExec_Test
+    public class RsaTests
     {
         [Test]
         public void RsaTest()
@@ -17,10 +15,24 @@ namespace EngineGL.Tests.Exec
             string testData;
             string decrypted;
             byte[] encrypted;
+            byte[] bytes;
+            byte[] sign;
 
             testData = "Hello World!";
             Rsa rsa = new Rsa();
             (publicKey, privateKey) = rsa.CreateKey();
+
+            /*bytes = Encoding.UTF8.GetBytes(testData);
+            sign = rsa.Sign(bytes, privateKey);
+            if (sign.Equals(testData))
+            {
+                Assert.Fail("署名に失敗");
+            }
+
+            if (!rsa.Verify(bytes, sign, publicKey))
+            {
+                Assert.Fail("検証に失敗");
+            }*/
 
             encrypted = rsa.Encrypt(Encoding.UTF8.GetBytes(testData), publicKey);
             if (encrypted.Equals(testData))
@@ -29,7 +41,7 @@ namespace EngineGL.Tests.Exec
             }
 
             decrypted = Encoding.UTF8.GetString(rsa.Decrypt(encrypted, privateKey));
-            if (testData != (decrypted))
+            if (testData != decrypted)
             {
                 Assert.Fail("複合に失敗");
             }

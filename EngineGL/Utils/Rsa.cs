@@ -1,13 +1,11 @@
-using System;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace EngineGL.Utils
 {
     public class Rsa
     {
-        public (string,string) CreateKey()
-        { 
+        public (string, string) CreateKey()
+        {
             string privateKey;
             string publicKey;
             using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider())
@@ -16,7 +14,7 @@ namespace EngineGL.Utils
                 privateKey = rsa.ToXmlString(true);
             }
 
-            return (publicKey,privateKey);
+            return (publicKey, privateKey);
         }
 
         public byte[] Encrypt(byte[] data, string publickey)
@@ -41,6 +39,27 @@ namespace EngineGL.Utils
                 decrypted = rsa.Decrypt(data, false);
 
                 return decrypted;
+            }
+        }
+        
+        public bool Verify(byte[] data, byte[] signature, string publickey)
+        {
+            using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider())
+            {
+                rsa.FromXmlString(publickey);
+
+                return rsa.VerifyData(data, signature, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+            }
+        }
+
+        public byte[] Sign(byte[] data, string privatekey)
+        {
+            byte[] sign;
+            using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider())
+            {
+                rsa.FromXmlString(privatekey);
+
+                return rsa.SignData(data, HashAlgorithmName.SHA256);
             }
         }
     }

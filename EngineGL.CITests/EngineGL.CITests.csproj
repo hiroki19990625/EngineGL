@@ -80,7 +80,9 @@
     <Compile Include="Structs\Drawing\ColourTests.cs" />
     <Compile Include="Structs\Math\VecTests.cs" />
     <Compile Include="Structs\Secure\SecureTests.cs" />
+    <Compile Include="Utils\DsaTests.cs" />
     <Compile Include="Utils\ResultTests.cs" />
+    <Compile Include="Utils\RsaTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EngineGL\EngineGL.csproj">
