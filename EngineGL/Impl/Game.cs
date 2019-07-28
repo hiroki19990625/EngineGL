@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Windows.Forms;
 using EngineGL.Core;
 using EngineGL.Event.LifeCycle;
 using EngineGL.Utils;
@@ -152,7 +153,7 @@ namespace EngineGL.Impl
             }
             catch (Exception exception)
             {
-                Dialog.Show(exception.Message+" :"+exception.StackTrace);
+                Dialog.Show(exception.Message + " :" + exception.StackTrace);
                 Logger.Error(exception);
                 Exit(exception);
             }
@@ -183,17 +184,17 @@ namespace EngineGL.Impl
 
             if (ShowExitErrorDialog)
             {
-                /*if (ExceptionDialog)
-                    Dialog.Open("Exception", exception.ToString(), Dialog.DialogType.ICON_ERROR);
+                if (ExceptionDialog)
+                    Dialog.Show("Exception", exception.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 else
-                    Dialog.Open("Exception", exception.Message, Dialog.DialogType.ICON_ERROR);*/
+                    Dialog.Show("Exception", exception.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         public void Exit(string message)
         {
             Exit();
-            //Dialog.Open("Error", message, Dialog.DialogType.ICON_ERROR);
+            Dialog.Show("Error", message, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }
