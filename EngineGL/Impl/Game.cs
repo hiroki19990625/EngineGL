@@ -105,9 +105,22 @@ namespace EngineGL.Impl
         public virtual void LoadDefaultFunc()
         {
             GL.ClearColor(Color4.Black);
-            GL.Enable(EnableCap.Texture2D);
+            // 深層バッファ
+            GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactor.One, BlendingFactor.OneMinusSrcAlpha);
+
+            // マテリアル色の有効化
+            GL.Enable(EnableCap.ColorMaterial);
+            GL.ColorMaterial(MaterialFace.Front, ColorMaterialParameter.AmbientAndDiffuse);
+
+            // 裏面をカリング
+            GL.Enable(EnableCap.CullFace);
+            GL.CullFace(CullFaceMode.Back);
+            GL.FrontFace(FrontFaceDirection.Cw);
+
+            // 光を有効化
+            // GL.Enable(EnableCap.Lighting);
         }
 
         public virtual void DrawDefaultFunc(FrameEventArgs ev)
