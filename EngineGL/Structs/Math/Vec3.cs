@@ -1,9 +1,8 @@
 using System;
 using Assimp;
 using Jitter.LinearMath;
-using OpenTK;
 using Newtonsoft.Json;
-
+using OpenTK;
 
 namespace EngineGL.Structs.Math
 {
@@ -107,6 +106,11 @@ namespace EngineGL.Structs.Math
         public static Vec3 operator -(Vec3 a, Vec3 b)
         {
             return new Vec3(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
+        }
+
+        public static Vec3 operator -(Vec3 a)
+        {
+            return new Vec3(-a.X, -a.Y, -a.Z);
         }
 
         public static Vec3 operator *(float a, Vec3 b)

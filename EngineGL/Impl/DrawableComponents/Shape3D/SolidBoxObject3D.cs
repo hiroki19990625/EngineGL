@@ -11,11 +11,6 @@ namespace EngineGL.Impl.DrawableComponents.Shape3D
         {
         }
 
-        public override void OnGraphicSetting(double deltaTime, ISettingHandler settingHandler)
-        {
-            base.OnGraphicSetting(deltaTime, settingHandler);
-        }
-
         public override void OnVertexWrite(double deltaTime, IVertexHandler vertexHandler)
         {
             base.OnVertexWrite(deltaTime, vertexHandler);
