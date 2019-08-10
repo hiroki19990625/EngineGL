@@ -1,5 +1,6 @@
 using System.Text;
 using EngineGL.Utils;
+using EngineGL.Utils.Security;
 using NUnit.Framework;
 
 namespace EngineGL.CITests.Utils
@@ -18,11 +19,22 @@ namespace EngineGL.CITests.Utils
             byte[] bytes;
             byte[] sign;
 
-            testData = "Hello World!";
+            testData = "Hello World! ppppppppppppppppppppppppppppp" +
+                       "pppppppppppppppppppppppppppppppppppppppppp" +
+                       "pppppppppppppppppppppppppppppppppppppppppp" +
+                       "pppppppppppppppppppppppppppppppppppppppppp" +
+                       "pppppppppppppppppppppppppppppppppppppppppp" +
+                       "pppppppppppppppppppppppppppppppppppppppppp" +
+                       "pppppppppppppppppppppppppppppppppppppppppp" +
+                       "pppppppppppppppppppppppppppppppppppppppppp" +
+                       "pppppppppppppppppppppppppppppppppppppppppp" +
+                       "pppppppppppppppppppppppppppppppppppppppppp" +
+                       "pppppppppppppppppppppppppppppppppppppppppp" +
+                       "pppppppppppppppppppppp";
             Rsa rsa = new Rsa();
             (publicKey, privateKey) = rsa.CreateKey();
 
-            /*bytes = Encoding.UTF8.GetBytes(testData);
+            bytes = Encoding.UTF8.GetBytes(testData);
             sign = rsa.Sign(bytes, privateKey);
             if (sign.Equals(testData))
             {
@@ -32,18 +44,13 @@ namespace EngineGL.CITests.Utils
             if (!rsa.Verify(bytes, sign, publicKey))
             {
                 Assert.Fail("検証に失敗");
-            }*/
-
-            encrypted = rsa.Encrypt(Encoding.UTF8.GetBytes(testData), publicKey);
-            if (encrypted.Equals(testData))
-            {
-                Assert.Fail("暗号化に失敗");
             }
 
-            decrypted = Encoding.UTF8.GetString(rsa.Decrypt(encrypted, privateKey));
-            if (testData != decrypted)
+            bytes[0] = 100;
+            bytes[1] = 200;
+            if (rsa.Verify(bytes, sign, publicKey))
             {
-                Assert.Fail("複合に失敗");
+                Assert.Fail("改ざんされているのに検証に成功");
             }
         }
     }
