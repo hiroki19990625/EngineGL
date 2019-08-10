@@ -20,6 +20,19 @@ namespace EngineGL.Impl.DrawableComponents.Shape2D
             vertexHandler.SetVertces3(GetVec3s());
         }
 
+        public override void OnGraphicSetting(double deltaTime, ISettingHandler settingHandler)
+        {
+            //オイラー回転
+            //Translateを使ってオブジェクトの原点に平行移動してから回転し、再び平行移動で元の位置に戻す
+            settingHandler.Translate(GameObject.Transform.Position + GameObject.Transform.Bounds / 2);
+            settingHandler.Euler(GameObject.Transform.LocalRotation);
+            settingHandler.Translate((GameObject.Transform.Position + GameObject.Transform.Bounds / 2) * -1);
+            settingHandler.Translate(GameObject.Transform.Position);
+
+            //カラーセット
+            settingHandler.SetColour(Colour);
+        }
+
         private IEnumerable<Vec3> GetVec3s()
         {
             Vec3 bou = new Vec3();

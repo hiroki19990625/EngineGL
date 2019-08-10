@@ -26,34 +26,28 @@ namespace EngineGL.Tests.Exec
                 Colour = Color4.Red
             });
             Vec3 p1 = ground.Transform.Position;
-            ground.AddComponent(new BoxCollider
-            {
-                Offset = new Vec3(-p1.X, -p1.Y, -p1.Z) / 2
-            });
+            ground.AddComponent(new BoxCollider());
             RigidBody3D rig1 = new RigidBody3D();
             ground.AddComponent(rig1);
             rig1.RigidBody.IsStatic = true;
             scene.AddObject(ground);
 
             GameObject player = new GameObject();
-            player.SetPosition(new Vec3(0, 0, 0))
+            player.SetPosition(new Vec3(2, 0, 0))
                 .SetBounds(Vec3.One);
             player.AddComponent(new SolidBoxObject3D
             {
                 Colour = Color4.Green
             });
             Vec3 p2 = player.Transform.Position;
-            player.AddComponent(new BoxCollider
-            {
-                Offset = new Vec3(-p2.X, -p2.Y, -p2.Z) / 2
-            });
+            player.AddComponent(new BoxCollider());
             RigidBody3D rig2 = new RigidBody3D();
             player.AddComponent(rig2);
             player.AddComponent(new PlayerComponent());
             scene.AddObject(player);
 
             GameObject camera = new GameObject();
-            camera.SetPosition(new Vec3(-5, 0, -10));
+            camera.SetPosition(new Vec3(0, 0, -10));
             camera.AddComponent(new StaticCamera());
             scene.AddObject(camera);
 
