@@ -14,7 +14,7 @@ namespace EngineGL.Utils.Security
         {
             using (AesManaged aes = new AesManaged())
             {
-                aes.KeySize = Key.Length;
+                aes.KeySize = Key.Length * 8;
                 aes.BlockSize = 128;
 
                 aes.Mode = CipherMode.CBC;
@@ -25,7 +25,7 @@ namespace EngineGL.Utils.Security
                 aes.Padding = PaddingMode.PKCS7;
 
                 _encryptor = aes.CreateEncryptor();
-                _decryptor = aes.CreateEncryptor();
+                _decryptor = aes.CreateDecryptor();
             }
         }
 
