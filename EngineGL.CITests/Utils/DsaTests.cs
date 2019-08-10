@@ -1,5 +1,6 @@
 using System.Text;
 using EngineGL.Utils;
+using EngineGL.Utils.Security;
 using NUnit.Framework;
 
 namespace EngineGL.CITests.Utils

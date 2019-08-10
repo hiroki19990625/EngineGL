@@ -205,13 +205,14 @@
     <Compile Include="Structs\Secure\SecureVec4.cs" />
     <Compile Include="Utils\BoolHelper.cs" />
     <Compile Include="Utils\Dialog.cs" />
-    <Compile Include="Utils\Dsa.cs" />
     <Compile Include="Utils\EventManager.cs" />
     <Compile Include="Utils\InteropUtils.cs" />
     <Compile Include="Utils\LocalThreadRandom.cs" />
     <Compile Include="Utils\Result.cs" />
-    <Compile Include="Utils\Rsa.cs" />
-    <Compile Include="Utils\Sha256.cs" />
+    <Compile Include="Utils\Security\Aes.cs" />
+    <Compile Include="Utils\Security\Dsa.cs" />
+    <Compile Include="Utils\Security\Rsa.cs" />
+    <Compile Include="Utils\Security\Sha256.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Lang\Resources.resx" />

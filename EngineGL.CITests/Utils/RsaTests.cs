@@ -1,5 +1,6 @@
 using System.Text;
 using EngineGL.Utils;
+using EngineGL.Utils.Security;
 using NUnit.Framework;
 
 namespace EngineGL.CITests.Utils
@@ -50,18 +51,6 @@ namespace EngineGL.CITests.Utils
             if (rsa.Verify(bytes, sign, publicKey))
             {
                 Assert.Fail("改ざんされているのに検証に成功");
-            }
-
-            encrypted = rsa.Encrypt(Encoding.UTF8.GetBytes(testData), publicKey);
-            if (encrypted.Equals(testData))
-            {
-                Assert.Fail("暗号化に失敗");
-            }
-
-            decrypted = Encoding.UTF8.GetString(rsa.Decrypt(encrypted, privateKey));
-            if (testData != decrypted)
-            {
-                Assert.Fail("複合に失敗");
             }
         }
     }

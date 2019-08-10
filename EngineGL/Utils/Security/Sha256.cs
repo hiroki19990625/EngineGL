@@ -1,6 +1,6 @@
 using System.Security.Cryptography;
 
-namespace EngineGL.Utils
+namespace EngineGL.Utils.Security
 {
     public class Sha256
     {

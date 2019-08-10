@@ -1,6 +1,6 @@
 using System.Security.Cryptography;
 
-namespace EngineGL.Utils
+namespace EngineGL.Utils.Security
 {
     public class Rsa
     {
@@ -15,31 +15,6 @@ namespace EngineGL.Utils
             }
 
             return (publicKey, privateKey);
-        }
-
-        public byte[] Encrypt(byte[] data, string publickey)
-        {
-            using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider())
-            {
-                rsa.FromXmlString(publickey);
-
-                data = rsa.Encrypt(data, false);
-
-                return data;
-            }
-        }
-
-        public byte[] Decrypt(byte[] data, string privatekey)
-        {
-            byte[] decrypted;
-            using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider())
-            {
-                rsa.FromXmlString(privatekey);
-
-                decrypted = rsa.Decrypt(data, false);
-
-                return decrypted;
-            }
         }
 
         public bool Verify(byte[] data, byte[] signature, string publicKey)
