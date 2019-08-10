@@ -211,6 +211,7 @@
     <Compile Include="Utils\LocalThreadRandom.cs" />
     <Compile Include="Utils\Result.cs" />
     <Compile Include="Utils\Rsa.cs" />
+    <Compile Include="Utils\Sha256.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Lang\Resources.resx" />
