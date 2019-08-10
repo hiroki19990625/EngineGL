@@ -15,20 +15,20 @@ namespace EngineGL.Impl.DrawableComponents.Shape3D
         {
             base.OnVertexWrite(deltaTime, vertexHandler);
 
-            float BX = GameObject.Transform.Bounds.X;
-            float BY = GameObject.Transform.Bounds.Y;
-            float BZ = GameObject.Transform.Bounds.Z;
+            float BX = GameObject.Transform.Bounds.X / 2;
+            float BY = GameObject.Transform.Bounds.Y / 2;
+            float BZ = GameObject.Transform.Bounds.Z / 2;
 
             Vec3[] verts = new Vec3[]
             {
-                Vec3.Zero,
-                new Vec3(0, BY, 0),
-                new Vec3(BX, BY, 0),
-                new Vec3(BX, 0, 0),
-                new Vec3(0, 0, BZ),
-                new Vec3(0, BY, BZ),
+                new Vec3(-BX, -BY, -BZ), 
+                new Vec3(-BX, BY, -BZ),
+                new Vec3(BX, BY, -BZ),
+                new Vec3(BX, -BY, -BZ),
+                new Vec3(-BX, -BY, BZ),
+                new Vec3(-BX, BY, BZ),
                 new Vec3(BX, BY, BZ),
-                new Vec3(BX, 0, BZ),
+                new Vec3(BX, -BY, BZ),
             };
             uint[] inds = new uint[]
             {

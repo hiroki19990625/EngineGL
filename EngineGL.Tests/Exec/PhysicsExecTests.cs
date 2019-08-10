@@ -47,7 +47,7 @@ namespace EngineGL.Tests.Exec
             scene.AddObject(player);
 
             GameObject camera = new GameObject();
-            camera.SetPosition(new Vec3(-5, 0, -10));
+            camera.SetPosition(new Vec3(0, 0, -10));
             camera.AddComponent(new StaticCamera());
             scene.AddObject(camera);
 
