@@ -54,7 +54,7 @@ namespace EngineGL.Tests.Exec.TestComponents
                 GameObject.Transform.LocalRotation = new Vec3(rotation.X, rotation.Y, rotation.Z + 1);
             }
 
-            if (x != 0 && y != 0)
+            if (x != 0 || y != 0)
             {
                 _body.RigidBody.IsActive = true;
             }

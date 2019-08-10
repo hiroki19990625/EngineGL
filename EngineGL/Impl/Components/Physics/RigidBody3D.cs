@@ -29,7 +29,7 @@ namespace EngineGL.Impl.Components.Physics
 
                 _collider = collider.Value;
                 RigidBody = new RigidBody(_collider.ColliderShape);
-                RigidBody.Position = GameObject.Transform.Position;
+                RigidBody.Position = GameObject.Transform.Position + GameObject.Transform.Bounds / 2;
                 RigidBody.Material.Restitution = 0.0f;
             }
             catch
@@ -46,14 +46,14 @@ namespace EngineGL.Impl.Components.Physics
 
             _collider = collider.Value;
             RigidBody = new RigidBody(_collider.ColliderShape);
-            RigidBody.Position = GameObject.Transform.Position;
+            RigidBody.Position = GameObject.Transform.LocalPosition + GameObject.Transform.Bounds / 2;
         }
 
         public override void OnUpdate(double deltaTime)
         {
             JMatrix m = RigidBody.Orientation;
-            GameObject.Transform.Position = (Vec3) RigidBody.Position;
-            GameObject.Transform.Rotation = Quaternion
+            GameObject.Transform.LocalPosition = (Vec3) RigidBody.Position - GameObject.Transform.Bounds / 2;
+            GameObject.Transform.LocalRotation = Quaternion
                 .FromMatrix(new Matrix3(m.M11, m.M12, m.M13, m.M21, m.M22, m.M23, m.M31, m.M32, m.M33)).Xyz;
         }
     }
