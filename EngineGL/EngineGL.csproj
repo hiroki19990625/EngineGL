@@ -90,99 +90,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Attributes\ExperimentalAttribute.cs" />
-    <Compile Include="Core\Components\IComponent.cs" />
-    <Compile Include="Core\Components\IDrawableComponent.cs" />
-    <Compile Include="Core\Components\IElement.cs" />
-    <Compile Include="Core\Components\ITransform.cs" />
-    <Compile Include="Core\Components\Physics\ICollider.cs" />
-    <Compile Include="Core\Components\Physics\IRigidBody3D.cs" />
-    <Compile Include="Core\ICamera.cs" />
-    <Compile Include="Core\IComponentAttachable.cs" />
-    <Compile Include="Core\IGame.cs" />
-    <Compile Include="Core\IGameObject.cs" />
-    <Compile Include="Core\INameable.cs" />
-    <Compile Include="Core\IObject.cs" />
-    <Compile Include="Core\IScene.cs" />
-    <Compile Include="Core\LifeCycle\IDestroyable.cs" />
-    <Compile Include="Core\LifeCycle\IDrawable.cs" />
-    <Compile Include="Core\LifeCycle\IGuiRenderable.cs" />
-    <Compile Include="Core\LifeCycle\Initialzeable.cs" />
-    <Compile Include="Core\LifeCycle\IUpdateable.cs" />
-    <Compile Include="Core\Net\ITcpClientSocket.cs" />
-    <Compile Include="Core\Net\ITcpServerSocket.cs" />
-    <Compile Include="Core\Net\IUdpSocket.cs" />
-    <Compile Include="Core\Net\SocketState.cs" />
-    <Compile Include="Core\Resource\IAudio.cs" />
-    <Compile Include="Core\Resource\ITexture.cs" />
-    <Compile Include="GraphicAdapter\GraphicAdapterFactory.cs" />
-    <Compile Include="GraphicAdapter\Impl\OpenGL2\GraphicAdapter.cs" />
-    <Compile Include="GraphicAdapter\Impl\OpenGL2\SettingHandler.cs" />
-    <Compile Include="GraphicAdapter\Impl\OpenGL2\VertexHandler.cs" />
-    <Compile Include="GraphicAdapter\Interface\IGraphicAdapter.cs" />
-    <Compile Include="GraphicAdapter\Interface\IVertexHandler.cs" />
-    <Compile Include="Event\ComponentAttachable\AddComponentEventArgs.cs" />
-    <Compile Include="Event\ComponentAttachable\ComponentAttachableEventArgs.cs" />
-    <Compile Include="Event\ComponentAttachable\RemoveComponentEventArgs.cs" />
-    <Compile Include="Event\Game\GameEventArgs.cs" />
-    <Compile Include="Event\Game\LoadSceneEventArgs.cs" />
-    <Compile Include="Event\Game\PreLoadSceneEventArgs.cs" />
-    <Compile Include="Event\Game\PreUnloadSceneEventArgs.cs" />
-    <Compile Include="Event\Game\UnloadSceneEventArgs.cs" />
-    <Compile Include="Event\LifeCycle\DestroyEventArgs.cs" />
-    <Compile Include="Event\LifeCycle\DrawEventArgs.cs" />
-    <Compile Include="Event\LifeCycle\GuiRenderEventArgs.cs" />
-    <Compile Include="Event\LifeCycle\InitialzeEventArgs.cs" />
-    <Compile Include="Event\LifeCycle\UpdateEventArgs.cs" />
-    <Compile Include="Event\Nameable\NameableEventArgs.cs" />
-    <Compile Include="Event\Scene\AddObjectEventArgs.cs" />
-    <Compile Include="Event\Scene\RemoveObjectEventArgs.cs" />
-    <Compile Include="Event\Scene\SceneEventArgs.cs" />
-    <Compile Include="GraphicAdapter\Interface\ISettingHandler.cs" />
-    <Compile Include="Impl\Components\Component.cs" />
-    <Compile Include="Impl\Components\Physics\BoxCollider.cs" />
-    <Compile Include="Impl\Components\Physics\GlobalPhysicsComponent3D.cs" />
-    <Compile Include="Impl\Components\Physics\RigidBody3D.cs" />
-    <Compile Include="Impl\DrawableComponents\DrawableComponent.cs" />
-    <Compile Include="Impl\DrawableComponents\Shape3D\SolidPolygonObject3D.cs" />
-    <Compile Include="Impl\Net\TcpClientSocket.cs" />
-    <Compile Include="Impl\Net\TcpServerSocket.cs" />
-    <Compile Include="Impl\Net\UdpSocketBuilder.cs" />
-    <Compile Include="Impl\Net\UdpSocket.cs" />
-    <Compile Include="Impl\UI\Element.cs" />
-    <Compile Include="Serializations\JsonSerialization.cs" />
-    <Compile Include="Serializations\NetworkSerialization.cs" />
-    <Compile Include="Serializations\Resulter\ISerializeResult.cs" />
-    <Compile Include="Serializations\Resulter\ISerializeResultJson.cs" />
-    <Compile Include="Serializations\Resulter\SerializeIgnoreAttribute.cs" />
-    <Compile Include="Serializations\YamlSerialization.cs" />
-    <Compile Include="Impl\DrawableList.cs" />
-    <Compile Include="Impl\DrawableComponents\RawTexture2D.cs" />
-    <Compile Include="Impl\DrawableComponents\Shape2D\CircleObject2D.cs" />
-    <Compile Include="Impl\DrawableComponents\Shape2D\LineObject2D.cs" />
-    <Compile Include="Impl\DrawableComponents\Shape2D\PointObject2D.cs" />
-    <Compile Include="Impl\DrawableComponents\Shape2D\SolidBoxObject2D.cs" />
-    <Compile Include="Impl\DrawableComponents\Shape2D\SolidPolygonObject2D.cs" />
-    <Compile Include="Impl\DrawableComponents\Shape2D\StippleLineObject2D.cs" />
-    <Compile Include="Impl\DrawableComponents\Shape3D\SolidBoxObject3D.cs" />
-    <Compile Include="Impl\DrawableComponents\TextRenderer.cs" />
-    <Compile Include="Impl\Game.cs" />
-    <Compile Include="Impl\GameBuilder.cs" />
-    <Compile Include="Impl\GameObject.cs" />
-    <Compile Include="Impl\Object.cs" />
-    <Compile Include="Impl\Objects\Camera.cs" />
-    <Compile Include="Impl\Objects\StaticCamera.cs" />
-    <Compile Include="Impl\Resource\ResourceManager.cs" />
-    <Compile Include="Impl\Resource\Texture2D.cs" />
-    <Compile Include="Impl\Resource\WaveAudio.cs" />
-    <Compile Include="Impl\Scene.cs" />
-    <Compile Include="Impl\SceneManager.cs" />
-    <Compile Include="Impl\SceneManagerEvents.cs" />
-    <Compile Include="Impl\Components\Transform.cs" />
-    <Compile Include="Impl\UI\Button.cs" />
-    <Compile Include="Impl\UI\CheckBox.cs" />
-    <Compile Include="Impl\UI\CombBox.cs" />
-    <Compile Include="Impl\UI\Label.cs" />
+    <Compile Include="GraphicEngine\IGraphicAdapter.cs" />
+    <Compile Include="GraphicEngine\OpenGL\GL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Lang\Resources.Designer.cs" />
     <Compile Include="Structs\Drawing\Colour3.cs" />
@@ -203,16 +112,9 @@
     <Compile Include="Structs\Secure\SecureVec2.cs" />
     <Compile Include="Structs\Secure\SecureVec3.cs" />
     <Compile Include="Structs\Secure\SecureVec4.cs" />
-    <Compile Include="Utils\BoolHelper.cs" />
     <Compile Include="Utils\Dialog.cs" />
-    <Compile Include="Utils\EventManager.cs" />
     <Compile Include="Utils\InteropUtils.cs" />
     <Compile Include="Utils\LocalThreadRandom.cs" />
-    <Compile Include="Utils\Result.cs" />
-    <Compile Include="Utils\Security\Aes.cs" />
-    <Compile Include="Utils\Security\Dsa.cs" />
-    <Compile Include="Utils\Security\Rsa.cs" />
-    <Compile Include="Utils\Security\Sha256.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Lang\Resources.resx" />
@@ -228,6 +130,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Plugin" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AssimpNet.4.1.0\build\AssimpNet.targets" Condition="Exists('..\packages\AssimpNet.4.1.0\build\AssimpNet.targets')" />
