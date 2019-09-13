@@ -20,7 +20,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;GRAPHIC_GL</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -29,10 +29,22 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;GRAPHIC_GL</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'OpenGL4|AnyCPU' ">
+    <OutputPath>bin\OpenGL4\</OutputPath>
+    <DefineConstants>GRAPHIC_GL4</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'OpenGL|AnyCPU' ">
+    <OutputPath>bin\OpenGL\</OutputPath>
+    <DefineConstants>GRAPHIC_GL</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DirectX|AnyCPU' ">
+    <OutputPath>bin\DirectX\</OutputPath>
+    <DefineConstants>GRAPHIC_DX</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AssimpNet, Version=4.1.0.0, Culture=neutral, PublicKeyToken=0d51b391f59f42a6, processorArchitecture=MSIL">
@@ -103,12 +115,19 @@
     <Compile Include="Drawing\Color4.cs" />
     <Compile Include="GraphicEngine\IGraphicAdapter.cs" />
     <Compile Include="GraphicEngine\GraphicFactory.cs" />
+    <Compile Include="GraphicEngine\OpenGL\GL2.cs" />
+    <Compile Include="GraphicEngine\OpenGL\GL4.cs" />
     <Compile Include="Mathematics\Matrix3.cs" />
     <Compile Include="Mathematics\Randoms\LocalThreadRandom.cs" />
     <Compile Include="Mathematics\Vector2.cs" />
     <Compile Include="Mathematics\Vector3.cs" />
     <Compile Include="Mathematics\Vector4.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resource\IRefCounter.cs" />
+    <Compile Include="Resource\IResourceHandle.cs" />
+    <Compile Include="Resource\IResourceManager.cs" />
+    <Compile Include="Resource\ResourceManager.cs" />
+    <Compile Include="Resource\Texture.cs" />
     <Compile Include="Security\Secure\ISecureValue.cs" />
     <Compile Include="Security\Secure\SecureDouble.cs" />
     <Compile Include="Security\Secure\SecureExtensions.cs" />
@@ -121,8 +140,17 @@
     <Compile Include="Security\Secure\SecureVec2.cs" />
     <Compile Include="Security\Secure\SecureVec3.cs" />
     <Compile Include="Security\Secure\SecureVec4.cs" />
+    <Compile Include="Shape2D\Circle.cs" />
+    <Compile Include="Shape2D\IShape2D.cs" />
+    <Compile Include="Shape2D\Polygon2D.cs" />
+    <Compile Include="Shape2D\Rectangle.cs" />
+    <Compile Include="Shape2D\Shape2D.cs" />
+    <Compile Include="Shape2D\Triangle.cs" />
     <Compile Include="Utils\Dialog.cs" />
     <Compile Include="Utils\InteropUtils.cs" />
+    <Compile Include="Window\DirectXWindow.cs" />
+    <Compile Include="Window\IWindow.cs" />
+    <Compile Include="Window\OpenGLWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Dlls\x64\openal32.dll">
@@ -135,7 +163,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="GraphicEngine\OpenGL" />
     <Folder Include="Mathematics\Noise" />
     <Folder Include="Plugin" />
     <Folder Include="Security" />
