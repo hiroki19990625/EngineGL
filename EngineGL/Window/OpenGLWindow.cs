@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using EngineGL.GraphicEngine;
 using OpenTK;
 
 namespace EngineGL.Window
@@ -7,6 +8,9 @@ namespace EngineGL.Window
     public class OpenGLWindow : IWindow
     {
         private GameWindow _window;
+        private IGraphicAdapter _adapter;
+
+        public IGraphicAdapter GraphicAdapter => _adapter;
 
         public Icon Icon
         {
@@ -23,6 +27,7 @@ namespace EngineGL.Window
         public OpenGLWindow()
         {
             _window = new GameWindow();
+            _adapter = GraphicFactory.CreateOpenGl2Adapter();
         }
 
         public void AddLoadEvent(EventHandler<EventArgs> handler)
@@ -63,6 +68,11 @@ namespace EngineGL.Window
         public void RemoveUpdateFrameEvent(EventHandler<FrameEventArgs> handler)
         {
             _window.UpdateFrame -= handler;
+        }
+
+        public void Run()
+        {
+            _window.Run();
         }
     }
 }

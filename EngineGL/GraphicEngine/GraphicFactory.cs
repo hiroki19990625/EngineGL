@@ -3,24 +3,34 @@ using EngineGL.GraphicEngine.OpenGL;
 
 namespace EngineGL.GraphicEngine
 {
-    public class GraphicFactory
+    public static class GraphicFactory
     {
-        public IGraphicAdapter CreateOpenGl2Adapter()
+        public static IGraphicAdapter CreateOpenGl2Adapter()
         {
             return new GL2();
         }
 
-        public IGraphicAdapter CreateOpenGl4Adapter()
+        public static IGraphicAdapter CreateOpenGl4Adapter()
         {
             return new GL4();
         }
 
-        public IGraphicAdapter CreateDirectXAdapter()
+        public static IGraphicAdapter CreateOpenGlAdapter()
+        {
+#if GRAPHIC_GL
+            return CreateOpenGl2Adapter();
+#endif
+#if GRAPHIC_GL4
+            return CreateOpenGl4Adapter();
+#endif
+        }
+
+        public static IGraphicAdapter CreateDirectXAdapter()
         {
             throw new NotImplementedException();
         }
 
-        public IGraphicAdapter GetDefaultAdapter()
+        public static IGraphicAdapter GetDefaultAdapter()
         {
 #if GRAPHIC_GL
             return CreateOpenGl2Adapter();

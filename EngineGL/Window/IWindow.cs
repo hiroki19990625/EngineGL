@@ -1,11 +1,14 @@
 using System;
 using System.Drawing;
+using EngineGL.GraphicEngine;
 using OpenTK;
 
 namespace EngineGL.Window
 {
     public interface IWindow
     {
+        IGraphicAdapter GraphicAdapter { get; }
+
         Icon Icon { get; set; }
         string Title { get; set; }
 
@@ -20,5 +23,7 @@ namespace EngineGL.Window
 
         void AddUpdateFrameEvent(EventHandler<FrameEventArgs> handler);
         void RemoveUpdateFrameEvent(EventHandler<FrameEventArgs> handler);
+
+        void Run();
     }
 }
